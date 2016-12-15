@@ -1,0 +1,13 @@
+﻿{
+  "Date": "25.09.2016",
+  "Items": [
+    {
+      "type": "Название фракций",
+      "FC_CORPUS": "Корпус",
+      "FC_DE": "FC_DE",
+      "FC_GRINEER": "Гринир",
+      "FC_INFESTATION": "Зараженные",
+      "FC_OROKIN": "Орокин"
+    }
+  ]
+}

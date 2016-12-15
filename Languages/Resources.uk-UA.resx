@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="m_Title" xml:space="preserve">
+    <value>WARFRAME AGENT</value>
+  </data>
+  <data name="a_Alert" xml:space="preserve">
+    <value>Тривога</value>
+  </data>
+  <data name="a_ColumnName_1" xml:space="preserve">
+    <value>Параметр</value>
+  </data>
+  <data name="a_ColumnName_2" xml:space="preserve">
+    <value>Вартість на</value>
+  </data>
+  <data name="a_Credits" xml:space="preserve">
+    <value>Кредити</value>
+  </data>
+  <data name="a_End" xml:space="preserve">
+    <value>Кінець</value>
+  </data>
+  <data name="a_InfoMission" xml:space="preserve">
+    <value>Місія</value>
+  </data>
+  <data name="a_InfoMType" xml:space="preserve">
+    <value>Місія типу</value>
+  </data>
+  <data name="a_InfoPlanet" xml:space="preserve">
+    <value>Планети</value>
+  </data>
+  <data name="a_LvL" xml:space="preserve">
+    <value>Рівень</value>
+  </data>
+  <data name="a_NameToolTip" xml:space="preserve">
+    <value>Планети/місії</value>
+  </data>
+  <data name="a_None" xml:space="preserve">
+    <value>Світ є тихо!</value>
+  </data>
+  <data name="a_NoReward" xml:space="preserve">
+    <value>Немає нагороди</value>
+  </data>
+  <data name="a_NotSelect" xml:space="preserve">
+    <value>Місія не вибрано</value>
+  </data>
+  <data name="a_Race" xml:space="preserve">
+    <value>Дріб</value>
+  </data>
+  <data name="a_Reward" xml:space="preserve">
+    <value>Нагорода</value>
+  </data>
+  <data name="a_Start" xml:space="preserve">
+    <value>Початок в</value>
+  </data>
+  <data name="a_StatStart" xml:space="preserve">
+    <value>Починаються з: {0}</value>
+  </data>
+  <data name="a_StatTheEnd" xml:space="preserve">
+    <value>Закінчився</value>
+  </data>
+  <data name="a_StatToEnd" xml:space="preserve">
+    <value>До кінця: {0}</value>
+  </data>
+  <data name="a_StatToolTip" xml:space="preserve">
+    <value>Статус тривоги</value>
+  </data>
+  <data name="a_StatusText" xml:space="preserve">
+    <value>Місія на планеті, {1} {0}</value>
+  </data>
+  <data name="inf_Autor" xml:space="preserve">
+    <value>Від автора проекту</value>
+  </data>
+  <data name="inf_AutorText_0" xml:space="preserve">
+    <value>Друзі! Я радий, що ви зацікавлені в цьому додатку, та інсталюванням. Я сподіваюся, вам сподобається!</value>
+  </data>
+  <data name="inf_AutorText_1" xml:space="preserve">
+    <value>Якщо у вас є пропозиції, або ви знайшли помилку в перекладі сам додаток, з радістю будуть читати ваш відгук на</value>
+  </data>
+  <data name="inf_AutorText_1_HyperLink" xml:space="preserve">
+    <value>Warframe офіційний форум!</value>
+  </data>
+  <data name="inf_AutorText_1_HyperLinkToolTip" xml:space="preserve">
+    <value>Перейдіть на форум</value>
+  </data>
+  <data name="inf_AutorText_2" xml:space="preserve">
+    <value>Дякуємо вам за те, що з нами!</value>
+  </data>
+  <data name="inf_ProjSupport" xml:space="preserve">
+    <value>Підтримати проект</value>
+  </data>
+  <data name="inf_Review" xml:space="preserve">
+    <value>Залишити відгук</value>
+  </data>
+  <data name="inf_ReviewText_0" xml:space="preserve">
+    <value>Сподобався застосунок, або хочете запропонувати що-небудь?</value>
+  </data>
+  <data name="inf_ReviewText_1" xml:space="preserve">
+    <value>А може бути навіть знайшли помилку?</value>
+  </data>
+  <data name="inf_ReviewText_HyperLink" xml:space="preserve">
+    <value>Скажи мені</value>
+  </data>
+  <data name="inf_Version" xml:space="preserve">
+    <value>Поточна версія:</value>
+  </data>
+  <data name="inf_WhatCan" xml:space="preserve">
+    <value>Що може це додаток</value>
+  </data>
+  <data name="inf_WhatCanText_0" xml:space="preserve">
+    <value>Додаток в даний час знаходиться в даний час в стадії Alpha, але тепер може:</value>
+  </data>
+  <data name="inf_WhatCanText_1" xml:space="preserve">
+    <value>-Відображення інформації про тривоги з детальною інформацією про них.</value>
+  </data>
+  <data name="inf_WhatCanText_2" xml:space="preserve">
+    <value>-Повідомити про тривоги, (як в застосуванні і у згорнутих держава)</value>
+  </data>
+  <data name="inf_WhatCanText_3" xml:space="preserve">
+    <value>-Автоматичне оновлення всіх даних (включно з оновленням сам додаток)</value>
+  </data>
+  <data name="inf_WhatIs" xml:space="preserve">
+    <value>Що таке "Warframe агент"</value>
+  </data>
+  <data name="inf_WhatIsText" xml:space="preserve">
+    <value>Warframe агент являє собою додаток (неофіційно), призначені для гравців популярних онлайн-гра "Warframe". З її допомогою гравець можна отримати останню інформацію з іншого характеру, не вдаючись у грі.</value>
+  </data>
+  <data name="inf_Сhanges" xml:space="preserve">
+    <value>Список змін</value>
+  </data>
+  <data name="m_BtnAlert" xml:space="preserve">
+    <value>ТРИВОГА</value>
+  </data>
+  <data name="m_BtnInfo" xml:space="preserve">
+    <value>ІНФОРМАЦІЯ</value>
+  </data>
+  <data name="m_BtnNews" xml:space="preserve">
+    <value>НОВИНИ</value>
+  </data>
+  <data name="m_BtnSettings" xml:space="preserve">
+    <value>CONFIG</value>
+  </data>
+  <data name="m_BtnTrade" xml:space="preserve">
+    <value>КУПЕЦЬ</value>
+  </data>
+  <data name="m_BtnUpdToolTip" xml:space="preserve">
+    <value>Доступне оновлення!</value>
+  </data>
+  <data name="n_NotifyClose" xml:space="preserve">
+    <value>Закрити програму</value>
+  </data>
+  <data name="n_NotifyOpen" xml:space="preserve">
+    <value>Відкриті</value>
+  </data>
+  <data name="o_ConnectLog" xml:space="preserve">
+    <value>[ПОМИЛКА] на жаль ми не вдалося отримати дані.</value>
+  </data>
+  <data name="o_FilterError" xml:space="preserve">
+    <value>[Помилка: Фільтри]</value>
+  </data>
+  <data name="o_FilterErrorLog" xml:space="preserve">
+    <value>[ПОМИЛКА] [{0}] помилка у фільтрах [{1}]: (2)</value>
+  </data>
+  <data name="o_InternetError" xml:space="preserve">
+    <value>На жаль, ми не змогли отримати дані. | Перевірте підключення до Інтернету!</value>
+  </data>
+  <data name="o_NoConnect" xml:space="preserve">
+    <value>На жаль сервера не відповідає зараз!</value>
+  </data>
+  <data name="PopUp_Alert" xml:space="preserve">
+    <value>Планети: {0}: {1} місії || рівні: (2) | нагорода: {3}</value>
+  </data>
+  <data name="PopUp_Alert_New" xml:space="preserve">
+    <value>Нове оповіщення!</value>
+  </data>
+  <data name="PopUp_Update" xml:space="preserve">
+    <value>{0} версія доступна для скачування!</value>
+  </data>
+  <data name="t_ColumnName_1" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="t_ColumnName_2" xml:space="preserve">
+    <value>Дукати</value>
+  </data>
+  <data name="t_ColumnName_3" xml:space="preserve">
+    <value>Кредити</value>
+  </data>
+  <data name="m_BtnInvasions" xml:space="preserve">
+    <value>ВТОРГНЕННЯ</value>
+  </data>
+</root>

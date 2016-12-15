@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="m_Title" xml:space="preserve">
+    <value>WARFRAME AGENT</value>
+  </data>
+  <data name="a_Alert" xml:space="preserve">
+    <value>Anxiety</value>
+  </data>
+  <data name="a_ColumnName_1" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="a_ColumnName_2" xml:space="preserve">
+    <value>The value of the</value>
+  </data>
+  <data name="a_Credits" xml:space="preserve">
+    <value>Credits</value>
+  </data>
+  <data name="a_End" xml:space="preserve">
+    <value>The end</value>
+  </data>
+  <data name="a_InfoMission" xml:space="preserve">
+    <value>Mission</value>
+  </data>
+  <data name="a_InfoMType" xml:space="preserve">
+    <value>Mission type</value>
+  </data>
+  <data name="a_InfoPlanet" xml:space="preserve">
+    <value>Planet</value>
+  </data>
+  <data name="a_LvL" xml:space="preserve">
+    <value>Level</value>
+  </data>
+  <data name="a_NameToolTip" xml:space="preserve">
+    <value>Planet/Mission</value>
+  </data>
+  <data name="a_None" xml:space="preserve">
+    <value>The world is quietly!</value>
+  </data>
+  <data name="a_NoReward" xml:space="preserve">
+    <value>No awards</value>
+  </data>
+  <data name="a_NotSelect" xml:space="preserve">
+    <value>The mission is not selected</value>
+  </data>
+  <data name="a_Race" xml:space="preserve">
+    <value>Fraction</value>
+  </data>
+  <data name="a_Reward" xml:space="preserve">
+    <value>Award</value>
+  </data>
+  <data name="a_Start" xml:space="preserve">
+    <value>The beginning of the</value>
+  </data>
+  <data name="a_StatStart" xml:space="preserve">
+    <value>Start at: {0}</value>
+  </data>
+  <data name="a_StatTheEnd" xml:space="preserve">
+    <value>Ended</value>
+  </data>
+  <data name="a_StatToEnd" xml:space="preserve">
+    <value>Until the end: {0}</value>
+  </data>
+  <data name="a_StatToolTip" xml:space="preserve">
+    <value>Status anxiety</value>
+  </data>
+  <data name="a_StatusText" xml:space="preserve">
+    <value>The Mission of the {0} {1} on the planet</value>
+  </data>
+  <data name="inf_Autor" xml:space="preserve">
+    <value>From the author of the project</value>
+  </data>
+  <data name="inf_AutorText_0" xml:space="preserve">
+    <value>Friends! I am glad that you are interested in this application, and you install it. I hope you will like it!</value>
+  </data>
+  <data name="inf_AutorText_1" xml:space="preserve">
+    <value>If you have suggestions or you have found a mistake in translation of the application itself, will gladly read your feedback on</value>
+  </data>
+  <data name="inf_AutorText_1_HyperLink" xml:space="preserve">
+    <value>Warframe official forum!</value>
+  </data>
+  <data name="inf_AutorText_1_HyperLinkToolTip" xml:space="preserve">
+    <value>Go to Forum</value>
+  </data>
+  <data name="inf_AutorText_2" xml:space="preserve">
+    <value>Thank you for being with us!</value>
+  </data>
+  <data name="inf_ProjSupport" xml:space="preserve">
+    <value>Support the project</value>
+  </data>
+  <data name="inf_Review" xml:space="preserve">
+    <value>Leave a review</value>
+  </data>
+  <data name="inf_ReviewText_0" xml:space="preserve">
+    <value>Liked the app, or want to suggest anything?</value>
+  </data>
+  <data name="inf_ReviewText_1" xml:space="preserve">
+    <value>And maybe even found a bug?</value>
+  </data>
+  <data name="inf_ReviewText_HyperLink" xml:space="preserve">
+    <value>Tell me</value>
+  </data>
+  <data name="inf_Version" xml:space="preserve">
+    <value>Current version:</value>
+  </data>
+  <data name="inf_WhatCan" xml:space="preserve">
+    <value>What can this application</value>
+  </data>
+  <data name="inf_WhatCanText_0" xml:space="preserve">
+    <value>The app currently is currently located at Alpha stage, but now is able to:</value>
+  </data>
+  <data name="inf_WhatCanText_1" xml:space="preserve">
+    <value>-Display information about alarms with detailed information about them.</value>
+  </data>
+  <data name="inf_WhatCanText_2" xml:space="preserve">
+    <value>-Notify about alarms (both in the application and in the collapsed state)</value>
+  </data>
+  <data name="inf_WhatCanText_3" xml:space="preserve">
+    <value>-Automatic updating of all data (including updating the application itself)</value>
+  </data>
+  <data name="inf_WhatIs" xml:space="preserve">
+    <value>What is "Warframe Agent"</value>
+  </data>
+  <data name="inf_WhatIsText" xml:space="preserve">
+    <value>Warframe Agent is an application (not official), designed for players of the popular Online game "Warframe". With her help, the player can get up-to-date information of different nature, without going into the game.</value>
+  </data>
+  <data name="inf_Сhanges" xml:space="preserve">
+    <value>List of changes</value>
+  </data>
+  <data name="m_BtnAlert" xml:space="preserve">
+    <value>ANXIETY</value>
+  </data>
+  <data name="m_BtnInfo" xml:space="preserve">
+    <value>INFO</value>
+  </data>
+  <data name="m_BtnNews" xml:space="preserve">
+    <value>NEWS</value>
+  </data>
+  <data name="m_BtnSettings" xml:space="preserve">
+    <value>CONFIG</value>
+  </data>
+  <data name="m_BtnTrade" xml:space="preserve">
+    <value>MERCHANT</value>
+  </data>
+  <data name="m_BtnUpdToolTip" xml:space="preserve">
+    <value>An update is available!</value>
+  </data>
+  <data name="n_NotifyClose" xml:space="preserve">
+    <value>Close the application</value>
+  </data>
+  <data name="n_NotifyOpen" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="o_ConnectLog" xml:space="preserve">
+    <value>[ERROR] Unfortunately we failed to get the data.</value>
+  </data>
+  <data name="o_FilterError" xml:space="preserve">
+    <value>[Bug: Filters]</value>
+  </data>
+  <data name="o_FilterErrorLog" xml:space="preserve">
+    <value>[{0}] [ERROR] error in filters [{1}]: {2}</value>
+  </data>
+  <data name="o_InternetError" xml:space="preserve">
+    <value>Unfortunately, we were not able to get the data. | Check your Internet connection!</value>
+  </data>
+  <data name="o_NoConnect" xml:space="preserve">
+    <value>Unfortunately the server does not respond now!</value>
+  </data>
+  <data name="PopUp_Alert" xml:space="preserve">
+    <value>Planet: {0}: {1} Mission | | level: {2} | award: {3}</value>
+  </data>
+  <data name="PopUp_Alert_New" xml:space="preserve">
+    <value>New alert!</value>
+  </data>
+  <data name="PopUp_Update" xml:space="preserve">
+    <value>Version {0} available for download!</value>
+  </data>
+  <data name="t_ColumnName_1" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="t_ColumnName_2" xml:space="preserve">
+    <value>Ducats</value>
+  </data>
+  <data name="t_ColumnName_3" xml:space="preserve">
+    <value>Credits</value>
+  </data>
+  <data name="m_BtnInvasions" xml:space="preserve">
+    <value>INVASION</value>
+  </data>
+</root>
