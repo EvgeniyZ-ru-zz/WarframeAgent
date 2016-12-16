@@ -258,15 +258,15 @@
     <comment>Текст раздела инфо</comment>
   </data>
   <data name="inf_WhatCanText_1" xml:space="preserve">
-    <value>- Выводить информацию о Тревогах с подробной информацией о них.</value>
+    <value>- выводить информацию о Тревогах с подробной информацией о них;</value>
     <comment>Текст раздела инфо</comment>
   </data>
   <data name="inf_WhatCanText_2" xml:space="preserve">
-    <value>- Оповещать о тревогах (как в самом приложении, так и в свернутом состоянии)</value>
+    <value>- оповещать о тревогах (как в самом приложении, так и в свернутом состоянии);</value>
     <comment>Текст раздела инфо</comment>
   </data>
   <data name="inf_WhatCanText_3" xml:space="preserve">
-    <value>- Автоматическое обновление всех данных (включая обновление самого приложения)</value>
+    <value>- автоматическое обновление всех данных (включая обновление самого приложения).</value>
     <comment>Текст раздела инфо</comment>
   </data>
   <data name="inf_WhatIs" xml:space="preserve">
