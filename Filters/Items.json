@@ -172,7 +172,7 @@
       "/Lotus/Types/Items/Research/BioComponent": "Мутагенная масса",
       "/Lotus/Types/Items/Research/ChemComponent": "Инжектор детонит",
       "/Lotus/Types/Items/Research/EnergyComponent": "Филдрон",
-      "/Lotus/Types/Recipes/Components/FormaBlueprint": "Форма: Чертеж",
+      "/Lotus/Types/Recipes/Components/FormaBlueprint": "Форма (Чертеж)",
       "/Lotus/Types/Recipes/Components/OrokinCatalystBlueprint": "Катализатор Орокин (Чертеж)",
       "/Lotus/Types/Recipes/Components/OrokinReactorBlueprint": "Реактор Орокин (Чертеж)"
     },
