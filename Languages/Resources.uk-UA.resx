@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="m_Title" xml:space="preserve">
-    <value>WARFRAME AGENT</value>
-  </data>
   <data name="a_Alert" xml:space="preserve">
     <value>Тривога</value>
   </data>
@@ -186,20 +183,13 @@
   <data name="inf_Autor" xml:space="preserve">
     <value>Від автора проекту</value>
   </data>
-  <data name="inf_AutorText_0" xml:space="preserve">
-    <value>Друзі! Я радий, що ви зацікавлені в цьому додатку, та інсталюванням. Я сподіваюся, вам сподобається!</value>
+  <data name="inf_AutorText" xml:space="preserve">
+    <value>Друзі! Я радий, що ви зацікавлені в цьому додатку, та інсталюванням. Я сподіваюся, вам сподобається!
+Якщо у вас є пропозиції, або ви знайшли помилку в перекладі сам додаток, з задоволенням читати ваш відгук на [url]Warframe офіційному форумі[/url]!
+Дякуємо вам за те, що з нами!</value>
   </data>
-  <data name="inf_AutorText_1" xml:space="preserve">
-    <value>Якщо у вас є пропозиції, або ви знайшли помилку в перекладі сам додаток, з радістю будуть читати ваш відгук на</value>
-  </data>
-  <data name="inf_AutorText_1_HyperLink" xml:space="preserve">
-    <value>Warframe офіційний форум!</value>
-  </data>
-  <data name="inf_AutorText_1_HyperLinkToolTip" xml:space="preserve">
-    <value>Перейдіть на форум</value>
-  </data>
-  <data name="inf_AutorText_2" xml:space="preserve">
-    <value>Дякуємо вам за те, що з нами!</value>
+  <data name="inf_AutorText_HyperLink" xml:space="preserve">
+    <value>Warframe офіційний форум</value>
   </data>
   <data name="inf_ProjSupport" xml:space="preserve">
     <value>Підтримати проект</value>
@@ -226,13 +216,9 @@
     <value>Додаток в даний час знаходиться в даний час в стадії Alpha, але тепер може:</value>
   </data>
   <data name="inf_WhatCanText_1" xml:space="preserve">
-    <value>-Відображення інформації про тривоги з детальною інформацією про них.</value>
-  </data>
-  <data name="inf_WhatCanText_2" xml:space="preserve">
-    <value>-Повідомити про тривоги, (як в застосуванні і у згорнутих держава)</value>
-  </data>
-  <data name="inf_WhatCanText_3" xml:space="preserve">
-    <value>-Автоматичне оновлення всіх даних (включно з оновленням сам додаток)</value>
+    <value>-відображення інформації про тривоги з детальною інформацією про них;
+-повідомити про тривоги, (як в застосуванні і у згорнутих держава);
+-Автоматичне оновлення всіх даних (включно з оновленням сам додаток).</value>
   </data>
   <data name="inf_WhatIs" xml:space="preserve">
     <value>Що таке "Warframe агент"</value>
@@ -249,17 +235,23 @@
   <data name="m_BtnInfo" xml:space="preserve">
     <value>ІНФОРМАЦІЯ</value>
   </data>
+  <data name="m_BtnInvasions" xml:space="preserve">
+    <value>ВТОРГНЕННЯ</value>
+  </data>
   <data name="m_BtnNews" xml:space="preserve">
     <value>НОВИНИ</value>
   </data>
   <data name="m_BtnSettings" xml:space="preserve">
-    <value>CONFIG</value>
+    <value>КОНФИГ</value>
   </data>
   <data name="m_BtnTrade" xml:space="preserve">
     <value>КУПЕЦЬ</value>
   </data>
   <data name="m_BtnUpdToolTip" xml:space="preserve">
     <value>Доступне оновлення!</value>
+  </data>
+  <data name="m_Title" xml:space="preserve">
+    <value>WARFRAME AGENT</value>
   </data>
   <data name="n_NotifyClose" xml:space="preserve">
     <value>Закрити програму</value>
@@ -274,7 +266,7 @@
     <value>[Помилка: Фільтри]</value>
   </data>
   <data name="o_FilterErrorLog" xml:space="preserve">
-    <value>[ПОМИЛКА] [{0}] помилка у фільтрах [{1}]: (2)</value>
+    <value>[ПОМИЛКА] [{0}] помилка у фільтрах [{1}]: {2}</value>
   </data>
   <data name="o_InternetError" xml:space="preserve">
     <value>На жаль, ми не змогли отримати дані. | Перевірте підключення до Інтернету!</value>
@@ -283,7 +275,7 @@
     <value>На жаль сервера не відповідає зараз!</value>
   </data>
   <data name="PopUp_Alert" xml:space="preserve">
-    <value>Планети: {0}: {1} місії || рівні: (2) | нагорода: {3}</value>
+    <value>Планети: {0}: {1} місії || рівні: {2} | нагорода: {3}</value>
   </data>
   <data name="PopUp_Alert_New" xml:space="preserve">
     <value>Нове оповіщення!</value>
@@ -300,7 +292,129 @@
   <data name="t_ColumnName_3" xml:space="preserve">
     <value>Кредити</value>
   </data>
-  <data name="m_BtnInvasions" xml:space="preserve">
-    <value>ВТОРГНЕННЯ</value>
+  <data name="l_FilterUpdate" xml:space="preserve">
+    <value>Фільтр {0} оновлено!</value>
+  </data>
+  <data name="l_SerializeComp" xml:space="preserve">
+    <value>Серіалізувати {0} повний!</value>
+  </data>
+  <data name="l_AlertDelError" xml:space="preserve">
+    <value>Сталася помилка під час видалення</value>
+  </data>
+  <data name="o_PopUpLength" xml:space="preserve">
+    <value>Анімація тексту за межами (49 символів максимум!)</value>
+  </data>
+  <data name="a_WaterMission" xml:space="preserve">
+    <value>Підводний місії</value>
+  </data>
+  <data name="a_ArchwingMission" xml:space="preserve">
+    <value>Місія Archving</value>
+  </data>
+  <data name="a_IsReward" xml:space="preserve">
+    <value>Існує винагороду</value>
+  </data>
+  <data name="i_PopUp" xml:space="preserve">
+    <value>Планети: {0}: 
+Місія: {1} 
+{2} - {3}</value>
+  </data>
+  <data name="i_PopUpTitle" xml:space="preserve">
+    <value>Нові вторгнення!</value>
+  </data>
+  <data name="m_ChangeBg" xml:space="preserve">
+    <value>Зміна тла</value>
+  </data>
+  <data name="n_Loading" xml:space="preserve">
+    <value>ЗАВАНТАЖИТИ...</value>
+  </data>
+  <data name="s_GeneralGroup" xml:space="preserve">
+    <value>ОСНОВНІ ПАРАМЕТРИ</value>
+  </data>
+  <data name="s_GeneralLang" xml:space="preserve">
+    <value>МОВА ПРОГРАМИ</value>
+  </data>
+  <data name="s_GeneralLangTip" xml:space="preserve">
+    <value>МОВА ІНТЕРФЕЙСУ ГОЛОВНА</value>
+  </data>
+  <data name="s_GeneralRandBG" xml:space="preserve">
+    <value>ВИПАДКОВІ ФОНУ</value>
+  </data>
+  <data name="s_GeneralRandBGTip" xml:space="preserve">
+    <value>ЗМІНИТИ КОЖЕН 5 хв і під ЧАС ЗАПУСКУ</value>
+  </data>
+  <data name="s_GeneralBgId" xml:space="preserve">
+    <value>ПОТОЧНИЙ ФОНУ</value>
+  </data>
+  <data name="s_GeneralBgIdTip" xml:space="preserve">
+    <value>ПОТОЧНИЙ фону (ВІД 1 до 7)</value>
+  </data>
+  <data name="s_NotifyGroup" xml:space="preserve">
+    <value>ТОСТ</value>
+  </data>
+  <data name="s_NotifyEnable" xml:space="preserve">
+    <value>ВІДОБРАЖЕННЯ СПОВІЩЕНЬ</value>
+  </data>
+  <data name="s_NotifyEnableTip" xml:space="preserve">
+    <value>УВІМКНУТИ/ВИМКНУТИ СПОВІЩЕННЯ</value>
+  </data>
+  <data name="s_NotifyVolume" xml:space="preserve">
+    <value>ОБ'ЄМ</value>
+  </data>
+  <data name="s_NotifyVolumeTip" xml:space="preserve">
+    <value>ОБСЯГ ВИРИНАЮЧИХ ПОВІДОМЛЕНЬ</value>
+  </data>
+  <data name="s_MainDataGroup" xml:space="preserve">
+    <value>Основні дані (сигналізації, торгівля і т. д.)</value>
+  </data>
+  <data name="s_MainDataPlatform" xml:space="preserve">
+    <value>ПЛАТФОРМА</value>
+  </data>
+  <data name="s_MainDataPlatformTip" xml:space="preserve">
+    <value>ЗАВАНТАЖИТИ ПЛАТФОРМИ</value>
+  </data>
+  <data name="s_NewsGroup" xml:space="preserve">
+    <value>РОЗДІЛ НОВИН</value>
+  </data>
+  <data name="s_NewsLang" xml:space="preserve">
+    <value>МОВА НОВИН</value>
+  </data>
+  <data name="s_NewsLangTip" xml:space="preserve">
+    <value>ОСНОВНІ МОВИ ЗАВАНТАЖУВАНІ НОВИН</value>
+  </data>
+  <data name="s_NewsPlatform" xml:space="preserve">
+    <value>ПЛАТФОРМА</value>
+  </data>
+  <data name="s_NewsPlatformTip" xml:space="preserve">
+    <value>ЗАВАНТАЖУВАНІ ПЛАТФОРМИ НОВИНИ</value>
+  </data>
+  <data name="s_AlertGroup" xml:space="preserve">
+    <value>РОЗДІЛ СИГНАЛІЗАЦІЇ</value>
+  </data>
+  <data name="s_AlertHistory" xml:space="preserve">
+    <value>ІСТОРІЯ СИГНАЛІЗАЦІЇ</value>
+  </data>
+  <data name="s_AlertHistoryTip" xml:space="preserve">
+    <value>ВКЛ/ВИКЛ ІСТОРІЇ СИГНАЛІЗАЦІЇ</value>
+  </data>
+  <data name="s_WarnText" xml:space="preserve">
+    <value>Значення позначені (*), щоб бути використані тільки після наступного запуску!</value>
+  </data>
+  <data name="t_BaroDiscount" xml:space="preserve">
+    <value>{0} % знижка</value>
+  </data>
+  <data name="t_BaroCount" xml:space="preserve">
+    <value>Ліва {0} з {1}</value>
+  </data>
+  <data name="t_BaroPrice" xml:space="preserve">
+    <value>Ціна {0}</value>
+  </data>
+  <data name="t_BaroOldPrice" xml:space="preserve">
+    <value>Стара ціна {0}</value>
+  </data>
+  <data name="t_BaroComing" xml:space="preserve">
+    <value>Будемо реле {0} ({1}) через {2}</value>
+  </data>
+  <data name="t_BaroOut" xml:space="preserve">
+    <value>Будемо реле {0} ({1}) інше {2}</value>
   </data>
 </root>

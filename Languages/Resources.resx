@@ -205,24 +205,14 @@
     <value>От автора проекта</value>
     <comment>Текст раздела инфо</comment>
   </data>
-  <data name="inf_AutorText_0" xml:space="preserve">
-    <value>Друзья! Я рад, что вас заинтересовало данное приложение, и вы его установили. Надеюсь, оно вам понравиться!</value>
+  <data name="inf_AutorText" xml:space="preserve">
+    <value>Друзья! Я рад, что вас заинтересовало данное приложение, и вы его установили. Надеюсь, оно вам понравиться!
+Если у вас есть пожелания или вы нашли ошибку перевода/самого приложения, то с удовольствием прочту ваш отзыв на [url]официальном форуме Warframe[/url]!
+Спасибо, что вы с нами!</value>
     <comment>Текст раздела инфо</comment>
   </data>
-  <data name="inf_AutorText_1" xml:space="preserve">
-    <value>Если у вас есть пожелания или вы нашли ошибку перевода/самого приложения, то с удовольствием прочту ваш отзыв на</value>
-    <comment>Текст раздела инфо</comment>
-  </data>
-  <data name="inf_AutorText_1_HyperLink" xml:space="preserve">
-    <value>официальном форуме Warframe!</value>
-    <comment>Текст раздела инфо</comment>
-  </data>
-  <data name="inf_AutorText_1_HyperLinkToolTip" xml:space="preserve">
-    <value>Перейти на форум</value>
-    <comment>Текст раздела инфо</comment>
-  </data>
-  <data name="inf_AutorText_2" xml:space="preserve">
-    <value>Спасибо, что вы с нами!</value>
+  <data name="inf_AutorText_HyperLink" xml:space="preserve">
+    <value>официальном форуме Warframe</value>
     <comment>Текст раздела инфо</comment>
   </data>
   <data name="inf_ProjSupport" xml:space="preserve">
@@ -258,15 +248,9 @@
     <comment>Текст раздела инфо</comment>
   </data>
   <data name="inf_WhatCanText_1" xml:space="preserve">
-    <value>- выводить информацию о Тревогах с подробной информацией о них;</value>
-    <comment>Текст раздела инфо</comment>
-  </data>
-  <data name="inf_WhatCanText_2" xml:space="preserve">
-    <value>- оповещать о тревогах (как в самом приложении, так и в свернутом состоянии);</value>
-    <comment>Текст раздела инфо</comment>
-  </data>
-  <data name="inf_WhatCanText_3" xml:space="preserve">
-    <value>- автоматическое обновление всех данных (включая обновление самого приложения).</value>
+    <value>- выводить информацию о Тревогах с подробной информацией о них;
+- оповещать о тревогах (как в самом приложении, так и в свернутом состоянии);
+- автоматическое обновление всех данных (включая обновление самого приложения).</value>
     <comment>Текст раздела инфо</comment>
   </data>
   <data name="inf_WhatIs" xml:space="preserve">
@@ -364,5 +348,130 @@
   <data name="t_ColumnName_3" xml:space="preserve">
     <value>Кредитов</value>
     <comment>Текст раздела тревог</comment>
+  </data>
+  <data name="l_FilterUpdate" xml:space="preserve">
+    <value>Фильтр {0} обновлен!</value>
+  </data>
+  <data name="l_SerializeComp" xml:space="preserve">
+    <value>Сериализация в {0} завершена!</value>
+  </data>
+  <data name="l_AlertDelError" xml:space="preserve">
+    <value>Ошибка при удаление</value>
+  </data>
+  <data name="o_PopUpLength" xml:space="preserve">
+    <value>Текст анимации за пределами (49 символов макс!)</value>
+  </data>
+  <data name="a_WaterMission" xml:space="preserve">
+    <value>Подводная миссия</value>
+  </data>
+  <data name="a_ArchwingMission" xml:space="preserve">
+    <value>Арчвинг миссия</value>
+  </data>
+  <data name="a_IsReward" xml:space="preserve">
+    <value>Имеется награда</value>
+  </data>
+  <data name="i_PopUp" xml:space="preserve">
+    <value>Планета: {0}
+Миссия: {1}
+{2} - {3}</value>
+  </data>
+  <data name="i_PopUpTitle" xml:space="preserve">
+    <value>Новое вторжение!</value>
+  </data>
+  <data name="m_ChangeBg" xml:space="preserve">
+    <value>Изменить задний фон</value>
+  </data>
+  <data name="n_Loading" xml:space="preserve">
+    <value>ЗАГРУЗКА...</value>
+  </data>
+  <data name="s_GeneralGroup" xml:space="preserve">
+    <value>ОСНОВНЫЕ НАСТРОЙКИ</value>
+  </data>
+  <data name="s_GeneralLang" xml:space="preserve">
+    <value>ЯЗЫК ПРИЛОЖЕНИЯ</value>
+  </data>
+  <data name="s_GeneralLangTip" xml:space="preserve">
+    <value>ОСНОВНОЙ ЯЗЫК ИНТЕРФЕЙСА</value>
+  </data>
+  <data name="s_GeneralRandBG" xml:space="preserve">
+    <value>СЛУЧАЙНЫЙ ФОН</value>
+  </data>
+  <data name="s_GeneralRandBGTip" xml:space="preserve">
+    <value>МЕНЯТЬ КАЖДЫЕ 5 МИН И ПРИ ЗАПУСКЕ</value>
+  </data>
+  <data name="s_GeneralBgId" xml:space="preserve">
+    <value>ТЕКУЩИЙ ФОН</value>
+  </data>
+  <data name="s_GeneralBgIdTip" xml:space="preserve">
+    <value>НОМЕР ТЕКУЩЕГО ФОНА (ОТ 1 ДО 7)</value>
+  </data>
+  <data name="s_NotifyGroup" xml:space="preserve">
+    <value>ВСПЛЫВАЮЩЕЕ УВЕДОМЛЕНИЕ</value>
+  </data>
+  <data name="s_NotifyEnable" xml:space="preserve">
+    <value>ВЫВОДИТЬ УВЕДОМЛЕНИЯ</value>
+  </data>
+  <data name="s_NotifyEnableTip" xml:space="preserve">
+    <value>ВКЛЮЧИТЬ/ВЫКЛЮЧИТЬ УВЕДОМЛЕНИЯ</value>
+  </data>
+  <data name="s_NotifyVolume" xml:space="preserve">
+    <value>ГРОМКОСТЬ</value>
+  </data>
+  <data name="s_NotifyVolumeTip" xml:space="preserve">
+    <value>ГРОМКОСТЬ ВСПЛЫВАЮЩЕГО УВЕДОМЛЕНИЯ</value>
+  </data>
+  <data name="s_MainDataGroup" xml:space="preserve">
+    <value>ОСНОВНЫЕ ДАННЫЕ (Тревоги, торговля и др.)</value>
+  </data>
+  <data name="s_MainDataPlatform" xml:space="preserve">
+    <value>ПЛАТФОРМА</value>
+  </data>
+  <data name="s_MainDataPlatformTip" xml:space="preserve">
+    <value>ПЛАТФОРМА ЗАГРУЖАЕМЫХ ДАННЫХ</value>
+  </data>
+  <data name="s_NewsGroup" xml:space="preserve">
+    <value>РАЗДЕЛ НОВОСТЕЙ</value>
+  </data>
+  <data name="s_NewsLang" xml:space="preserve">
+    <value>ЯЗЫК НОВОСТЕЙ</value>
+  </data>
+  <data name="s_NewsLangTip" xml:space="preserve">
+    <value>ОСНОВНОЙ ЯЗЫК ЗАГРУЖАЕМЫХ НОВОСТЕЙ</value>
+  </data>
+  <data name="s_NewsPlatform" xml:space="preserve">
+    <value>ПЛАТФОРМА</value>
+  </data>
+  <data name="s_NewsPlatformTip" xml:space="preserve">
+    <value>ПЛАТФОРМА ЗАГРУЖАЕМЫХ НОВОСТЕЙ</value>
+  </data>
+  <data name="s_AlertGroup" xml:space="preserve">
+    <value>РАЗДЕЛ ТРЕВОГ</value>
+  </data>
+  <data name="s_AlertHistory" xml:space="preserve">
+    <value>ИСТОРИЯ ТРЕВОГ</value>
+  </data>
+  <data name="s_AlertHistoryTip" xml:space="preserve">
+    <value>ВКЛ/ВЫКЛ ИСТОРИЮ ТРЕВОГ</value>
+  </data>
+  <data name="s_WarnText" xml:space="preserve">
+    <value>Значения, отмеченные символом (*), будут задействованы только после следующего запуска!</value>
+  </data>
+  <data name="t_BaroDiscount" xml:space="preserve">
+    <value>Скидка {0}%</value>
+  </data>
+  <data name="t_BaroCount" xml:space="preserve">
+    <value>Осталось {0} из {1}</value>
+  </data>
+  <data name="t_BaroPrice" xml:space="preserve">
+    <value>Цена {0}</value>
+  </data>
+  <data name="t_BaroOldPrice" xml:space="preserve">
+    <value>Старая цена {0}</value>
+  </data>
+  <data name="t_BaroComing" xml:space="preserve">
+    <value>Будет в реле {0} ({1}) через {2}</value>
+  </data>
+  <data name="t_BaroOut" xml:space="preserve">
+    <value>Будет в реле {0} ({1}) еще {2}</value>
   </data>
 </root>

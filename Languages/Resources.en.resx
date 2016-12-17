@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="m_Title" xml:space="preserve">
-    <value>WARFRAME AGENT</value>
-  </data>
   <data name="a_Alert" xml:space="preserve">
     <value>Anxiety</value>
   </data>
@@ -186,20 +183,13 @@
   <data name="inf_Autor" xml:space="preserve">
     <value>From the author of the project</value>
   </data>
-  <data name="inf_AutorText_0" xml:space="preserve">
-    <value>Friends! I am glad that you are interested in this application, and you install it. I hope you will like it!</value>
+  <data name="inf_AutorText" xml:space="preserve">
+    <value>Friends! I am glad that you are interested in this application, and you install it. I hope you will like it!
+If you have suggestions or you have found a mistake in translation of the application itself, will gladly read your review on the [url]Warframe official Forum[/url]!
+Thank you for being with us!</value>
   </data>
-  <data name="inf_AutorText_1" xml:space="preserve">
-    <value>If you have suggestions or you have found a mistake in translation of the application itself, will gladly read your feedback on</value>
-  </data>
-  <data name="inf_AutorText_1_HyperLink" xml:space="preserve">
-    <value>Warframe official forum!</value>
-  </data>
-  <data name="inf_AutorText_1_HyperLinkToolTip" xml:space="preserve">
-    <value>Go to Forum</value>
-  </data>
-  <data name="inf_AutorText_2" xml:space="preserve">
-    <value>Thank you for being with us!</value>
+  <data name="inf_AutorText_HyperLink" xml:space="preserve">
+    <value>Warframe official forum</value>
   </data>
   <data name="inf_ProjSupport" xml:space="preserve">
     <value>Support the project</value>
@@ -226,13 +216,9 @@
     <value>The app currently is currently located at Alpha stage, but now is able to:</value>
   </data>
   <data name="inf_WhatCanText_1" xml:space="preserve">
-    <value>-Display information about alarms with detailed information about them.</value>
-  </data>
-  <data name="inf_WhatCanText_2" xml:space="preserve">
-    <value>-Notify about alarms (both in the application and in the collapsed state)</value>
-  </data>
-  <data name="inf_WhatCanText_3" xml:space="preserve">
-    <value>-Automatic updating of all data (including updating the application itself)</value>
+    <value>-display information about alarms with detailed information about them;
+-notify about alarms (both in the application and in the collapsed state);
+-automatic updating of all data (including updating the application itself).</value>
   </data>
   <data name="inf_WhatIs" xml:space="preserve">
     <value>What is "Warframe Agent"</value>
@@ -249,6 +235,9 @@
   <data name="m_BtnInfo" xml:space="preserve">
     <value>INFO</value>
   </data>
+  <data name="m_BtnInvasions" xml:space="preserve">
+    <value>INVASION</value>
+  </data>
   <data name="m_BtnNews" xml:space="preserve">
     <value>NEWS</value>
   </data>
@@ -260,6 +249,9 @@
   </data>
   <data name="m_BtnUpdToolTip" xml:space="preserve">
     <value>An update is available!</value>
+  </data>
+  <data name="m_Title" xml:space="preserve">
+    <value>WARFRAME AGENT</value>
   </data>
   <data name="n_NotifyClose" xml:space="preserve">
     <value>Close the application</value>
@@ -300,7 +292,129 @@
   <data name="t_ColumnName_3" xml:space="preserve">
     <value>Credits</value>
   </data>
-  <data name="m_BtnInvasions" xml:space="preserve">
-    <value>INVASION</value>
+  <data name="l_FilterUpdate" xml:space="preserve">
+    <value>The filter {0} has been updated!</value>
+  </data>
+  <data name="l_SerializeComp" xml:space="preserve">
+    <value>Serialize {0} complete!</value>
+  </data>
+  <data name="l_AlertDelError" xml:space="preserve">
+    <value>An error occurred while deleting</value>
+  </data>
+  <data name="o_PopUpLength" xml:space="preserve">
+    <value>Text animation outside (49 characters max!)</value>
+  </data>
+  <data name="a_WaterMission" xml:space="preserve">
+    <value>Underwater mission</value>
+  </data>
+  <data name="a_ArchwingMission" xml:space="preserve">
+    <value>Archving mission</value>
+  </data>
+  <data name="a_IsReward" xml:space="preserve">
+    <value>There is a reward</value>
+  </data>
+  <data name="i_PopUp" xml:space="preserve">
+    <value>Planet: {0}: 
+Mission: {1} 
+{2} - {3}</value>
+  </data>
+  <data name="i_PopUpTitle" xml:space="preserve">
+    <value>New invasion!</value>
+  </data>
+  <data name="m_ChangeBg" xml:space="preserve">
+    <value>Change background</value>
+  </data>
+  <data name="n_Loading" xml:space="preserve">
+    <value>DOWNLOAD ...</value>
+  </data>
+  <data name="s_GeneralGroup" xml:space="preserve">
+    <value>BASIC SETTINGS</value>
+  </data>
+  <data name="s_GeneralLang" xml:space="preserve">
+    <value>THE LANGUAGE OF THE APPLICATION</value>
+  </data>
+  <data name="s_GeneralLangTip" xml:space="preserve">
+    <value>THE MAIN INTERFACE LANGUAGE</value>
+  </data>
+  <data name="s_GeneralRandBG" xml:space="preserve">
+    <value>RANDOM BACKGROUND</value>
+  </data>
+  <data name="s_GeneralRandBGTip" xml:space="preserve">
+    <value>CHANGE EVERY 5 MIN and when YOU START</value>
+  </data>
+  <data name="s_GeneralBgId" xml:space="preserve">
+    <value>THE CURRENT BACKGROUND</value>
+  </data>
+  <data name="s_GeneralBgIdTip" xml:space="preserve">
+    <value>The CURRENT background (FROM 1 to 7)</value>
+  </data>
+  <data name="s_NotifyGroup" xml:space="preserve">
+    <value>TOAST</value>
+  </data>
+  <data name="s_NotifyEnable" xml:space="preserve">
+    <value>DISPLAY NOTIFICATION</value>
+  </data>
+  <data name="s_NotifyEnableTip" xml:space="preserve">
+    <value>ENABLE/DISABLE NOTIFICATIONS</value>
+  </data>
+  <data name="s_NotifyVolume" xml:space="preserve">
+    <value>VOLUME</value>
+  </data>
+  <data name="s_NotifyVolumeTip" xml:space="preserve">
+    <value>VOLUME POP-UP NOTIFICATIONS</value>
+  </data>
+  <data name="s_MainDataGroup" xml:space="preserve">
+    <value>Basic data (Alarms, trade, etc.)</value>
+  </data>
+  <data name="s_MainDataPlatform" xml:space="preserve">
+    <value>PLATFORM</value>
+  </data>
+  <data name="s_MainDataPlatformTip" xml:space="preserve">
+    <value>DOWNLOAD PLATFORM</value>
+  </data>
+  <data name="s_NewsGroup" xml:space="preserve">
+    <value>NEWS SECTION</value>
+  </data>
+  <data name="s_NewsLang" xml:space="preserve">
+    <value>NEWS LANGUAGE</value>
+  </data>
+  <data name="s_NewsLangTip" xml:space="preserve">
+    <value>THE MAIN LANGUAGE OF DOWNLOADABLE NEWS</value>
+  </data>
+  <data name="s_NewsPlatform" xml:space="preserve">
+    <value>PLATFORM</value>
+  </data>
+  <data name="s_NewsPlatformTip" xml:space="preserve">
+    <value>THE DOWNLOADABLE PLATFORM NEWS</value>
+  </data>
+  <data name="s_AlertGroup" xml:space="preserve">
+    <value>SECTION ALARMS</value>
+  </data>
+  <data name="s_AlertHistory" xml:space="preserve">
+    <value>HISTORY OF ALARMS</value>
+  </data>
+  <data name="s_AlertHistoryTip" xml:space="preserve">
+    <value>ON/OFF HISTORY ALARMS</value>
+  </data>
+  <data name="s_WarnText" xml:space="preserve">
+    <value>Values marked with (*), to be employed only after the next run!</value>
+  </data>
+  <data name="t_BaroDiscount" xml:space="preserve">
+    <value>Discount for {0}%</value>
+  </data>
+  <data name="t_BaroCount" xml:space="preserve">
+    <value>Left {0} out of {1}</value>
+  </data>
+  <data name="t_BaroPrice" xml:space="preserve">
+    <value>Price {0}</value>
+  </data>
+  <data name="t_BaroOldPrice" xml:space="preserve">
+    <value>Old price {0}</value>
+  </data>
+  <data name="t_BaroComing" xml:space="preserve">
+    <value>Will relay {0} ({1}) through {2}</value>
+  </data>
+  <data name="t_BaroOut" xml:space="preserve">
+    <value>Will relay {0} ({1}) else {2}</value>
   </data>
 </root>
