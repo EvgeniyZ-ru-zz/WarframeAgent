@@ -417,4 +417,16 @@
   <data name="t_BaroOut" xml:space="preserve">
     <value>Будемо реле {0} ({1}) інше {2}</value>
   </data>
+  <data name="PopUp_UpdateTitle" xml:space="preserve">
+    <value>Оновлення</value>
+  </data>
+  <data name="PopUp_ConnectOff" xml:space="preserve">
+    <value>Втрачено підключення до Інтернету!</value>
+  </data>
+  <data name="PopUp_ConnectTitle" xml:space="preserve">
+    <value>Перевірка підключення</value>
+  </data>
+  <data name="PopUp_ConnectOn" xml:space="preserve">
+    <value>Підключення до Інтернету встановлений правильно!</value>
+  </data>
 </root>

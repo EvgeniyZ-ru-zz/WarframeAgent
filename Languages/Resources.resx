@@ -266,27 +266,27 @@
     <comment>Текст раздела инфо</comment>
   </data>
   <data name="m_BtnAlert" xml:space="preserve">
-    <value>ТРЕВОГИ</value>
+    <value>Тревоги</value>
     <comment>Боковая кнопка тревог</comment>
   </data>
   <data name="m_BtnInfo" xml:space="preserve">
-    <value>ИНФО</value>
+    <value>Информация</value>
     <comment>Боковая кнопка информации</comment>
   </data>
   <data name="m_BtnInvasions" xml:space="preserve">
-    <value>ВТОРЖЕНИЯ</value>
+    <value>Вторжения</value>
     <comment>Боковая кнопка вторжений</comment>
   </data>
   <data name="m_BtnNews" xml:space="preserve">
-    <value>НОВОСТИ</value>
+    <value>Новости</value>
     <comment>Ошибка соединения</comment>
   </data>
   <data name="m_BtnSettings" xml:space="preserve">
-    <value>КОНФИГ</value>
+    <value>Конфигурация</value>
     <comment>Боковая кнопка настроек</comment>
   </data>
   <data name="m_BtnTrade" xml:space="preserve">
-    <value>ТОРГОВЕЦ</value>
+    <value>Торговцы</value>
     <comment>Боковая кнопка торговцев</comment>
   </data>
   <data name="m_BtnUpdToolTip" xml:space="preserve">
@@ -382,7 +382,7 @@
     <value>Изменить задний фон</value>
   </data>
   <data name="n_Loading" xml:space="preserve">
-    <value>ЗАГРУЗКА...</value>
+    <value>Идет загрузка</value>
   </data>
   <data name="s_GeneralGroup" xml:space="preserve">
     <value>ОСНОВНЫЕ НАСТРОЙКИ</value>
@@ -473,5 +473,17 @@
   </data>
   <data name="t_BaroOut" xml:space="preserve">
     <value>Будет в реле {0} ({1}) еще {2}</value>
+  </data>
+  <data name="PopUp_UpdateTitle" xml:space="preserve">
+    <value>Обновление</value>
+  </data>
+  <data name="PopUp_ConnectOff" xml:space="preserve">
+    <value>Потеряно соединение с интернетом!</value>
+  </data>
+  <data name="PopUp_ConnectTitle" xml:space="preserve">
+    <value>Проверка соединения</value>
+  </data>
+  <data name="PopUp_ConnectOn" xml:space="preserve">
+    <value>Соединение с интернетом успешно установлено!</value>
   </data>
 </root>

@@ -417,4 +417,16 @@ Mission: {1}
   <data name="t_BaroOut" xml:space="preserve">
     <value>Will relay {0} ({1}) else {2}</value>
   </data>
+  <data name="PopUp_UpdateTitle" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="PopUp_ConnectOff" xml:space="preserve">
+    <value>Lost Internet connection!</value>
+  </data>
+  <data name="PopUp_ConnectTitle" xml:space="preserve">
+    <value>Test connection</value>
+  </data>
+  <data name="PopUp_ConnectOn" xml:space="preserve">
+    <value>Internet connection has been successfully installed!</value>
+  </data>
 </root>
