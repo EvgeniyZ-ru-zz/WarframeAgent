@@ -3,11 +3,11 @@
   "Missions": [
     {
       "type": "Тип миссии",
-      "/Lotus/Language/Menu/CorpusInvasionGeneric": "Осада Корпуса",
-      "/Lotus/Language/Menu/GrineerInvasionGeneric": "Наступление Гринир",
+      "/Lotus/Language/Menu/CorpusInvasionGeneric": "Осада корпуса",
+      "/Lotus/Language/Menu/GrineerInvasionGeneric": "Наступление гринир",
       "/Lotus/Language/Menu/InfestedInvasionBoss": "Возрождение Форида",
-      "/Lotus/Language/Menu/InfestedInvasionEnding": "Заражение Очищено",
-      "/Lotus/Language/Menu/InfestedInvasionGeneric": "Вспышка Заражения",
+      "/Lotus/Language/Menu/InfestedInvasionEnding": "Заражение очищено",
+      "/Lotus/Language/Menu/InfestedInvasionGeneric": "Вспышка заражения",
       "MT_ARENA": "Арена",
       "MT_ASSASSINATION": "Убийство",
       "MT_CAPTURE": "Захват",
@@ -19,6 +19,7 @@
       "MT_INTEL": "Шпионаж",
       "MT_MOBILE_DEFENSE": "Мобильная оборона",
       "MT_NIGHTMARE": "Кошмар",
+      "MT_PURIFY": "Заражённое извлечение",
       "MT_RESCUE": "Спасение",
       "MT_RETRIEVAL": "Налет",
       "MT_SABOTAGE": "Диверсия",
