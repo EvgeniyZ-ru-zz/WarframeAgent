@@ -1,5 +1,5 @@
 {
-  "Date": "21.12.2016",
+  "Date": "24.12.2016",
   "Items": [
     {
       "type": "Ресурсы",
@@ -181,6 +181,7 @@
       "/Lotus/Types/Recipes/Weapons/LatronWraithBlueprint": "Латрон призрак: чертеж",
       "/Lotus/Types/Recipes/Weapons/SnipetronVandalBlueprint": "Снайптрон вандал: чертеж",
       "/Lotus/Types/Recipes/Weapons/StrunWraithBlueprint": "Стран призрак: чертеж",
+      "/Lotus/Types/Recipes/Weapons/TwinVipersWraithBlueprint": "Парные гадюки-призраки: чертеж",
       "/Lotus/Types/Recipes/Weapons/WeaponParts/DeraVandalBarrel": "Дера вандал: ствол",
       "/Lotus/Types/Recipes/Weapons/WeaponParts/DeraVandalReceiver": "Дера вандал: приемник",
       "/Lotus/Types/Recipes/Weapons/WeaponParts/DeraVandalStock": "Дера вандал: приклад",
@@ -195,7 +196,10 @@
       "/Lotus/Types/Recipes/Weapons/WeaponParts/SnipetronVandalStock": "Снайптрон вандал: приклад",
       "/Lotus/Types/Recipes/Weapons/WeaponParts/StrunWraithBarrel": "Стран призрак: ствол",
       "/Lotus/Types/Recipes/Weapons/WeaponParts/StrunWraithReceiver": "Стран призрак: приемник",
-      "/Lotus/Types/Recipes/Weapons/WeaponParts/StrunWraithStock": "Стран призрак: приклад"
+      "/Lotus/Types/Recipes/Weapons/WeaponParts/StrunWraithStock": "Стран призрак: приклад",
+      "/Lotus/Types/Recipes/Weapons/WeaponParts/TwinVipersWraithBarrel": "Парные гадюки-призраки: ствол",
+      "/Lotus/Types/Recipes/Weapons/WeaponParts/TwinVipersWraithLink": "Парные гадюки-призраки: связь",
+      "/Lotus/Types/Recipes/Weapons/WeaponParts/TwinVipersWraithReceiver": "Парные гадюки-призраки: приемник"
     },
     {
       "type": "Баро",
