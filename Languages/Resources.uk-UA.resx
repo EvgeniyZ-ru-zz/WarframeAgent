@@ -429,4 +429,7 @@
   <data name="PopUp_ConnectOn" xml:space="preserve">
     <value>Підключення до Інтернету встановлений правильно!</value>
   </data>
+  <data name="a_StatArchive" xml:space="preserve">
+    <value>Архів</value>
+  </data>
 </root>

@@ -429,4 +429,7 @@ Mission: {1}
   <data name="PopUp_ConnectOn" xml:space="preserve">
     <value>Internet connection has been successfully installed!</value>
   </data>
+  <data name="a_StatArchive" xml:space="preserve">
+    <value>Archive</value>
+  </data>
 </root>

@@ -302,7 +302,7 @@
     <comment>Надпись в трее Закрыть</comment>
   </data>
   <data name="n_NotifyOpen" xml:space="preserve">
-    <value>Открыть</value>
+    <value>Развернуть</value>
     <comment>Надпись в трее Открыть</comment>
   </data>
   <data name="o_ConnectLog" xml:space="preserve">
@@ -485,5 +485,8 @@
   </data>
   <data name="PopUp_ConnectOn" xml:space="preserve">
     <value>Соединение с интернетом успешно установлено!</value>
+  </data>
+  <data name="a_StatArchive" xml:space="preserve">
+    <value>Архив</value>
   </data>
 </root>
