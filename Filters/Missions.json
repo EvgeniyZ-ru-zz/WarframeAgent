@@ -1,5 +1,5 @@
 ﻿{
-  "Date": "23.12.2016",
+  "Date": "26.12.2016",
   "Missions": [
     {
       "type": "Тип миссии",
@@ -20,7 +20,7 @@
       "MT_INTEL": "Шпионаж",
       "MT_MOBILE_DEFENSE": "Мобильная оборона",
       "MT_NIGHTMARE": "Кошмар",
-      "MT_PURIFY": "Заражённое извлечение",
+      "MT_PURIFY": "Очистка",
       "MT_RESCUE": "Спасение",
       "MT_RETRIEVAL": "Налет",
       "MT_SABOTAGE": "Диверсия",
