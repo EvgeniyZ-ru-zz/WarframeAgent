@@ -432,4 +432,7 @@ Mission: {1}
   <data name="a_StatArchive" xml:space="preserve">
     <value>Archive</value>
   </data>
+  <data name="t_BaroName" xml:space="preserve">
+    <value>Baro Ki'Teer</value>
+  </data>
 </root>

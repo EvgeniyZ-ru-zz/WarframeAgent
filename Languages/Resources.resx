@@ -489,4 +489,7 @@
   <data name="a_StatArchive" xml:space="preserve">
     <value>Архив</value>
   </data>
+  <data name="t_BaroName" xml:space="preserve">
+    <value>Баро Ки'Тиир</value>
+  </data>
 </root>
