@@ -1,5 +1,5 @@
 {
-  "Date": "28.01.2017",
+  "Date": "04.02.2017",
   "Items": [
     {
       "type": "Ресурсы",
@@ -177,6 +177,7 @@
       "/Lotus/Types/Recipes/Components/OrokinCatalystBlueprint": "Катализатор орокин (чертеж)",
       "/Lotus/Types/Recipes/Components/OrokinReactorBlueprint": "Реактор орокин (чертеж)",
       "/Lotus/Types/Recipes/Weapons/DeraVandalBlueprint": "Дера вандал: чертеж",
+      "/Lotus/Types/Recipes/Weapons/GrineerCombatKnifeSortieBlueprint": "Шиив: чертеж",
       "/Lotus/Types/Recipes/Weapons/KarakWraithBlueprint": "Карак призрак: чертеж",
       "/Lotus/Types/Recipes/Weapons/LatronWraithBlueprint": "Латрон призрак: чертеж",
       "/Lotus/Types/Recipes/Weapons/SnipetronVandalBlueprint": "Снайптрон вандал: чертеж",
