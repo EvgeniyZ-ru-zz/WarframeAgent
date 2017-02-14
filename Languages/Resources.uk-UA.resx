@@ -133,10 +133,10 @@
     <value>Кінець</value>
   </data>
   <data name="a_InfoMission" xml:space="preserve">
-    <value>Місія</value>
+    <value>Сектор</value>
   </data>
   <data name="a_InfoMType" xml:space="preserve">
-    <value>Місія типу</value>
+    <value>Місія</value>
   </data>
   <data name="a_InfoPlanet" xml:space="preserve">
     <value>Планети</value>
@@ -145,7 +145,7 @@
     <value>Рівень</value>
   </data>
   <data name="a_NameToolTip" xml:space="preserve">
-    <value>Планети/місії</value>
+    <value>Планети/Сектор</value>
   </data>
   <data name="a_None" xml:space="preserve">
     <value>Світ є тихо!</value>
@@ -275,7 +275,8 @@
     <value>На жаль сервера не відповідає зараз!</value>
   </data>
   <data name="PopUp_Alert" xml:space="preserve">
-    <value>Планети: {0}: {1} місії || рівні: {2} | нагорода: {3}</value>
+    <value>{0} - {1}
+Рівні: {2}</value>
   </data>
   <data name="PopUp_Alert_New" xml:space="preserve">
     <value>Нове оповіщення!</value>
@@ -284,7 +285,7 @@
     <value>{0} версія доступна для скачування!</value>
   </data>
   <data name="t_ColumnName_1" xml:space="preserve">
-    <value>Тема</value>
+    <value>Назва</value>
   </data>
   <data name="t_ColumnName_2" xml:space="preserve">
     <value>Дукати</value>
@@ -434,5 +435,28 @@
   </data>
   <data name="t_BaroName" xml:space="preserve">
     <value>Баро Ки'Тиир</value>
+  </data>
+  <data name="PopUp_AlertRevard" xml:space="preserve">
+    <value>{0} - {1}
+Рівні: {2}
+Нагорода: {3}</value>
+  </data>
+  <data name="a_FiltersTitle" xml:space="preserve">
+    <value>- Налаштування оповещенія-</value>
+  </data>
+  <data name="a_FiltersResetList" xml:space="preserve">
+    <value>(Скинути список)</value>
+  </data>
+  <data name="a_FiltersCatLable" xml:space="preserve">
+    <value>Категорія:</value>
+  </data>
+  <data name="a_FiltersIsItem" xml:space="preserve">
+    <value>Тільки з наявністю предмета</value>
+  </data>
+  <data name="a_FiltersMinLvL" xml:space="preserve">
+    <value>Мінімальний рівень</value>
+  </data>
+  <data name="a_FiltersMaxLvL" xml:space="preserve">
+    <value>Максимальний рівень</value>
   </data>
 </root>

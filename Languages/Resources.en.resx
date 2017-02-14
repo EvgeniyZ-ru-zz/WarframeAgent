@@ -133,10 +133,10 @@
     <value>The end</value>
   </data>
   <data name="a_InfoMission" xml:space="preserve">
-    <value>Mission</value>
+    <value>Sector</value>
   </data>
   <data name="a_InfoMType" xml:space="preserve">
-    <value>Mission type</value>
+    <value>Mission</value>
   </data>
   <data name="a_InfoPlanet" xml:space="preserve">
     <value>Planet</value>
@@ -145,7 +145,7 @@
     <value>Level</value>
   </data>
   <data name="a_NameToolTip" xml:space="preserve">
-    <value>Planet/Mission</value>
+    <value>Planet/Sector</value>
   </data>
   <data name="a_None" xml:space="preserve">
     <value>The world is quietly!</value>
@@ -275,7 +275,8 @@ Thank you for being with us!</value>
     <value>Unfortunately the server does not respond now!</value>
   </data>
   <data name="PopUp_Alert" xml:space="preserve">
-    <value>Planet: {0}: {1} Mission | | level: {2} | award: {3}</value>
+    <value>{0} - {1}
+Level: {2}</value>
   </data>
   <data name="PopUp_Alert_New" xml:space="preserve">
     <value>New alert!</value>
@@ -284,7 +285,7 @@ Thank you for being with us!</value>
     <value>Version {0} available for download!</value>
   </data>
   <data name="t_ColumnName_1" xml:space="preserve">
-    <value>Subject</value>
+    <value>Name</value>
   </data>
   <data name="t_ColumnName_2" xml:space="preserve">
     <value>Ducats</value>
@@ -434,5 +435,28 @@ Mission: {1}
   </data>
   <data name="t_BaroName" xml:space="preserve">
     <value>Baro Ki'Teer</value>
+  </data>
+  <data name="PopUp_AlertRevard" xml:space="preserve">
+    <value>{0} - {1}
+Level: {2}
+Award: {3}</value>
+  </data>
+  <data name="a_FiltersResetList" xml:space="preserve">
+    <value>(Reset the list)</value>
+  </data>
+  <data name="a_FiltersCatLable" xml:space="preserve">
+    <value>Category:</value>
+  </data>
+  <data name="a_FiltersIsItem" xml:space="preserve">
+    <value>Only the presence of an object</value>
+  </data>
+  <data name="a_FiltersMinLvL" xml:space="preserve">
+    <value>Minimum lvl</value>
+  </data>
+  <data name="a_FiltersMaxLvL" xml:space="preserve">
+    <value>Maximum lvl</value>
+  </data>
+  <data name="a_FiltersTitle" xml:space="preserve">
+    <value>- Notification Settings -</value>
   </data>
 </root>

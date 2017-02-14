@@ -138,11 +138,11 @@
     <comment>Текст раздела тревог</comment>
   </data>
   <data name="a_InfoMission" xml:space="preserve">
-    <value>Миссия</value>
+    <value>Сектор</value>
     <comment>Текст раздела тревог</comment>
   </data>
   <data name="a_InfoMType" xml:space="preserve">
-    <value>Тип миссии</value>
+    <value>Миссия</value>
     <comment>Текст раздела тревог</comment>
   </data>
   <data name="a_InfoPlanet" xml:space="preserve">
@@ -154,7 +154,7 @@
     <comment>Текст раздела тревог</comment>
   </data>
   <data name="a_NameToolTip" xml:space="preserve">
-    <value>Планета/Миссия</value>
+    <value>Планета/Сектор</value>
     <comment>Текст раздела тревог</comment>
   </data>
   <data name="a_None" xml:space="preserve">
@@ -326,7 +326,8 @@
     <comment>Надпись при отсутсвие доступа к серверу</comment>
   </data>
   <data name="PopUp_Alert" xml:space="preserve">
-    <value>Планета: {0}|Миссия: {1}|Уровень: {2}|Награда: {3}</value>
+    <value>{0} - {1}
+Уровень: {2}</value>
     <comment>Всплывающее уведомление тревог (текст)</comment>
   </data>
   <data name="PopUp_Alert_New" xml:space="preserve">
@@ -338,7 +339,7 @@
     <comment>Текст нового обновления</comment>
   </data>
   <data name="t_ColumnName_1" xml:space="preserve">
-    <value>Предмет</value>
+    <value>Название</value>
     <comment>Текст раздела тревог</comment>
   </data>
   <data name="t_ColumnName_2" xml:space="preserve">
@@ -491,5 +492,28 @@
   </data>
   <data name="t_BaroName" xml:space="preserve">
     <value>Баро Ки'Тиир</value>
+  </data>
+  <data name="PopUp_AlertRevard" xml:space="preserve">
+    <value>{0} - {1}
+Уровень: {2}
+Награда: {3}</value>
+  </data>
+  <data name="a_FiltersTitle" xml:space="preserve">
+    <value>- Настройки оповещения-</value>
+  </data>
+  <data name="a_FiltersResetList" xml:space="preserve">
+    <value>(сбросить список)</value>
+  </data>
+  <data name="a_FiltersCatLable" xml:space="preserve">
+    <value>Категория:</value>
+  </data>
+  <data name="a_FiltersIsItem" xml:space="preserve">
+    <value>Только с наличием предмета</value>
+  </data>
+  <data name="a_FiltersMinLvL" xml:space="preserve">
+    <value>Минимальный уровень</value>
+  </data>
+  <data name="a_FiltersMaxLvL" xml:space="preserve">
+    <value>Максимальный уровень</value>
   </data>
 </root>

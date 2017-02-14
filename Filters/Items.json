@@ -1,8 +1,9 @@
 {
-  "Date": "09.02.2017",
+  "Date": "14.02.2017",
   "Items": [
     {
       "type": "Ресурсы",
+	  "enable": 1,
       "/Lotus/Types/Items/MiscItems/Salvage": "Вторсырье",
       "/Lotus/Types/Items/MiscItems/Gallium": "Галлий",
       "/Lotus/Types/Items/MiscItems/ArgonCrystal": "Кристалл аргона",
@@ -25,6 +26,7 @@
     },
     {
       "type": "Шлема",
+	  "enable": 1,
       "/Lotus/StoreItems/Types/Recipes/Helmets/BrawlerAltHelmetBlueprint": "Шлем атласа: Тартар (чертеж)",
       "/Lotus/StoreItems/Types/Recipes/Helmets/BrawlerAltTwoHelmetBlueprint": "Шлем атласа: Сикоро (чертеж)",
       "/Lotus/StoreItems/Types/Recipes/Helmets/StatlessBansheeAltHelmetBlueprint": "Шлем банши: Реверб (чертеж)",
@@ -87,6 +89,7 @@
     },
     {
       "type": "Чертежи",
+	  "enable": 1,
       "/Lotus/StoreItems/Types/Recipes/WarframeRecipes/TrapperChassisBlueprint": "Вобан: каркас (чертеж)",
       "/Lotus/StoreItems/Types/Recipes/WarframeRecipes/TrapperHelmetBlueprint": "Вобан: нейрооптика (чертеж)",
       "/Lotus/StoreItems/Types/Recipes/WarframeRecipes/TrapperSystemsBlueprint": "Вобан: система (чертеж)",
@@ -106,6 +109,7 @@
     },
     {
       "type": "Ауры",
+	  "enable": 1,
       "/Lotus/StoreItems/Upgrades/Mods/Aura/InfestationSpeedReductionAuraMod": "Бремя зараженных (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerLootRadarAuraMod": "Детектор добычи (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerEnemyRadarAuraMod": "Детектор противника (аура)",
@@ -135,6 +139,7 @@
     },
     {
       "type": "Модификаторы",
+	  "enable": 1,
       "/Lotus/StoreItems/Upgrades/Mods/Warframe/DualStat/VigorMod": "Биоэнергия",
       "/Lotus/StoreItems/Upgrades/Mods/Warframe/DualStat/RunSpeedArmorMod": "Бронированная ловкость",
       "/Lotus/StoreItems/Upgrades/Mods/Shotgun/DualStat/AcceleratedBlastMod": "Взрывное ускорение",
@@ -154,6 +159,7 @@
     },
     {
       "type": "Остальное",
+	  "enable": 1,
       "/Lotus/Types/Game/CatbrowPet/CatbrowGeneticSignature": "Генетические коды кават",
       "/Lotus/Types/Items/MiscItems/OrokinCatalyst": "Катализатор орокин",
       "/Lotus/Types/Items/MiscItems/OrokinReactor": "Реактор орокин",
@@ -169,6 +175,7 @@
     },
     {
       "type": "Вторжения",
+	  "enable": 1,
       "/Lotus/Types/Items/MiscItems/InfestedAladCoordinate": "Муталист-навигационные координаты",
       "/Lotus/Types/Items/MiscItems/UtilityUnlocker": "Адаптер эксилус (чертеж)",
       "/Lotus/Types/Items/Research/BioComponent": "Мутагенная масса",
@@ -206,6 +213,7 @@
     },
     {
       "type": "Баро",
+	  "enable": 1,
       "/Lotus/StoreItems/Types/BoosterPacks/PremiumRareArtifactPack": "Набор модов 'Дракон'",
       "/Lotus/StoreItems/Types/BoosterPacks/UncommonArtifactPack": "Набор модов 'Феникс'",
       "/Lotus/StoreItems/Types/Game/KubrowPet/Patterns/KubrowPetPatternPrimeTraderA": "Фокусный шаблон меха",
@@ -318,6 +326,7 @@
     },
     {
       "type": "Дарво",
+	  "enable": 1,
       "/Lotus/StoreItems/Powersuits/AntiMatter/Anti": "Нова",
       "/Lotus/StoreItems/Powersuits/Banshee/Banshee": "Банши",
       "/Lotus/StoreItems/Powersuits/Berserker/Berserker": "Валькирия",
