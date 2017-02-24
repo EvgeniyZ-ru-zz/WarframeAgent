@@ -1,5 +1,5 @@
 {
-  "Date": "20.02.2017",
+  "Date": "24.02.2017",
   "Items": [
     {
       "type": "Ресурсы",
@@ -223,6 +223,7 @@
       "/Lotus/StoreItems/Types/Items/ShipDecos/BaroKiTeerBobbleHead": "Статуэтка - Баро Ки'Тиир",
       "/Lotus/StoreItems/Types/Items/ShipDecos/PedistalPrime": "Пьедистал прайм",
       "/Lotus/StoreItems/Types/Keys/MummyQuestKeyBlueprint": "Пески Инароса (квест)",
+      "/Lotus/StoreItems/Types/Recipes/Components/CorruptedBombardBallBlueprint": "Спектр: порабощенный бомбардир (чертеж)",
       "/Lotus/StoreItems/Types/Restoratives/Consumable/AssassinBait": "Метка Сталкера",
       "/Lotus/StoreItems/Types/Restoratives/Consumable/AssassinBaitB": "Метка Грастрагской тройки",
       "/Lotus/StoreItems/Types/Restoratives/Consumable/AssassinBaitC": "Метка охотника Зануки",
