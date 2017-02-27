@@ -1,23 +1,23 @@
 {
-  "Date": "25.02.2017",
+  "Date": "27.02.2017",
   "Sorties": [
     {
       "type": "Босс",
+      "SORTIE_BOSS_HEK": "Вэй Хек",
+      "SORTIE_BOSS_RUK": "Генерал Саргас Рук",
+      "SORTIE_BOSS_VOR": "Капитан Вор",
+      "SORTIE_BOSS_KELA": "Кела Де Тэйм",
+      "SORTIE_BOSS_KRIL": "Лейтенант Лех Крил",
+      "SORTIE_BOSS_TYL": "Тил Регор",
       "SORTIE_BOSS_ALAD": "Алад V",
       "SORTIE_BOSS_AMBULAS": "Амбулас",
-      "SORTIE_BOSS_JACKAL": "Шакал",
-      "SORTIE_BOSS_KRIL": "Лейтенант Лех Крил",
-      "SORTIE_BOSS_LEPHANTIS": "Лефантис",
       "SORTIE_BOSS_NEF": "Неф Эньо",
-      "SORTIE_BOSS_PHORID": "Форид",
       "SORTIE_BOSS_RAPTOR": "Раптор",
-      "SORTIE_BOSS_TYL": "Тил Регор",
-      "SORTIE_BOSS_VOR": "Капитан Вор",
-      "SORTIE_BOSS_RUK": "Генерал Саргас Рук",
-      "SORTIE_BOSS_HEK": "Вэй Хек",
-      "": "Кела Де Тэйм",
+      "": "Стая Гиен",
+      "SORTIE_BOSS_JACKAL": "Шакал",
+      "SORTIE_BOSS_LEPHANTIS": "Лефантис",
       "": "Муталист Алад V",
-      "": "Стая Гиен"
+      "SORTIE_BOSS_PHORID": "Форид"
     },
     {
       "type": "Модификатор",
@@ -42,7 +42,7 @@
       "": "Элементальные улучшения противников (огонь)",
       "SORTIE_MODIFIER_FREEZE": "Элементальные улучшения противников (холод)",
       "": "Элементальные улучшения противников (электричество)",
-      "": "Элементальные улучшения противников (токсин)",
+      "SORTIE_MODIFIER_POISON": "Элементальные улучшения противников (токсин)",
       "SORTIE_MODIFIER_EXPLOSION": "Элементальные улучшения противников (взрыв)",
       "": "Элементальные улучшения противников (радиация)",
       "": "Элементальные улучшения противников (газ)",
