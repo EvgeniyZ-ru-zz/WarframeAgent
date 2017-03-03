@@ -22,7 +22,8 @@
       "/Lotus/Types/Items/MiscItems/Tellurium": "Теллуриум",
       "/Lotus/Types/Items/MiscItems/Ferrite": "Феррит",
       "/Lotus/Types/Items/MiscItems/Alertium": "Экстракт нитаина",
-      "/Lotus/Types/Items/MiscItems/OrokinCell": "Элемент питания орокин"
+      "/Lotus/Types/Items/MiscItems/OrokinCell": "Элемент питания орокин",
+      "/Lotus/Types/Items/MiscItems/Eventium": "Синтула"
     },
     {
       "type": "Шлема",
