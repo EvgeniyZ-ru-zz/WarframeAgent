@@ -1,5 +1,5 @@
 {
-  "Date": "03.03.2017",
+  "Date": "04.03.2017",
   "Items": [
     {
       "type": "Ресурсы",
@@ -212,7 +212,8 @@
       "/Lotus/Types/Recipes/Weapons/WeaponParts/TwinVipersWraithLink": "Парные гадюки-призраки: связь",
       "/Lotus/Types/Recipes/Weapons/WeaponParts/TwinVipersWraithReceiver": "Парные гадюки-призраки: приемник",
       "/Lotus/Types/Recipes/Weapons/GrineerCombatKnifeSortieBlueprint": "Шиив: чертеж",
-      "/Lotus/Types/Recipes/Weapons/WeaponParts/GrineerCombatKnifeHeatsink": "Шиив: радиатор"
+      "/Lotus/Types/Recipes/Weapons/WeaponParts/GrineerCombatKnifeHeatsink": "Шиив: радиатор",
+      "/Lotus/Types/Recipes/Weapons/WeaponParts/GrineerCombatKnifeHilt": "Шиив: рукоятка"
     },
     {
       "type": "Баро",
