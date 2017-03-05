@@ -1,5 +1,5 @@
 {
-  "Date": "04.03.2017",
+  "Date": "05.03.2017",
   "Items": [
     {
       "type": "Ресурсы",
@@ -122,7 +122,6 @@
       "/Lotus/StoreItems/Upgrades/Mods/Aura/EnemyArmorReductionAuraMod": "Коррозийный выброс (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerSniperDamageAuraMod": "Меткий стрелок (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerHealthRegenAuraMod": "Омоложение (аура)",
-      "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerLaserImmunityAuraMod": "Отклонение лазера (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/EnemyShieldReductionAuraMod": "Разрушение щита (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerHolsterSpeedAuraMod": "Скоростная кобура (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerFireImmunityAuraMod": "Сопротивление огню (аура)",
@@ -135,7 +134,6 @@
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerShellDamageAuraMod": "Усилитель: дробовик (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerPistolDamageAuraMod": "Усилитель: пистолет (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerSprintAuraMod": "Ускоритель (аура)",
-      "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerXPAuraMod": "Усилитель: синтез (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/RobotPoorAimAuraMod": "Эми аура (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerEnergyRegenAuraMod": "Энергетический источник (аура)"
     },
