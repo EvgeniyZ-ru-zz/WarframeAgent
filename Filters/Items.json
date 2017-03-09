@@ -212,6 +212,7 @@
       "/Lotus/Types/Recipes/Weapons/GrineerCombatKnifeSortieBlueprint": "Шиив: чертеж",
       "/Lotus/Types/Recipes/Weapons/WeaponParts/GrineerCombatKnifeHeatsink": "Шиив: радиатор",
       "/Lotus/Types/Recipes/Weapons/WeaponParts/GrineerCombatKnifeHilt": "Шиив: рукоятка"
+      "/Lotus/Types/Recipes/Weapons/WeaponParts/GrineerCombatKnifeBlade": "Шиив: лезвие"
     },
     {
       "type": "Баро",
