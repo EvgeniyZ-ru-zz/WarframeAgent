@@ -1,5 +1,5 @@
 {
-  "Date": "09.03.2017",
+  "Date": "10.03.2017",
   "Items": [
     {
       "type": "Ресурсы",
@@ -328,6 +328,7 @@
       "/Lotus/Types/StoreItems/Boosters/AffinityBooster3DayStoreItem": "Усилитель синтеза (3 дня)",
       "/Lotus/Types/StoreItems/Boosters/CreditBooster3DayStoreItem": "Умножитель кредитов (3 дня)",
       "/Lotus/Types/StoreItems/Boosters/ResourceAmount3DayStoreItem": "Умножитель ресурсов (3 дня)",
+      "/Lotus/Types/StoreItems/Packages/KavatColorPackNexus": "Генно-маскирующий набор Нексус",
       "/Lotus/Types/StoreItems/Packages/ThreeDayCreditPack": "Умножитель кредитов (3 дня)"
     },
     {
