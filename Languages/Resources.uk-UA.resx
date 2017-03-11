@@ -178,7 +178,7 @@
     <value>Статус тривоги</value>
   </data>
   <data name="a_StatusText" xml:space="preserve">
-    <value>Місія на планеті, {1} {0}</value>
+    <value>Сектор {0} на планеті {1}</value>
   </data>
   <data name="inf_Autor" xml:space="preserve">
     <value>Від автора проекту</value>
@@ -276,7 +276,8 @@
   </data>
   <data name="PopUp_Alert" xml:space="preserve">
     <value>{0} - {1}
-Рівні: {2}</value>
+Завдання: {2}
+Рівні: {3}</value>
   </data>
   <data name="PopUp_Alert_New" xml:space="preserve">
     <value>Нове оповіщення!</value>
@@ -438,8 +439,9 @@
   </data>
   <data name="PopUp_AlertRevard" xml:space="preserve">
     <value>{0} - {1}
-Рівні: {2}
-Нагорода: {3}</value>
+Завдання: {2}
+Рівні: {3}
+Нагорода: {4}</value>
   </data>
   <data name="a_FiltersTitle" xml:space="preserve">
     <value>- Налаштування оповещенія-</value>

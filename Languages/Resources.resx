@@ -198,7 +198,7 @@
     <comment>Текст раздела тревог</comment>
   </data>
   <data name="a_StatusText" xml:space="preserve">
-    <value>Миссия {0} на планете {1}</value>
+    <value>Сектор {0} на планете {1}</value>
     <comment>Текст раздела тревог</comment>
   </data>
   <data name="inf_Autor" xml:space="preserve">
@@ -327,7 +327,8 @@
   </data>
   <data name="PopUp_Alert" xml:space="preserve">
     <value>{0} - {1}
-Уровень: {2}</value>
+Задача: {2}
+Уровень: {3}</value>
     <comment>Всплывающее уведомление тревог (текст)</comment>
   </data>
   <data name="PopUp_Alert_New" xml:space="preserve">
@@ -495,8 +496,9 @@
   </data>
   <data name="PopUp_AlertRevard" xml:space="preserve">
     <value>{0} - {1}
-Уровень: {2}
-Награда: {3}</value>
+Задача: {2}
+Уровень: {3}
+Награда: {4}</value>
   </data>
   <data name="a_FiltersTitle" xml:space="preserve">
     <value>- Настройки оповещения-</value>

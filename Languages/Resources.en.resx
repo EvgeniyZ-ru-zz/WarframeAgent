@@ -178,7 +178,7 @@
     <value>Status anxiety</value>
   </data>
   <data name="a_StatusText" xml:space="preserve">
-    <value>The Mission of the {0} {1} on the planet</value>
+    <value>The Sector of the {0} on the planet {1}</value>
   </data>
   <data name="inf_Autor" xml:space="preserve">
     <value>From the author of the project</value>
@@ -276,7 +276,8 @@ Thank you for being with us!</value>
   </data>
   <data name="PopUp_Alert" xml:space="preserve">
     <value>{0} - {1}
-Level: {2}</value>
+Task: {2}
+Level: {3}</value>
   </data>
   <data name="PopUp_Alert_New" xml:space="preserve">
     <value>New alert!</value>
@@ -438,8 +439,9 @@ Mission: {1}
   </data>
   <data name="PopUp_AlertRevard" xml:space="preserve">
     <value>{0} - {1}
-Level: {2}
-Award: {3}</value>
+Task: {2}
+Level: {3}
+Award: {4}</value>
   </data>
   <data name="a_FiltersResetList" xml:space="preserve">
     <value>(Reset the list)</value>
