@@ -1,5 +1,5 @@
 {
-  "Date": "10.03.2017",
+  "Date": "24.03.2017",
   "Items": [
     {
       "type": "Ресурсы",
@@ -315,6 +315,7 @@
       "/Lotus/StoreItems/Weapons/ClanTech/Energy/VandalElectroProd": "Прова вандал",
       "/Lotus/StoreItems/Weapons/Corpus/LongGuns/CorpusUMP/PrismaCorpusUMP": "Тетра призма",
       "/Lotus/StoreItems/Weapons/Corpus/LongGuns/CrpShockRifle/QuantaVandal": "Кванта вандал",
+      "/Lotus/StoreItems/Weapons/Grineer/LongGuns/GrineerSniperRifle/VulkarWraith": "Вулкар Призрак",
       "/Lotus/StoreItems/Weapons/Grineer/LongGuns/VoidTraderGorgon/VTGorgon": "Горгона призма",
       "/Lotus/StoreItems/Weapons/Grineer/Melee/GrineerMachetteAndCleaver/PrismaDualCleavers": "Парные секачи призма",
       "/Lotus/StoreItems/Weapons/Grineer/Melee/GrineerMachetteAndCleaver/WraithMacheteWeapon": "Мачете призрак",
