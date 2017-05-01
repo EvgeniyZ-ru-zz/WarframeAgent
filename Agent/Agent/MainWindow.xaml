@@ -1,0 +1,178 @@
+﻿<Window x:Class="Agent.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Agent"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
+        Style="{DynamicResource WindowStyle}" SizeChanged="Window_SizeChanged"
+        Height="610" MaxHeight="610" MaxWidth="1000" MinHeight="316" MinWidth="316"
+        Width="1000" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="True" SnapsToDevicePixels="True" UseLayoutRounding="True">
+    
+    <Border Margin="15" Style="{DynamicResource MainBorder}">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" ShadowDepth="2"/>
+        </Border.Effect>
+      
+        <Grid Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Шапка приложения -->
+            <Grid Grid.Row="0" VerticalAlignment="Top" MinHeight="40" Height="40" Panel.ZIndex="1" Style="{DynamicResource HeaderColor}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Name="HeadTitle" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0">
+                    <TextBlock x:Name="TitleLbl" Text="WARFRAME AGENT"
+                       FontSize="25" Style="{DynamicResource TitleColor}" />
+                </StackPanel>
+                <Grid PreviewMouseDown="Grid_PreviewMouseDown" Grid.ColumnSpan="2" Grid.Column="0" Margin="0,5,0,0"
+                  Background="Transparent" />
+                <DockPanel Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
+                    <Button DockPanel.Dock="Left" Width="15" Height="15" HorizontalAlignment="Right"
+                        Style="{DynamicResource MinBtn}" HorizontalContentAlignment="Right" Margin="0,0,5,0" Click="MinBtn_Click" />
+                    <Button DockPanel.Dock="Right" Width="13" Height="13" HorizontalAlignment="Right"
+                        Style="{DynamicResource CloseBtn}" HorizontalContentAlignment="Right" Click="CloseBtn_Click" />
+                </DockPanel>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="68" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image x:Name="BgImg" Stretch="UniformToFill" Opacity="0.50"
+                   Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0,-1,0,0"
+                   Source="Resources/Images/Background/1.jpg" />
+
+                <!-- Боковая панель -->
+                <Grid Name="LeftPanelGrid" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Width="40" HorizontalAlignment="Left">
+                    <Border Style="{DynamicResource LeftPanelBorder}" Margin="0,-1,0,0" />
+                    <StackPanel Name="LeftPanelContent" VerticalAlignment="Center">
+                        <Button Content="btn" Height="30"/>
+                        <Button Content="btn" Height="30"/>
+                        <Button Content="btn" Height="30"/>
+                        <Button Content="btn" Height="30"/>
+                        <Button Content="btn" Height="30"/>
+                    </StackPanel>
+                    <!--<Button Name="ChangeBg" Click="Button_Click" Style="{StaticResource NoChromeButton}"
+                        ToolTip="{x:Static res:Resources.m_ChangeBg}" Width="12" Cursor="Hand"
+                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,1,5,0">
+                        <Image Source="/Agent;component/Resources/icon-img.png" Margin="0" />
+                    </Button>-->
+                    <!--<StackPanel Margin="0,15,0,5">
+                        <Button IsEnabled="True" x:Name="NewsBtn" Height="30"
+                            Background="#66000000" Margin="0,0,0,5"
+                            BorderThickness="0,0.5"
+                            fa:Awesome.Content="NewspaperOutline" 
+                            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
+                            ToolTip="{x:Static res:Resources.m_BtnNews}"
+                            Style="{DynamicResource Menu}"
+                            Foreground="White" Click="Button_Click" />
+                        <Button IsEnabled="True" x:Name="AlertsBtn" Height="30"
+                            Background="#66000000" Margin="0,0,0,5"
+                            BorderThickness="0,0.5" ToolTip="{x:Static res:Resources.m_BtnAlert}"
+                            fa:Awesome.Content="ExclamationTriangle" 
+                            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
+                            Style="{DynamicResource MenuIn}"
+                            Foreground="White"
+                            Click="Button_Click" />
+                        <Button IsEnabled="True" x:Name="InvasionsBtn" Height="30"
+                            Background="#66000000" Margin="0,0,0,5"
+                            BorderThickness="0,0.5" ToolTip="{x:Static res:Resources.m_BtnInvasions}"
+                            fa:Awesome.Content="Bullseye" 
+                            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
+                            Style="{DynamicResource Menu}"
+                            Foreground="White" Click="Button_Click" />
+                        <Button IsEnabled="True" x:Name="TradeBtn" Height="30"
+                            Background="#66000000" Margin="0,0,0,5"
+                            BorderThickness="0,0.5" ToolTip="{x:Static res:Resources.m_BtnTrade}"
+                            fa:Awesome.Content="BalanceScale" 
+                            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
+                            Style="{DynamicResource Menu}"
+                            Foreground="White" Click="Button_Click" />
+                        <Button Visibility="Collapsed" IsEnabled="True" x:Name="ActMissionsBtn" Height="30"
+                            Background="#66000000" Margin="0,0,0,5"
+                            BorderThickness="0,0.5" ToolTip="{x:Static res:Resources.m_BtnTrade}"
+                            fa:Awesome.Content="FreeCodeCamp" 
+                            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
+                            Style="{DynamicResource Menu}"
+                            Foreground="White" Click="Button_Click" />
+                    </StackPanel>-->
+
+                </Grid>
+
+
+
+                <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Label x:Name="testLable" Content="aafgs" />
+                    <ComboBox x:Name="styleBox" Height="30" Width="150" />
+                </StackPanel>
+
+
+            </Grid>
+            <!--<Rectangle x:Name="LeftSizeGrip"
+                   Width="4"
+                   HorizontalAlignment="Left"
+                   Cursor="SizeWE" Grid.RowSpan="2" Panel.ZIndex="2"
+                   Style="{StaticResource RectBorderStyle}" />
+            <Rectangle x:Name="RightSizeGrip"
+                   Width="4" 
+                   HorizontalAlignment="Right"
+                   Cursor="SizeWE" Grid.RowSpan="2" Panel.ZIndex="2"
+                   Style="{StaticResource RectBorderStyle}" />
+            <Rectangle x:Name="TopSizeGrip"
+                   Height="4"
+                   Panel.ZIndex="2"
+                   VerticalAlignment="Top"
+                   Cursor="SizeNS"
+                   Style="{StaticResource RectBorderStyle}" />
+            <Rectangle x:Name="BottomSizeGrip"
+                   Height="4"
+                   VerticalAlignment="Bottom"
+                   Cursor="SizeNS" Panel.ZIndex="2"
+                   Style="{StaticResource RectBorderStyle}" Grid.Row="1" />
+            --><!--  Corners  --><!--
+            <Rectangle Name="TopLeftSizeGrip"
+                   Width="4"
+                   Height="4"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Cursor="SizeNWSE" Panel.ZIndex="2"
+                   Style="{StaticResource RectBorderStyle}" />
+            
+            <Rectangle Name="TopRightSizeGrip"
+                   Width="4" Panel.ZIndex="2"
+                   Height="4"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   Cursor="SizeNESW"
+                   Style="{StaticResource RectBorderStyle}" />
+            <Rectangle Name="BottomLeftSizeGrip"
+                   Width="4" Grid.Row="1"
+                   Height="4" Panel.ZIndex="2"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Bottom"
+                   Cursor="SizeNESW"
+                   Style="{StaticResource RectBorderStyle}" />-->
+            <Rectangle Name="BottomRightSizeGrip"
+                   Width="5"
+                   Height="5" Panel.ZIndex="2"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom"
+                   Cursor="SizeNWSE"
+                   Style="{StaticResource RectBorderStyle}" Grid.Row="1" />
+        </Grid>
+        
+    </Border>
+</Window>
