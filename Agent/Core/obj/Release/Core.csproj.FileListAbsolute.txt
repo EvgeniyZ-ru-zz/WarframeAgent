@@ -1,4 +1,0 @@
-D:\Work\Warframe\Agent\Core\bin\Release\Core.dll
-D:\Work\Warframe\Agent\Core\bin\Release\Core.pdb
-D:\Work\Warframe\Agent\Core\obj\Release\Core.dll
-D:\Work\Warframe\Agent\Core\obj\Release\Core.pdb

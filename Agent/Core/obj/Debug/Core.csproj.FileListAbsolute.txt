@@ -1,5 +1,0 @@
-D:\Work\Warframe\Agent\Core\bin\Debug\Core.dll
-D:\Work\Warframe\Agent\Core\bin\Debug\Core.pdb
-D:\Work\Warframe\Agent\Core\obj\Debug\Core.csprojResolveAssemblyReference.cache
-D:\Work\Warframe\Agent\Core\obj\Debug\Core.dll
-D:\Work\Warframe\Agent\Core\obj\Debug\Core.pdb
