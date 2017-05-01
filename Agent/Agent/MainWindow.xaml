@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Agent"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Style="{DynamicResource WindowStyle}" SizeChanged="Window_SizeChanged"
+        Style="{DynamicResource WindowStyle}" SizeChanged="Window_SizeChanged" Closed="MainWindow_OnClosed"
         Height="610" MaxHeight="610" MaxWidth="1000" MinHeight="316" MinWidth="316"
         Width="1000" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen" ShowInTaskbar="True" SnapsToDevicePixels="True" UseLayoutRounding="True">

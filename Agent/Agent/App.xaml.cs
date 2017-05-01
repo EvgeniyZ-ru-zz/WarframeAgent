@@ -88,5 +88,9 @@ namespace Agent
         }
         #endregion
 
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            Settings.Load(); //Подгружаем настройки
+        }
     }
 }

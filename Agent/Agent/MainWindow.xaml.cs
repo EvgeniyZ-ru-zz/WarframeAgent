@@ -21,7 +21,6 @@ namespace Agent
             InitializeComponent();
             InitAnimation();
 
-
             var styles = new List<string> { "light", "dark" };
             styleBox.SelectionChanged += ThemeChange;
             styleBox.ItemsSource = styles;
@@ -41,12 +40,16 @@ namespace Agent
             Application.Current.Resources.MergedDictionaries.Add(resourceDict);
         }
 
+        #region Взаимодействие с окном
+
+        //Перетаскиваем окно мышью.
         private void Grid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (Mouse.LeftButton == MouseButtonState.Pressed)
                 DragMove();
         }
 
+        #endregion
 
         #region Закрытие и сворачивание
 
@@ -116,6 +119,11 @@ namespace Agent
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Debug.WriteLine($"w.{e.NewSize.Width} h.{e.NewSize.Height}");
+        }
+
+        private void MainWindow_OnClosed(object sender, EventArgs e)
+        {
+            Settings.Program.Save();
         }
     }
 }
