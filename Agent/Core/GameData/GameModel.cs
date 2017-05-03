@@ -5,7 +5,7 @@ namespace Core.GameData
 {
     #region View
 
-    public class GameJsonView
+    public class GameView
     {
         public int Version { get; set; }
         public string MobileVersion { get; set; }
@@ -72,6 +72,9 @@ namespace Core.GameData
         public int MaxWaveNum { get; set; }
         public MissionReward MissionReward { get; set; }
         public string ExtraEnemySpec { get; set; }
+        public List<string> CustomAdvancedSpawners { get; set; }
+        public bool? ArchwingRequired { get; set; }
+        public bool? IsSharkwingMission { get; set; }
     }
 
     public class MissionReward

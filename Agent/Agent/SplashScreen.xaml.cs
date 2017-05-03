@@ -38,7 +38,7 @@ namespace Agent
                     var dir = Settings.Program.Directories.Temp;
                     if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
                     Tools.Network.DownloadFile(Settings.Program.Urls.Game, $"{Settings.Program.Directories.Temp}/GameData.json");
-                    Thread.Sleep(1000);            
+                    Thread.Sleep(500);            
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart) delegate
                     {
                         var main = new MainWindow();

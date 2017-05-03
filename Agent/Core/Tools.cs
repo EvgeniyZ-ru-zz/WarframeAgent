@@ -21,7 +21,7 @@ namespace Core
             /// <param name="adress">Адрес</param>
             /// <param name="timeout">Задержка</param>
             /// <returns>true/false</returns>
-            public static bool Ping(string adress, int timeout = 5000)
+            public static bool Ping(string adress, int timeout = 10000)
             {
                 var statusCode = 0;
                 if (adress == null) return false;

@@ -46,7 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameData\JsonModel.cs" />
+    <Compile Include="GameData\GameModel.cs" />
+    <Compile Include="GameData\NewsModel.cs" />
     <Compile Include="SettingCore.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

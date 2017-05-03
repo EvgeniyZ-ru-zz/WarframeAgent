@@ -9,13 +9,13 @@ namespace Agent.Data
     /// </summary>
     internal class Game
     {
-        private static GameJsonView Read(string fileName)
+        private static GameView Read(string fileName)
         {
-            GameJsonView data;
+            GameView data;
             using (var file = File.OpenText(fileName))
             {
                 var serializer = new JsonSerializer();
-                data = (GameJsonView) serializer.Deserialize(file, typeof(GameJsonView));
+                data = (GameView) serializer.Deserialize(file, typeof(GameView));
             }
 
             return data;
@@ -24,7 +24,7 @@ namespace Agent.Data
         /// <summary>
         ///     Основные игровые данные.
         /// </summary>
-        public static GameJsonView Data;
+        public static GameView Data;
 
         /// <summary>
         ///     Загружаем JSON файл с игровыми данными.
