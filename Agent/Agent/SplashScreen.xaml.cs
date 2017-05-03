@@ -33,13 +33,12 @@ namespace Agent
         {
             var task = new Task(() =>
             {
-                if (Tools.Network.Ping("http://content.warframe.com/dynamic/worldState.php"))
+                if (Tools.Network.Ping(Settings.Program.Urls.Game))
                 {
-                    var dir = @"Data/Temp";
+                    var dir = Settings.Program.Directories.Temp;
                     if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-                    Tools.Network.DownloadFile("http://content.warframe.com/dynamic/worldState.php",
-                        "Data/Temp/GameData.json");
-                    Thread.Sleep(3000);            
+                    Tools.Network.DownloadFile(Settings.Program.Urls.Game, $"{Settings.Program.Directories.Temp}/GameData.json");
+                    Thread.Sleep(1000);            
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart) delegate
                     {
                         var main = new MainWindow();

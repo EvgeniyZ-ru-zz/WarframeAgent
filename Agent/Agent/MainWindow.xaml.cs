@@ -19,7 +19,10 @@ namespace Agent
         public MainWindow()
         {
             InitializeComponent();
-            InitAnimation();
+            InitializeAnimation();
+
+            //Data.Json.Load($"{Settings.Program.Directories.Temp}/GameData.json");
+            //MessageBox.Show(Data.Json.Model.Alerts[0].Activation.date.NumberLong.ToString());
 
             var styles = new List<string> { "light", "dark" };
             styleBox.SelectionChanged += ThemeChange;
@@ -74,7 +77,7 @@ namespace Agent
 
         #region Анимация
 
-        private void InitAnimation()
+        private void InitializeAnimation()
         {
             LeftPanelAnimation(); //Анимация боковой панели
         }

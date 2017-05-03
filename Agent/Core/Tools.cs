@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.Mime;
-using System.Text;
 
 namespace Core
 {
+    /// <summary>
+    /// Класс вспомогательных утилит.
+    /// </summary>
     public class Tools
     {
         /// <summary>

@@ -9,7 +9,20 @@ namespace Agent
     /// </summary>
     internal class MainSettings : SettingCore<MainSettings>
     {
-        public string Test { get; set; } = "Test";
+        public Directories Directories = new Directories();
+        public Urls Urls = new Urls();
+    }
+
+    internal class Directories
+    {
+        public string Data { get; set; } = "Data";
+        public string Temp { get; set; } = "Data/Temp";
+    }
+
+    internal class Urls
+    {
+        public string Game { get; set; } = "http://content.warframe.com/dynamic/worldState.php";
+        public string News { get; set; } = "XXX";
     }
 
     #endregion
