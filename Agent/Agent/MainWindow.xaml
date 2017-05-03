@@ -119,6 +119,13 @@
                     <ComboBox x:Name="styleBox" Height="30" Width="150" />
                 </StackPanel>
 
+                <ListBox x:Name="alertbox" Grid.Row="1" Grid.Column="1" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding MissionInfo.Location}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
 
             </Grid>
             <!--<Rectangle x:Name="LeftSizeGrip"

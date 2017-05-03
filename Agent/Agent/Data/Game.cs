@@ -4,28 +4,35 @@ using Newtonsoft.Json;
 
 namespace Agent.Data
 {
+    /// <summary>
+    ///     Взаимодействие с игровыми данными.
+    /// </summary>
     internal class Game
     {
-        public static GameJsonView Read(string fileName)
+        private static GameJsonView Read(string fileName)
         {
             GameJsonView data;
             using (var file = File.OpenText(fileName))
             {
                 var serializer = new JsonSerializer();
-                data = (GameJsonView)serializer.Deserialize(file, typeof(GameJsonView));
+                data = (GameJsonView) serializer.Deserialize(file, typeof(GameJsonView));
             }
 
             return data;
         }
-    }
 
-    public static class Json
-    {
-        public static GameJsonView Model;
+        /// <summary>
+        ///     Основные игровые данные.
+        /// </summary>
+        public static GameJsonView Data;
 
+        /// <summary>
+        ///     Загружаем JSON файл с игровыми данными.
+        /// </summary>
+        /// <param name="filename">Путь до JSON файла</param>
         public static void Load(string filename)
         {
-            Model = Game.Read(filename);
+            Data = Read(filename);
         }
     }
 }

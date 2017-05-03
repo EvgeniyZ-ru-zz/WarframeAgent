@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using Agent.Data;
 
 namespace Agent
 {
@@ -21,13 +22,13 @@ namespace Agent
             InitializeComponent();
             InitializeAnimation();
 
-            //Data.Json.Load($"{Settings.Program.Directories.Temp}/GameData.json");
-            //MessageBox.Show(Data.Json.Model.Alerts[0].Activation.date.NumberLong.ToString());
-
             var styles = new List<string> { "light", "dark" };
             styleBox.SelectionChanged += ThemeChange;
             styleBox.ItemsSource = styles;
             styleBox.SelectedItem = "light";
+
+            Game.Load($"{Settings.Program.Directories.Temp}/GameData.json");
+            alertbox.ItemsSource = Game.Data.Alerts;
         }
 
         private void ThemeChange(object sender, SelectionChangedEventArgs e)
