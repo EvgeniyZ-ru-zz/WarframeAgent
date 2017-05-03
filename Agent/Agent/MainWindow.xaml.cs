@@ -21,7 +21,7 @@ namespace Agent
         {
             InitializeComponent();
             InitializeAnimation();
-
+            
             var styles = new List<string> { "light", "dark" };
             styleBox.SelectionChanged += ThemeChange;
             styleBox.ItemsSource = styles;
@@ -93,7 +93,7 @@ namespace Agent
             {
                 From = 0,
                 To = 40,
-                Duration = TimeSpan.FromSeconds(0.6),
+                Duration = TimeSpan.FromSeconds(0.3),
             };
             a.Completed += LeftPanelAnimation_Completed;
             Storyboard.SetTarget(a, LeftPanelGrid);
