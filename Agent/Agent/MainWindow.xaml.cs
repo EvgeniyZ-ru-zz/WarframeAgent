@@ -129,5 +129,10 @@ namespace Agent
         {
             Settings.Program.Save();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

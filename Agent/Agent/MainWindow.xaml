@@ -57,13 +57,64 @@
             <!-- Боковая панель -->
             <Grid x:Name="LeftPanelGrid" Grid.Row="1" Grid.Column="0" Width="40" HorizontalAlignment="Left">
                 <Border Style="{DynamicResource LeftPanelBorder}" Margin="0,-1,0,0" />
-                <StackPanel x:Name="LeftPanelContent" VerticalAlignment="Center">
-                    <Button Content="btn" Height="30" />
-                    <Button Content="btn" Height="30" />
-                    <Button Content="btn" Height="30" />
-                    <Button Content="btn" Height="30" />
-                    <Button Content="btn" Height="30" />
-                </StackPanel>
+                <Grid x:Name="LeftPanelContent" Panel.ZIndex="5" >
+                    <StackPanel Margin="0,15,0,5">
+                        <Button x:Name="NewsBtn"
+                                fa:Awesome.Content="NewspaperOutline" 
+                                Style="{DynamicResource Menu}"
+                                Click="Button_Click" />
+                        <Button x:Name="AlertsBtn"
+                                fa:Awesome.Content="ExclamationTriangle" 
+                                Style="{DynamicResource MenuIn}"
+                                Click="Button_Click" />
+                        <Button x:Name="InvasionsBtn"
+                                fa:Awesome.Content="Bullseye"
+                                Style="{DynamicResource Menu}"
+                                Click="Button_Click" />
+                        <Button x:Name="TradeBtn"
+                                fa:Awesome.Content="BalanceScale" 
+                                Style="{DynamicResource Menu}"
+                                Click="Button_Click" />
+                        <Button Visibility="Collapsed" x:Name="ActMissionsBtn"
+                                fa:Awesome.Content="FreeCodeCamp" 
+                                Style="{DynamicResource Menu}"
+                                Click="Button_Click" />
+                    </StackPanel>
+
+
+                    <!--Кнопка обновления-->
+                    <Button x:Name="UpdateBtn"
+                            fa:Awesome.Content="Download"
+                            Style="{DynamicResource Menu}"
+                            Click="Button_Click">
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="Button.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard Timeline.DesiredFrameRate="30">
+                                        <ColorAnimation To="#66020B17"
+                                                        Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
+                                                        AutoReverse="True" RepeatBehavior="Forever"
+                                                        Duration="0:0:3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
+
+                    <fa:FontAwesome x:Name="ConnLostImg" Visibility="Collapsed" Icon="Connectdevelop" Spin="True" FontSize="20" SpinDuration="10" ToolTip="Connection Lost!" Margin="0,0,0,95" VerticalAlignment="Bottom"/>
+
+                    <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,15">
+                        <Button x:Name="SettingsBtn"
+                                fa:Awesome.Content="Cog"
+                                Style="{DynamicResource Menu}"
+                                Click="Button_Click" />
+                        <Button IsEnabled="False" x:Name="InfoBtn"
+                                Style="{DynamicResource Menu}"
+                                fa:Awesome.Content="Info"
+                                Click="Button_Click" />
+
+                    </StackPanel>
+                </Grid>
                 <!--<Button Name="ChangeBg" Click="Button_Click" Style="{StaticResource NoChromeButton}"
                         ToolTip="{x:Static res:Resources.m_ChangeBg}" Width="12" Cursor="Hand"
                         HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,1,5,0">
