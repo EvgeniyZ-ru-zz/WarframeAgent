@@ -90,7 +90,7 @@
                                        Margin="0" FontSize="14">
                                 <ContentPresenter />
                             </TextBlock>
-                            <Border x:Name="border2" Background="#FF0E8D93" Width="2"
+                            <Border x:Name="border2" Background="#FF747474" Width="2"
                                     HorizontalAlignment="Left" />
                         </Grid>
                     </Border>
@@ -100,7 +100,7 @@
                             <Setter TargetName="border" Property="Background" Value="White" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border2" Property="Background" Value="Red" />
+                            <Setter TargetName="border2" Property="Background" Value="#FFFF2323" />
                             <Setter TargetName="Text" Property="Foreground" Value="Gray" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -136,7 +136,7 @@
                             <Setter TargetName="border" Property="Background" Value="White" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border2" Property="Background" Value="Red" />
+                            <Setter TargetName="border2" Property="Background" Value="#FFFF2323" />
                             <Setter TargetName="Text" Property="Foreground" Value="Gray" />
                         </Trigger>
                     </ControlTemplate.Triggers>

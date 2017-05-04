@@ -75,7 +75,7 @@
 
     <!-- Основной дизайн кнопки меню -->
     <Style x:Key="Menu" TargetType="Button">
-        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Foreground" Value="#FFCBCBCB" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Margin" Value="0,0,0,5" />
         <Setter Property="FontFamily" Value="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
@@ -90,7 +90,7 @@
                                        Margin="0" FontSize="14">
                                 <ContentPresenter />
                             </TextBlock>
-                            <Border x:Name="border2" Background="#FF0E8D93" Width="2"
+                            <Border x:Name="border2" Background="#FFBDBDBD" Width="2"
                                     HorizontalAlignment="Left" />
                         </Grid>
                     </Border>
@@ -100,7 +100,7 @@
                             <Setter TargetName="border" Property="Background" Value="#CC323232" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border2" Property="Background" Value="Red" />
+                            <Setter TargetName="border2" Property="Background" Value="#FFFF2323" />
                             <Setter TargetName="Text" Property="Foreground" Value="Gray" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -111,7 +111,7 @@
 
     <!-- Кнопка бокового меню (нажатая) -->
     <Style x:Key="MenuIn" TargetType="Button">
-        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Foreground" Value="#FFCBCBCB" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Margin" Value="0,0,0,5" />
         <Setter Property="FontFamily" Value="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
@@ -136,7 +136,7 @@
                             <Setter TargetName="border" Property="Background" Value="#99000000" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border2" Property="Background" Value="Red" />
+                            <Setter TargetName="border2" Property="Background" Value="#FFFF2323" />
                             <Setter TargetName="Text" Property="Foreground" Value="Gray" />
                         </Trigger>
                     </ControlTemplate.Triggers>
