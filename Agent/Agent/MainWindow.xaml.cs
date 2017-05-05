@@ -27,8 +27,8 @@ namespace Agent
             styleBox.ItemsSource = styles;
             styleBox.SelectedItem = "light";
 
-            Game.Load($"{Settings.Program.Directories.Temp}/GameData.json");
-            alertbox.ItemsSource = Game.Data.Alerts;
+            News.Load();
+            alertbox.ItemsSource = News.Data.Posts;
         }
 
         private void ThemeChange(object sender, SelectionChangedEventArgs e)

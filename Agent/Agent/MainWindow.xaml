@@ -51,8 +51,8 @@
             </Grid>
 
             <Image x:Name="BgImg" Stretch="UniformToFill" Opacity="0.50"
-                   Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="0" Margin="0,-1,0,0"
-                   Source="Resources/Images/Background/2.jpg" />
+                   Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="0"
+                   Source="Resources/Images/Background/7.jpg" />
 
             <!-- Боковая панель -->
             <Grid x:Name="LeftPanelGrid" Grid.Row="1" Grid.Column="0" Width="40" HorizontalAlignment="Left">
@@ -172,7 +172,7 @@
                     <ListBox x:Name="alertbox" Background="{x:Null}" BorderBrush="{x:Null}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Label Content="{Binding MissionInfo.Location}" />
+                                <Label Content="{Binding Title}" />
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>

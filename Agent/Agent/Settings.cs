@@ -22,7 +22,7 @@ namespace Agent
     internal class Urls
     {
         public string Game { get; set; } = "http://content.warframe.com/dynamic/worldState.php";
-        public string News { get; set; } = "XXX";
+        public string News { get; set; } = "https://www.warframe.com/ru/news/get_posts?page=1&category=pc";
     }
 
     #endregion

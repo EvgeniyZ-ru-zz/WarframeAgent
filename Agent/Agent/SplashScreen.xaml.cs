@@ -31,13 +31,20 @@ namespace Agent
 
         private void SplashScreen_OnLoaded(object sender, RoutedEventArgs e)
         {
+            var temp_dir = Settings.Program.Directories.Temp;
+            if (!Directory.Exists(temp_dir)) Directory.CreateDirectory(temp_dir);
+
             var task = new Task(() =>
             {
                 if (Tools.Network.Ping(Settings.Program.Urls.Game))
                 {
-                    var dir = Settings.Program.Directories.Temp;
-                    if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-                    Tools.Network.DownloadFile(Settings.Program.Urls.Game, $"{Settings.Program.Directories.Temp}/GameData.json");
+
+                    if (Tools.Network.Ping(Settings.Program.Urls.News))
+                    {
+                        Tools.Network.DownloadFile(Settings.Program.Urls.News, $"{temp_dir}/NewsData.json");
+                    }
+                    
+                    Tools.Network.DownloadFile(Settings.Program.Urls.Game, $"{temp_dir}/GameData.json");
                     Thread.Sleep(500);            
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart) delegate
                     {
