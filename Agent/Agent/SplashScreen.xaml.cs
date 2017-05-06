@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Core;
 using System.Threading.Tasks;
+using static Agent.Events.GlobalEvents;
 
 namespace Agent
 {
@@ -31,35 +32,31 @@ namespace Agent
 
         private void SplashScreen_OnLoaded(object sender, RoutedEventArgs e)
         {
-            var temp_dir = Settings.Program.Directories.Temp;
-            if (!Directory.Exists(temp_dir)) Directory.CreateDirectory(temp_dir);
+            Connection.Start();
+            GameDataUpdate.Start();
+            GameDataUpdate.Updated += GameDataUpdate_Updated;
+            Connection.Disconnected += Connection_Disconnected;
+        }
 
-            var task = new Task(() =>
+        private void Connection_Disconnected()
+        {
+            MessageBox.Show("Невозможно получить данные.");
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
             {
-                if (Tools.Network.Ping(Settings.Program.Urls.Game))
-                {
-
-                    if (Tools.Network.Ping(Settings.Program.Urls.News))
-                    {
-                        Tools.Network.DownloadFile(Settings.Program.Urls.News, $"{temp_dir}/NewsData.json");
-                    }
-                    
-                    Tools.Network.DownloadFile(Settings.Program.Urls.Game, $"{temp_dir}/GameData.json");
-                    Thread.Sleep(500);            
-                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart) delegate
-                    {
-                        var main = new MainWindow();
-                        main.Show();
-                        Close();
-                    });
-                }
-                else
-                {
-                    MessageBox.Show("Не удается получить доступ к ресурсу...");
-                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart) Close);
-                }
+                Close();
             });
-            task.Start();
+        }
+
+        private void GameDataUpdate_Updated()
+        {
+            GameDataUpdate.Updated -= GameDataUpdate_Updated;
+            Connection.Disconnected -= Connection_Disconnected;
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
+            {
+                var main = new MainWindow();
+                main.Show();
+                Close();
+            });
         }
     }
 }

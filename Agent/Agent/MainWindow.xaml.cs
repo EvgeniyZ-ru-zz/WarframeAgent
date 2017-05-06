@@ -8,6 +8,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using Agent.Data;
+using Agent.Events;
+using static Agent.Events.GlobalEvents;
 
 namespace Agent
 {
@@ -21,14 +23,27 @@ namespace Agent
         {
             InitializeComponent();
             InitializeAnimation();
-            
+
             var styles = new List<string> { "light", "dark" };
             styleBox.SelectionChanged += ThemeChange;
             styleBox.ItemsSource = styles;
             styleBox.SelectedItem = "light";
 
+            Connection.Connected += Connection_Connected;
+            Connection.Disconnected += Connection_Disconnected;
+
             News.Load();
             alertbox.ItemsSource = News.Data.Posts;
+        }
+
+        private void Connection_Disconnected()
+        {
+            MessageBox.Show("False");
+        }
+
+        private void Connection_Connected()
+        {
+            MessageBox.Show("True");
         }
 
         private void ThemeChange(object sender, SelectionChangedEventArgs e)
@@ -132,7 +147,9 @@ namespace Agent
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            News.Load();
+            alertbox.ItemsSource = null;
+            alertbox.ItemsSource = News.Data.Posts;
         }
     }
 }

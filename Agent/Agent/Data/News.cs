@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace Agent.Data
 {
     /// <summary>
-    ///     Взаимодействие с игровыми данными.
+    ///     Взаимодействие с данными новостей.
     /// </summary>
     internal class News
     {
@@ -22,12 +22,12 @@ namespace Agent.Data
         }
 
         /// <summary>
-        ///     Основные игровые данные.
+        ///     Основные данные новостей.
         /// </summary>
         public static NewsView Data;
 
         /// <summary>
-        ///     Загружаем JSON файл с игровыми данными.
+        ///     Загружаем JSON файл с данными новостей.
         /// </summary>
         /// <param name="filename">Путь до JSON файла</param>
         public static void Load(string filename = "temp")
