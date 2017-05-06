@@ -32,13 +32,14 @@ namespace Agent
 
         private void SplashScreen_OnLoaded(object sender, RoutedEventArgs e)
         {
-            Connection.Start();
-            GameDataUpdate.Start();
-            GameDataUpdate.Updated += GameDataUpdate_Updated;
-            Connection.Disconnected += Connection_Disconnected;
+            GameDataEvent.Start();
+            GameDataEvent.Updated += GameDataEvent_Updated;
+            GameDataEvent.Disconnected += GameDataEvent_Disconnected;
         }
 
-        private void Connection_Disconnected()
+        #region События
+
+        private void GameDataEvent_Disconnected()
         {
             MessageBox.Show("Невозможно получить данные.");
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
@@ -47,10 +48,10 @@ namespace Agent
             });
         }
 
-        private void GameDataUpdate_Updated()
+        private void GameDataEvent_Updated()
         {
-            GameDataUpdate.Updated -= GameDataUpdate_Updated;
-            Connection.Disconnected -= Connection_Disconnected;
+            GameDataEvent.Updated -= GameDataEvent_Updated;
+            GameDataEvent.Disconnected -= GameDataEvent_Disconnected;
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
             {
                 var main = new MainWindow();
@@ -58,5 +59,7 @@ namespace Agent
                 Close();
             });
         }
+
+        #endregion
     }
 }

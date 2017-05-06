@@ -8,60 +8,35 @@ namespace Agent.Events
     public class GlobalEvents
     {
         /// <summary>
-        /// Проверка доступности соединения с сервером игры.
-        /// </summary>
-        public static class Connection
-        {
-            public delegate void MethodContainer();
-            public static event MethodContainer Disconnected;
-            public static event MethodContainer Connected;
-
-            public static void Start()
-            {
-                var task = new Task(() =>
-                {
-
-                    bool isConnected = false;
-                    bool isFirst = true;
-                    while (true)
-                    {
-                        if (Tools.Network.Ping(Settings.Program.Urls.Game))
-                        {
-                            if (!isConnected)
-                            {
-                                isConnected = true;
-                                Connected?.Invoke();
-                            }
-                        }
-                        else
-                        {
-                            if (isConnected || isFirst)
-                            {
-                                isConnected = false;
-                                Disconnected?.Invoke();
-                            }
-                        }
-
-                        isFirst = false;
-                        Thread.Sleep(30000);
-                    }
-                });
-                task.Start();
-            }
-        }
-
-        /// <summary>
         /// Обновление игровых данных.
         /// </summary>
-        public static class GameDataUpdate
+        public static class GameDataEvent
         {
             public delegate void MethodContainer();
+            /// <summary>
+            /// Данные успешно обновлены.
+            /// </summary>
             public static event MethodContainer Updated;
+            
+            /// <summary>
+            /// Невозможно подключится к серверу.
+            /// </summary>
+            public static event MethodContainer Disconnected;
 
+            /// <summary>
+            /// Успешно подключились к серверу.
+            /// </summary>
+            public static event MethodContainer Connected;
+
+            /// <summary>
+            /// Запуск обновления данных.
+            /// </summary>
             public static void Start()
             {
                 bool isFirst = true;
+                bool isConnected = false;
                 var temp_dir = Settings.Program.Directories.Temp;
+
                 var task = new Task(() =>
                 {
                     while (true)
@@ -76,9 +51,20 @@ namespace Agent.Events
 
                             Tools.Network.DownloadFile(Settings.Program.Urls.Game, $"{temp_dir}/GameData.json");
                             Updated?.Invoke();
+                            if (!isConnected)
+                            {
+                                isConnected = true;
+                                Connected?.Invoke();
+                            }
+
                         }
                         else
                         {
+                            if (isConnected || isFirst)
+                            {
+                                isConnected = false;
+                                Disconnected?.Invoke();
+                            }
                             //TODO: LOG
                         }
                         isFirst = false;

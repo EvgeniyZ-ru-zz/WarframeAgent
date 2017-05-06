@@ -10,6 +10,8 @@ using System.Windows.Media.Animation;
 using Agent.Data;
 using Agent.Events;
 using static Agent.Events.GlobalEvents;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace Agent
 {
@@ -29,22 +31,43 @@ namespace Agent
             styleBox.ItemsSource = styles;
             styleBox.SelectedItem = "light";
 
-            Connection.Connected += Connection_Connected;
-            Connection.Disconnected += Connection_Disconnected;
+            GameDataEvent.Connected += GameDataEvent_Connected;
+            GameDataEvent.Disconnected += GameDataEvent_Disconnected;
 
             News.Load();
             alertbox.ItemsSource = News.Data.Posts;
         }
 
-        private void Connection_Disconnected()
+        #region События
+
+        private void GameDataEvent_Disconnected()
         {
-            MessageBox.Show("False");
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
+            {
+                ConnLostImg.Visibility = Visibility.Visible;
+            });
         }
 
-        private void Connection_Connected()
+        private void GameDataEvent_Connected()
         {
-            MessageBox.Show("True");
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
+            {
+                ConnLostImg.Visibility = Visibility.Collapsed;
+            });
         }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Debug.WriteLine($"w.{e.NewSize.Width} h.{e.NewSize.Height}");
+        }
+
+        private void MainWindow_OnClosed(object sender, EventArgs e)
+        {
+            Settings.Program.Save();
+        }
+
+
+        #endregion
 
         private void ThemeChange(object sender, SelectionChangedEventArgs e)
         {
@@ -134,16 +157,6 @@ namespace Agent
         #endregion
 
         #endregion
-
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            Debug.WriteLine($"w.{e.NewSize.Width} h.{e.NewSize.Height}");
-        }
-
-        private void MainWindow_OnClosed(object sender, EventArgs e)
-        {
-            Settings.Program.Save();
-        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

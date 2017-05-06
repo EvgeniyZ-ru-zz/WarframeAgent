@@ -8,7 +8,7 @@
     x:Class="Agent.MainWindow"
     mc:Ignorable="d"
     Style="{DynamicResource WindowStyle}" SizeChanged="Window_SizeChanged" Closed="MainWindow_OnClosed"
-    Height="610" MaxHeight="610" MaxWidth="1000" MinHeight="316" MinWidth="316"
+    Height="610" MaxHeight="610" MaxWidth="1000" MinHeight="460" MinWidth="316"
     Width="1000" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanMinimize"
     WindowStartupLocation="CenterScreen" ShowInTaskbar="True" SnapsToDevicePixels="True" UseLayoutRounding="True">
     <Border Margin="15" Style="{DynamicResource MainBorder}">
@@ -81,25 +81,6 @@
                                 Click="Button_Click" />
                     </StackPanel>
 
-
-                    <!--Кнопка обновления-->
-                    <Button x:Name="UpdateBtn"
-                            fa:Awesome.Content="Download"
-                            Style="{DynamicResource Menu}"
-                            Click="Button_Click">
-                        <Button.Triggers>
-                            <EventTrigger RoutedEvent="Button.Loaded">
-                                <BeginStoryboard>
-                                    <Storyboard Timeline.DesiredFrameRate="30">
-                                        <ColorAnimation To="#66020B17"
-                                                        Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
-                                                        AutoReverse="True" RepeatBehavior="Forever"
-                                                        Duration="0:0:3" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </Button.Triggers>
-                    </Button>
 
                     <fa:FontAwesome x:Name="ConnLostImg" Visibility="Collapsed" Icon="Connectdevelop" Spin="True" FontSize="20" SpinDuration="10" ToolTip="Connection Lost!" Margin="0,0,0,95" VerticalAlignment="Bottom"/>
 
