@@ -2,6 +2,11 @@
 
 namespace Agent
 {
+    public enum Themes
+    {
+        Light, Dark
+    }
+
     #region ViewModel Setting
 
     /// <summary>
@@ -9,6 +14,7 @@ namespace Agent
     /// </summary>
     internal class MainSettings : SettingCore<MainSettings>
     {
+        public Themes Theme { get; set; }
         public Directories Directories = new Directories();
         public Urls Urls = new Urls();
     }

@@ -2,7 +2,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/Theme/light.xaml"/>
+                <ResourceDictionary Source="Styles/Theme/Light.xaml"/>
                 <ResourceDictionary Source="Styles/Buttons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 

@@ -25,17 +25,20 @@ namespace Agent
         {
             InitializeComponent();
             InitializeAnimation();
-
-            var styles = new List<string> { "light", "dark" };
-            styleBox.SelectionChanged += ThemeChange;
-            styleBox.ItemsSource = styles;
-            styleBox.SelectedItem = "light";
-
+            ThemeChange(Settings.Program.Theme);
             GameDataEvent.Connected += GameDataEvent_Connected;
             GameDataEvent.Disconnected += GameDataEvent_Disconnected;
+            GameDataEvent.Updated += GameDataEvent_Updated;
+        }
 
-            News.Load();
-            alertbox.ItemsSource = News.Data.Posts;
+        private void GameDataEvent_Updated()
+        {
+            Game.Load();
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
+            {
+                if (alertbox.ItemsSource != null) alertbox.ItemsSource = null;
+                alertbox.ItemsSource = Game.Data.Alerts;
+            });
         }
 
         #region События
@@ -66,21 +69,21 @@ namespace Agent
             Settings.Program.Save();
         }
 
+        /// <summary>
+        /// Изменение темы приложения
+        /// </summary>
+        /// <param name="theme">Темная или светлая</param>
+        private void ThemeChange(Themes theme)
+        {
+            var uri = new Uri($"Styles/Theme/{theme}.xaml", UriKind.Relative);
+            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+            //Application.Current.Resources.Clear();
+            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
+            Settings.Program.Theme = theme;
+            Settings.Program.Save();
+        }
 
         #endregion
-
-        private void ThemeChange(object sender, SelectionChangedEventArgs e)
-        {
-            string style = styleBox.SelectedItem as string;
-            // определяем путь к файлу ресурсов
-            var uri = new Uri($"Styles/Theme/{style}.xaml", UriKind.Relative);
-            // загружаем словарь ресурсов
-            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
-            // очищаем коллекцию ресурсов приложения
-            Application.Current.Resources.Clear();
-            // добавляем загруженный словарь ресурсов
-            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
-        }
 
         #region Взаимодействие с окном
 
@@ -158,11 +161,101 @@ namespace Agent
 
         #endregion
 
+        private void ButtonEvent(string name)
+        {
+            switch (name)
+            {
+                case "ThemeBtn":
+                    var res = MessageBox.Show("При смене темы могут возникнуть \"артефакты\".\nРекомендую перезапустить приложение.", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                    if (Settings.Program.Theme == Themes.Dark)
+                    {
+                        if (res == MessageBoxResult.OK) ThemeChange(Themes.Light);
+                    }
+                    else
+                    { 
+                        if (res == MessageBoxResult.OK) ThemeChange(Themes.Dark);
+                    }
+
+                    break;
+                case "ChangeBg":
+                    //RandomBackground();
+                    break;
+                case "NewsBtn":
+                    NewsBtn.Style = (Style)Application.Current.Resources["MenuIn"];
+                    AlertsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    InvasionsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    SettingsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    InfoBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    TradeBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    ActMissionsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    //BodyFrame.Navigate(new Uri("Pages/NewsPage.xaml", UriKind.Relative));
+                    break;
+                case "AlertsBtn":
+                    NewsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    AlertsBtn.Style = (Style)Application.Current.Resources["MenuIn"];
+                    InvasionsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    SettingsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    InfoBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    TradeBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    ActMissionsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    //BodyFrame.Navigate(new Uri("Pages/AlertsPage.xaml", UriKind.Relative));
+                    break;
+                case "TradeBtn":
+                    NewsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    AlertsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    InvasionsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    SettingsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    InfoBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    TradeBtn.Style = (Style)Application.Current.Resources["MenuIn"];
+                    ActMissionsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    //BodyFrame.Navigate(new Uri("Pages/TradePage.xaml", UriKind.Relative));
+                    break;
+                case "InvasionsBtn":
+                    NewsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    AlertsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    InvasionsBtn.Style = (Style)Application.Current.Resources["MenuIn"];
+                    SettingsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    InfoBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    TradeBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    ActMissionsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    //BodyFrame.Navigate(new Uri("Pages/InvasionsPage.xaml", UriKind.Relative));
+                    break;
+                case "InfoBtn":
+                    NewsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    AlertsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    InvasionsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    SettingsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    InfoBtn.Style = (Style)Application.Current.Resources["MenuIn"];
+                    TradeBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    ActMissionsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    //BodyFrame.Navigate(new Uri("Pages/InfoPage.xaml", UriKind.Relative));
+                    break;
+                case "SettingsBtn":
+                    NewsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    AlertsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    InvasionsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    InfoBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    SettingsBtn.Style = (Style)Application.Current.Resources["MenuIn"];
+                    TradeBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    ActMissionsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    //BodyFrame.Navigate(new Uri("Pages/SettingsPage.xaml", UriKind.Relative));
+                    break;
+                case "ActMissionsBtn":
+                    NewsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    AlertsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    InvasionsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    InfoBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    SettingsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    TradeBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    ActMissionsBtn.Style = (Style)Application.Current.Resources["MenuIn"];
+                    //BodyFrame.Navigate(new Uri("Pages/ActiveMissionsPage.xaml", UriKind.Relative));
+                    break;
+            }
+            }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            News.Load();
-            alertbox.ItemsSource = null;
-            alertbox.ItemsSource = News.Data.Posts;
+            if (e.Source is Button srcButton) ButtonEvent(srcButton.Name);
         }
     }
 }

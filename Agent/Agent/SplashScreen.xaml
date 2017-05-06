@@ -7,7 +7,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d" Loaded="SplashScreen_OnLoaded" Style="{DynamicResource WindowStyle}"
         Title="SplashScreen" Height="120" Width="330" Background="{x:Null}" AllowsTransparency="True"
-        WindowStyle="None" WindowStartupLocation="CenterScreen">
+        WindowStyle="None" WindowStartupLocation="CenterScreen" Icon="Resources/Icon.ico">
     <Border Margin="15">
         <Border.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

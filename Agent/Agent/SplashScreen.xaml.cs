@@ -42,10 +42,7 @@ namespace Agent
         private void GameDataEvent_Disconnected()
         {
             MessageBox.Show("Невозможно получить данные.");
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
-            {
-                Close();
-            });
+            Environment.Exit(0);
         }
 
         private void GameDataEvent_Updated()

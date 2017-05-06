@@ -10,7 +10,7 @@
     Style="{DynamicResource WindowStyle}" SizeChanged="Window_SizeChanged" Closed="MainWindow_OnClosed"
     Height="610" MaxHeight="610" MaxWidth="1000" MinHeight="460" MinWidth="316"
     Width="1000" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanMinimize"
-    WindowStartupLocation="CenterScreen" ShowInTaskbar="True" SnapsToDevicePixels="True" UseLayoutRounding="True">
+    WindowStartupLocation="CenterScreen" ShowInTaskbar="True" SnapsToDevicePixels="True" UseLayoutRounding="True" Icon="Resources/Icon.ico">
     <Border Margin="15" Style="{DynamicResource MainBorder}">
         <Border.Effect>
             <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" ShadowDepth="2" />
@@ -33,7 +33,7 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <StackPanel x:Name="HeadTitle" Grid.ColumnSpan="2" HorizontalAlignment="Left"
+                <StackPanel x:Name="HeadTitle" Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Left"
                             VerticalAlignment="Center" Margin="10,0,0,0">
                     <TextBlock x:Name="TitleLbl" Text="WARFRAME AGENT"
                                FontSize="25" Style="{DynamicResource TitleColor}" />
@@ -58,7 +58,18 @@
             <Grid x:Name="LeftPanelGrid" Grid.Row="1" Grid.Column="0" Width="40" HorizontalAlignment="Left">
                 <Border Style="{DynamicResource LeftPanelBorder}" Margin="0,-1,0,0" />
                 <Grid x:Name="LeftPanelContent" Panel.ZIndex="5" >
-                    <StackPanel Margin="0,15,0,5">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0">
+                        <Button Name="ThemeBtn" Click="Button_Click" Style="{StaticResource NoChromeButton}" Cursor="Hand"
+                        Margin="0,0,6,0" HorizontalAlignment="Center" VerticalAlignment="Top" >
+                            <fa:FontAwesome Foreground="{DynamicResource ColorHeader}" Icon="Adjust" FontSize="11" />
+                        </Button>
+                        <Button Name="ChangeBg" Click="Button_Click" Style="{StaticResource NoChromeButton}" Cursor="Hand"
+                        HorizontalAlignment="Center" VerticalAlignment="Top" >
+                            <fa:FontAwesome Foreground="{DynamicResource ColorHeader}" Icon="PictureOutline" FontSize="11" />
+                        </Button>
+                        
+                    </StackPanel>
+                    <StackPanel Margin="0,20,0,5">
                         <Button x:Name="NewsBtn"
                                 fa:Awesome.Content="NewspaperOutline" 
                                 Style="{DynamicResource Menu}"
@@ -153,7 +164,7 @@
                     <ListBox x:Name="alertbox" Background="{x:Null}" BorderBrush="{x:Null}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Label Content="{Binding Title}" />
+                                <Label Content="{Binding MissionInfo.Location}" />
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
