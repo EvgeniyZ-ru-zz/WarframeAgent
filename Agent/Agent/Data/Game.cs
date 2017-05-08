@@ -7,7 +7,7 @@ namespace Agent.Data
     /// <summary>
     ///     Взаимодействие с игровыми данными.
     /// </summary>
-    internal class Game
+    internal class Game : VM
     {
         private static GameView Read(string fileName)
         {
@@ -15,24 +15,19 @@ namespace Agent.Data
             using (var file = File.OpenText(fileName))
             {
                 var serializer = new JsonSerializer();
-                data = (GameView) serializer.Deserialize(file, typeof(GameView));
+                data = (GameView)serializer.Deserialize(file, typeof(GameView));
             }
 
             return data;
         }
 
-        /// <summary>
-        ///     Основные игровые данные.
-        /// </summary>
-        public static GameView Data;
+        GameView data;
+        public GameView Data { get => data; set => Set(ref data, value); }
 
-        /// <summary>
-        ///     Загружаем JSON файл с игровыми данными.
-        /// </summary>
-        /// <param name="filename">Путь до JSON файла</param>
-        public static void Load(string filename = "temp")
+        public void Load(string filename = "temp")
         {
-            if (filename == "temp") filename = $"{Settings.Program.Directories.Temp}/GameData.json";
+            if (filename == "temp")
+                filename = $"{Settings.Program.Directories.Temp}/GameData.json";
             Data = Read(filename);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Core;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -55,6 +56,7 @@ namespace Agent.Events
                             {
                                 isConnected = true;
                                 Connected?.Invoke();
+                                Debug.WriteLine("Data Updated!");
                             }
 
                         }

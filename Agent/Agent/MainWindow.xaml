@@ -4,13 +4,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:Agent"
+    xmlns:data="clr-namespace:Agent.Data"
     xmlns:fa="http://schemas.fontawesome.io/icons/"
     x:Class="Agent.MainWindow"
     mc:Ignorable="d"
     Style="{DynamicResource WindowStyle}" SizeChanged="Window_SizeChanged" Closed="MainWindow_OnClosed"
     Height="610" MaxHeight="610" MaxWidth="1000" MinHeight="460" MinWidth="316"
     Width="1000" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanMinimize"
-    WindowStartupLocation="CenterScreen" ShowInTaskbar="True" SnapsToDevicePixels="True" UseLayoutRounding="True" Icon="Resources/Icon.ico">
+    WindowStartupLocation="CenterScreen" ShowInTaskbar="True" SnapsToDevicePixels="True" UseLayoutRounding="True" Icon="Resources/Icon.ico" >
+
     <Border Margin="15" Style="{DynamicResource MainBorder}">
         <Border.Effect>
             <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" ShadowDepth="2" />
@@ -54,117 +56,74 @@
                    Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="0"
                    Source="Resources/Images/Background/7.jpg" />
 
-            <!-- Боковая панель -->
             <Grid x:Name="LeftPanelGrid" Grid.Row="1" Grid.Column="0" Width="40" HorizontalAlignment="Left">
-                <Border Style="{DynamicResource LeftPanelBorder}" Margin="0,-1,0,0" />
-                <Grid x:Name="LeftPanelContent" Panel.ZIndex="5" >
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0">
-                        <Button Name="ThemeBtn" Click="Button_Click" Style="{StaticResource NoChromeButton}" Cursor="Hand"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Border Style="{DynamicResource LeftPanelBorder}" Margin="0,-1,0,0" Grid.RowSpan="4" />
+                <StackPanel Name="LeftPanelTheme" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5">
+                    <Button Name="ThemeBtn" Click="Button_Click" Style="{StaticResource NoChromeButton}" Cursor="Hand"
                         Margin="0,0,6,0" HorizontalAlignment="Center" VerticalAlignment="Top" >
-                            <fa:FontAwesome Foreground="{DynamicResource ColorHeader}" Icon="Adjust" FontSize="11" />
-                        </Button>
-                        <Button Name="ChangeBg" Click="Button_Click" Style="{StaticResource NoChromeButton}" Cursor="Hand"
+                        <fa:FontAwesome Foreground="{DynamicResource ColorHeader}" Icon="Adjust" FontSize="9" />
+                    </Button>
+                    <Button Name="ChangeBg" Click="Button_Click" Style="{StaticResource NoChromeButton}" Cursor="Hand"
                         HorizontalAlignment="Center" VerticalAlignment="Top" >
-                            <fa:FontAwesome Foreground="{DynamicResource ColorHeader}" Icon="PictureOutline" FontSize="11" />
-                        </Button>
-                        
-                    </StackPanel>
-                    <StackPanel Margin="0,20,0,5">
-                        <Button x:Name="NewsBtn"
+                        <fa:FontAwesome Foreground="{DynamicResource ColorHeader}" Icon="PictureOutline" FontSize="9" />
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Name="LeftPanelTop" Grid.Row="1">
+                    <Button x:Name="NewsBtn"
                                 fa:Awesome.Content="NewspaperOutline" 
                                 Style="{DynamicResource Menu}"
                                 Click="Button_Click" />
-                        <Button x:Name="AlertsBtn"
+                    <Button x:Name="AlertsBtn"
                                 fa:Awesome.Content="ExclamationTriangle" 
                                 Style="{DynamicResource MenuIn}"
                                 Click="Button_Click" />
-                        <Button x:Name="InvasionsBtn"
+                    <Button x:Name="InvasionsBtn"
                                 fa:Awesome.Content="Bullseye"
                                 Style="{DynamicResource Menu}"
                                 Click="Button_Click" />
-                        <Button x:Name="TradeBtn"
+                    <Button x:Name="TradeBtn"
                                 fa:Awesome.Content="BalanceScale" 
                                 Style="{DynamicResource Menu}"
                                 Click="Button_Click" />
-                        <Button Visibility="Collapsed" x:Name="ActMissionsBtn"
+                    <Button Visibility="Collapsed" x:Name="ActMissionsBtn"
                                 fa:Awesome.Content="FreeCodeCamp" 
                                 Style="{DynamicResource Menu}"
                                 Click="Button_Click" />
-                    </StackPanel>
+                </StackPanel>
 
-
-                    <fa:FontAwesome x:Name="ConnLostImg" Visibility="Collapsed" Icon="Connectdevelop" Spin="True" FontSize="20" SpinDuration="10" ToolTip="Connection Lost!" Margin="0,0,0,95" VerticalAlignment="Bottom"/>
-
-                    <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,15">
-                        <Button x:Name="SettingsBtn"
+                
+                <StackPanel Name="LeftPanelBottom" VerticalAlignment="Bottom" Margin="0,0,0,15" Grid.Row="4">
+                    <fa:FontAwesome x:Name="ConnLostImg" Visibility="Collapsed" Icon="Connectdevelop" Spin="True" FontSize="20" SpinDuration="10" ToolTip="Connection Lost!" Margin="0,0,0,10" VerticalAlignment="Bottom"/>
+                    <Button x:Name="SettingsBtn"
                                 fa:Awesome.Content="Cog"
                                 Style="{DynamicResource Menu}"
                                 Click="Button_Click" />
-                        <Button IsEnabled="False" x:Name="InfoBtn"
+                    <Button IsEnabled="False" x:Name="InfoBtn"
                                 Style="{DynamicResource Menu}"
                                 fa:Awesome.Content="Info"
                                 Click="Button_Click" />
 
-                    </StackPanel>
-                </Grid>
-                <!--<Button Name="ChangeBg" Click="Button_Click" Style="{StaticResource NoChromeButton}"
-                        ToolTip="{x:Static res:Resources.m_ChangeBg}" Width="12" Cursor="Hand"
-                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,1,5,0">
-                        <Image Source="/Agent;component/Resources/icon-img.png" Margin="0" />
-                    </Button>-->
-                <!--<StackPanel Margin="0,15,0,5">
-                        <Button IsEnabled="True" x:Name="NewsBtn" Height="30"
-                            Background="#66000000" Margin="0,0,0,5"
-                            BorderThickness="0,0.5"
-                            fa:Awesome.Content="NewspaperOutline" 
-                            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
-                            ToolTip="{x:Static res:Resources.m_BtnNews}"
-                            Style="{DynamicResource Menu}"
-                            Foreground="White" Click="Button_Click" />
-                        <Button IsEnabled="True" x:Name="AlertsBtn" Height="30"
-                            Background="#66000000" Margin="0,0,0,5"
-                            BorderThickness="0,0.5" ToolTip="{x:Static res:Resources.m_BtnAlert}"
-                            fa:Awesome.Content="ExclamationTriangle" 
-                            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
-                            Style="{DynamicResource MenuIn}"
-                            Foreground="White"
-                            Click="Button_Click" />
-                        <Button IsEnabled="True" x:Name="InvasionsBtn" Height="30"
-                            Background="#66000000" Margin="0,0,0,5"
-                            BorderThickness="0,0.5" ToolTip="{x:Static res:Resources.m_BtnInvasions}"
-                            fa:Awesome.Content="Bullseye" 
-                            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
-                            Style="{DynamicResource Menu}"
-                            Foreground="White" Click="Button_Click" />
-                        <Button IsEnabled="True" x:Name="TradeBtn" Height="30"
-                            Background="#66000000" Margin="0,0,0,5"
-                            BorderThickness="0,0.5" ToolTip="{x:Static res:Resources.m_BtnTrade}"
-                            fa:Awesome.Content="BalanceScale" 
-                            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
-                            Style="{DynamicResource Menu}"
-                            Foreground="White" Click="Button_Click" />
-                        <Button Visibility="Collapsed" IsEnabled="True" x:Name="ActMissionsBtn" Height="30"
-                            Background="#66000000" Margin="0,0,0,5"
-                            BorderThickness="0,0.5" ToolTip="{x:Static res:Resources.m_BtnTrade}"
-                            fa:Awesome.Content="FreeCodeCamp" 
-                            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
-                            Style="{DynamicResource Menu}"
-                            Foreground="White" Click="Button_Click" />
-                    </StackPanel>-->
-
+                </StackPanel>
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="1">
                 <!-- Основная часть приложения -->
 
                 <StackPanel>
-                    <Label x:Name="testLable" Content="aafgs" />
+                    <Label Content="{Binding Data.Alerts.Count}" />
                     <ComboBox x:Name="styleBox" Height="30" Width="150" />
 
-                    <ListBox x:Name="alertbox" Background="{x:Null}" BorderBrush="{x:Null}">
+                    <ListBox Background="{x:Null}" BorderBrush="{x:Null}" ItemsSource="{Binding Data.Alerts}">
                         <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding MissionInfo.Location}" />
+                            <DataTemplate >
+                                <Label Background="Red" Content="{Binding MissionInfo.Location}" />
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>

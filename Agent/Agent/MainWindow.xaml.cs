@@ -21,24 +21,27 @@ namespace Agent
     // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : Window
     {
+
+        Game GameData = new Game();
         public MainWindow()
         {
+            GameData.Load();
             InitializeComponent();
             InitializeAnimation();
+
             ThemeChange(Settings.Program.Theme);
             GameDataEvent.Connected += GameDataEvent_Connected;
             GameDataEvent.Disconnected += GameDataEvent_Disconnected;
             GameDataEvent.Updated += GameDataEvent_Updated;
+            
+            DataContext = GameData;
+            
         }
 
         private void GameDataEvent_Updated()
         {
-            Game.Load();
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
-            {
-                if (alertbox.ItemsSource != null) alertbox.ItemsSource = null;
-                alertbox.ItemsSource = Game.Data.Alerts;
-            });
+            GameData.Load();
+            Debug.WriteLine($"Alerts: {GameData.Data.Alerts.Count}");
         }
 
         #region События
@@ -77,7 +80,7 @@ namespace Agent
         {
             var uri = new Uri($"Styles/Theme/{theme}.xaml", UriKind.Relative);
             ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
-            //Application.Current.Resources.Clear();
+            Application.Current.Resources.Clear();
             Application.Current.Resources.MergedDictionaries.Add(resourceDict);
             Settings.Program.Theme = theme;
             Settings.Program.Save();
@@ -128,7 +131,9 @@ namespace Agent
 
         private void LeftPanelAnimation()
         {
-            LeftPanelContent.Opacity = 0;
+            LeftPanelTop.Opacity = 0;
+            LeftPanelTheme.Opacity = 0;
+            LeftPanelBottom.Opacity = 0;
             var animation = new Storyboard();
             var a = new DoubleAnimation()
             {
@@ -145,16 +150,43 @@ namespace Agent
 
         private void LeftPanelAnimation_Completed(object sender, EventArgs e)
         {
+            
+            LeftPanelTheme.Opacity = 0;
+            LeftPanelBottom.Opacity = 0;
             var animation = new Storyboard();
-            var a = new DoubleAnimation()
+            var top = new DoubleAnimation()
             {
                 From = 0,
                 To = 1,
                 Duration = TimeSpan.FromSeconds(1)
             };
-            Storyboard.SetTarget(a, LeftPanelContent);
-            Storyboard.SetTargetProperty(a, new PropertyPath(OpacityProperty));
-            animation.Children.Add(a);
+
+            var theme = new DoubleAnimation()
+            {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromSeconds(1)
+            };
+
+            var bottom = new DoubleAnimation()
+            {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromSeconds(1)
+            };
+
+            Storyboard.SetTarget(top, LeftPanelTop);
+            Storyboard.SetTarget(theme, LeftPanelTheme);
+            Storyboard.SetTarget(bottom, LeftPanelBottom);
+
+            Storyboard.SetTargetProperty(top, new PropertyPath(OpacityProperty));
+            Storyboard.SetTargetProperty(theme, new PropertyPath(OpacityProperty));
+            Storyboard.SetTargetProperty(bottom, new PropertyPath(OpacityProperty));
+
+            animation.Children.Add(top);
+            animation.Children.Add(theme);
+            animation.Children.Add(bottom);
+
             animation.Begin();
         }
         #endregion

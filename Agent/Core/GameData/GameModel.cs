@@ -1,18 +1,25 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using Agent.Data;
+using System.Collections.ObjectModel;
 
 namespace Core.GameData
 {
     #region View
 
-    public class GameView
+    public class GameView : VM
     {
         public int Version { get; set; }
         public string MobileVersion { get; set; }
         public string BuildLabel { get; set; }
         public int Time { get; set; }
         public int Date { get; set; }
-        public List<Alert> Alerts { get; set; }
+        ObservableCollection<Alert> alerts;
+        public ObservableCollection<Alert> Alerts
+        {
+            get => alerts;
+            set => Set(ref alerts, value);
+        }
         public List<double> ProjectPct { get; set; }
         public string WorldSeed { get; set; }
     }
