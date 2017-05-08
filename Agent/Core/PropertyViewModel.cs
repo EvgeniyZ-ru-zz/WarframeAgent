@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
+// ReSharper disable InconsistentNaming
+
 namespace System.Runtime.CompilerServices
 {
     sealed class CallerMemberNameAttribute : Attribute { }
 }
-namespace Agent.Data
+namespace Core
 {
     public class VM : INotifyPropertyChanged
     {

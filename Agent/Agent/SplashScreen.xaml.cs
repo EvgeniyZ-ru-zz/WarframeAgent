@@ -16,6 +16,7 @@ using System.Windows.Threading;
 using Core;
 using System.Threading.Tasks;
 using static Agent.Events.GlobalEvents;
+using Agent.Events;
 
 namespace Agent
 {
@@ -32,6 +33,7 @@ namespace Agent
 
         private void SplashScreen_OnLoaded(object sender, RoutedEventArgs e)
         {
+            BackgroundEvent.Start();
             GameDataEvent.Start();
             GameDataEvent.Updated += GameDataEvent_Updated;
             GameDataEvent.Disconnected += GameDataEvent_Disconnected;

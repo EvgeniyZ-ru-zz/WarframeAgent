@@ -86,6 +86,7 @@
     </ApplicationDefinition>
     <Compile Include="Data\News.cs" />
     <Compile Include="Data\Game.cs" />
+    <Compile Include="Events\BackgroundEvent.cs" />
     <Compile Include="Events\GlobalEvents.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SplashScreen.xaml.cs">

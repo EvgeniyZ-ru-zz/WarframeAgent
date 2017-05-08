@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using Agent.Data;
 using System.Collections.ObjectModel;
 
 namespace Core.GameData

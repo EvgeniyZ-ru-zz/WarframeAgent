@@ -15,6 +15,8 @@ namespace Agent
     internal class MainSettings : SettingCore<MainSettings>
     {
         public Themes Theme { get; set; }
+        public bool RandomBackground { get; set; } = true;
+        public int BackgroundId { get; set; } = 0;
         public Directories Directories = new Directories();
         public Urls Urls = new Urls();
     }

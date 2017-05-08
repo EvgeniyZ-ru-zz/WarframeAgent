@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Core.GameData;
 using Newtonsoft.Json;
+using Core;
 
 namespace Agent.Data
 {
@@ -21,8 +22,8 @@ namespace Agent.Data
             return data;
         }
 
-        GameView data;
-        public GameView Data { get => data; set => Set(ref data, value); }
+        GameView _data;
+        public GameView Data { get => _data; set => Set(ref _data, value); }
 
         public void Load(string filename = "temp")
         {
