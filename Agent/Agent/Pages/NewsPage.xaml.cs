@@ -18,14 +18,13 @@ using Core.GameData;
 namespace Agent.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для HomePage.xaml
+    /// Логика взаимодействия для NewsPage.xaml
     /// </summary>
-    public partial class HomePage : Page
+    public partial class NewsPage : Page
     {
-        public HomePage()
+        public NewsPage()
         {
             InitializeComponent();
-            DataContext = MainWindow.GameData;
             NewsPanel.DataContext = MainWindow.NewsData;
         }
 

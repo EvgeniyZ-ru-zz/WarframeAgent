@@ -5,147 +5,182 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Agent.Pages"
       xmlns:fa="http://schemas.fontawesome.io/icons/"
-      mc:Ignorable="d" 
+      xmlns:viewmodel="clr-namespace:Agent.Data"
+      mc:Ignorable="d" FontFamily="/Agent;component/Resources/Fonts/#Roboto"
       d:DesignHeight="540" d:DesignWidth="930"
       Title="HomePage">
-
+    <Page.Resources>
+        <viewmodel:Time x:Key="UnixTime" />
+    </Page.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <!-- Верхняя сетка -->
+                <DockPanel Grid.Column="0" Opacity=".930">
+                    <Border Style="{StaticResource BoxPanel}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-            <DockPanel Opacity=".930">
-                <!-- Первый блок -->
-            </DockPanel>
+                            <TextBlock Foreground="{DynamicResource TextColor}" Text="Тревоги" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" />
+                            <Border Grid.Row="0" BorderBrush="{DynamicResource AlertLineColor}" BorderThickness="0,0,0,2" />
 
+                            <ListBox Grid.Row="1" ScrollViewer.CanContentScroll="False" ItemsSource="{Binding Data.Alerts}" Background="{x:Null}" BorderBrush="{x:Null}" VerticalContentAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemContainerStyle="{StaticResource AlertListItem}" >
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid MaxHeight="33">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Foreground="{DynamicResource TextColor}" Grid.Row="0" FontSize="11" TextTrimming="CharacterEllipsis" FontWeight="Medium" Text="{Binding MissionInfo.Location}" Margin="5,2,3,0" />
+                                            <DockPanel Grid.Row="1" Margin="5,0,5,2">
+                                                <DockPanel HorizontalAlignment="Left" >
+                                                    <fa:FontAwesome Foreground="{DynamicResource TextColor}" Icon="User" Margin="0,0,2,0" FontSize="11" />
+                                                    <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding MissionInfo.Faction}" FontFamily="/Agent;component/Resources/Fonts/#Roboto"/>
+                                                </DockPanel>
+                                                <DockPanel HorizontalAlignment="Right" >
+                                                    <!--<fa:FontAwesome Foreground="{DynamicResource TextColor}" Icon="LevelUp" Margin="0,0,2,0" FontSize="11" />-->
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding MissionInfo.MinEnemyLevel}" FontFamily="/Agent;component/Resources/Fonts/#Roboto"/>
+                                                        <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11" TextTrimming="CharacterEllipsis" Text=" - " FontFamily="/Agent;component/Resources/Fonts/#Roboto"/>
+                                                        <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding MissionInfo.MaxEnemyLevel}" FontFamily="/Agent;component/Resources/Fonts/#Roboto"/>
+                                                    </StackPanel>
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <ProgressBar Grid.Row="1" Foreground="{DynamicResource AlertLineColor}" BorderThickness="0" Minimum="{Binding Activation.Date.NumberLong}" Maximum="{Binding Expiry.Date.NumberLong}" Value="{Binding Source={StaticResource UnixTime}, Path=Now, Mode=OneWay}" Background="{DynamicResource AlertProgressColor}" BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="0.8" Margin="0,0,-3,0" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5,0,0,5" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock Foreground="{DynamicResource TextColor}" Text="На данный момент: " />
+                                <TextBlock Foreground="{DynamicResource TextColor}" Text="{Binding Data.Alerts.Count}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DockPanel>
+                <DockPanel Grid.Column="1" Opacity=".930">
+                    <Border Style="{StaticResource BoxPanel}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-            <Border Grid.Column="1" Style="{DynamicResource MainBorder}" Margin="10">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="-90" RenderingBias="Quality" ShadowDepth="1" />
-                </Border.Effect>
+                            <TextBlock Foreground="{DynamicResource TextColor}" Text="Вторжения" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" />
+                            <Border Grid.Row="0" BorderBrush="{DynamicResource InvasionsLineColor}" BorderThickness="0,0,0,2" />
 
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+                            <!-- Конткет -->
+                        </Grid>
+                    </Border>
+                </DockPanel>
+                <DockPanel Grid.Column="2" Opacity=".930">
+                    <Border Style="{StaticResource BoxPanel}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
+                            <TextBlock Foreground="{DynamicResource TextColor}" Text="Торговцы" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" />
+                            <Border Grid.Row="0" BorderBrush="{DynamicResource TradeLineColor}" BorderThickness="0,0,0,2" />
 
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Label Content="Количество:" />
-                        <Label Content="{Binding Data.Alerts.Count}" />
-                    </StackPanel>
-                </Grid>
-            </Border>
+                            <!-- Конткет -->
+                        </Grid>
+                    </Border>
+                </DockPanel>
+            </Grid>
 
-            <Border Grid.Column="2" Style="{DynamicResource MainBorder}" Margin="10">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="-90" RenderingBias="Quality" ShadowDepth="1" />
-                </Border.Effect>
+            <Grid Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <!-- Нижняя сетка -->
+                <DockPanel x:Name="NewsPanel" Opacity=".930">
+                    <Border Style="{StaticResource BoxPanel}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <ListBox Grid.Row="0" Background="{x:Null}" BorderBrush="{x:Null}" ItemsSource="{Binding Data.Alerts}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding MissionInfo.Location}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                            <TextBlock Foreground="{DynamicResource TextColor}" Text="Новости" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" />
+                            <Border Grid.Row="0" BorderBrush="{DynamicResource NewsLineColor}" BorderThickness="0,0,0,2" />
 
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Label Content="Количество:" />
-                        <Label Content="{Binding Data.Alerts.Count}" />
-                    </StackPanel>
-                </Grid>
-            </Border>
+                            <ListBox Grid.Row="1" ScrollViewer.CanContentScroll="False" ItemsSource="{Binding Data.Posts}" Background="{x:Null}" BorderBrush="{x:Null}" VerticalContentAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" >
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid MaxHeight="33">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Stretch="UniformToFill" Margin="0,-1">
+                                                <Image.Source>
+                                                    <BitmapImage UriCachePolicy="Revalidate" UriSource="{Binding Image}" />
+                                                </Image.Source>
+                                            </Image>
+                                            <Grid Grid.Column="1">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Foreground="{DynamicResource TextColor}" Grid.Row="0" FontSize="11" TextTrimming="CharacterEllipsis" FontWeight="Medium" Text="{Binding Title}" ToolTip="{Binding Title}" Margin="5,2,3,0" />
+                                                <DockPanel Grid.Row="1" Margin="5,0,5,2" HorizontalAlignment="Left" >
+                                                    <fa:FontAwesome Foreground="{DynamicResource TextColor}" Icon="Bars" Margin="0,0,2,0" FontSize="11" />
+                                                    <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding Description}" ToolTip="{Binding Description}" FontFamily="/Agent;component/Resources/Fonts/#Roboto"/>
+                                                </DockPanel>
+                                            </Grid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
 
-        </Grid>
-        <Grid Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource NewsListItem}">
+                                        <EventSetter Event="MouseDoubleClick" Handler="EventSetter_OnHandler"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </Grid>
+                    </Border>
+                </DockPanel>
 
-            <!-- Низ блоков -->
+                <DockPanel Grid.Column="1" Opacity=".930">
+                    <Border Style="{StaticResource BoxPanel}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-            <Border Name="NewsBorder" Style="{DynamicResource MainBorder}" Margin="10" CornerRadius="2">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="-90" RenderingBias="Quality" ShadowDepth="1" />
-                </Border.Effect>
+                            <TextBlock Foreground="{DynamicResource TextColor}" Text="Вылазки" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" />
+                            <Border Grid.Row="0" BorderBrush="{DynamicResource SortiesLineColor}" BorderThickness="0,0,0,2" />
 
-                <ListBox ScrollViewer.CanContentScroll="False" ItemsSource="{Binding Data.Posts}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" VerticalContentAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" >
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=NewsBorder}" />
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid MaxHeight="33">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Image Stretch="UniformToFill">
-                                    <Image.Source>
-                                        <BitmapImage UriCachePolicy="Revalidate" UriSource="{Binding Image}" />
-                                    </Image.Source>
-                                </Image>
-                                <Grid Grid.Column="1">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <TextBlock FontFamily="/Agent;component/Resources/Fonts/#Roboto" Grid.Row="0" FontSize="11" TextTrimming="CharacterEllipsis" FontWeight="SemiBold" Text="{Binding Title}" ToolTip="{Binding Title}" Margin="3,2,3,0" />
-                                    <DockPanel Grid.Row="1" Margin="0,0,5,2" HorizontalAlignment="Left" >
-                                        <fa:FontAwesome Icon="CommentingOutline" Margin="0,0,3,0" FontSize="12" FontWeight="Thin" />
-                                        <TextBlock FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding Description}" ToolTip="{Binding Description}" FontFamily="/Agent;component/Resources/Fonts/#Roboto"/>
-                                    </DockPanel>
-                                </Grid>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-
-            </Border>
-
-            <Border Grid.Column="1" Style="{DynamicResource MainBorder}" Margin="10">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="-90" RenderingBias="Quality" ShadowDepth="1" />
-                </Border.Effect>
-
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <ListBox Grid.Row="0" Background="{x:Null}" BorderBrush="{x:Null}" ItemsSource="{Binding Data.Alerts}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding MissionInfo.Location}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Label Content="Количество:" />
-                        <Label Content="{Binding Data.Alerts.Count}" />
-                    </StackPanel>
-                </Grid>
-            </Border>
-
+                            <!-- Конткет -->
+                        </Grid>
+                    </Border>
+                </DockPanel>
+            </Grid>
         </Grid>
     </Grid>
 

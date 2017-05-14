@@ -86,11 +86,15 @@
     </ApplicationDefinition>
     <Compile Include="Data\News.cs" />
     <Compile Include="Data\Game.cs" />
+    <Compile Include="Data\Time.cs" />
     <Compile Include="Events\BackgroundEvent.cs" />
     <Compile Include="Events\GlobalEvents.cs" />
     <Compile Include="Model\NotificationWatcher.cs" />
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NewsPage.xaml.cs">
+      <DependentUpon>NewsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="SplashScreen.xaml.cs">
@@ -100,9 +104,25 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\NewsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SplashScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ListBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ScrollBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Panels.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\Main.xaml">
       <Generator>MSBuild:Compile</Generator>

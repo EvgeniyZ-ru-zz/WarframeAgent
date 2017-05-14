@@ -5,6 +5,9 @@
                 <ResourceDictionary Source="Styles/Theme/Light.xaml"/>
                 <ResourceDictionary Source="Styles/Main.xaml"/>
                 <ResourceDictionary Source="Styles/Buttons.xaml"/>
+                <ResourceDictionary Source="Styles/Panels.xaml"/>
+                <ResourceDictionary Source="Styles/ScrollBar.xaml"/>
+                <ResourceDictionary Source="Styles/ListBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="RectBorderStyle" TargetType="Rectangle">

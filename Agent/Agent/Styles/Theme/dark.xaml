@@ -19,4 +19,17 @@
     <SolidColorBrush x:Key="LeftPanelBtnLineColorOff" Color="#FFFF2323" />
     <SolidColorBrush x:Key="LeftPanelBtnLineColorOffText" Color="Gray" />
     <SolidColorBrush x:Key="LeftPanelBtnLineColorIn" Color="#CCFF9700" />
+
+    <!-- Цвета полос -->
+    <SolidColorBrush x:Key="NewsLineColor" Color="#FFCD3737" />
+    <SolidColorBrush x:Key="AlertLineColor" Color="#FF6ECD37" />
+    <SolidColorBrush x:Key="InvasionsLineColor" Color="#FF7B37CD" />
+    <SolidColorBrush x:Key="TradeLineColor" Color="#FF3782CD" />
+    <SolidColorBrush x:Key="SortiesLineColor" Color="#FFCD37B2" />
+
+    <!-- Выделение в ListBox -->
+    <SolidColorBrush x:Key="NewsListBoxSelect" Color="#99000000" />
+
+    <!-- Цвет прогрессов тревог -->
+    <SolidColorBrush x:Key="AlertProgressColor" Color="#FF2D2D2D" />
 </ResourceDictionary>

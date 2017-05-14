@@ -241,7 +241,19 @@ namespace Agent
                 case "ChangeBg":
                     BackgroundEvent.Restart();
                     break;
+                case "HomeBtn":
+                    HomeBtn.Style = (Style)Application.Current.Resources["MenuIn"];
+                    NewsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    AlertsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    InvasionsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    SettingsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    InfoBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    TradeBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    ActMissionsBtn.Style = (Style)Application.Current.Resources["Menu"];
+                    MainFrame.Navigate(new Uri("Pages/HomePage.xaml", UriKind.Relative));
+                    break;
                 case "NewsBtn":
+                    HomeBtn.Style = (Style)Application.Current.Resources["Menu"];
                     NewsBtn.Style = (Style) Application.Current.Resources["MenuIn"];
                     AlertsBtn.Style = (Style) Application.Current.Resources["Menu"];
                     InvasionsBtn.Style = (Style) Application.Current.Resources["Menu"];
@@ -249,10 +261,11 @@ namespace Agent
                     InfoBtn.Style = (Style) Application.Current.Resources["Menu"];
                     TradeBtn.Style = (Style) Application.Current.Resources["Menu"];
                     ActMissionsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    MyPopup.IsOpen = true;
-                    //BodyFrame.Navigate(new Uri("Pages/NewsPage.xaml", UriKind.Relative));
+                    //MyPopup.IsOpen = true;
+                    MainFrame.Navigate(new Uri("Pages/NewsPage.xaml", UriKind.Relative));
                     break;
                 case "AlertsBtn":
+                    HomeBtn.Style = (Style)Application.Current.Resources["Menu"];
                     NewsBtn.Style = (Style) Application.Current.Resources["Menu"];
                     AlertsBtn.Style = (Style) Application.Current.Resources["MenuIn"];
                     InvasionsBtn.Style = (Style) Application.Current.Resources["Menu"];
@@ -260,10 +273,11 @@ namespace Agent
                     InfoBtn.Style = (Style) Application.Current.Resources["Menu"];
                     TradeBtn.Style = (Style) Application.Current.Resources["Menu"];
                     ActMissionsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    MyPopup.IsOpen = false;
+                    //MyPopup.IsOpen = false;
                     //BodyFrame.Navigate(new Uri("Pages/AlertsPage.xaml", UriKind.Relative));
                     break;
                 case "TradeBtn":
+                    HomeBtn.Style = (Style)Application.Current.Resources["Menu"];
                     NewsBtn.Style = (Style) Application.Current.Resources["Menu"];
                     AlertsBtn.Style = (Style) Application.Current.Resources["Menu"];
                     InvasionsBtn.Style = (Style) Application.Current.Resources["Menu"];
@@ -274,6 +288,7 @@ namespace Agent
                     //BodyFrame.Navigate(new Uri("Pages/TradePage.xaml", UriKind.Relative));
                     break;
                 case "InvasionsBtn":
+                    HomeBtn.Style = (Style)Application.Current.Resources["Menu"];
                     NewsBtn.Style = (Style) Application.Current.Resources["Menu"];
                     AlertsBtn.Style = (Style) Application.Current.Resources["Menu"];
                     InvasionsBtn.Style = (Style) Application.Current.Resources["MenuIn"];
@@ -284,6 +299,7 @@ namespace Agent
                     //BodyFrame.Navigate(new Uri("Pages/InvasionsPage.xaml", UriKind.Relative));
                     break;
                 case "InfoBtn":
+                    HomeBtn.Style = (Style)Application.Current.Resources["Menu"];
                     NewsBtn.Style = (Style) Application.Current.Resources["Menu"];
                     AlertsBtn.Style = (Style) Application.Current.Resources["Menu"];
                     InvasionsBtn.Style = (Style) Application.Current.Resources["Menu"];
@@ -294,6 +310,7 @@ namespace Agent
                     //BodyFrame.Navigate(new Uri("Pages/InfoPage.xaml", UriKind.Relative));
                     break;
                 case "SettingsBtn":
+                    HomeBtn.Style = (Style)Application.Current.Resources["Menu"];
                     NewsBtn.Style = (Style) Application.Current.Resources["Menu"];
                     AlertsBtn.Style = (Style) Application.Current.Resources["Menu"];
                     InvasionsBtn.Style = (Style) Application.Current.Resources["Menu"];
@@ -304,6 +321,7 @@ namespace Agent
                     //BodyFrame.Navigate(new Uri("Pages/SettingsPage.xaml", UriKind.Relative));
                     break;
                 case "ActMissionsBtn":
+                    HomeBtn.Style = (Style)Application.Current.Resources["Menu"];
                     NewsBtn.Style = (Style) Application.Current.Resources["Menu"];
                     AlertsBtn.Style = (Style) Application.Current.Resources["Menu"];
                     InvasionsBtn.Style = (Style) Application.Current.Resources["Menu"];

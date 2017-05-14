@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Основное окно -->
+    <DropShadowEffect x:Key="BoxShadow"  BlurRadius="10" Direction="-90" RenderingBias="Quality" ShadowDepth="1" />
+    <Style x:Key="BoxPanel" TargetType="Border">
+        <Setter Property="Effect" Value="{StaticResource BoxShadow}" />
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor}" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="CornerRadius" Value="2" />
+    </Style>
+</ResourceDictionary>
