@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Основное окно -->
+    <Style x:Key="WindowStyle" TargetType="Window">
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="FontFamily" Value="/Agent;component/Resources/Fonts/#Roboto" />
+    </Style>
+
+    <!-- Основной цвет приложения -->
+    <Style x:Key="MainBorder" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor}" />
+    </Style>
+
+    <!-- Цвета шапки (титул) -->
+    <Style x:Key="TitleColor" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextColor}" />
+    </Style>
+
+    <!-- Цвета шапки (грид) -->
+    <DropShadowEffect x:Key="HeadShadow" ShadowDepth="1" Direction="-90" />
+    <Style x:Key="HeaderColor" TargetType="Grid">
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor}" />
+        <Setter Property="Effect" Value="{StaticResource HeadShadow}" />
+    </Style>
+
+    <!-- Боковая панель -->
+    <DropShadowEffect x:Key="LeftShadow" ShadowDepth="1" Direction="0" />
+    <Style x:Key="LeftPanelBorder" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource LeftPanelBgColor}" />
+        <Setter Property="Effect" Value="{StaticResource LeftShadow}" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+</ResourceDictionary>

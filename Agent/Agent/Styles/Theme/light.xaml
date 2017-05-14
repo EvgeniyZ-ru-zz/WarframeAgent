@@ -1,147 +1,22 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <SolidColorBrush x:Key="ColorHeader" Color="#FF404040" />
-
-    <!-- Основное окно -->
-    <Style x:Key="WindowStyle" TargetType="Window">
-        <Setter Property="Background" Value="{x:Null}" />
-        <Setter Property="Foreground" Value="Black" />
-        <Setter Property="FontFamily" Value="/Agent;component/Resources/Fonts/#Roboto" />
-    </Style>
+    <!-- Основной цвет текста -->
+    <SolidColorBrush x:Key="TextColor" Color="#FF404040" />
 
     <!-- Основной цвет приложения -->
-    <Style x:Key="MainBorder" TargetType="Border">
-        <Setter Property="Background" Value="#FFEBEBEB" />
-    </Style>
+    <SolidColorBrush x:Key="BackgroundColor" Color="#FFEBEBEB" />
 
-    <!-- Цвета шапки (титул) -->
-    <Style x:Key="TitleColor" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource ColorHeader}" />
-    </Style>
+    <!-- Цвет боковой панели -->
+    <SolidColorBrush x:Key="LeftPanelBgColor" Color="#FFE6E6E6" />
 
-    <!-- Цвета шапки (грид) -->
-    <DropShadowEffect x:Key="HeadShadow" ShadowDepth="1" Direction="-90" />
-    <Style x:Key="HeaderColor" TargetType="Grid">
-        <Setter Property="Background" Value="#FFEBEBEB" />
-        <Setter Property="Effect" Value="{StaticResource HeadShadow}" />
-    </Style>
-
-    <!-- Боковая панель -->
-    <DropShadowEffect x:Key="LeftShadow" ShadowDepth="1" Direction="0" />
-    <Style x:Key="LeftPanelBorder" TargetType="Border">
-        <Setter Property="Background" Value="#FFE6E6E6" />
-        <Setter Property="Effect" Value="{StaticResource LeftShadow}" />
-        <Setter Property="BorderThickness" Value="0" />
-    </Style>
-
-    <!-- Кнопка закрытия приложения -->
-    <Style x:Key="CloseBtn" TargetType="{x:Type Button}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="Transparent" x:Name="Element" Cursor="Hand">
-                        <Path Data="M0,0 L1,1 M0,1 L1,0" Stretch="Fill"
-                              Stroke="{StaticResource ColorHeader}" StrokeThickness="1.4" />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="Element" Property="TextBlock.Opacity" Value="0.7" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!-- Кнопка сворачивания приложения -->
-    <Style x:Key="MinBtn" TargetType="{x:Type Button}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="Transparent" x:Name="Element" Cursor="Hand">
-                        <Line Stroke="{StaticResource ColorHeader}" StrokeThickness="1.4" X1="0" Y1="0" X2="13" Y2="0"
-                              VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,1" />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="Element" Property="TextBlock.Opacity" Value="0.7" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!-- Основной дизайн кнопки меню -->
-    <Style x:Key="Menu" TargetType="Button">
-        <Setter Property="Foreground" Value="#FF404040" />
-        <Setter Property="Height" Value="30" />
-        <Setter Property="Margin" Value="0,0,0,5" />
-        <Setter Property="FontFamily" Value="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="border" Background="#FFF0F0F0" BorderBrush="#FF747474"
-                            BorderThickness="0,0.8,0,0.8" Cursor="Hand">
-                        <Grid>
-                            <TextBlock x:Name="Text" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis"
-                                       VerticalAlignment="Center"
-                                       Margin="0" FontSize="14">
-                                <ContentPresenter />
-                            </TextBlock>
-                            <Border x:Name="border2" Background="#FF747474" Width="2"
-                                    HorizontalAlignment="Left" />
-                        </Grid>
-                    </Border>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="White" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border2" Property="Background" Value="#FFFF2323" />
-                            <Setter TargetName="Text" Property="Foreground" Value="Gray" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!-- Кнопка бокового меню (нажатая) -->
-    <Style x:Key="MenuIn" TargetType="Button">
-        <Setter Property="Foreground" Value="#FF404040" />
-        <Setter Property="Height" Value="30" />
-        <Setter Property="Margin" Value="0,0,0,5" />
-        <Setter Property="FontFamily" Value="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="border" Background="#FFF0F0F0" BorderBrush="#FF747474"
-                            BorderThickness="0,0.8,0,0.8" Cursor="Hand">
-                        <Grid>
-                            <TextBlock x:Name="Text" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis"
-                                       VerticalAlignment="Center"
-                                       Margin="0" FontSize="14">
-                                <ContentPresenter />
-                            </TextBlock>
-                            <Border x:Name="border2" Background="#CCFF9700" Width="2"
-                                    HorizontalAlignment="Left" />
-                        </Grid>
-                    </Border>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="White" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border2" Property="Background" Value="#FFFF2323" />
-                            <Setter TargetName="Text" Property="Foreground" Value="Gray" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+    <!-- Боковые кнопки -->
+    <SolidColorBrush x:Key="LeftPanelBtnText" Color="#FF404040" />
+    <SolidColorBrush x:Key="LeftPanelBtnBorderBg" Color="#FFF0F0F0" />
+    <SolidColorBrush x:Key="LeftPanelBtnBorderBrush" Color="#FF747474" />
+    <SolidColorBrush x:Key="LeftPanelBtnMouse" Color="White" />
+    <SolidColorBrush x:Key="LeftPanelBtnLineColorDef" Color="#FF747474" />
+    <SolidColorBrush x:Key="LeftPanelBtnLineColorOff" Color="#FFFF2323" />
+    <SolidColorBrush x:Key="LeftPanelBtnLineColorOffText" Color="Gray" />
+    <SolidColorBrush x:Key="LeftPanelBtnLineColorIn" Color="#CCFF9700" />
 </ResourceDictionary>

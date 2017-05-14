@@ -3,6 +3,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Theme/Light.xaml"/>
+                <ResourceDictionary Source="Styles/Main.xaml"/>
                 <ResourceDictionary Source="Styles/Buttons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 

@@ -95,11 +95,11 @@
                             VerticalAlignment="Top" Margin="0,5">
                     <Button Name="ThemeBtn" Click="Button_Click" Style="{StaticResource NoChromeButton}" Cursor="Hand"
                             Margin="0,0,6,0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <fa:FontAwesome Foreground="{DynamicResource ColorHeader}" Icon="Adjust" FontSize="9" />
+                        <fa:FontAwesome Foreground="{DynamicResource TextColor}" Icon="Adjust" FontSize="9" />
                     </Button>
                     <Button Name="ChangeBg" Click="Button_Click" Style="{StaticResource NoChromeButton}" Cursor="Hand"
                             HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <fa:FontAwesome Foreground="{DynamicResource ColorHeader}" Icon="PictureOutline" FontSize="9" />
+                        <fa:FontAwesome Foreground="{DynamicResource TextColor}" Icon="PictureOutline" FontSize="9" />
                     </Button>
                 </StackPanel>
 
