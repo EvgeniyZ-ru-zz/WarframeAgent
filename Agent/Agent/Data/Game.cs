@@ -8,9 +8,9 @@ namespace Agent.Data
     /// <summary>
     ///     Взаимодействие с игровыми данными.
     /// </summary>
-    internal class Game : VM
+    public class Game : VM
     {
-        private static GameView Read(string fileName)
+        private GameView Read(string fileName)
         {
             GameView data;
             using (var file = File.OpenText(fileName))

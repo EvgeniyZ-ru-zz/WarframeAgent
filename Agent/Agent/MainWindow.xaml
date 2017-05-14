@@ -7,12 +7,12 @@
     x:Class="Agent.MainWindow"
     mc:Ignorable="d"
     Style="{DynamicResource WindowStyle}" SizeChanged="Window_SizeChanged" Closed="MainWindow_OnClosed"
-    Height="610" MaxHeight="610" MaxWidth="1000" MinHeight="460" MinWidth="316"
+    Height="610" MaxHeight="610" MaxWidth="1000" MinHeight="460" MinWidth="740"
     Width="1000" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanMinimize"
     WindowStartupLocation="CenterScreen" ShowInTaskbar="True" SnapsToDevicePixels="True" UseLayoutRounding="True"
-    Icon="Resources/Icon.ico">
+    Icon="Resources/Icon.ico" LocationChanged="Window_LocationChanged">
 
-    <Border Margin="15" Style="{DynamicResource MainBorder}">
+    <Border Margin="15" Style="{DynamicResource MainBorder}" CornerRadius="15">
         <Border.Effect>
             <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" ShadowDepth="2" />
         </Border.Effect>
@@ -34,7 +34,7 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <StackPanel x:Name="HeadTitle" Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Left"
+                <StackPanel x:Name="HeadTitle" Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Left" 
                             VerticalAlignment="Center" Margin="10,0,0,0">
                     <TextBlock x:Name="TitleLbl" Text="WARFRAME AGENT"
                                FontSize="25" Style="{DynamicResource TitleColor}" />
@@ -51,6 +51,34 @@
                 </DockPanel>
             </Grid>
 
+            <Popup Grid.Row="0" Grid.Column="0" Name="MyPopup"
+                   Placement="Right"
+                   HorizontalOffset="-320"
+                   VerticalOffset="40"
+                   AllowsTransparency="True">
+                <Grid>
+                    <Border Style="{DynamicResource MainBorder}" Margin="10,1,10,10" BorderThickness="1,0,1,1" Width="250" MaxHeight="250">
+                        <Border.BorderBrush>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF747474" Offset="0.40"/>
+                                <GradientStop Color="Transparent"/>
+                            </LinearGradientBrush>
+                        </Border.BorderBrush>
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="5" Direction="-90" RenderingBias="Quality" ShadowDepth="1" />
+                        </Border.Effect>
+                        <StackPanel x:Name="notifyControl" >
+                            <ListBox ItemsSource="{Binding Notifications}" Margin="10" Background="{x:Null}" BorderBrush="{x:Null}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Text}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Popup>
             <Image x:Name="BgImg" Stretch="UniformToFill" Opacity="0.50"
                    Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0"
                    Source="Resources/Images/Background/7.jpg" />
@@ -76,13 +104,17 @@
                 </StackPanel>
 
                 <StackPanel Name="LeftPanelTop" Grid.Row="1">
+                    <Button x:Name="HomeBtn"
+                            fa:Awesome.Content="Home"
+                            Style="{DynamicResource MenuIn}"
+                            Click="Button_Click" />
                     <Button x:Name="NewsBtn"
                             fa:Awesome.Content="NewspaperOutline"
                             Style="{DynamicResource Menu}"
                             Click="Button_Click" />
                     <Button x:Name="AlertsBtn"
                             fa:Awesome.Content="ExclamationTriangle"
-                            Style="{DynamicResource MenuIn}"
+                            Style="{DynamicResource Menu}"
                             Click="Button_Click" />
                     <Button x:Name="InvasionsBtn"
                             fa:Awesome.Content="Bullseye"
@@ -117,21 +149,8 @@
 
             <Grid Grid.Row="1" Grid.Column="1">
                 <!-- Основная часть приложения -->
-
-                <StackPanel>
-                    <Label Content="{Binding Data.Alerts.Count}" />
-                    <ComboBox x:Name="StyleBox" Height="30" Width="150" />
-
-                    <ListBox Background="{x:Null}" BorderBrush="{x:Null}" ItemsSource="{Binding Data.Alerts}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Label Background="Red" Content="{Binding MissionInfo.Location}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </StackPanel>
-
-
+                
+                <Frame x:Name="MainFrame" />
             </Grid>
 
             <Rectangle x:Name="BottomRightSizeGrip"

@@ -2,11 +2,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 // ReSharper disable InconsistentNaming
-
-namespace System.Runtime.CompilerServices
-{
-    sealed class CallerMemberNameAttribute : Attribute { }
-}
 namespace Core
 {
     public class VM : INotifyPropertyChanged

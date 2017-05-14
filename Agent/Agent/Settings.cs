@@ -16,7 +16,7 @@ namespace Agent
     {
         public Themes Theme { get; set; }
         public bool RandomBackground { get; set; } = true;
-        public int BackgroundId { get; set; } = 0;
+        public int BackgroundId { get; set; } = 1;
         public Directories Directories = new Directories();
         public Urls Urls = new Urls();
     }

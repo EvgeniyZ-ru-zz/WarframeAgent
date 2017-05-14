@@ -3,12 +3,14 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Agent.Data;
 using Agent.Events;
+using Agent.Model;
 using static Agent.Events.GlobalEvents;
 
 namespace Agent
@@ -19,11 +21,14 @@ namespace Agent
     // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : Window
     {
-        private readonly Game GameData = new Game();
+        public static Game GameData = new Game();
+        public static News NewsData = new News();
+        public static NotificationWatcher NotificationWatcherwatcher = new NotificationWatcher();
 
         public MainWindow()
         {
             GameData.Load();
+            NewsData.Load();
             InitializeComponent();
             InitializeAnimation();
 
@@ -31,12 +36,15 @@ namespace Agent
             BgImg.Source = new BitmapImage(new Uri(
                 $"pack://application:,,,/Resources/Images/Background/{Settings.Program.BackgroundId}.jpg"));
 
+            MainFrame.Navigate(new Uri("Pages/HomePage.xaml", UriKind.Relative));
+
             GameDataEvent.Connected += GameDataEvent_Connected;
             GameDataEvent.Disconnected += GameDataEvent_Disconnected;
             GameDataEvent.Updated += GameDataEvent_Updated;
             BackgroundEvent.Changed += BackgroundEvent_Changed;
 
-            DataContext = GameData;
+            var vm = new NotificationListVm();
+            notifyControl.DataContext = vm;
         }
 
         private void BackgroundEvent_Changed()
@@ -52,7 +60,8 @@ namespace Agent
         private void GameDataEvent_Updated()
         {
             GameData.Load();
-            Debug.WriteLine($"Alerts: {GameData.Data.Alerts.Count}");
+            NotificationWatcherwatcher.Start();
+            Debug.WriteLine(GameData.Data.Alerts.Count, $"Alerts [{DateTime.Now}]");
         }
 
         #region События
@@ -72,6 +81,19 @@ namespace Agent
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Debug.WriteLine($"w.{e.NewSize.Width} h.{e.NewSize.Height}");
+            ResetPopUp();
+        }
+
+        private void Window_LocationChanged(object sender, EventArgs e)
+        {
+            ResetPopUp();
+        }
+
+        private void ResetPopUp()
+        {
+            var offset = MyPopup.HorizontalOffset;
+            MyPopup.HorizontalOffset = offset + 1;
+            MyPopup.HorizontalOffset = offset;
         }
 
         private void MainWindow_OnClosed(object sender, EventArgs e)
@@ -227,6 +249,7 @@ namespace Agent
                     InfoBtn.Style = (Style) Application.Current.Resources["Menu"];
                     TradeBtn.Style = (Style) Application.Current.Resources["Menu"];
                     ActMissionsBtn.Style = (Style) Application.Current.Resources["Menu"];
+                    MyPopup.IsOpen = true;
                     //BodyFrame.Navigate(new Uri("Pages/NewsPage.xaml", UriKind.Relative));
                     break;
                 case "AlertsBtn":
@@ -237,6 +260,7 @@ namespace Agent
                     InfoBtn.Style = (Style) Application.Current.Resources["Menu"];
                     TradeBtn.Style = (Style) Application.Current.Resources["Menu"];
                     ActMissionsBtn.Style = (Style) Application.Current.Resources["Menu"];
+                    MyPopup.IsOpen = false;
                     //BodyFrame.Navigate(new Uri("Pages/AlertsPage.xaml", UriKind.Relative));
                     break;
                 case "TradeBtn":
@@ -296,5 +320,6 @@ namespace Agent
         {
             if (e.Source is Button srcButton) ButtonEvent(srcButton.Name);
         }
+
     }
 }
