@@ -10,7 +10,7 @@
     Height="610" MaxHeight="610" MaxWidth="1000" MinHeight="460" MinWidth="740"
     Width="1000" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanMinimize"
     WindowStartupLocation="CenterScreen" ShowInTaskbar="True" SnapsToDevicePixels="True" UseLayoutRounding="True"
-    Icon="Resources/Icon.ico" LocationChanged="Window_LocationChanged">
+    Icon="Resources/Icon.ico" LocationChanged="Window_LocationChanged" Initialized="MainWindow_OnInitialized">
 
     <Border Margin="15" Style="{DynamicResource MainBorder}" CornerRadius="15">
         <Border.Effect>
@@ -132,14 +132,22 @@
 
 
                 <StackPanel Name="LeftPanelBottom" VerticalAlignment="Bottom" Margin="0,0,0,15" Grid.Row="3">
-                    <fa:FontAwesome x:Name="ConnLostImg" Visibility="Collapsed" Icon="Connectdevelop" Spin="True"
-                                    FontSize="20" SpinDuration="10" ToolTip="Connection Lost!" Margin="0,0,0,10"
-                                    VerticalAlignment="Bottom" />
-                    <Button x:Name="SettingsBtn"
+                    <fa:FontAwesome 
+                        x:Name="ConnLostImg" 
+                        Visibility="Collapsed" 
+                        Icon="Connectdevelop" 
+                        FontSize="20" 
+                        ToolTip="Connection Lost!" 
+                        Margin="0,0,0,10"
+                        VerticalAlignment="Bottom" 
+                        Spin="False"
+                        SpinDuration="20"
+                        Foreground="{DynamicResource TextColor}" />
+                            <Button x:Name="SettingsBtn"
                             fa:Awesome.Content="Cog"
                             Style="{DynamicResource Menu}"
                             Click="Button_Click" />
-                    <Button IsEnabled="False" x:Name="InfoBtn"
+                    <Button IsEnabled="True" x:Name="InfoBtn"
                             Style="{DynamicResource Menu}"
                             fa:Awesome.Content="Info"
                             Click="Button_Click" />

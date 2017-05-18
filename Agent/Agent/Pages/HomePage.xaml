@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:Agent.Pages"
       xmlns:fa="http://schemas.fontawesome.io/icons/"
       xmlns:viewmodel="clr-namespace:Agent.Data"
+      xmlns:model="clr-namespace:Agent.Model"
       mc:Ignorable="d" FontFamily="/Agent;component/Resources/Fonts/#Roboto"
       d:DesignHeight="540" d:DesignWidth="930"
       Title="HomePage">
@@ -41,34 +42,38 @@
                             <ListBox Grid.Row="1" ScrollViewer.CanContentScroll="False" ItemsSource="{Binding Data.Alerts}" Background="{x:Null}" BorderBrush="{x:Null}" VerticalContentAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemContainerStyle="{StaticResource AlertListItem}" >
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid MaxHeight="33">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition />
-                                                <RowDefinition Height="Auto" />
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Foreground="{DynamicResource TextColor}" Grid.Row="0" FontSize="11" TextTrimming="CharacterEllipsis" FontWeight="Medium" Text="{Binding MissionInfo.Location}" Margin="5,2,3,0" />
-                                            <DockPanel Grid.Row="1" Margin="5,0,5,2">
-                                                <DockPanel HorizontalAlignment="Left" >
-                                                    <fa:FontAwesome Foreground="{DynamicResource TextColor}" Icon="User" Margin="0,0,2,0" FontSize="11" />
-                                                    <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding MissionInfo.Faction}" FontFamily="/Agent;component/Resources/Fonts/#Roboto"/>
-                                                </DockPanel>
-                                                <DockPanel HorizontalAlignment="Right" >
-                                                    <!--<fa:FontAwesome Foreground="{DynamicResource TextColor}" Icon="LevelUp" Margin="0,0,2,0" FontSize="11" />-->
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding MissionInfo.MinEnemyLevel}" FontFamily="/Agent;component/Resources/Fonts/#Roboto"/>
-                                                        <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11" TextTrimming="CharacterEllipsis" Text=" - " FontFamily="/Agent;component/Resources/Fonts/#Roboto"/>
-                                                        <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding MissionInfo.MaxEnemyLevel}" FontFamily="/Agent;component/Resources/Fonts/#Roboto"/>
-                                                    </StackPanel>
-                                                </DockPanel>
-                                            </DockPanel>
-                                            <ProgressBar Grid.Row="1" Foreground="{DynamicResource AlertLineColor}" BorderThickness="0" Minimum="{Binding Activation.Date.NumberLong}" Maximum="{Binding Expiry.Date.NumberLong}" Value="{Binding Source={StaticResource UnixTime}, Path=Now, Mode=OneWay}" Background="{DynamicResource AlertProgressColor}" BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="0.8" Margin="0,0,-3,0" />
+                                        <Grid MaxHeight="33" Margin="0,1,0,2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Row="0" Margin="0,0,0,2">
+                                                <TextBlock Margin="5,2,3,0" FontWeight="Medium" Foreground="{DynamicResource TextColor}" FontSize="11" TextTrimming="CharacterEllipsis" FontFamily="/Agent;component/Resources/Fonts/#Roboto">
+                                                    <Run Text="{Binding MissionInfo.LocData[0]}" />
+                                                    <Run Text=" - " />
+                                                    <Run Text="{Binding MissionInfo.LocData[1]}" />
+                                                </TextBlock>
+                                                <StackPanel Orientation="Horizontal" Margin="4,0,0,0">
+                                                    <fa:FontAwesome Foreground="{DynamicResource TextColor}" Icon="EllipsisV" Margin="0,1,2,0" FontSize="10" VerticalAlignment="Center" />
+                                                    <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding MissionInfo.Faction}" FontFamily="/Agent;component/Resources/Fonts/#Roboto" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="1" Margin="0,0,1,2" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding Status}" FontFamily="/Agent;component/Resources/Fonts/#Roboto"/>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                                                    <fa:FontAwesome Visibility="{Binding MissionInfo.ArchvingVisibility}"  Foreground="{DynamicResource TextColor}" Icon="Diamond" FontSize="11" Margin="0" />
+                                                    <fa:FontAwesome Visibility="{Binding MissionInfo.SharkwingVisibility}" Foreground="{DynamicResource TextColor}" Icon="SnowflakeOutline" FontSize="11" Margin="2,0,1,0" />
+                                                    <fa:FontAwesome Visibility="{Binding MissionInfo.RewardVisibility}" Foreground="{DynamicResource TextColor}" Icon="SunOutline" FontSize="11" Margin="2,0,0,-1" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <ProgressBar Name="Bar"  Foreground="{DynamicResource AlertLineColor}" BorderThickness="0" Minimum="{Binding Activation.Date.NumberLong}" Maximum="{Binding Expiry.Date.NumberLong}" Value="{Binding Source={StaticResource UnixTime}, Path=Now, Mode=OneWay}" Background="{DynamicResource AlertProgressColor}" BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="1" Margin="0,0,-4,-2" Grid.ColumnSpan="2"
+                                                         Grid.Column="0" />
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            
-                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5,0,0,5" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock Foreground="{DynamicResource TextColor}" Text="На данный момент: " />
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5,2,0,5" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock Foreground="{DynamicResource TextColor}" Text="Активных: " />
                                 <TextBlock Foreground="{DynamicResource TextColor}" Text="{Binding Data.Alerts.Count}" />
                             </StackPanel>
                         </Grid>

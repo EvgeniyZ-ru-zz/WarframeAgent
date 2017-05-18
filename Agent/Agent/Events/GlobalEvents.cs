@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using System;
+using Core;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -9,71 +10,81 @@ namespace Agent.Events
     public class GlobalEvents
     {
         /// <summary>
-        /// Обновление игровых данных.
+        ///     Обновление игровых данных.
         /// </summary>
-        public static class GameDataEvent
+        public class GameDataEvent
         {
+            private CancellationTokenSource _cts;
+
             public delegate void MethodContainer();
-            /// <summary>
-            /// Данные успешно обновлены.
-            /// </summary>
-            public static event MethodContainer Updated;
-            
-            /// <summary>
-            /// Невозможно подключится к серверу.
-            /// </summary>
-            public static event MethodContainer Disconnected;
 
             /// <summary>
-            /// Успешно подключились к серверу.
+            ///     Данные успешно обновлены.
             /// </summary>
-            public static event MethodContainer Connected;
+            public event MethodContainer Updated;
 
             /// <summary>
-            /// Запуск обновления данных.
+            ///     Невозможно подключится к серверу.
             /// </summary>
-            public static void Start()
+            public event MethodContainer Disconnected;
+
+            /// <summary>
+            ///     Успешно подключились к серверу.
+            /// </summary>
+            public event MethodContainer Connected;
+
+            /// <summary>
+            ///     Запуск обновления данных.
+            /// </summary>
+            public void Start()
             {
-                bool isFirst = true;
-                bool isConnected = false;
-                var temp_dir = Settings.Program.Directories.Temp;
+                _cts = new CancellationTokenSource();
+                Task.Run(() => Control(_cts.Token));
+            }
 
-                var task = new Task(() =>
+            public void Stop()
+            {
+                _cts.Cancel();
+                _cts = null;
+            }
+
+            private async void Control(CancellationToken ct)
+            {
+                var isFirst = true;
+                var isConnected = false;
+                var tempDir = Settings.Program.Directories.Temp;
+
+                while (!ct.IsCancellationRequested)
                 {
-                    while (true)
+                    if (Tools.Network.Ping(Settings.Program.Urls.Game))
                     {
-                        if (Tools.Network.Ping(Settings.Program.Urls.Game))
-                        {
-                            if (!Directory.Exists(temp_dir)) Directory.CreateDirectory(temp_dir);
-                            if (Tools.Network.Ping(Settings.Program.Urls.News) && isFirst)
-                            {
-                                Tools.Network.DownloadFile(Settings.Program.Urls.News, $"{temp_dir}/NewsData.json");
-                            }
+                        if (!Directory.Exists(tempDir)) Directory.CreateDirectory(tempDir);
 
-                            Tools.Network.DownloadFile(Settings.Program.Urls.Game, $"{temp_dir}/GameData.json");
-                            Updated?.Invoke();
-                            if (!isConnected)
-                            {
-                                isConnected = true;
-                                Connected?.Invoke();
-                                Debug.WriteLine("Data Updated!");
-                            }
+                        if (Tools.Network.Ping(Settings.Program.Urls.News) && isFirst)
+                            Tools.Network.DownloadFile(Settings.Program.Urls.News, $"{tempDir}/NewsData.json");
 
-                        }
-                        else
+                        Tools.Network.DownloadFile(Settings.Program.Urls.Game, $"{tempDir}/GameData.json");
+                        Updated?.Invoke();
+                        if (!isConnected)
                         {
-                            if (isConnected || isFirst)
-                            {
-                                isConnected = false;
-                                Disconnected?.Invoke();
-                            }
-                            //TODO: LOG
+                            isConnected = true;
+                            Connected?.Invoke();
                         }
-                        isFirst = false;
-                        Thread.Sleep(60000);
+
+                        Debug.WriteLine("Data Updated!");
                     }
-                });
-                task.Start();
+                    else
+                    {
+                        if (isConnected || isFirst)
+                        {
+                            isConnected = false;
+                            Disconnected?.Invoke();
+                        }
+                        //TODO: LOG
+                    }
+                    isFirst = false;
+                    await Task.Delay(TimeSpan.FromMinutes(1), ct);
+                }
             }
         }
     }

@@ -23,7 +23,18 @@ namespace Agent
     {
         public static Game GameData = new Game();
         public static News NewsData = new News();
+        public static GameDataEvent GameDataEvent = new GameDataEvent();
         public static NotificationWatcher NotificationWatcherwatcher = new NotificationWatcher();
+
+        public MainWindow(Visibility visibility)
+        {
+            GameData.Load();
+            NewsData.Load();
+            InitializeComponent();
+            InitializeAnimation();
+
+            ConnLostImg.Visibility = visibility;
+        }
 
         public MainWindow()
         {
@@ -31,7 +42,10 @@ namespace Agent
             NewsData.Load();
             InitializeComponent();
             InitializeAnimation();
+        }
 
+        private void MainWindow_OnInitialized(object sender, EventArgs e)
+        {
             ThemeChange(Settings.Program.Theme);
             BgImg.Source = new BitmapImage(new Uri(
                 $"pack://application:,,,/Resources/Images/Background/{Settings.Program.BackgroundId}.jpg"));
@@ -139,10 +153,6 @@ namespace Agent
         private void MinBtn_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
-            //var alertPage = new AlertsPage();
-            //alertPage._statsTimer.Stop(); //TODO: Включить, после создания. (обновление таймера в инфе таймера)
-            //TaskbarIcon.Visibility = Visibility.Visible;
-            //Hide();
         }
 
         #endregion
@@ -338,6 +348,5 @@ namespace Agent
         {
             if (e.Source is Button srcButton) ButtonEvent(srcButton.Name);
         }
-
     }
 }

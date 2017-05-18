@@ -32,4 +32,7 @@
 
     <!-- Цвет прогрессов тревог -->
     <SolidColorBrush x:Key="AlertProgressColor" Color="#FF2D2D2D" />
+    
+    <!-- Цвет полосы прокрутки -->
+    <SolidColorBrush x:Key="ScrollColor" Color="#FF232323" />
 </ResourceDictionary>

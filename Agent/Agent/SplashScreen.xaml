@@ -20,7 +20,7 @@
         </Border.Effect>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label FontSize="18" Foreground="#FF404040" VerticalAlignment="Center" Content="WARFRAME AGENT" />
-            <fa:ImageAwesome Icon="Cog" Spin="True" SpinDuration="4" Width="30" Foreground="#FF404040" />
+            <fa:ImageAwesome Icon="Cog" Spin="True" SpinDuration="4" Width="30" Foreground="{DynamicResource TextColor}" />
         </StackPanel>
     </Border>
 </Window>

@@ -1,31 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
-using Core;
-using System.Threading.Tasks;
 using static Agent.Events.GlobalEvents;
 using Agent.Events;
 
 namespace Agent
 {
-    /// <summary>
-    ///     Логика взаимодействия для SplashScreen.xaml
-    /// </summary>
-    public partial class SplashScreen : Window
+    public partial class SplashScreen
     {
-        //DispatcherTimer dT = new DispatcherTimer();
         public SplashScreen()
         {
             InitializeComponent();
@@ -34,23 +18,50 @@ namespace Agent
         private void SplashScreen_OnLoaded(object sender, RoutedEventArgs e)
         {
             BackgroundEvent.Start();
-            GameDataEvent.Start();
-            GameDataEvent.Updated += GameDataEvent_Updated;
-            GameDataEvent.Disconnected += GameDataEvent_Disconnected;
+            MainWindow.GameDataEvent.Start();
+            MainWindow.GameDataEvent.Updated += GameDataEvent_Updated;
+            MainWindow.GameDataEvent.Disconnected += GameDataEvent_Disconnected;
         }
 
         #region События
 
         private void GameDataEvent_Disconnected()
         {
-            MessageBox.Show("Невозможно получить данные.");
-            Environment.Exit(0);
+            if (File.Exists($"{Settings.Program.Directories.Temp}/GameData.json")&&File.Exists($"{Settings.Program.Directories.Temp}/NewsData.json"))
+            {
+                MainWindow.GameDataEvent.Updated -= GameDataEvent_Updated;
+                MainWindow.GameDataEvent.Disconnected -= GameDataEvent_Disconnected;
+                var message = MessageBox.Show(
+                    "Невозможно получить данные с сервера.\nНо нам удалось найти старые данные.\nПоказать?",
+                    "Внимание!",
+                    MessageBoxButton.OKCancel);
+
+                if (message == MessageBoxResult.OK)
+                {
+                    
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                    {
+                        var main = new MainWindow(Visibility.Visible);
+                        main.Show();
+                        Close();
+                    });
+                }
+                else
+                {
+                    Environment.Exit(0);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Невозможно получить данные с сервера.");
+                Environment.Exit(0);
+            }
         }
 
         private void GameDataEvent_Updated()
         {
-            GameDataEvent.Updated -= GameDataEvent_Updated;
-            GameDataEvent.Disconnected -= GameDataEvent_Disconnected;
+            MainWindow.GameDataEvent.Updated -= GameDataEvent_Updated;
+            MainWindow.GameDataEvent.Disconnected -= GameDataEvent_Disconnected;
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
             {
                 var main = new MainWindow();

@@ -23,10 +23,11 @@
     <!--ScrollBars-->
     <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
         <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
-        <Setter Property="Foreground" Value="#33B9B9B9" />
+        <Setter Property="Foreground" Value="{DynamicResource ScrollColor}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Width" Value="8" />
         <Setter Property="Margin" Value="-16,0,-2,0" />
+        <Setter Property="Opacity" Value=".270" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
@@ -50,7 +51,7 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger SourceName="Thumb" Property="IsMouseOver" Value="true">
-                            <Setter Property="Foreground" Value="#FFB9B9B9" />
+                            <Setter Property="Opacity" Value="1" />
                             <!--<Setter Value="{DynamicResource ButtonSelectBrush}" TargetName="Thumb" Property="Background" />-->
                         </Trigger>
                         <Trigger SourceName="Thumb" Property="IsDragging" Value="true">
