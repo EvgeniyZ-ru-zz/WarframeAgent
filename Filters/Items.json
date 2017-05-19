@@ -22,7 +22,8 @@
       "/Lotus/Types/Items/MiscItems/Tellurium": "Теллуриум",
       "/Lotus/Types/Items/MiscItems/Ferrite": "Феррит",
       "/Lotus/Types/Items/MiscItems/Alertium": "Экстракт нитаина",
-      "/Lotus/Types/Items/MiscItems/OrokinCell": "Элемент питания орокин"
+      "/Lotus/Types/Items/MiscItems/OrokinCell": "Элемент питания орокин",			
+      "/Lotus/Types/Items/MiscItems/Eventium": "Синтула"
     },
     {
       "type": "Шлема",
@@ -173,8 +174,7 @@
       "/Lotus/StoreItems/Upgrades/Mods/FusionBundles/AlertFusionBundleMedium": "Эндо х100",
       "/Lotus/StoreItems/Upgrades/Mods/FusionBundles/AlertFusionBundleLarge": "Эндо х150",
       "/Lotus/StoreItems/Types/Game/CatbrowPet/CatbrowGeneticSignature": "Генетические коды кават",
-      "/Lotus/StoreItems/Types/Game/KubrowPet/Eggs/KubrowEgg": "Яйцо кубрау",
-      "/Lotus/Types/Items/MiscItems/Eventium": "Синтула"
+      "/Lotus/StoreItems/Types/Game/KubrowPet/Eggs/KubrowEgg": "Яйцо кубрау"
     },
     {
       "type": "Вторжения",
