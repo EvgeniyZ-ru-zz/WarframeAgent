@@ -1,5 +1,5 @@
 {
-  "Date": "16.05.2017",
+  "Date": "19.05.2017",
   "Items": [
     {
       "type": "Ресурсы",
@@ -131,7 +131,7 @@
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerFreezeImmunityAuraMod": "Сопротивление холоду (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerElectricityImmunityAuraMod": "Сопротивление электричеству (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerMeleeAuraMod": "Стальной натиск (аура)",
-      "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerHealthAuraMod": "Телосложение (аура)",
+      "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerHealthAuraMod": "Излучение жизни (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerRifleDamageAuraMod": "Усилитель: винтовка (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerShellDamageAuraMod": "Усилитель: дробовик (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerPistolDamageAuraMod": "Усилитель: пистолет (аура)",
