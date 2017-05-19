@@ -1,6 +1,7 @@
 ﻿using Core;
 using System;
 using System.Timers;
+using System.Windows.Threading;
 
 namespace Agent.Data
 {
@@ -8,8 +9,8 @@ namespace Agent.Data
     {
         public Time()
         {
-            var timer = new Timer {Interval = 5000};
-            timer.Elapsed += timer_Elapsed;
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+            timer.Tick += timer_Elapsed;
             timer.Start();
         }
 
@@ -21,7 +22,7 @@ namespace Agent.Data
             set => Set(ref _now, value);
         } 
 
-        private void timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void timer_Elapsed(object sender, EventArgs e)
         {
             Now = Tools.Time.ToUnixTime(DateTime.Now);
         }

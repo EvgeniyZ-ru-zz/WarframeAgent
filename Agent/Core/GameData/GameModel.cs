@@ -127,6 +127,16 @@ namespace Core.GameData
         public bool? ArchwingRequired { get; set; }
         public bool? IsSharkwingMission { get; set; }
 
+        public string Reward
+        {
+            get
+            {
+                if (MissionReward.CountedItems != null) return $"{MissionReward.CountedItems[0].ItemType} [{MissionReward.CountedItems[0].ItemCount}]";
+                if (MissionReward.Items != null) return MissionReward.Items[0];
+                return "Нет награды.";
+            }
+        }
+
         public Visibility ArchvingVisibility
         {
             get

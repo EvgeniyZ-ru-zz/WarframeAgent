@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using System.Text;
-using System.Timers;
+using System.Windows.Threading;
 using Core.GameData;
 using Newtonsoft.Json;
 using Core;
@@ -16,16 +14,17 @@ namespace Agent.Data
     {
         public Game()
         {
-            var timer = new Timer { Interval = 1000 };
-            timer.Elapsed += timer_Elapsed;
+            var timer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(1)};
+            timer.Tick += timer_Elapsed;
             timer.Start();
         }
 
-        private void timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void timer_Elapsed(object sender, EventArgs e)
         {
             if (Data?.Alerts == null) return;
-            foreach (var item in Data?.Alerts)
+            for (var index = 0; index < (Data?.Alerts).Count; index++)
             {
+                var item = (Data?.Alerts)[index];
                 item.Status = null;
             }
         }

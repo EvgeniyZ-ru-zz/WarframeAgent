@@ -58,14 +58,14 @@
                                                     <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding MissionInfo.Faction}" FontFamily="/Agent;component/Resources/Fonts/#Roboto" VerticalAlignment="Center"/>
                                                 </StackPanel>
                                             </StackPanel>
-                                            <StackPanel Grid.Column="1" Margin="0,0,1,2" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                                <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding Status}" FontFamily="/Agent;component/Resources/Fonts/#Roboto"/>
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
-                                                    <fa:FontAwesome Visibility="{Binding MissionInfo.ArchvingVisibility}"  Foreground="{DynamicResource TextColor}" Icon="Diamond" FontSize="11" Margin="0" />
+                                            <DockPanel Grid.Column="1" Margin="0,0,1,2" HorizontalAlignment="Right">
+                                                <TextBlock Margin="0,2,0,0" DockPanel.Dock="Top" Foreground="{DynamicResource TextColor}" FontSize="11" TextTrimming="CharacterEllipsis" Text="{Binding Status}" FontFamily="/Agent;component/Resources/Fonts/#Roboto" VerticalAlignment="Top"/>
+                                                <StackPanel Margin="0,0,0,2" DockPanel.Dock="Bottom"  Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" >
+                                                    <fa:FontAwesome Visibility="{Binding MissionInfo.ArchvingVisibility}"  Foreground="{DynamicResource TextColor}" Icon="SunOutline" FontSize="11" Margin="0" />
                                                     <fa:FontAwesome Visibility="{Binding MissionInfo.SharkwingVisibility}" Foreground="{DynamicResource TextColor}" Icon="SnowflakeOutline" FontSize="11" Margin="2,0,1,0" />
-                                                    <fa:FontAwesome Visibility="{Binding MissionInfo.RewardVisibility}" Foreground="{DynamicResource TextColor}" Icon="SunOutline" FontSize="11" Margin="2,0,0,-1" />
+                                                    <fa:FontAwesome Visibility="{Binding MissionInfo.RewardVisibility}" ToolTip="{Binding MissionInfo.Reward}" Foreground="{DynamicResource TextColor}" Icon="Diamond" FontSize="11" Margin="2,0,0,-1" />
                                                 </StackPanel>
-                                            </StackPanel>
+                                            </DockPanel>
                                             <ProgressBar Name="Bar"  Foreground="{DynamicResource AlertLineColor}" BorderThickness="0" Minimum="{Binding Activation.Date.NumberLong}" Maximum="{Binding Expiry.Date.NumberLong}" Value="{Binding Source={StaticResource UnixTime}, Path=Now, Mode=OneWay}" Background="{DynamicResource AlertProgressColor}" BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="1" Margin="0,0,-4,-2" Grid.ColumnSpan="2"
                                                          Grid.Column="0" />
                                         </Grid>
