@@ -1,9 +1,10 @@
 {
   "Date": "24.05.2017",
+  "Version": 1,
   "Items": [
     {
       "type": "Ресурсы",
-	  "enable": 1,
+      "enable": 1,
       "/Lotus/Types/Items/MiscItems/Salvage": "Вторсырье",
       "/Lotus/Types/Items/MiscItems/Gallium": "Галлий",
       "/Lotus/Types/Items/MiscItems/ArgonCrystal": "Кристалл аргона",
