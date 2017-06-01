@@ -51,9 +51,14 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameData\GameModel.cs" />
-    <Compile Include="GameData\NewsModel.cs" />
-    <Compile Include="PropertyViewModel.cs" />
+    <Compile Include="Converters\ProjectConverter.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="Model\GameModel.cs" />
+    <Compile Include="Model\NewsModel.cs" />
+    <Compile Include="Model\NotificationModel.cs" />
+    <Compile Include="News.cs" />
+    <Compile Include="ViewModel\NotificationViewModel.cs" />
+    <Compile Include="ViewModel\PropertyViewModel.cs" />
     <Compile Include="SettingCore.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

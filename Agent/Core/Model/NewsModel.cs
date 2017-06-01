@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Core.GameData
+namespace Core.Model
 {
-    public class NewsView
+    public class NewsModel
     {
         public bool HasMore { get; set; }
         public List<Post> Posts { get; set; }
@@ -12,19 +12,11 @@ namespace Core.GameData
     public class Post
     {
         public string Date { get; set; }
-        //public string Title { get; set; }
         private string _title;
         public string Title
         {
-            get
-            {
-                return _title;
-            }
-            set
-            {
-                //_title = char.ToUpper(value[0]) + value.Substring(1).ToLower();
-                _title = value.ToUpper();
-            }
+            get => _title;
+            set => _title = value.ToUpper();
         }
         public string Description { get; set; }
         public string Url { get; set; }

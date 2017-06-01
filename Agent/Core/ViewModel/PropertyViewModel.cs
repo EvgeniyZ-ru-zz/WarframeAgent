@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+
 // ReSharper disable InconsistentNaming
-namespace Core
+namespace Core.ViewModel
 {
     public class VM : INotifyPropertyChanged
     {

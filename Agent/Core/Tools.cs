@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 
 namespace Core
 {
@@ -57,6 +58,17 @@ namespace Core
             {
                 using (var c = new WebClient())
                     c.DownloadFile(url, patch);
+            }
+
+            #endregion
+
+            #region ReadText
+
+            public static string ReadText(string url)
+            {
+                WebClient wc = new WebClient();
+                return wc.DownloadString(url);
+
             }
 
             #endregion

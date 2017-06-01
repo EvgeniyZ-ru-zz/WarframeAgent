@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Text;
-using System.Timers;
 using System.Windows;
-using Core;
+using System.Windows.Media;
+using Core.Converters;
 using Newtonsoft.Json;
-using System.Windows.Threading;
+using Core.ViewModel;
 
-namespace Core.GameData
+namespace Core.Model
 {
     #region View
-
-    public class GameView : VM
+    public class GameModel : VM
     {
+        GameModel _data;
+        public GameModel Data { get => _data; set => Set(ref _data, value); }
         public int Version { get; set; }
         public string MobileVersion { get; set; }
         public string BuildLabel { get; set; }
@@ -28,8 +26,17 @@ namespace Core.GameData
             get => _alerts;
             set => Set(ref _alerts, value);
         }
-        public List<double> ProjectPct { get; set; }
+
+        [JsonConverter(typeof(ProjectConverter))]
+        public List<ProjectsModel> ProjectPct { get; set; }
         public string WorldSeed { get; set; }
+    }
+
+    public class ProjectsModel
+    {
+        public string Name { get; set; }
+        public double Value { get; set; }
+        public SolidColorBrush Color { get; set; }
     }
 
     #region Alert
@@ -113,7 +120,6 @@ namespace Core.GameData
         public string MissionType { get; set; }
         public string Faction { get; set; }
         public string Location { get; set; }
-        public string[] LocData => Location.Split('|');
         public string LevelOverride { get; set; }
         public string EnemySpec { get; set; }
         public int MinEnemyLevel { get; set; }

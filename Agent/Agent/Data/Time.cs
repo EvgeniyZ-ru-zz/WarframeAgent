@@ -2,6 +2,7 @@
 using System;
 using System.Timers;
 using System.Windows.Threading;
+using Core.ViewModel;
 
 namespace Agent.Data
 {

@@ -31,8 +31,18 @@ namespace Agent
     {
         public string Game { get; set; } = "http://content.warframe.com/dynamic/worldState.php";
         public string News { get; set; } = "https://www.warframe.com/ru/news/get_posts?page=1&category=pc";
+        public Filters Filters = new Filters();
     }
 
+    internal class Filters
+    {
+        public string Items { get; set; } = "https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Items.json";
+        public string Missions { get; set; } = "https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Missions.json";
+        public string Planets { get; set; } = "https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Planets.json";
+        public string Race { get; set; } = "https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Race.json";
+        public string Sorties { get; set; } = "https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Sorties.json";
+        public string Void { get; set; } = "https://github.com/arrer/WarframeAgent/blob/master/Filters/Void.json";
+    }
     #endregion
 
     #region Settings class 

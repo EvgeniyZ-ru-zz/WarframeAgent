@@ -10,7 +10,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Agent.Data;
 using Agent.Events;
-using Agent.Model;
+using Core;
+using Core.Model;
+using Core.ViewModel;
 using static Agent.Events.GlobalEvents;
 
 namespace Agent
@@ -24,12 +26,12 @@ namespace Agent
         public static Game GameData = new Game();
         public static News NewsData = new News();
         public static GameDataEvent GameDataEvent = new GameDataEvent();
-        public static NotificationWatcher NotificationWatcherwatcher = new NotificationWatcher();
+        public static NotificationModel NotificationWatcherwatcher = new NotificationModel();
 
         public MainWindow(Visibility visibility)
         {
-            GameData.Load();
-            NewsData.Load();
+            GameData.Load($"{Settings.Program.Directories.Temp}/GameData.json");
+            NewsData.Load($"{Settings.Program.Directories.Temp}/NewsData.json");
             InitializeComponent();
             InitializeAnimation();
 
@@ -38,8 +40,8 @@ namespace Agent
 
         public MainWindow()
         {
-            GameData.Load();
-            NewsData.Load();
+            GameData.Load($"{Settings.Program.Directories.Temp}/GameData.json");
+            NewsData.Load($"{Settings.Program.Directories.Temp}/NewsData.json");
             InitializeComponent();
             InitializeAnimation();
         }
@@ -56,9 +58,20 @@ namespace Agent
             GameDataEvent.Disconnected += GameDataEvent_Disconnected;
             GameDataEvent.Updated += GameDataEvent_Updated;
             BackgroundEvent.Changed += BackgroundEvent_Changed;
+            NotificationWatcherwatcher.AlertNotificationArrived += NotificationWatcherwatcherOnAlertNotificationArrived;
+            NotificationWatcherwatcher.AlertNotificationDeparted += NotificationWatcherwatcherOnAlertNotificationDeparted;
+            NotificationWatcherwatcher.Start(GameData);
+        }
 
-            var vm = new NotificationListVm();
-            notifyControl.DataContext = vm;
+        private void NotificationWatcherwatcherOnAlertNotificationDeparted(object sender, RemovedAlertNotificationEventArgs e)
+        {
+            Debug.WriteLine("Тревога удалена!");
+        }
+
+        private void NotificationWatcherwatcherOnAlertNotificationArrived(object sender, NewAlertNotificationEventArgs e)
+        {
+            var ntfVm = new NotificationViewModel(e.Notification);
+            Debug.WriteLine("Новая тревога найдена!", ntfVm.Text);
         }
 
         private void BackgroundEvent_Changed()
@@ -73,8 +86,8 @@ namespace Agent
 
         private void GameDataEvent_Updated()
         {
-            GameData.Load();
-            NotificationWatcherwatcher.Start();
+            GameData.Load($"{Settings.Program.Directories.Temp}/GameData.json");
+            NotificationWatcherwatcher.Start(GameData);
             Debug.WriteLine(GameData.Data.Alerts.Count, $"Alerts [{DateTime.Now}]");
         }
 
