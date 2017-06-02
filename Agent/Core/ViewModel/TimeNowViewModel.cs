@@ -1,17 +1,14 @@
-﻿using Core;
-using System;
-using System.Timers;
+﻿using System;
 using System.Windows.Threading;
-using Core.ViewModel;
 
-namespace Agent.Data
+namespace Core.ViewModel
 {
-    internal class Time : VM
+    public class TimeNowViewModel : VM
     {
-        public Time()
+        public TimeNowViewModel()
         {
             var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
-            timer.Tick += timer_Elapsed;
+            timer.Tick += Timer_Elapsed;
             timer.Start();
         }
 
@@ -23,7 +20,7 @@ namespace Agent.Data
             set => Set(ref _now, value);
         } 
 
-        private void timer_Elapsed(object sender, EventArgs e)
+        private void Timer_Elapsed(object sender, EventArgs e)
         {
             Now = Tools.Time.ToUnixTime(DateTime.Now);
         }

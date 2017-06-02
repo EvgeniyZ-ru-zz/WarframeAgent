@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Core.Model
 {
@@ -11,23 +10,23 @@ namespace Core.Model
 
     public class Post
     {
-        public string Date { get; set; }
+        private string _image;
         private string _title;
+        public string Date { get; set; }
+
         public string Title
         {
             get => _title;
             set => _title = value.ToUpper();
         }
+
         public string Description { get; set; }
         public string Url { get; set; }
 
-        private string _image;
         public string Image
         {
             get => _image;
             set => _image = "http:" + value;
         }
     }
-
-
 }

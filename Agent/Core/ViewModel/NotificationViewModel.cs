@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Core.Model;
+﻿using Core.Model;
 
 namespace Core.ViewModel
 {
     public class NotificationViewModel
     {
-        public string Text { get; }
-
         public NotificationViewModel(Alert ntf)
         {
+            Id = ntf.Id.Oid;
             Text = ntf.MissionInfo.Location;
         }
+
+        public string Id { get; }
+        public string Text { get; }
     }
 }

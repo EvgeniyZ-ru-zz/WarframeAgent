@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Shapes;
+using Core;
 
 namespace Agent
 {
     /// <summary>
-    /// Логика взаимодействия для App.xaml
+    ///     Логика взаимодействия для App.xaml
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            Settings.Load(); //Подгружаем настройки
+        }
 
         #region ResizeWindows
 
@@ -44,12 +43,12 @@ namespace Agent
         {
             if (_resizeInProcess)
             {
-                Rectangle senderRect = sender as Rectangle;
-                Window mainWindow = senderRect.Tag as Window;
+                var senderRect = sender as Rectangle;
+                var mainWindow = senderRect.Tag as Window;
                 if (senderRect != null)
                 {
-                    double width = e.GetPosition(mainWindow).X;
-                    double height = e.GetPosition(mainWindow).Y;
+                    var width = e.GetPosition(mainWindow).X;
+                    var height = e.GetPosition(mainWindow).Y;
                     senderRect.CaptureMouse();
                     if (senderRect.Name.ToLower().Contains("right"))
                     {
@@ -63,9 +62,7 @@ namespace Agent
                         mainWindow.Left += width;
                         width = mainWindow.Width - width;
                         if (width > 0)
-                        {
                             mainWindow.Width = width;
-                        }
                     }
                     if (senderRect.Name.ToLower().Contains("bottom"))
                     {
@@ -79,18 +76,12 @@ namespace Agent
                         mainWindow.Top += height;
                         height = mainWindow.Height - height;
                         if (height > 0)
-                        {
                             mainWindow.Height = height;
-                        }
                     }
                 }
             }
         }
-        #endregion
 
-        private void Application_Startup(object sender, StartupEventArgs e)
-        {
-            Settings.Load(); //Подгружаем настройки
-        }
+        #endregion
     }
 }

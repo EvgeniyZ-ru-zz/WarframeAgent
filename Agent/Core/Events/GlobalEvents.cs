@@ -1,22 +1,21 @@
 ﻿using System;
-using Core;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Agent.Events
+namespace Core.Events
 {
     public class GlobalEvents
     {
         /// <summary>
         ///     Обновление игровых данных.
         /// </summary>
-        public class GameDataEvent
+        public class GameDataEvent : EventArgs
         {
-            private CancellationTokenSource _cts;
-
             public delegate void MethodContainer();
+
+            private CancellationTokenSource _cts;
 
             /// <summary>
             ///     Данные успешно обновлены.

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Net;
-using System.Text;
 
 namespace Core
 {
     /// <summary>
-    /// Класс вспомогательных утилит.
+    ///     Класс вспомогательных утилит.
     /// </summary>
     public class Tools
     {
@@ -50,14 +49,16 @@ namespace Core
             #region DownloadFile
 
             /// <summary>
-            /// Загружает файл в локальную директорию
+            ///     Загружает файл в локальную директорию
             /// </summary>
             /// <param name="url">Адрес файла</param>
             /// <param name="patch">Куда сохранять</param>
             public static void DownloadFile(string url, string patch)
             {
                 using (var c = new WebClient())
+                {
                     c.DownloadFile(url, patch);
+                }
             }
 
             #endregion
@@ -66,9 +67,8 @@ namespace Core
 
             public static string ReadText(string url)
             {
-                WebClient wc = new WebClient();
+                var wc = new WebClient();
                 return wc.DownloadString(url);
-
             }
 
             #endregion

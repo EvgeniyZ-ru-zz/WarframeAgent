@@ -1,18 +1,18 @@
-﻿<Window x:Class="Agent.SplashScreen"
+﻿<Window x:Class="Agent.View.SplashScreen"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Agent"
+        xmlns:local="clr-namespace:Agent.View"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d" Loaded="SplashScreen_OnLoaded" Style="{DynamicResource WindowStyle}"
         Title="SplashScreen" Height="120" Width="330" Background="{x:Null}" AllowsTransparency="True"
-        WindowStyle="None" WindowStartupLocation="CenterScreen" Icon="Resources/Icon.ico">
+        WindowStyle="None" WindowStartupLocation="CenterScreen" Icon="/Agent;component/Resources/Icon.ico">
     <Border Margin="15">
         <Border.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FFEBEBEB" Offset="0"/>
-                <GradientStop Color="#FFD7D7D7" Offset="1"/>
+                <GradientStop Color="#FFEBEBEB" Offset="0" />
+                <GradientStop Color="#FFD7D7D7" Offset="1" />
             </LinearGradientBrush>
         </Border.Background>
         <Border.Effect>
@@ -20,7 +20,8 @@
         </Border.Effect>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label FontSize="18" Foreground="#FF404040" VerticalAlignment="Center" Content="WARFRAME AGENT" />
-            <fa:ImageAwesome Icon="Cog" Spin="True" SpinDuration="4" Width="30" Foreground="{DynamicResource TextColor}" />
+            <fa:ImageAwesome Icon="Cog" Spin="True" SpinDuration="4" Width="30"
+                             Foreground="{DynamicResource TextColor}" />
         </StackPanel>
     </Border>
 </Window>

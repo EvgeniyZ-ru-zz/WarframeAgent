@@ -4,13 +4,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:fa="http://schemas.fontawesome.io/icons/"
-    x:Class="Agent.MainWindow"
+    x:Class="Agent.View.MainWindow"
     mc:Ignorable="d"
     Style="{DynamicResource WindowStyle}" SizeChanged="Window_SizeChanged" Closed="MainWindow_OnClosed"
     Height="610" MaxHeight="610" MaxWidth="1000" MinHeight="460" MinWidth="740"
     Width="1000" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanMinimize"
     WindowStartupLocation="CenterScreen" ShowInTaskbar="True" SnapsToDevicePixels="True" UseLayoutRounding="True"
-    Icon="Resources/Icon.ico" LocationChanged="Window_LocationChanged" Initialized="MainWindow_OnInitialized">
+    Icon="/Agent;component/Resources/Icon.ico" LocationChanged="Window_LocationChanged"
+    Initialized="MainWindow_OnInitialized">
 
     <Border Margin="15" Style="{DynamicResource MainBorder}" CornerRadius="15">
         <Border.Effect>
@@ -34,7 +35,7 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <StackPanel x:Name="HeadTitle" Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Left" 
+                <StackPanel x:Name="HeadTitle" Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Left"
                             VerticalAlignment="Center" Margin="10,0,0,0">
                     <TextBlock x:Name="TitleLbl" Text="WARFRAME AGENT"
                                FontSize="25" Style="{DynamicResource TitleColor}" />
@@ -57,21 +58,23 @@
                    VerticalOffset="40"
                    AllowsTransparency="True">
                 <Grid>
-                    <Border Style="{DynamicResource MainBorder}" Margin="10,1,10,10" BorderThickness="1,0,1,1" Width="250" MaxHeight="250">
+                    <Border Style="{DynamicResource MainBorder}" Margin="10,1,10,10" BorderThickness="1,0,1,1"
+                            Width="250" MaxHeight="250">
                         <Border.BorderBrush>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="#FF747474" Offset="0.40"/>
-                                <GradientStop Color="Transparent"/>
+                                <GradientStop Color="#FF747474" Offset="0.40" />
+                                <GradientStop Color="Transparent" />
                             </LinearGradientBrush>
                         </Border.BorderBrush>
                         <Border.Effect>
                             <DropShadowEffect BlurRadius="5" Direction="-90" RenderingBias="Quality" ShadowDepth="1" />
                         </Border.Effect>
-                        <StackPanel x:Name="notifyControl" >
-                            <ListBox ItemsSource="{Binding Notifications}" Margin="10" Background="{x:Null}" BorderBrush="{x:Null}">
+                        <StackPanel x:Name="notifyControl">
+                            <ListBox ItemsSource="{Binding Notifications}" Margin="10" Background="{x:Null}"
+                                     BorderBrush="{x:Null}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Text}"/>
+                                        <TextBlock Text="{Binding Text}" />
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ListBox>
@@ -81,7 +84,7 @@
             </Popup>
             <Image x:Name="BgImg" Stretch="UniformToFill" Opacity="0.50"
                    Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0"
-                   Source="Resources/Images/Background/7.jpg" />
+                   Source="/Agent;component/Resources/Images/Background/1.jpg" />
 
             <Grid x:Name="LeftPanelGrid" Grid.Row="1" Grid.Column="0" Width="40" HorizontalAlignment="Left">
                 <Grid.RowDefinitions>
@@ -132,18 +135,18 @@
 
 
                 <StackPanel Name="LeftPanelBottom" VerticalAlignment="Bottom" Margin="0,0,0,15" Grid.Row="3">
-                    <fa:FontAwesome 
-                        x:Name="ConnLostImg" 
-                        Visibility="Collapsed" 
-                        Icon="Connectdevelop" 
-                        FontSize="20" 
-                        ToolTip="Connection Lost!" 
+                    <fa:FontAwesome
+                        x:Name="ConnLostImg"
+                        Visibility="Collapsed"
+                        Icon="Connectdevelop"
+                        FontSize="20"
+                        ToolTip="Connection Lost!"
                         Margin="0,0,0,10"
-                        VerticalAlignment="Bottom" 
+                        VerticalAlignment="Bottom"
                         Spin="False"
                         SpinDuration="20"
                         Foreground="{DynamicResource TextColor}" />
-                            <Button x:Name="SettingsBtn"
+                    <Button x:Name="SettingsBtn"
                             fa:Awesome.Content="Cog"
                             Style="{DynamicResource Menu}"
                             Click="Button_Click" />
@@ -157,7 +160,6 @@
 
             <Grid Grid.Row="1" Grid.Column="1">
                 <!-- Основная часть приложения -->
-                
                 <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" />
             </Grid>
 
@@ -173,4 +175,3 @@
 
     </Border>
 </Window>
-

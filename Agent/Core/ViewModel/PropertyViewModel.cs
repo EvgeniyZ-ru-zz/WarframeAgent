@@ -7,7 +7,9 @@ namespace Core.ViewModel
 {
     public class VM : INotifyPropertyChanged
     {
-        protected bool Set<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected bool Set<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(field, value))
                 return false;
@@ -17,9 +19,9 @@ namespace Core.ViewModel
             return true;
         }
 
-        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = null) =>
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
+        {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        }
     }
 }

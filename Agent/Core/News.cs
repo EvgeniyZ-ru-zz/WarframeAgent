@@ -10,12 +10,16 @@ namespace Core
     /// </summary>
     public class News : VM
     {
-        NewsModel _data;
+        private NewsModel _data;
 
         /// <summary>
         ///     Основные данные новостей.
         /// </summary>
-        public NewsModel Data { get => _data; set => Set(ref _data, value); }
+        public NewsModel Data
+        {
+            get => _data;
+            set => Set(ref _data, value);
+        }
 
         /// <summary>
         ///     Загружаем JSON файл с данными новостей.
@@ -30,7 +34,7 @@ namespace Core
                 data = (NewsModel) serializer.Deserialize(file, typeof(NewsModel));
             }
 
-            Data =  data;
+            Data = data;
         }
     }
 }

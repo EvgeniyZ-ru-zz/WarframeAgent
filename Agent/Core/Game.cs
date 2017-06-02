@@ -7,21 +7,25 @@ using Newtonsoft.Json;
 
 namespace Core
 {
-    public class Game: VM
+    public class Game : VM
     {
+        private GameModel _data;
+
         public Game()
         {
-            var reloadTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+            var reloadTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(1)};
             reloadTimer.Tick += reloadTimer_Elapsed;
             reloadTimer.Start();
         }
 
-        GameModel _data;
-
         /// <summary>
         ///     Основные игровые данные.
         /// </summary>
-        public GameModel Data { get => _data; set => Set(ref _data, value); }
+        public GameModel Data
+        {
+            get => _data;
+            set => Set(ref _data, value);
+        }
 
         /// <summary>
         ///     Загружаем JSON файл с игровыми данными.
@@ -33,7 +37,7 @@ namespace Core
             using (var file = File.OpenText(fileName))
             {
                 var serializer = new JsonSerializer();
-                data = (GameModel)serializer.Deserialize(file, typeof(GameModel));
+                data = (GameModel) serializer.Deserialize(file, typeof(GameModel));
             }
 
             Data = data;

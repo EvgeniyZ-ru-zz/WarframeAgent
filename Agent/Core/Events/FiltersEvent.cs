@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Agent.Events
+namespace Core.Events
 {
-    class FiltersEvent
+    internal class FiltersEvent
     {
-        private CancellationTokenSource _cts;
-
         public delegate void MethodContainer();
+
+        private CancellationTokenSource _cts;
 
         /// <summary>
         ///     Данные успешно обновлены.
@@ -51,7 +51,7 @@ namespace Agent.Events
             //        //GetVersion();
 
             //    }
-                
+
 
             //    await Task.Delay(TimeSpan.FromMinutes(10), ct);
             //}
@@ -64,8 +64,8 @@ namespace Agent.Events
                 int version;
                 using (var reader = new StreamReader(path))
                 {
-                    var data = (JObject)JsonConvert.DeserializeObject(reader.ReadToEnd());
-                    version = (int)data["Version"];
+                    var data = (JObject) JsonConvert.DeserializeObject(reader.ReadToEnd());
+                    version = (int) data["Version"];
                 }
                 return version;
             }

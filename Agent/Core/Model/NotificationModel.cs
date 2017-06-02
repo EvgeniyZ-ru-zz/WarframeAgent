@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Model;
 
 namespace Core.Model
 {
@@ -41,6 +37,7 @@ namespace Core.Model
     /// </summary>
     public class NotificationModel
     {
+        private readonly Dictionary<string, Alert> _currentAlertsNotifications = new Dictionary<string, Alert>();
         private CancellationTokenSource _cts;
 
         public void Start(Game game)
@@ -65,8 +62,6 @@ namespace Core.Model
             {
             }
         }
-
-        private readonly Dictionary<string, Alert> _currentAlertsNotifications = new Dictionary<string, Alert>();
 
         private async Task AlertEvaluateList(Game game)
         {

@@ -12,29 +12,6 @@ namespace Core
     {
         private const string DefaultFile = "Settings.json";
 
-        #region Save
-
-        /// <summary>
-        ///     Сохранение настроек в файл.
-        /// </summary>
-        /// <param name="fileName">Название JSON файла</param>
-        public void Save(string fileName = DefaultFile)
-        {
-            File.WriteAllText(fileName, JObject.FromObject(this).ToString());
-        }
-
-        /// <summary>
-        ///     Сохранение объекта в JSON файл
-        /// </summary>
-        /// <param name="pSettings">Объект для записи</param>
-        /// <param name="fileName">Название JSON файла</param>
-        public static void Save(T pSettings, string fileName = DefaultFile)
-        {
-            File.WriteAllText(fileName, JObject.FromObject(pSettings).ToString());
-        }
-
-        #endregion
-
         #region Load
 
         /// <summary>
@@ -55,6 +32,29 @@ namespace Core
                     File.Delete(fileName);
                 }
             return t;
+        }
+
+        #endregion
+
+        #region Save
+
+        /// <summary>
+        ///     Сохранение настроек в файл.
+        /// </summary>
+        /// <param name="fileName">Название JSON файла</param>
+        public void Save(string fileName = DefaultFile)
+        {
+            File.WriteAllText(fileName, JObject.FromObject(this).ToString());
+        }
+
+        /// <summary>
+        ///     Сохранение объекта в JSON файл
+        /// </summary>
+        /// <param name="pSettings">Объект для записи</param>
+        /// <param name="fileName">Название JSON файла</param>
+        public static void Save(T pSettings, string fileName = DefaultFile)
+        {
+            File.WriteAllText(fileName, JObject.FromObject(pSettings).ToString());
         }
 
         #endregion

@@ -15,27 +15,37 @@ namespace Core.Converters
             return false;
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+            JsonSerializer serializer)
         {
             var list = new List<ProjectsModel>();
             var token = JToken.Load(reader);
             for (var i = 0; i < token.Count(); i++)
             {
-                if (token[i] != null && i == 0 && (double)token[i] > 0)
+                if (token[i] != null && i == 0 && (double) token[i] > 0)
                 {
-                    list.Add(new ProjectsModel { Name = "Фоморианец", Value = (double)token[i], Color = Brushes.DarkRed });
+                    list.Add(new ProjectsModel
+                    {
+                        Name = "Фоморианец",
+                        Value = (double) token[i],
+                        Color = Brushes.DarkRed
+                    });
                     continue;
                 }
 
-                if (token[i] != null && i == 1 && (double)token[i] > 0)
+                if (token[i] != null && i == 1 && (double) token[i] > 0)
                 {
-                    list.Add(new ProjectsModel { Name = "Армада Секачей", Value = (double)token[i], Color = Brushes.Teal });
+                    list.Add(new ProjectsModel
+                    {
+                        Name = "Армада Секачей",
+                        Value = (double) token[i],
+                        Color = Brushes.Teal
+                    });
                     continue;
                 }
 
-                if (token[i] != null && (double)token[i] > 0)
-                    list.Add(new ProjectsModel { Name = "NULL", Value = (double)token[i] });
-
+                if (token[i] != null && (double) token[i] > 0)
+                    list.Add(new ProjectsModel {Name = "NULL", Value = (double) token[i]});
             }
             return list;
         }

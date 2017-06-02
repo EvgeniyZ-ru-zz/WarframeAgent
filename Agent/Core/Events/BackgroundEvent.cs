@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Agent.Events
+namespace Core.Events
 {
-    internal class BackgroundEvent
+    public class BackgroundEvent
     {
         public delegate void MethodContainer();
 
@@ -29,17 +29,13 @@ namespace Agent.Events
             var task = new Task(() =>
             {
                 if (Settings.Program.RandomBackground)
-                {
                     while (Settings.Program.RandomBackground)
                     {
                         Thread.Sleep(TimeSpan.FromMinutes(5));
                         ChangeMethod();
                     }
-                } else
-                {
+                else
                     ChangeMethod();
-                }
-                
             });
             task.Start();
         }

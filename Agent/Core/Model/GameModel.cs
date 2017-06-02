@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using Core.Converters;
@@ -9,7 +10,7 @@ using Core.ViewModel;
 
 namespace Core.Model
 {
-    #region View
+    #region Main
     public class GameModel : VM
     {
         GameModel _data;
@@ -27,17 +28,25 @@ namespace Core.Model
             set => Set(ref _alerts, value);
         }
 
+        private ObservableCollection<Invasion> _invasions;
+
+        public ObservableCollection<Invasion> Invasions
+        {
+            get
+            {
+                if (_invasions == null) return _invasions;
+                _invasions = new ObservableCollection<Invasion>(_invasions.Where(p => p.Completed));
+                return _invasions;
+            }
+            set => Set(ref _invasions, value);
+        }
+
         [JsonConverter(typeof(ProjectConverter))]
         public List<ProjectsModel> ProjectPct { get; set; }
         public string WorldSeed { get; set; }
     }
 
-    public class ProjectsModel
-    {
-        public string Name { get; set; }
-        public double Value { get; set; }
-        public SolidColorBrush Color { get; set; }
-    }
+    #endregion
 
     #region Alert
 
@@ -85,40 +94,11 @@ namespace Core.Model
         }
     }
 
-    public class Id
-    {
-        [JsonProperty("$oid")]
-        public string Oid { get; set; }
-    }
-
-    public class Date
-    {
-        [JsonProperty("$numberLong")]
-        public string NumberLongStr { get; set; }
-
-        public long NumberLong
-        {
-            get => long.Parse(NumberLongStr);
-            set => NumberLongStr = value.ToString();
-        }
-    }
-
-    public class Activation
-    {
-        [JsonProperty("$date")]
-        public Date Date { get; set; }
-    }
-
-    public class Expiry
-    {
-        [JsonProperty("$date")]
-        public Date Date { get; set; }
-    }
-
     public class MissionInfo
     {
         public string MissionType { get; set; }
         public string Faction { get; set; }
+        public string Planet { get; set; }
         public string Location { get; set; }
         public string LevelOverride { get; set; }
         public string EnemySpec { get; set; }
@@ -173,13 +153,89 @@ namespace Core.Model
         public List<string> Items { get; set; }
     }
 
+    #endregion
+
+    #region Invasions
+
+    public class Invasion
+    {
+        [JsonProperty("_id")]
+        public Id Id { get; set; }
+        public string Faction { get; set; }
+        public string Node { get; set; }
+        public int Count { get; set; }
+        public int Goal { get; set; }
+        public string LocTag { get; set; }
+        public bool Completed { get; set; }
+        public object AttackerReward { get; set; }
+        public InvasionMissionInfo AttackerMissionInfo { get; set; }
+        public InvasionReward DefenderReward { get; set; }
+        public InvasionMissionInfo DefenderMissionInfo { get; set; }
+        public Activation Activation { get; set; }
+    }
+
+    public class InvasionReward
+    {
+        public List<CountedItem> CountedItems { get; set; }
+    }
+
+    public class InvasionMissionInfo
+    {
+        public int Seed { get; set; }
+        public string Faction { get; set; }
+        public List<object> MissionReward { get; set; }
+    }
+
+    #endregion
+
+    #region Project
+
+    public class ProjectsModel
+    {
+        public string Name { get; set; }
+        public double Value { get; set; }
+        public SolidColorBrush Color { get; set; }
+    }
+
+    #endregion
+
+    #region Global
+
+    public class Id
+    {
+        [JsonProperty("$oid")]
+        public string Oid { get; set; }
+    }
+
+    public class Date
+    {
+        [JsonProperty("$numberLong")]
+        public string NumberLongStr { get; set; }
+
+        public long NumberLong
+        {
+            get => long.Parse(NumberLongStr);
+            set => NumberLongStr = value.ToString();
+        }
+    }
+
+    public class Activation
+    {
+        [JsonProperty("$date")]
+        public Date Date { get; set; }
+    }
+
+    public class Expiry
+    {
+        [JsonProperty("$date")]
+        public Date Date { get; set; }
+    }
+
     public class CountedItem
     {
         public string ItemType { get; set; }
         public int ItemCount { get; set; }
     }
-
-    #endregion
 
     #endregion
 }
