@@ -1,5 +1,5 @@
 {
-  "Date": "02.06.2017",
+  "Date": "17.06.2017",
   "Version": 1,
   "Items": [
     {
@@ -226,6 +226,7 @@
       "/Lotus/StoreItems/Types/Game/Projections/T4VoidProjectionPBronze": "Реликвия акси A2",
       "/Lotus/StoreItems/Types/Items/ShipDecos/BaroKiTeerBobbleHead": "Статуэтка - Баро Ки'Тиир",
       "/Lotus/StoreItems/Types/Items/ShipDecos/PedistalPrime": "Пьедистал прайм",
+      "/Lotus/StoreItems/Types/Items/MiscItems/PhotoboothTileInarosTomb": "Сцена каптуры: Гробница Инароса",
       "/Lotus/StoreItems/Types/Keys/MummyQuestKeyBlueprint": "Пески Инароса (квест)",
       "/Lotus/StoreItems/Types/Recipes/Components/CorruptedBombardBallBlueprint": "Спектр: порабощенный бомбардир (чертеж)",
       "/Lotus/StoreItems/Types/Restoratives/Consumable/AssassinBait": "Метка Сталкера",
