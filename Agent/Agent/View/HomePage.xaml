@@ -156,7 +156,7 @@
                                                                FontFamily="/Agent;component/Resources/Fonts/#Roboto">
                                                         <Run Text="{Binding Faction}" />
                                                         <Run Text=" - " />
-                                                        <Run Text="{Binding Path=Percent, Mode=OneWay}" />
+                                                        <Run Text="{Binding Node}" />
                                                     </TextBlock>
                                                     <StackPanel Orientation="Horizontal" Margin="4,0,0,0">
                                                         <fa:FontAwesome Foreground="{DynamicResource TextColor}"
@@ -194,11 +194,11 @@
                                                 </DockPanel>
                                                 <ProgressBar Name="Bar" Foreground="{DynamicResource InvasionsLineColor}"
                                                              BorderThickness="0"
-                                                             Minimum="0"
-                                                             Maximum="100"
-                                                             Value="{Binding Path=Percent, Mode=OneWay}"
+                                                             Minimum="{Binding Activation.Date.NumberLong}"
+                                                             Maximum="{Binding Expiry.Date.NumberLong}"
+                                                             Value="{Binding Source={StaticResource UnixTime}, Path=Now, Mode=OneWay}"
                                                              Background="{DynamicResource AlertProgressColor}"
-                                                             BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="2"
+                                                             BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="1"
                                                              Margin="0,0,-4,-2" Grid.ColumnSpan="2"
                                                              Grid.Column="0" />
                                             </Grid>

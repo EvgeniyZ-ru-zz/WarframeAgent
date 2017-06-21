@@ -5,23 +5,16 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using Core.Converters;
-using Core.ViewModel;
 using Newtonsoft.Json;
+using Core.ViewModel;
 
 namespace Core.Model
 {
     #region Main
-
     public class GameModel : VM
     {
-        private GameModel _data;
-
-        public GameModel Data
-        {
-            get => _data;
-            set => Set(ref _data, value);
-        }
-
+        GameModel _data;
+        public GameModel Data { get => _data; set => Set(ref _data, value); }
         public int Version { get; set; }
         public string MobileVersion { get; set; }
         public string BuildLabel { get; set; }
@@ -42,21 +35,14 @@ namespace Core.Model
             get
             {
                 if (_invasions == null) return _invasions;
-                _invasions = new ObservableCollection<Invasion>(_invasions.Where(p => !p.Completed));
+                _invasions = new ObservableCollection<Invasion>(_invasions.Where(p => p.Completed));
                 return _invasions;
             }
             set => Set(ref _invasions, value);
         }
 
-        private ObservableCollection<ProjectsModel> _projectPct;
-
         [JsonConverter(typeof(ProjectConverter))]
-        public ObservableCollection<ProjectsModel> ProjectPct
-        {
-            get => _projectPct;
-            set => Set(ref _projectPct, value);
-        }
-
+        public List<ProjectsModel> ProjectPct { get; set; }
         public string WorldSeed { get; set; }
     }
 
@@ -74,7 +60,6 @@ namespace Core.Model
         public MissionInfo MissionInfo { get; set; }
 
         private string _status;
-
         public string Status
         {
             get => _status;
@@ -89,12 +74,20 @@ namespace Core.Model
                 else
                 {
                     if (DateTime.Now <= end)
+                    {
                         if ((end - DateTime.Now.TimeOfDay).Hour == 0)
+                        {
                             value = (end - DateTime.Now).ToString(@"mm\:ss");
+                        }
                         else
+                        {
                             value = (end - DateTime.Now).ToString(@"hh\:mm\:ss");
+                        }
+                    }
                     else
+                    {
                         value = "Закончилось";
+                    }
                 }
                 Set(ref _status, value);
             }
@@ -124,8 +117,7 @@ namespace Core.Model
         {
             get
             {
-                if (MissionReward.CountedItems != null)
-                    return $"{MissionReward.CountedItems[0].ItemType} [{MissionReward.CountedItems[0].ItemCount}]";
+                if (MissionReward.CountedItems != null) return $"{MissionReward.CountedItems[0].ItemType} [{MissionReward.CountedItems[0].ItemCount}]";
                 if (MissionReward.Items != null) return MissionReward.Items[0];
                 return "Нет награды.";
             }
@@ -169,16 +161,10 @@ namespace Core.Model
     {
         [JsonProperty("_id")]
         public Id Id { get; set; }
-
         public string Faction { get; set; }
         public string Node { get; set; }
-        public double Count { get; set; }
-        public double Goal { get; set; }
-
-        public double Percent => DefenderMissionInfo.Faction == "FC_INFESTATION"
-            ? (Goal + Count) / Goal * 100
-            : (Goal + Count) / (Goal * 2) * 100;
-
+        public int Count { get; set; }
+        public int Goal { get; set; }
         public string LocTag { get; set; }
         public bool Completed { get; set; }
         public object AttackerReward { get; set; }

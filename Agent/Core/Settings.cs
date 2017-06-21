@@ -13,18 +13,11 @@
     /// </summary>
     public class MainSettings : SettingCore<MainSettings>
     {
-        public Verisons Verisons = new Verisons();
         public Directories Directories = new Directories();
         public Urls Urls = new Urls();
         public Themes Theme { get; set; }
         public bool RandomBackground { get; set; } = true;
         public int BackgroundId { get; set; } = 1;
-    }
-
-    public class Verisons
-    {
-        public string Program { get; set; }
-        public int Items { get; set; }
     }
 
     public class Directories
