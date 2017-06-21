@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
 using Core.Model;
@@ -18,7 +19,7 @@ namespace Core.Converters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
             JsonSerializer serializer)
         {
-            var list = new List<ProjectsModel>();
+            var list = new ObservableCollection<ProjectsModel>();
             var token = JToken.Load(reader);
             for (var i = 0; i < token.Count(); i++)
             {
