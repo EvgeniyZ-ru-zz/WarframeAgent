@@ -1,5 +1,5 @@
 {
-  "Date": "24.05.2017",
+  "Date": "17.06.2017",
   "Version": 1,
   "Items": [
     {
@@ -226,6 +226,7 @@
       "/Lotus/StoreItems/Types/Game/Projections/T4VoidProjectionPBronze": "Реликвия акси A2",
       "/Lotus/StoreItems/Types/Items/ShipDecos/BaroKiTeerBobbleHead": "Статуэтка - Баро Ки'Тиир",
       "/Lotus/StoreItems/Types/Items/ShipDecos/PedistalPrime": "Пьедистал прайм",
+      "/Lotus/StoreItems/Types/Items/MiscItems/PhotoboothTileInarosTomb": "Сцена каптуры: Гробница Инароса",
       "/Lotus/StoreItems/Types/Keys/MummyQuestKeyBlueprint": "Пески Инароса (квест)",
       "/Lotus/StoreItems/Types/Recipes/Components/CorruptedBombardBallBlueprint": "Спектр: порабощенный бомбардир (чертеж)",
       "/Lotus/StoreItems/Types/Restoratives/Consumable/AssassinBait": "Метка Сталкера",
@@ -298,6 +299,7 @@
       "/Lotus/StoreItems/Upgrades/Skins/MeleeDangles/FireMeleeDangle": "Пира сугатра",
       "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/EarpieceBaroA": "Серьги: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/EarpieceBaroB": "Серьга: Ки'Тиир",
+      "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/BaroMouthPieceA": "Ки'Тиир Атмос маска",	    
       "/Lotus/StoreItems/Upgrades/Skins/Pirate/HydroidAlternateSkin": "Скин Гидройда: Бессмертный",
       "/Lotus/StoreItems/Upgrades/Skins/Tengu/ZephyrAlternateSkin": "Скин Зефир: Бессмертный", 	    
       "/Lotus/StoreItems/Upgrades/Skins/Scarves/BaroCape": "Ки'Тиир сандана",
