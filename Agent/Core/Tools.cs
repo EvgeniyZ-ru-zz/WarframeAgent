@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 
 namespace Core
 {
@@ -67,7 +68,7 @@ namespace Core
 
             public static string ReadText(string url)
             {
-                var wc = new WebClient();
+                var wc = new WebClient {Encoding = Encoding.UTF8};
                 return wc.DownloadString(url);
             }
 

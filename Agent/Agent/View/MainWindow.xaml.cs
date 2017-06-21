@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -28,6 +30,7 @@ namespace Agent.View
         public static News NewsData = new News();
         public static GlobalEvents.GameDataEvent GameDataEvent = new GlobalEvents.GameDataEvent();
         public static NotificationModel NotificationWatcherwatcher = new NotificationModel();
+        ApplicationContext DataBase;
 
         public MainWindow(Visibility visibility)
         {
@@ -63,7 +66,12 @@ namespace Agent.View
             NotificationWatcherwatcher.AlertNotificationDeparted +=
                 NotificationWatcherwatcherOnAlertNotificationDeparted;
             NotificationWatcherwatcher.Start(GameData);
+
+            DataBase = new ApplicationContext();
+
+            Task.Run(() => FiltersViewModel.Items.Update("Items.json", Settings.Program.Urls.Filters.Items, DataBase));
         }
+
 
         private void NotificationWatcherwatcherOnAlertNotificationDeparted(object sender,
             RemovedAlertNotificationEventArgs e)
