@@ -1,5 +1,5 @@
 {
-  "Date": "26.12.2016",
+  "Date": "01.07.2017",
   "Version": 1,
   "Missions": [
     {
@@ -15,6 +15,7 @@
       "MT_CAPTURE": "Захват",
       "MT_COUNTER_INTEL": "Взлом",
       "MT_DEFENSE": "Оборона",
+      "MT_EVACUATION": "Перебежчики",
       "MT_EXCAVATE": "Раскопки",
       "MT_EXTERMINATION": "Зачистка",
       "MT_HIVE": "Улей",
