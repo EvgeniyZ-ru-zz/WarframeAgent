@@ -96,43 +96,49 @@
                 <Border Style="{DynamicResource LeftPanelBorder}" Margin="0,-1,0,0" Grid.RowSpan="4" />
                 <StackPanel Grid.Row="0" Name="LeftPanelTheme" Orientation="Horizontal" HorizontalAlignment="Center"
                             VerticalAlignment="Top" Margin="0,5">
-                    <Button Name="ThemeBtn" Click="Button_Click" Style="{StaticResource NoChromeButton}" Cursor="Hand"
+                    <Button Name="ThemeBtn" Click="StyleButton_Click" Style="{StaticResource NoChromeButton}" Cursor="Hand"
                             Margin="0,0,6,0" HorizontalAlignment="Center" VerticalAlignment="Top">
                         <fa:FontAwesome Foreground="{DynamicResource TextColor}" Icon="Adjust" FontSize="9" />
                     </Button>
-                    <Button Name="ChangeBg" Click="Button_Click" Style="{StaticResource NoChromeButton}" Cursor="Hand"
+                    <Button Name="ChangeBg" Click="StyleButton_Click" Style="{StaticResource NoChromeButton}" Cursor="Hand"
                             HorizontalAlignment="Center" VerticalAlignment="Top">
                         <fa:FontAwesome Foreground="{DynamicResource TextColor}" Icon="PictureOutline" FontSize="9" />
                     </Button>
                 </StackPanel>
 
                 <StackPanel Name="LeftPanelTop" Grid.Row="1">
-                    <Button x:Name="HomeBtn"
+                    <RadioButton x:Name="HomeBtn"
+                            IsChecked="True"
                             fa:Awesome.Content="Home"
-                            Style="{DynamicResource MenuIn}"
+                            GroupName="LeftMenu"
+                            Style="{StaticResource MenuButton}"
                             Click="Button_Click" />
-                    <Button x:Name="NewsBtn"
+                    <RadioButton x:Name="NewsBtn"
                             fa:Awesome.Content="NewspaperOutline"
-                            Style="{DynamicResource Menu}"
+                            GroupName="LeftMenu"
+                            Style="{StaticResource MenuButton}"
                             Click="Button_Click" />
-                    <Button x:Name="AlertsBtn"
+                    <RadioButton x:Name="AlertsBtn" IsEnabled="False"
                             fa:Awesome.Content="ExclamationTriangle"
-                            Style="{DynamicResource Menu}"
+                            GroupName="LeftMenu"
+                            Style="{StaticResource MenuButton}"
                             Click="Button_Click" />
-                    <Button x:Name="InvasionsBtn"
+                    <RadioButton x:Name="InvasionsBtn" IsEnabled="False"
                             fa:Awesome.Content="Bullseye"
-                            Style="{DynamicResource Menu}"
+                            GroupName="LeftMenu"
+                            Style="{StaticResource MenuButton}"
                             Click="Button_Click" />
-                    <Button x:Name="TradeBtn"
+                    <RadioButton x:Name="TradeBtn" IsEnabled="False"
                             fa:Awesome.Content="BalanceScale"
-                            Style="{DynamicResource Menu}"
+                            GroupName="LeftMenu"
+                            Style="{StaticResource MenuButton}"
                             Click="Button_Click" />
-                    <Button Visibility="Collapsed" x:Name="ActMissionsBtn"
+                    <RadioButton Visibility="Visible" x:Name="ActMissionsBtn"  IsEnabled="False"
                             fa:Awesome.Content="FreeCodeCamp"
-                            Style="{DynamicResource Menu}"
+                            GroupName="LeftMenu"
+                            Style="{StaticResource MenuButton}"
                             Click="Button_Click" />
                 </StackPanel>
-
 
                 <StackPanel Name="LeftPanelBottom" VerticalAlignment="Bottom" Margin="0,0,0,15" Grid.Row="3">
                     <fa:FontAwesome
@@ -146,13 +152,15 @@
                         Spin="False"
                         SpinDuration="20"
                         Foreground="{DynamicResource TextColor}" />
-                    <Button x:Name="SettingsBtn"
+                    <RadioButton x:Name="SettingsBtn" IsEnabled="False"
                             fa:Awesome.Content="Cog"
-                            Style="{DynamicResource Menu}"
+                            GroupName="LeftMenu"
+                            Style="{StaticResource MenuButton}"
                             Click="Button_Click" />
-                    <Button IsEnabled="True" x:Name="InfoBtn"
-                            Style="{DynamicResource Menu}"
+                    <RadioButton IsEnabled="False" x:Name="InfoBtn"
+                            Style="{StaticResource MenuButton}"
                             fa:Awesome.Content="Info"
+                            GroupName="LeftMenu"
                             Click="Button_Click" />
 
                 </StackPanel>

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Data.Entity;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,8 +12,7 @@ using Core;
 using Core.Events;
 using Core.Model;
 using Core.ViewModel;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Filters = Core.ViewModel.Filters;
 
 namespace Agent.View
 {
@@ -28,9 +24,9 @@ namespace Agent.View
     {
         public static Game GameData = new Game();
         public static News NewsData = new News();
+        public static GameViewModel GameView = new GameViewModel();
         public static GlobalEvents.GameDataEvent GameDataEvent = new GlobalEvents.GameDataEvent();
         public static NotificationModel NotificationWatcherwatcher = new NotificationModel();
-        ApplicationContext DataBase;
 
         public MainWindow(Visibility visibility)
         {
@@ -64,44 +60,58 @@ namespace Agent.View
             BackgroundEvent.Changed += BackgroundEvent_Changed;
             NotificationWatcherwatcher.AlertNotificationArrived += NotificationWatcherwatcherOnAlertNotificationArrived;
             NotificationWatcherwatcher.AlertNotificationDeparted +=
-                NotificationWatcherwatcherOnAlertNotificationDeparted;
+            NotificationWatcherwatcherOnAlertNotificationDeparted;
             NotificationWatcherwatcher.Start(GameData);
-
-            DataBase = new ApplicationContext();
-
-            Task.Run(() => FiltersViewModel.Items.Update("Items.json", Settings.Program.Urls.Filters.Items, DataBase));
         }
 
 
         private void NotificationWatcherwatcherOnAlertNotificationDeparted(object sender,
             RemovedAlertNotificationEventArgs e)
         {
-            Debug.WriteLine("Тревога удалена!");
+            Application.Current.Dispatcher?.InvokeAsync(() =>
+            {
+                GameView.Alerts.Remove(e.Notification);
+            });
+
+            Debug.WriteLine($"Удаляю тревогу {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
         }
 
         private void NotificationWatcherwatcherOnAlertNotificationArrived(object sender,
             NewAlertNotificationEventArgs e)
         {
             var ntfVm = new NotificationViewModel(e.Notification);
-            Debug.WriteLine("Новая тревога найдена!", ntfVm.Text);
-            var test = GameData.Data.Alerts.Single(cc => cc.Id.Oid == ntfVm.Id);
-
+            Debug.WriteLine($"Новая тревога {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
             Debug.WriteLine($"Переводим значение {ntfVm.Text}!", $"[{DateTime.Now}]");
-            try
+
+            #region Переводим предмет
+
+            string revardValue = null;
+
+            if (e.Notification.MissionInfo.MissionReward.CountedItems != null)
             {
-                using (var r = new StreamReader($"{Settings.Program.Directories.Data}/Filters/Planets.json"))
-                {
-                    var json = r.ReadToEnd();
-                    var data = (JObject) JsonConvert.DeserializeObject(json);
-                    var planet = Convert.ToString(data["Items"].First[ntfVm.Text]).Split('|');
-                    test.MissionInfo.Planet = planet[0].ToUpper();
-                    test.MissionInfo.Location = planet[1].ToUpper();
-                }
+                var item = e.Notification.MissionInfo.MissionReward.CountedItems[0];
+                var itemCount = item.ItemCount >= 2 ? $"[{item.ItemCount}]" : string.Empty;
+                revardValue = $"{item.ItemType.GetFilter(Filters.FilterType.Item)} {itemCount}";
             }
-            catch (Exception ex)
+            else if (e.Notification.MissionInfo.MissionReward.Items != null)
             {
-                Debug.WriteLine(ex);
+                revardValue = e.Notification.MissionInfo.MissionReward.Items[0].GetFilter(Filters.FilterType.Item);
             }
+
+            e.Notification.MissionInfo.Reward = revardValue;
+
+            #endregion
+
+            e.Notification.MissionInfo.Faction = e.Notification.MissionInfo.Faction.GetFilter(Filters.FilterType.Fraction);
+            e.Notification.MissionInfo.Planet = e.Notification.MissionInfo.Location.GetFilter(Filters.FilterType.Planet).ToUpper().Split('|');
+            e.Notification.MissionInfo.MissionType = e.Notification.MissionInfo.MissionType.GetFilter(Filters.FilterType.Mission);
+
+
+            Application.Current.Dispatcher?.InvokeAsync(() =>
+            {
+                if (GameView.Alerts == null) GameView.Alerts = new ObservableCollection<Alert>();
+                GameView.Alerts.Add(e.Notification);
+            });
         }
 
         private void BackgroundEvent_Changed()
@@ -132,123 +142,39 @@ namespace Agent.View
 
         #endregion
 
-        private void ButtonEvent(string name)
-        {
-            switch (name)
-            {
-                case "ThemeBtn":
-                    var res = MessageBox.Show(
-                        "При смене темы могут возникнуть \"артефакты\".\nРекомендую перезапустить приложение.",
-                        "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-                    if (Settings.Program.Theme == Themes.Dark)
-                    {
-                        if (res == MessageBoxResult.OK) ThemeChange(Themes.Light);
-                    }
-                    else
-                    {
-                        if (res == MessageBoxResult.OK) ThemeChange(Themes.Dark);
-                    }
 
-                    break;
-                case "ChangeBg":
-                    BackgroundEvent.Restart();
-                    break;
-                case "HomeBtn":
-                    HomeBtn.Style = (Style) Application.Current.Resources["MenuIn"];
-                    NewsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    AlertsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    InvasionsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    SettingsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    InfoBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    TradeBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    ActMissionsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    MainFrame.Navigate(new Uri("View/HomePage.xaml", UriKind.Relative));
-                    break;
-                case "NewsBtn":
-                    HomeBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    NewsBtn.Style = (Style) Application.Current.Resources["MenuIn"];
-                    AlertsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    InvasionsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    SettingsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    InfoBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    TradeBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    ActMissionsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    //MyPopup.IsOpen = true;
-                    MainFrame.Navigate(new Uri("View/NewsPage.xaml", UriKind.Relative));
-                    break;
-                case "AlertsBtn":
-                    HomeBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    NewsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    AlertsBtn.Style = (Style) Application.Current.Resources["MenuIn"];
-                    InvasionsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    SettingsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    InfoBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    TradeBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    ActMissionsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    //MyPopup.IsOpen = false;
-                    //BodyFrame.Navigate(new Uri("Pages/AlertsPage.xaml", UriKind.Relative));
-                    break;
-                case "TradeBtn":
-                    HomeBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    NewsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    AlertsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    InvasionsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    SettingsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    InfoBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    TradeBtn.Style = (Style) Application.Current.Resources["MenuIn"];
-                    ActMissionsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    //BodyFrame.Navigate(new Uri("Pages/TradePage.xaml", UriKind.Relative));
-                    break;
-                case "InvasionsBtn":
-                    HomeBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    NewsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    AlertsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    InvasionsBtn.Style = (Style) Application.Current.Resources["MenuIn"];
-                    SettingsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    InfoBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    TradeBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    ActMissionsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    //BodyFrame.Navigate(new Uri("Pages/InvasionsPage.xaml", UriKind.Relative));
-                    break;
-                case "InfoBtn":
-                    HomeBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    NewsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    AlertsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    InvasionsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    SettingsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    InfoBtn.Style = (Style) Application.Current.Resources["MenuIn"];
-                    TradeBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    ActMissionsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    //BodyFrame.Navigate(new Uri("Pages/InfoPage.xaml", UriKind.Relative));
-                    break;
-                case "SettingsBtn":
-                    HomeBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    NewsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    AlertsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    InvasionsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    InfoBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    SettingsBtn.Style = (Style) Application.Current.Resources["MenuIn"];
-                    TradeBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    ActMissionsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    //BodyFrame.Navigate(new Uri("Pages/SettingsPage.xaml", UriKind.Relative));
-                    break;
-                case "ActMissionsBtn":
-                    HomeBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    NewsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    AlertsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    InvasionsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    InfoBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    SettingsBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    TradeBtn.Style = (Style) Application.Current.Resources["Menu"];
-                    ActMissionsBtn.Style = (Style) Application.Current.Resources["MenuIn"];
-                    //BodyFrame.Navigate(new Uri("Pages/ActiveMissionsPage.xaml", UriKind.Relative));
-                    break;
+        private void StyleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(e.Source is Button srcButton)) return;
+            var name = srcButton.Name;
+            if (name == "ChangeBg")
+            {
+                BackgroundEvent.Restart();
+                return;
             }
+            if (name == "ThemeBtn")
+            {
+                var res = MessageBox.Show(
+                    "При смене темы могут возникнуть \"артефакты\".\nРекомендую перезапустить приложение.",
+                    "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (Settings.Program.Theme == Themes.Dark)
+                {
+                    if (res == MessageBoxResult.OK) ThemeChange(Themes.Light);
+                }
+                else
+                {
+                    if (res == MessageBoxResult.OK) ThemeChange(Themes.Dark);
+                }
+            }
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (e.Source is Button srcButton) ButtonEvent(srcButton.Name);
+            if (!(e.Source is RadioButton srcButton)) return;
+            var name = srcButton.Name;
+            MainFrame.Navigate(
+                new Uri("View/" + name.Substring(0, name.Length - 3) + "Page.xaml", UriKind.Relative));
         }
 
         #region События
@@ -256,13 +182,13 @@ namespace Agent.View
         private void GameDataEvent_Disconnected()
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                (ThreadStart) delegate { ConnLostImg.Visibility = Visibility.Visible; });
+                (ThreadStart)delegate { ConnLostImg.Visibility = Visibility.Visible; });
         }
 
         private void GameDataEvent_Connected()
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                (ThreadStart) delegate { ConnLostImg.Visibility = Visibility.Collapsed; });
+                (ThreadStart)delegate { ConnLostImg.Visibility = Visibility.Collapsed; });
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -308,7 +234,7 @@ namespace Agent.View
 
         private void CloseBtn_Click(object sender, RoutedEventArgs e)
         {
-            //Settings.Program.Save();
+            Settings.Program.Save();
             Close();
         }
 

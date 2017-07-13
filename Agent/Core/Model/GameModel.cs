@@ -72,7 +72,13 @@ namespace Core.Model
         public Activation Activation { get; set; }
         public Expiry Expiry { get; set; }
         public MissionInfo MissionInfo { get; set; }
+        private Brush _statusColor;
 
+        public Brush StatusColor
+        {
+            get => _statusColor;
+            set => Set(ref _statusColor, value);
+        }
         private string _status;
 
         public string Status
@@ -85,27 +91,34 @@ namespace Core.Model
                 if (start >= DateTime.Now)
                 {
                     value = (start - DateTime.Now).ToString(@"mm\:ss");
+                    StatusColor = Brushes.Orange;
                 }
                 else
                 {
                     if (DateTime.Now <= end)
-                        if ((end - DateTime.Now.TimeOfDay).Hour == 0)
-                            value = (end - DateTime.Now).ToString(@"mm\:ss");
-                        else
-                            value = (end - DateTime.Now).ToString(@"hh\:mm\:ss");
+                    {
+                        value = (end - DateTime.Now).ToString((end - DateTime.Now.TimeOfDay).Hour == 0
+                            ? @"mm\:ss"
+                            : @"hh\:mm\:ss");
+                        //StatusColor = (SolidColorBrush) (new BrushConverter().ConvertFrom("#004F24"));
+                        StatusColor = Brushes.Green;
+                    }
                     else
-                        value = "Закончилось";
+                    {
+                        value = "00:00";
+                        StatusColor = Brushes.Red;
+                    }
                 }
                 Set(ref _status, value);
             }
         }
     }
 
-    public class MissionInfo
+    public class MissionInfo : VM
     {
         public string MissionType { get; set; }
         public string Faction { get; set; }
-        public string Planet { get; set; }
+        public string[] Planet { get; set; }
         public string Location { get; set; }
         public string LevelOverride { get; set; }
         public string EnemySpec { get; set; }
@@ -118,17 +131,16 @@ namespace Core.Model
         public string ExtraEnemySpec { get; set; }
         public List<string> CustomAdvancedSpawners { get; set; }
         public bool? ArchwingRequired { get; set; }
+
         public bool? IsSharkwingMission { get; set; }
 
+        private static string _rewardTemp { get; set; }
+
+        private string _reward;
         public string Reward
         {
-            get
-            {
-                if (MissionReward.CountedItems != null)
-                    return $"{MissionReward.CountedItems[0].ItemType} [{MissionReward.CountedItems[0].ItemCount}]";
-                if (MissionReward.Items != null) return MissionReward.Items[0];
-                return "Нет награды.";
-            }
+            get => _reward;
+            set => Set(ref _reward, value);
         }
 
         public Visibility ArchvingVisibility

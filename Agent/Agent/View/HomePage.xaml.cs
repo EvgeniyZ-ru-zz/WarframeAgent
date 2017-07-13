@@ -13,7 +13,7 @@ namespace Agent.View
         public HomePage()
         {
             InitializeComponent();
-            DataContext = MainWindow.GameData;
+            DataContext = MainWindow.GameView;
             NewsPanel.DataContext = MainWindow.NewsData;
         }
 

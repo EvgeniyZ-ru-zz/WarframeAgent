@@ -11,13 +11,6 @@ namespace Core
     {
         private GameModel _data;
 
-        public Game()
-        {
-            var reloadTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(1)};
-            reloadTimer.Tick += reloadTimer_Elapsed;
-            reloadTimer.Start();
-        }
-
         /// <summary>
         ///     Основные игровые данные.
         /// </summary>
@@ -41,24 +34,6 @@ namespace Core
             }
 
             Data = data;
-
-            if (Data?.Alerts == null) return;
-            for (var index = 0; index < (Data?.Alerts).Count; index++)
-            {
-                var item = (Data?.Alerts)[index];
-                item.Status = null;
-            }
-        }
-
-
-        private void reloadTimer_Elapsed(object sender, EventArgs e)
-        {
-            if (Data?.Alerts == null) return;
-            for (var index = 0; index < (Data?.Alerts).Count; index++)
-            {
-                var item = (Data?.Alerts)[index];
-                item.Status = null;
-            }
         }
     }
 }
