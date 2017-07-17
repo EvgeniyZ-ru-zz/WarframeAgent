@@ -16,11 +16,6 @@
                         <ContentPresenter Margin="{TemplateBinding Padding}" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <!--<Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Foreground" Value="White" />
-                                        <Setter Property="BorderThickness" Value="0,1" />
-                                        <Setter Property="BorderBrush" Value="Black" />
-                                    </Trigger>-->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource NewsListBoxSelect}" />
                         </Trigger>
@@ -28,47 +23,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-        <!--<Style.Triggers>
-            <EventTrigger RoutedEvent="ListBoxItem.MouseEnter">
-                <EventTrigger.Actions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation 
-                                AutoReverse="False" 
-                                Duration="0:0:0.3" 
-                                From="#FF1F1F1F" To="#FF1B1B1B"
-                                AccelerationRatio="1" 
-                                Storyboard.TargetProperty="(ListBoxItem.Background).(SolidColorBrush.Color)"
-                                FillBehavior="HoldEnd" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger.Actions>
-            </EventTrigger>
-            <EventTrigger RoutedEvent="ListBoxItem.MouseLeave">
-                <EventTrigger.Actions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation 
-                                AutoReverse="False" 
-                                Duration="0:0:0.3" 
-                                From="#FF1B1B1B" To="#FF1F1F1F"
-                                AccelerationRatio="1" 
-                                Storyboard.TargetProperty="(ListBoxItem.Background).(SolidColorBrush.Color)"
-                                FillBehavior="HoldEnd" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger.Actions>
-            </EventTrigger>
-        </Style.Triggers>-->
     </Style>
 
     <Style x:Key="AlertListItem" TargetType="ListBoxItem">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Margin" Value="-5,0,0,0" />
-        <!--<Setter Property="BorderBrush" Value="{DynamicResource AlertLineColor}" />
-        <Setter Property="BorderThickness" Value="0,0,0,0.4" />-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -78,11 +37,6 @@
                         <ContentPresenter Margin="{TemplateBinding Padding}" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <!--<Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Foreground" Value="White" />
-                                        <Setter Property="BorderThickness" Value="0,1" />
-                                        <Setter Property="BorderBrush" Value="Black" />
-                                    </Trigger>-->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource NewsListBoxSelect}" />
                         </Trigger>
@@ -90,38 +44,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-        <!--<Style.Triggers>
-            <EventTrigger RoutedEvent="ListBoxItem.MouseEnter">
-                <EventTrigger.Actions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation 
-                                AutoReverse="False" 
-                                Duration="0:0:0.3" 
-                                From="#FF1F1F1F" To="#FF1B1B1B"
-                                AccelerationRatio="1" 
-                                Storyboard.TargetProperty="(ListBoxItem.Background).(SolidColorBrush.Color)"
-                                FillBehavior="HoldEnd" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger.Actions>
-            </EventTrigger>
-            <EventTrigger RoutedEvent="ListBoxItem.MouseLeave">
-                <EventTrigger.Actions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation 
-                                AutoReverse="False" 
-                                Duration="0:0:0.3" 
-                                From="#FF1B1B1B" To="#FF1F1F1F"
-                                AccelerationRatio="1" 
-                                Storyboard.TargetProperty="(ListBoxItem.Background).(SolidColorBrush.Color)"
-                                FillBehavior="HoldEnd" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger.Actions>
-            </EventTrigger>
-        </Style.Triggers>-->
     </Style>
 </ResourceDictionary>

@@ -108,36 +108,36 @@
 
                 <StackPanel Name="LeftPanelTop" Grid.Row="1">
                     <RadioButton x:Name="HomeBtn"
-                            IsChecked="True"
-                            fa:Awesome.Content="Home"
-                            GroupName="LeftMenu"
-                            Style="{StaticResource MenuButton}"
-                            Click="Button_Click" />
+                                 IsChecked="True"
+                                 fa:Awesome.Content="Home"
+                                 GroupName="LeftMenu"
+                                 Style="{StaticResource MenuButton}"
+                                 Click="Button_Click" />
                     <RadioButton x:Name="NewsBtn"
-                            fa:Awesome.Content="NewspaperOutline"
-                            GroupName="LeftMenu"
-                            Style="{StaticResource MenuButton}"
-                            Click="Button_Click" />
-                    <RadioButton x:Name="AlertsBtn" IsEnabled="False"
-                            fa:Awesome.Content="ExclamationTriangle"
-                            GroupName="LeftMenu"
-                            Style="{StaticResource MenuButton}"
-                            Click="Button_Click" />
-                    <RadioButton x:Name="InvasionsBtn" IsEnabled="False"
-                            fa:Awesome.Content="Bullseye"
-                            GroupName="LeftMenu"
-                            Style="{StaticResource MenuButton}"
-                            Click="Button_Click" />
-                    <RadioButton x:Name="TradeBtn" IsEnabled="False"
-                            fa:Awesome.Content="BalanceScale"
-                            GroupName="LeftMenu"
-                            Style="{StaticResource MenuButton}"
-                            Click="Button_Click" />
-                    <RadioButton Visibility="Visible" x:Name="ActMissionsBtn"  IsEnabled="False"
-                            fa:Awesome.Content="FreeCodeCamp"
-                            GroupName="LeftMenu"
-                            Style="{StaticResource MenuButton}"
-                            Click="Button_Click" />
+                                 fa:Awesome.Content="NewspaperOutline"
+                                 GroupName="LeftMenu"
+                                 Style="{StaticResource MenuButton}"
+                                 Click="Button_Click" />
+                    <RadioButton x:Name="AlertsBtn" IsEnabled="True"
+                                 fa:Awesome.Content="ExclamationTriangle"
+                                 GroupName="LeftMenu"
+                                 Style="{StaticResource MenuButton}"
+                                 Click="Button_Click" />
+                    <RadioButton x:Name="InvasionsBtn" IsEnabled="True"
+                                 fa:Awesome.Content="Bullseye"
+                                 GroupName="LeftMenu"
+                                 Style="{StaticResource MenuButton}"
+                                 Click="Button_Click" />
+                    <RadioButton x:Name="TradeBtn" IsEnabled="True"
+                                 fa:Awesome.Content="BalanceScale"
+                                 GroupName="LeftMenu"
+                                 Style="{StaticResource MenuButton}"
+                                 Click="Button_Click" />
+                    <RadioButton Visibility="Visible" x:Name="ActMissionsBtn" IsEnabled="True"
+                                 fa:Awesome.Content="FreeCodeCamp"
+                                 GroupName="LeftMenu"
+                                 Style="{StaticResource MenuButton}"
+                                 Click="Button_Click" />
                 </StackPanel>
 
                 <StackPanel Name="LeftPanelBottom" VerticalAlignment="Bottom" Margin="0,0,0,15" Grid.Row="3">
@@ -152,12 +152,12 @@
                         Spin="False"
                         SpinDuration="20"
                         Foreground="{DynamicResource TextColor}" />
-                    <RadioButton x:Name="SettingsBtn" IsEnabled="False"
+                    <RadioButton x:Name="SettingsBtn" IsEnabled="True"
                             fa:Awesome.Content="Cog"
                             GroupName="LeftMenu"
                             Style="{StaticResource MenuButton}"
                             Click="Button_Click" />
-                    <RadioButton IsEnabled="False" x:Name="InfoBtn"
+                    <RadioButton IsEnabled="True" x:Name="InfoBtn"
                             Style="{StaticResource MenuButton}"
                             fa:Awesome.Content="Info"
                             GroupName="LeftMenu"

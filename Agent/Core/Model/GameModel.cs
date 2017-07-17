@@ -100,8 +100,7 @@ namespace Core.Model
                         value = (end - DateTime.Now).ToString((end - DateTime.Now.TimeOfDay).Hour == 0
                             ? @"mm\:ss"
                             : @"hh\:mm\:ss");
-                        //StatusColor = (SolidColorBrush) (new BrushConverter().ConvertFrom("#004F24"));
-                        StatusColor = Brushes.Green;
+                        StatusColor = (SolidColorBrush) new BrushConverter().ConvertFrom("#6ECD37");
                     }
                     else
                     {
@@ -133,14 +132,20 @@ namespace Core.Model
         public bool? ArchwingRequired { get; set; }
 
         public bool? IsSharkwingMission { get; set; }
-
-        private static string _rewardTemp { get; set; }
-
+        
         private string _reward;
         public string Reward
         {
             get => _reward;
             set => Set(ref _reward, value);
+        }
+
+        private Brush _rewardColor;
+
+        public Brush RewardColor
+        {
+            get => _rewardColor;
+            set => Set(ref _rewardColor, value);
         }
 
         public Visibility ArchvingVisibility
@@ -164,6 +169,8 @@ namespace Core.Model
         public Visibility RewardVisibility => MissionReward.CountedItems != null || MissionReward.Items != null
             ? Visibility.Visible
             : Visibility.Collapsed;
+
+        public Visibility CreditVisibility => MissionReward.Credits > 0 ? Visibility.Visible : Visibility.Collapsed;
     }
 
     public class MissionReward

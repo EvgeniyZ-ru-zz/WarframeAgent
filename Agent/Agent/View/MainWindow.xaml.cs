@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -32,8 +36,9 @@ namespace Agent.View
         {
             GameData.Load($"{Settings.Program.Directories.Temp}/GameData.json");
             NewsData.Load($"{Settings.Program.Directories.Temp}/NewsData.json");
+            Animation animation = new Animation(this);
             InitializeComponent();
-            InitializeAnimation();
+            animation.InitializeAnimation();
 
             ConnLostImg.Visibility = visibility;
         }
@@ -42,8 +47,9 @@ namespace Agent.View
         {
             GameData.Load($"{Settings.Program.Directories.Temp}/GameData.json");
             NewsData.Load($"{Settings.Program.Directories.Temp}/NewsData.json");
+            Animation animation = new Animation(this);
             InitializeComponent();
-            InitializeAnimation();
+            animation.InitializeAnimation();
         }
 
         private void MainWindow_OnInitialized(object sender, EventArgs e)
@@ -60,7 +66,7 @@ namespace Agent.View
             BackgroundEvent.Changed += BackgroundEvent_Changed;
             NotificationWatcherwatcher.AlertNotificationArrived += NotificationWatcherwatcherOnAlertNotificationArrived;
             NotificationWatcherwatcher.AlertNotificationDeparted +=
-            NotificationWatcherwatcherOnAlertNotificationDeparted;
+                NotificationWatcherwatcherOnAlertNotificationDeparted;
             NotificationWatcherwatcher.Start(GameData);
         }
 
@@ -81,30 +87,55 @@ namespace Agent.View
         {
             var ntfVm = new NotificationViewModel(e.Notification);
             Debug.WriteLine($"Новая тревога {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
-            Debug.WriteLine($"Переводим значение {ntfVm.Text}!", $"[{DateTime.Now}]");
-
             #region Переводим предмет
 
-            string revardValue = null;
+            string rewardValue = null;
+            string rewardType = null;
 
             if (e.Notification.MissionInfo.MissionReward.CountedItems != null)
             {
                 var item = e.Notification.MissionInfo.MissionReward.CountedItems[0];
                 var itemCount = item.ItemCount >= 2 ? $"[{item.ItemCount}]" : string.Empty;
-                revardValue = $"{item.ItemType.GetFilter(Filters.FilterType.Item)} {itemCount}";
+                var reward = item.ItemType.GetFilter(Filters.FilterType.Item).FirstOrDefault();
+
+                rewardType = reward.Value;
+                rewardValue = $"{reward.Key} {itemCount}";
             }
             else if (e.Notification.MissionInfo.MissionReward.Items != null)
             {
-                revardValue = e.Notification.MissionInfo.MissionReward.Items[0].GetFilter(Filters.FilterType.Item);
+                var reward = e.Notification.MissionInfo.MissionReward.Items[0].GetFilter(Filters.FilterType.Item)
+                    .FirstOrDefault();
+
+                rewardType = reward.Value;
+                rewardValue = reward.Key;
             }
 
-            e.Notification.MissionInfo.Reward = revardValue;
+            e.Notification.MissionInfo.Reward = rewardValue;
+
+            switch (rewardType)
+            {
+                case "Шлема":
+                    e.Notification.MissionInfo.RewardColor = Brushes.BlueViolet;
+                    break;
+                case "Чертежи":
+                    e.Notification.MissionInfo.RewardColor = Brushes.BlueViolet;
+                    break;
+                case "Ауры":
+                    e.Notification.MissionInfo.RewardColor = Brushes.OrangeRed;
+                    break;
+                case "Модификаторы":
+                    e.Notification.MissionInfo.RewardColor = Brushes.DarkCyan;
+                    break;
+                default:
+                    e.Notification.MissionInfo.RewardColor = (Brush) Application.Current.Resources["TextColor"]; 
+                    break;
+            }
 
             #endregion
-
-            e.Notification.MissionInfo.Faction = e.Notification.MissionInfo.Faction.GetFilter(Filters.FilterType.Fraction);
-            e.Notification.MissionInfo.Planet = e.Notification.MissionInfo.Location.GetFilter(Filters.FilterType.Planet).ToUpper().Split('|');
-            e.Notification.MissionInfo.MissionType = e.Notification.MissionInfo.MissionType.GetFilter(Filters.FilterType.Mission);
+            
+            e.Notification.MissionInfo.Faction = e.Notification.MissionInfo.Faction.GetFilter(Filters.FilterType.Fraction).FirstOrDefault().Key;
+            e.Notification.MissionInfo.Planet = e.Notification.MissionInfo.Location.GetFilter(Filters.FilterType.Planet).FirstOrDefault().Key.ToUpper().Split('|');
+            e.Notification.MissionInfo.MissionType = e.Notification.MissionInfo.MissionType.GetFilter(Filters.FilterType.Mission).FirstOrDefault().Key;
 
 
             Application.Current.Dispatcher?.InvokeAsync(() =>
@@ -117,7 +148,7 @@ namespace Agent.View
         private void BackgroundEvent_Changed()
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                (ThreadStart) delegate
+                (ThreadStart)delegate
                 {
                     BgImg.Source = new BitmapImage(new Uri(
                         $"pack://application:,,,/Resources/Images/Background/{Settings.Program.BackgroundId}.jpg"));
@@ -245,77 +276,6 @@ namespace Agent.View
 
         #endregion
 
-        #region Анимация
-
-        private void InitializeAnimation()
-        {
-            LeftPanelAnimation(); //Анимация боковой панели
-        }
-
-        #region Боковая панель
-
-        private void LeftPanelAnimation()
-        {
-            LeftPanelTop.Opacity = 0;
-            LeftPanelTheme.Opacity = 0;
-            LeftPanelBottom.Opacity = 0;
-            var animation = new Storyboard();
-            var a = new DoubleAnimation
-            {
-                From = 0,
-                To = 40,
-                Duration = TimeSpan.FromSeconds(0.3)
-            };
-            a.Completed += LeftPanelAnimation_Completed;
-            Storyboard.SetTarget(a, LeftPanelGrid);
-            Storyboard.SetTargetProperty(a, new PropertyPath(WidthProperty));
-            animation.Children.Add(a);
-            animation.Begin();
-        }
-
-        private void LeftPanelAnimation_Completed(object sender, EventArgs e)
-        {
-            LeftPanelTheme.Opacity = 0;
-            LeftPanelBottom.Opacity = 0;
-            var animation = new Storyboard();
-            var top = new DoubleAnimation
-            {
-                From = 0,
-                To = 1,
-                Duration = TimeSpan.FromSeconds(1)
-            };
-
-            var theme = new DoubleAnimation
-            {
-                From = 0,
-                To = 1,
-                Duration = TimeSpan.FromSeconds(1)
-            };
-
-            var bottom = new DoubleAnimation
-            {
-                From = 0,
-                To = 1,
-                Duration = TimeSpan.FromSeconds(1)
-            };
-
-            Storyboard.SetTarget(top, LeftPanelTop);
-            Storyboard.SetTarget(theme, LeftPanelTheme);
-            Storyboard.SetTarget(bottom, LeftPanelBottom);
-
-            Storyboard.SetTargetProperty(top, new PropertyPath(OpacityProperty));
-            Storyboard.SetTargetProperty(theme, new PropertyPath(OpacityProperty));
-            Storyboard.SetTargetProperty(bottom, new PropertyPath(OpacityProperty));
-
-            animation.Children.Add(top);
-            animation.Children.Add(theme);
-            animation.Children.Add(bottom);
-
-            animation.Begin();
-        }
-
-        #endregion
-
-        #endregion
+ 
     }
 }

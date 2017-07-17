@@ -13,12 +13,18 @@
     /// </summary>
     public class MainSettings : SettingCore<MainSettings>
     {
+        public Core Core = new Core();
         public Verisons Verisons = new Verisons();
         public Directories Directories = new Directories();
         public Urls Urls = new Urls();
         public Themes Theme { get; set; }
         public bool RandomBackground { get; set; } = true;
         public int BackgroundId { get; set; } = 1;
+    }
+
+    public class Core
+    {
+        public bool UseGpu { get; set; } = true;
     }
 
     public class Verisons

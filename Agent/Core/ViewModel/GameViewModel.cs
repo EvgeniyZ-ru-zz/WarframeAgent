@@ -14,15 +14,8 @@ namespace Core.ViewModel
             reloadTimer.Start();
         }
 
-        //private ObservableCollection<Alert> _alerts;
-
-        //public ObservableCollection<Alert> Alerts
-        //{
-        //    get => _alerts;
-        //    set => Set(ref _alerts, value);
-        //}
-
         public ObservableCollection<Alert> Alerts { get; set; }
+        public ObservableCollection<Invasion> Invasions { get; set; }
 
         private void reloadTimer_Elapsed(object sender, EventArgs e)
         {

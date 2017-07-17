@@ -32,70 +32,78 @@ namespace Core.ViewModel
             Fraction
         }
 
-        public static string GetFilter(this string value, FilterType type)
+        public static Dictionary<string, string> GetFilter(this string value, FilterType type)
         {
             switch (type)
             {
                 case FilterType.Item:
-                    return FiltersViewModel.Items.Find(value);
+                    return FiltersViewModel.Items.Find(value, "Items");
                 case FilterType.Fraction:
-                    return FiltersViewModel.Races.Find(value);
+                    return FiltersViewModel.Races.Find(value, "Items");
                 case FilterType.Planet:
-                    return FiltersViewModel.Planets.Find(value);
+                    return FiltersViewModel.Planets.Find(value, "Items");
                 case FilterType.Mission:
-                    return FiltersViewModel.Missions.Find(value);
-                default: return value;
+                    return FiltersViewModel.Missions.Find(value, "Missions");
+                default:
+                    return new Dictionary<string, string> { { value, null } };
             }
         }
     }
 
     public class FiltersViewModel
     {
-        private static object ReadFile(string file, string value)
+        private static Dictionary<string, string> ReadFile(string file, string value, string cat)
         {
             try
             {
-                var strings = File.ReadAllLines(file, Encoding.UTF8);
-                var p = "{" + strings.Where(x => x.Contains(value)).Select(x => x).ToArray()[0] + "}";
-                var obj = JObject.Parse(p);
-                return (string)obj[value];
+                var strings = File.ReadAllText(file, Encoding.UTF8);
+                var json = JObject.Parse(strings);
+                var result = json[cat]
+                    .Where(s => s[value] != null)
+                    .Select(s => new
+                    {
+                        Value = s[value]?.ToString(),
+                        Type = s["type"]?.ToString()
+                    }).ToDictionary(p => p.Value, e => e.Type);
+
+                return result;
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e);
-                return value;
+                return new Dictionary<string, string> { { value, null } };
             }
         }
 
         public static class Items
         {
-            public static string Find(string value)
+            public static Dictionary<string, string> Find(string value, string cat)
             {
-                return ReadFile("Filters/Items.json", value).ToString();
+                return ReadFile("Filters/Items.json", value, cat);
             }
         }
 
         public static class Races
         {
-            public static string Find(string value)
+            public static Dictionary<string, string> Find(string value, string cat)
             {
-                return ReadFile("Filters/Race.json", value).ToString();
+                return ReadFile("Filters/Race.json", value, cat);
             }
         }
 
         public static class Planets
         {
-            public static string Find(string value)
+            public static Dictionary<string, string> Find(string value, string cat)
             {
-                return ReadFile("Filters/Planets.json", value).ToString();
+                return ReadFile("Filters/Planets.json", value, cat);
             }
         }
 
         public static class Missions
         {
-            public static string Find(string value)
+            public static Dictionary<string, string> Find(string value, string cat)
             {
-                return ReadFile("Filters/Missions.json", value).ToString();
+                return ReadFile("Filters/Missions.json", value, cat);
             }
         }
 
