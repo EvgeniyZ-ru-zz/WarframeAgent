@@ -7,7 +7,7 @@
     x:Class="Agent.View.MainWindow"
     mc:Ignorable="d"
     Style="{DynamicResource WindowStyle}" SizeChanged="Window_SizeChanged" Closed="MainWindow_OnClosed"
-    Height="610" MaxHeight="610" MaxWidth="1000" MinHeight="460" MinWidth="740"
+    Height="610" MaxHeight="610" MaxWidth="1000" MinHeight="460" MinWidth="740" Title="Warframe Agent"
     Width="1000" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanMinimize"
     WindowStartupLocation="CenterScreen" ShowInTaskbar="True" SnapsToDevicePixels="True" UseLayoutRounding="True"
     Icon="/Agent;component/Resources/Icon.ico" LocationChanged="Window_LocationChanged"

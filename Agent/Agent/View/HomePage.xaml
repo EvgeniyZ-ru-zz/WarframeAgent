@@ -161,80 +161,117 @@
                                     BorderThickness="0,0,0,2" />
 
                             <Grid Grid.Row="1">
+                                <Grid.Resources>
+
+                                    <CollectionViewSource x:Key="GroupedInvasions" Source="{Binding Invasions}">
+                                        <CollectionViewSource.GroupDescriptions>
+                                            <PropertyGroupDescription PropertyName="NodeArray[0]"/>
+                                        </CollectionViewSource.GroupDescriptions>
+                                    </CollectionViewSource>
+
+                                </Grid.Resources>
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <ListBox Grid.Row="0" ScrollViewer.CanContentScroll="False"
-                                         ItemsSource="{Binding Invasions}" Background="{x:Null}" BorderBrush="{x:Null}"
+                                         ItemsSource="{Binding Source={StaticResource GroupedInvasions}}" Background="{x:Null}" BorderBrush="{x:Null}"
                                          VerticalContentAlignment="Top"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                          ScrollViewer.VerticalScrollBarVisibility="Auto"
                                          ItemContainerStyle="{StaticResource AlertListItem}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid MaxHeight="33" Margin="0,1,0,2">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel Grid.Row="0" Margin="0,0,0,2">
-                                                    <TextBlock Margin="5,2,3,0" FontWeight="Medium"
+                                    <ListBox.GroupStyle>
+                                        <GroupStyle>
+
+                                            <GroupStyle.HeaderTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Margin="3,5,3,0" FontWeight="Medium"
                                                                Foreground="{DynamicResource TextColor}" FontSize="11"
                                                                TextTrimming="CharacterEllipsis"
                                                                FontFamily="/Agent;component/Resources/Fonts/#Roboto">
-                                                        <Run Text="{Binding Faction}" />
-                                                        <Run Text=" - " />
-                                                        <Run Text="{Binding Path=Percent, Mode=OneWay}" />
+                                                        <fa:FontAwesome Icon="Globe" />
+                                                        <Run Text="{Binding Name, Mode=OneWay}"/>
                                                     </TextBlock>
-                                                    <StackPanel Orientation="Horizontal" Margin="4,0,0,0">
-                                                        <fa:FontAwesome Foreground="{DynamicResource TextColor}"
-                                                                        Icon="EllipsisV" Margin="0,1,2,0" FontSize="10"
-                                                                        VerticalAlignment="Center" />
-                                                        <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11"
+                                                </DataTemplate>
+                                            </GroupStyle.HeaderTemplate>
+                                        </GroupStyle>
+                                    </ListBox.GroupStyle>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Height="33" Margin="0,1,0,2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid Grid.Column="1" Margin="-8,0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid Margin="8,2">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock FontWeight="Medium"
+                                                                   Grid.Column="0" HorizontalAlignment="Left"
+                                                                   Foreground="{DynamicResource TextColor}" FontSize="10"
                                                                    TextTrimming="CharacterEllipsis"
-                                                                   Text="{Binding MissionInfo.Faction}"
-                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto"
-                                                                   VerticalAlignment="Center" />
-                                                    </StackPanel>
-                                                </StackPanel>
-                                                <DockPanel Grid.Column="1" Margin="0,0,1,2" HorizontalAlignment="Right">
-                                                    <TextBlock Margin="0,2,0,0" DockPanel.Dock="Top"
-                                                               Foreground="{DynamicResource TextColor}" FontSize="11"
-                                                               TextTrimming="CharacterEllipsis" Text="{Binding Status}"
-                                                               FontFamily="/Agent;component/Resources/Fonts/#Roboto"
-                                                               VerticalAlignment="Top" />
-                                                    <StackPanel Margin="0,0,0,2" DockPanel.Dock="Bottom"
-                                                                Orientation="Horizontal" HorizontalAlignment="Right"
-                                                                VerticalAlignment="Bottom">
-                                                        <fa:FontAwesome
-                                                            Visibility="{Binding MissionInfo.ArchvingVisibility}"
-                                                            Foreground="{DynamicResource TextColor}" Icon="SunOutline"
-                                                            FontSize="11" Margin="0" />
-                                                        <fa:FontAwesome
-                                                            Visibility="{Binding MissionInfo.SharkwingVisibility}"
-                                                            Foreground="{DynamicResource TextColor}"
-                                                            Icon="SnowflakeOutline" FontSize="11" Margin="2,0,1,0" />
-                                                        <fa:FontAwesome Visibility="{Binding MissionInfo.RewardVisibility}"
-                                                                        ToolTip="{Binding MissionInfo.Reward}"
-                                                                        Foreground="{DynamicResource TextColor}"
-                                                                        Icon="Diamond" FontSize="11" Margin="2,0,0,-1" />
-                                                    </StackPanel>
-                                                </DockPanel>
-                                                <ProgressBar Name="Bar" Foreground="{DynamicResource InvasionsLineColor}"
-                                                             BorderThickness="0"
-                                                             Minimum="0"
-                                                             Maximum="100"
-                                                             Value="{Binding Path=Percent, Mode=OneWay}"
-                                                             Background="{DynamicResource AlertProgressColor}"
-                                                             BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="2"
-                                                             Margin="0,0,-4,-2" Grid.ColumnSpan="2"
-                                                             Grid.Column="0" />
+                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto">
+                                                            <Run Text="{Binding Goal}"/>
+                                                        </TextBlock>
+                                                        <TextBlock FontWeight="Medium"
+                                                                   Grid.Column="1" HorizontalAlignment="Center"
+                                                                   Foreground="{DynamicResource TextColor}" FontSize="11"
+                                                                   TextTrimming="CharacterEllipsis"
+                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto" Margin="0">
+                                                            <Run Text="{Binding NodeArray[1]}"/>
+                                                        </TextBlock>
+                                                        <TextBlock FontWeight="Medium"
+                                                                   Grid.Column="2" HorizontalAlignment="Right"
+                                                                   Foreground="{DynamicResource TextColor}" FontSize="10"
+                                                                   TextTrimming="CharacterEllipsis"
+                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto">
+                                                            <Run Text="{Binding Count}"/>
+                                                        </TextBlock>
+                                                    </Grid>
+                                                    <ProgressBar Grid.Row="1" Name="Bar" Foreground="{DynamicResource InvasionsLineColor}"
+                                                                 BorderThickness="0"
+                                                                 Value="{Binding Path=Percent}"
+                                                                 Background="{DynamicResource AlertProgressColor}"
+                                                                 BorderBrush="{x:Null}" Height="2" />
+                                                    <Grid Grid.Row="2" Margin="8,2,8,0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock FontWeight="Medium"
+                                                                   Grid.Column="0" HorizontalAlignment="Left"
+                                                                   Foreground="{DynamicResource TextColor}" FontSize="10"
+                                                                   TextTrimming="CharacterEllipsis"
+                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto">
+                                                            <Run Text="{Binding Percent, StringFormat='\{0:n2\}%'}"/>
+                                                        </TextBlock>
+                                                        <TextBlock FontWeight="Medium"
+                                                                   Grid.Column="2" HorizontalAlignment="Right"
+                                                                   Foreground="{DynamicResource TextColor}" FontSize="10"
+                                                                   TextTrimming="CharacterEllipsis"
+                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto">
+                                                            <Run Text="{Binding PercentOut, StringFormat='\{0:n2\}%'}"/>
+                                                        </TextBlock>
+                                                    </Grid>
+                                                </Grid>
+                                                <Image Grid.Row="0" RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Width="33" Source="/Agent;component/Resources/Images/Fractions/GrineerMan.png"/>
+                                                <Image Grid.Row="0" RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="2" Width="33" Source="/Agent;component/Resources/Images/Fractions/InfestedRunner.png"/>
                                             </Grid>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>
-                                <ListBox Grid.Row="1" ItemsSource="{Binding Data.ProjectPct}"
+                                <ListBox Grid.Row="1" ItemsSource="{Binding ProjectPct}"
                                          ScrollViewer.CanContentScroll="False" Background="{x:Null}"
                                          BorderBrush="{x:Null}" VerticalContentAlignment="Top"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"

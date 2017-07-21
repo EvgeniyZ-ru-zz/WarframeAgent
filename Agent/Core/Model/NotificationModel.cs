@@ -8,6 +8,7 @@ namespace Core.Model
 {
     #region EventArgs
 
+    // Добавление новых тревог
     public class NewAlertNotificationEventArgs : EventArgs
     {
         public readonly Alert Notification;
@@ -18,11 +19,34 @@ namespace Core.Model
         }
     }
 
+    // Удаление старых тревог
     public class RemovedAlertNotificationEventArgs : EventArgs
     {
         public readonly Alert Notification;
 
         public RemovedAlertNotificationEventArgs(Alert ntf)
+        {
+            Notification = ntf;
+        }
+    }
+
+    // Добавление новых тревог
+    public class NewInvasionNotificationEventArgs : EventArgs
+    {
+        public readonly Invasion Notification;
+
+        public NewInvasionNotificationEventArgs(Invasion ntf)
+        {
+            Notification = ntf;
+        }
+    }
+
+    // Удаление старых тревог
+    public class RemovedInvasionNotificationEventArgs : EventArgs
+    {
+        public readonly Invasion Notification;
+
+        public RemovedInvasionNotificationEventArgs(Invasion ntf)
         {
             Notification = ntf;
         }
@@ -38,6 +62,7 @@ namespace Core.Model
     public class NotificationModel
     {
         private readonly Dictionary<string, Alert> _currentAlertsNotifications = new Dictionary<string, Alert>();
+        private readonly Dictionary<string, Invasion> _currentInvasionsNotifications = new Dictionary<string, Invasion>();
         private CancellationTokenSource _cts;
 
         public void Start(Game game)
@@ -56,7 +81,8 @@ namespace Core.Model
         {
             try
             {
-                await AlertEvaluateList(game);
+                await AlertEvaluateList(game); // Тревоги.
+                await InvasionEvaluateList(game); // Вторжения.
             }
             catch (OperationCanceledException) when (ct.IsCancellationRequested)
             {
@@ -69,14 +95,30 @@ namespace Core.Model
             foreach (var ntf in newNotifications)
             {
                 _currentAlertsNotifications.Add(ntf.Id.Oid, ntf);
-                FireNewNotification(ntf);
+                FireNewAlertNotification(ntf);
             }
-            var removedNotificationIds =
-                _currentAlertsNotifications.Keys.Except(game.Data.Alerts.Select(ntf => ntf.Id.Oid));
-            foreach (var id in removedNotificationIds.ToList())
+            var removedId = _currentAlertsNotifications.Keys.Except(game.Data.Alerts.Select(ntf => ntf.Id.Oid));
+            foreach (var id in removedId.ToList())
             {
-                FireRemovedNotification(_currentAlertsNotifications[id]);
+                FireRemovedAlertNotification(_currentAlertsNotifications[id]);
                 _currentAlertsNotifications.Remove(id);
+            }
+        }
+
+        private async Task InvasionEvaluateList(Game game)
+        {
+            var newNotifications =
+                game.Data.Invasions.Where(ntf => !_currentInvasionsNotifications.ContainsKey(ntf.Id.Oid));
+            foreach (var ntf in newNotifications)
+            {
+                _currentInvasionsNotifications.Add(ntf.Id.Oid, ntf);
+                FireNewInvasionNotification(ntf);
+            }
+            var removedId = _currentInvasionsNotifications.Keys.Except(game.Data.Invasions.Select(ntf => ntf.Id.Oid));
+            foreach (var id in removedId.ToList())
+            {
+                FireRemovedInvasionNotification(_currentInvasionsNotifications[id]);
+                _currentInvasionsNotifications.Remove(id);
             }
         }
 
@@ -87,7 +129,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<NewAlertNotificationEventArgs> AlertNotificationArrived;
 
-        private void FireNewNotification(Alert ntf)
+        private void FireNewAlertNotification(Alert ntf)
         {
             AlertNotificationArrived?.Invoke(this, new NewAlertNotificationEventArgs(ntf));
         }
@@ -97,50 +139,33 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<RemovedAlertNotificationEventArgs> AlertNotificationDeparted;
 
-        private void FireRemovedNotification(Alert ntf)
+        private void FireRemovedAlertNotification(Alert ntf)
         {
             AlertNotificationDeparted?.Invoke(this, new RemovedAlertNotificationEventArgs(ntf));
+        }
+
+        /// <summary>
+        ///     Эвент добавления новых вторжений.
+        /// </summary>
+        public event EventHandler<NewInvasionNotificationEventArgs> InvasionNotificationArrived;
+
+        private void FireNewInvasionNotification(Invasion ntf)
+        {
+            InvasionNotificationArrived?.Invoke(this, new NewInvasionNotificationEventArgs(ntf));
+        }
+
+        /// <summary>
+        ///     Эвент удаления старых вторжений.
+        /// </summary>
+        public event EventHandler<RemovedInvasionNotificationEventArgs> InvasionNotificationDeparted;
+
+        private void FireRemovedInvasionNotification(Invasion ntf)
+        {
+            InvasionNotificationDeparted?.Invoke(this, new RemovedInvasionNotificationEventArgs(ntf));
         }
 
         #endregion
     }
 
     #endregion
-
-    //public class NotificationListVm
-    //{
-    //    public ObservableCollection<NotificationVm> Notifications { get; } =
-    //        new ObservableCollection<NotificationVm>();
-
-    //    NotificationModel model = new NotificationModel();
-
-    //    public NotificationListVm()
-    //    {
-    //        model.AlertNotificationArrived += OnAlertNotificationArrived;
-    //        model.AlertNotificationDeparted += OnAlertNotificationDeparted;
-    //        model.Start();
-    //    }
-
-    //    private void OnAlertNotificationArrived(object sender, NewAlertNotificationEventArgs e)
-    //    {
-    //        System.Windows.Application.Current.Dispatcher?.Dispatcher.InvokeAsync(() =>
-    //        {
-    //            var ntfVm = new NotificationVm(e.Notification);
-    //            Notifications.Add(ntfVm);
-
-    //            Debug.WriteLine(ntfVm.Text, "Show notification");
-    //        });
-    //    }
-
-    //    private void OnAlertNotificationDeparted(object sender, RemovedAlertNotificationEventArgs e)
-    //    {
-    //        MediaTypeNames.Application.Current?.Dispatcher.InvokeAsync(() =>
-    //        {
-    //            var ntfVm = new NotificationVm(e.Notification);
-    //            Notifications.Remove(ntfVm);
-
-    //            Debug.WriteLine(ntfVm.Text, "Hide notification");
-    //        });
-    //    }
-    //}
 }

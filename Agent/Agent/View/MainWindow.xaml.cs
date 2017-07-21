@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Agent.ViewModel;
 using Core;
 using Core.Events;
 using Core.Model;
 using Core.ViewModel;
-using Filters = Core.ViewModel.Filters;
 
 namespace Agent.View
 {
@@ -36,7 +31,7 @@ namespace Agent.View
         {
             GameData.Load($"{Settings.Program.Directories.Temp}/GameData.json");
             NewsData.Load($"{Settings.Program.Directories.Temp}/NewsData.json");
-            Animation animation = new Animation(this);
+            var animation = new Animation(this);
             InitializeComponent();
             animation.InitializeAnimation();
 
@@ -47,7 +42,7 @@ namespace Agent.View
         {
             GameData.Load($"{Settings.Program.Directories.Temp}/GameData.json");
             NewsData.Load($"{Settings.Program.Directories.Temp}/NewsData.json");
-            Animation animation = new Animation(this);
+            var animation = new Animation(this);
             InitializeComponent();
             animation.InitializeAnimation();
         }
@@ -64,91 +59,17 @@ namespace Agent.View
             GameDataEvent.Disconnected += GameDataEvent_Disconnected;
             GameDataEvent.Updated += GameDataEvent_Updated;
             BackgroundEvent.Changed += BackgroundEvent_Changed;
-            NotificationWatcherwatcher.AlertNotificationArrived += NotificationWatcherwatcherOnAlertNotificationArrived;
-            NotificationWatcherwatcher.AlertNotificationDeparted +=
-                NotificationWatcherwatcherOnAlertNotificationDeparted;
+            NotificationWatcherwatcher.AlertNotificationArrived += AlertsViewModel.AddEvent;
+            NotificationWatcherwatcher.AlertNotificationDeparted += AlertsViewModel.RemoveEvent;
+            NotificationWatcherwatcher.InvasionNotificationArrived += InvasionsViewModel.AddEvent;
+            NotificationWatcherwatcher.InvasionNotificationDeparted += InvasionsViewModel.RemoveEvent;
             NotificationWatcherwatcher.Start(GameData);
-        }
-
-
-        private void NotificationWatcherwatcherOnAlertNotificationDeparted(object sender,
-            RemovedAlertNotificationEventArgs e)
-        {
-            Application.Current.Dispatcher?.InvokeAsync(() =>
-            {
-                GameView.Alerts.Remove(e.Notification);
-            });
-
-            Debug.WriteLine($"Удаляю тревогу {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
-        }
-
-        private void NotificationWatcherwatcherOnAlertNotificationArrived(object sender,
-            NewAlertNotificationEventArgs e)
-        {
-            var ntfVm = new NotificationViewModel(e.Notification);
-            Debug.WriteLine($"Новая тревога {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
-            #region Переводим предмет
-
-            string rewardValue = null;
-            string rewardType = null;
-
-            if (e.Notification.MissionInfo.MissionReward.CountedItems != null)
-            {
-                var item = e.Notification.MissionInfo.MissionReward.CountedItems[0];
-                var itemCount = item.ItemCount >= 2 ? $"[{item.ItemCount}]" : string.Empty;
-                var reward = item.ItemType.GetFilter(Filters.FilterType.Item).FirstOrDefault();
-
-                rewardType = reward.Value;
-                rewardValue = $"{reward.Key} {itemCount}";
-            }
-            else if (e.Notification.MissionInfo.MissionReward.Items != null)
-            {
-                var reward = e.Notification.MissionInfo.MissionReward.Items[0].GetFilter(Filters.FilterType.Item)
-                    .FirstOrDefault();
-
-                rewardType = reward.Value;
-                rewardValue = reward.Key;
-            }
-
-            e.Notification.MissionInfo.Reward = rewardValue;
-
-            switch (rewardType)
-            {
-                case "Шлема":
-                    e.Notification.MissionInfo.RewardColor = Brushes.BlueViolet;
-                    break;
-                case "Чертежи":
-                    e.Notification.MissionInfo.RewardColor = Brushes.BlueViolet;
-                    break;
-                case "Ауры":
-                    e.Notification.MissionInfo.RewardColor = Brushes.OrangeRed;
-                    break;
-                case "Модификаторы":
-                    e.Notification.MissionInfo.RewardColor = Brushes.DarkCyan;
-                    break;
-                default:
-                    e.Notification.MissionInfo.RewardColor = (Brush) Application.Current.Resources["TextColor"]; 
-                    break;
-            }
-
-            #endregion
-            
-            e.Notification.MissionInfo.Faction = e.Notification.MissionInfo.Faction.GetFilter(Filters.FilterType.Fraction).FirstOrDefault().Key;
-            e.Notification.MissionInfo.Planet = e.Notification.MissionInfo.Location.GetFilter(Filters.FilterType.Planet).FirstOrDefault().Key.ToUpper().Split('|');
-            e.Notification.MissionInfo.MissionType = e.Notification.MissionInfo.MissionType.GetFilter(Filters.FilterType.Mission).FirstOrDefault().Key;
-
-
-            Application.Current.Dispatcher?.InvokeAsync(() =>
-            {
-                if (GameView.Alerts == null) GameView.Alerts = new ObservableCollection<Alert>();
-                GameView.Alerts.Add(e.Notification);
-            });
         }
 
         private void BackgroundEvent_Changed()
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                (ThreadStart)delegate
+                (ThreadStart) delegate
                 {
                     BgImg.Source = new BitmapImage(new Uri(
                         $"pack://application:,,,/Resources/Images/Background/{Settings.Program.BackgroundId}.jpg"));
@@ -197,7 +118,6 @@ namespace Agent.View
                     if (res == MessageBoxResult.OK) ThemeChange(Themes.Dark);
                 }
             }
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -213,13 +133,13 @@ namespace Agent.View
         private void GameDataEvent_Disconnected()
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                (ThreadStart)delegate { ConnLostImg.Visibility = Visibility.Visible; });
+                (ThreadStart) delegate { ConnLostImg.Visibility = Visibility.Visible; });
         }
 
         private void GameDataEvent_Connected()
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                (ThreadStart)delegate { ConnLostImg.Visibility = Visibility.Collapsed; });
+                (ThreadStart) delegate { ConnLostImg.Visibility = Visibility.Collapsed; });
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -275,7 +195,5 @@ namespace Agent.View
         }
 
         #endregion
-
- 
     }
 }

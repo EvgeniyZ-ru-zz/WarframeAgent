@@ -184,19 +184,54 @@ namespace Core.Model
 
     #region Invasions
 
-    public class Invasion
+    public class Invasion: VM
     {
         [JsonProperty("_id")]
         public Id Id { get; set; }
 
         public string Faction { get; set; }
         public string Node { get; set; }
-        public double Count { get; set; }
-        public double Goal { get; set; }
+        public string[] NodeArray { get; set; }
 
-        public double Percent => DefenderMissionInfo.Faction == "FC_INFESTATION"
-            ? (Goal + Count) / Goal * 100
-            : (Goal + Count) / (Goal * 2) * 100;
+        private double _count;
+        public double Count
+        {
+            get => _count;
+            set => Set(ref _count, value);
+        }
+
+        private double _goal;
+        public double Goal
+        {
+            get => _goal;
+            set => Set(ref _goal, value);
+        }
+
+        private double _percentOut;
+        public double PercentOut
+        {
+            get => _percentOut;
+            set => Set(ref _percentOut, value);
+        }
+
+        private double _percent;
+        public double Percent
+        {
+            get
+            {
+                var val = DefenderMissionInfo.Faction == "FC_INFESTATION"
+                    ? (Goal + Count) / Goal * 100
+                    : (Goal + Count) / (Goal * 2) * 100;
+
+                PercentOut = 100 - val;
+                _percent = val;
+                return _percent;
+            }
+            set
+            {
+                Set(ref _percent, value);
+            }
+        }
 
         public string LocTag { get; set; }
         public bool Completed { get; set; }
@@ -212,7 +247,7 @@ namespace Core.Model
         public List<CountedItem> CountedItems { get; set; }
     }
 
-    public class InvasionMissionInfo
+    public class InvasionMissionInfo: VM
     {
         public int Seed { get; set; }
         public string Faction { get; set; }

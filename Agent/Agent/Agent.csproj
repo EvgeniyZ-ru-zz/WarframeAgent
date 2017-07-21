@@ -104,6 +104,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Animation.cs" />
+    <Compile Include="ViewModel\AlertsViewModel.cs" />
+    <Compile Include="ViewModel\InvasionsViewModel.cs" />
     <Compile Include="View\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -228,6 +230,19 @@
   <ItemGroup>
     <Resource Include="Resources\Icon.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Images\Fractions\corpus.png" />
+    <Resource Include="Resources\Images\Fractions\grineer.png" />
+    <Resource Include="Resources\Images\Fractions\infestation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Fractions\CorpusMan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Fractions\GrineerMan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Fractions\InfestedRunner.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
