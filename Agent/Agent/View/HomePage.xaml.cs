@@ -13,8 +13,6 @@ namespace Agent.View
         public HomePage()
         {
             InitializeComponent();
-            DataContext = MainWindow.GameView;
-            NewsPanel.DataContext = MainWindow.NewsData;
         }
 
         private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)

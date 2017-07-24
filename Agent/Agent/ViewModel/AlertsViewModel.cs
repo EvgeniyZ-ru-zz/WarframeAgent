@@ -15,10 +15,26 @@ namespace Agent.ViewModel
 {
     class AlertsViewModel
     {
-        public static void AddEvent(object sender, NewAlertNotificationEventArgs e)
+        private GameViewModel GameView;
+
+        public AlertsViewModel(GameViewModel gameView)
         {
+            GameView = gameView;
+        }
+
+        public void Run(NotificationModel watcher)
+        {
+            watcher.AlertNotificationArrived += AddEvent;
+            watcher.AlertNotificationDeparted += RemoveEvent;
+        }
+
+        private async void AddEvent(object sender, NewAlertNotificationEventArgs e)
+        {
+            await AsyncHelpers.RedirectToMainThread();
+
             var ntfVm = new NotificationViewModel(e.Notification);
             Debug.WriteLine($"Новая тревога {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
+
             #region Переводим предмет
 
             string rewardValue = null;
@@ -69,22 +85,15 @@ namespace Agent.ViewModel
             e.Notification.MissionInfo.Planet = e.Notification.MissionInfo.Location.GetFilter(Filters.FilterType.Planet).FirstOrDefault().Key.ToUpper().Split('|');
             e.Notification.MissionInfo.MissionType = e.Notification.MissionInfo.MissionType.GetFilter(Filters.FilterType.Mission).FirstOrDefault().Key;
 
-
-            Application.Current.Dispatcher?.InvokeAsync(() =>
-            {
-                if (MainWindow.GameView.Alerts == null) MainWindow.GameView.Alerts = new ObservableCollection<Alert>();
-                MainWindow.GameView.Alerts.Add(e.Notification);
-            });
+            GameView.AddAlert(e.Notification);
         }
 
-        public static void RemoveEvent(object sender, RemovedAlertNotificationEventArgs e)
+        private async void RemoveEvent(object sender, RemovedAlertNotificationEventArgs e)
         {
+            await AsyncHelpers.RedirectToMainThread();
             Debug.WriteLine($"Удаляю тревогу {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
 
-            Application.Current.Dispatcher?.InvokeAsync(() =>
-            {
-                MainWindow.GameView.Alerts.Remove(e.Notification);
-            });           
+            GameView.RemoveAlert(e.Notification);
         }
     }
 }

@@ -26,7 +26,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <!-- Верхняя сетка -->
-                <DockPanel Grid.Column="0" Opacity=".930">
+                <DockPanel Grid.Column="0" Opacity=".930" DataContext="{Binding GameView}">
                     <Border Style="{StaticResource BoxPanel}">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -146,7 +146,7 @@
                         </Grid>
                     </Border>
                 </DockPanel>
-                <DockPanel Grid.Column="1" Opacity=".930">
+                <DockPanel Grid.Column="1" Opacity=".930" DataContext="{Binding GameView}">
                     <Border Style="{StaticResource BoxPanel}">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -303,7 +303,7 @@
                         </Grid>
                     </Border>
                 </DockPanel>
-                <DockPanel Grid.Column="2" Opacity=".930">
+                <DockPanel Grid.Column="2" Opacity=".930" DataContext="{Binding GameView}">
                     <Border Style="{StaticResource BoxPanel}">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -329,7 +329,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <!-- Нижняя сетка -->
-                <DockPanel x:Name="NewsPanel" Opacity=".930">
+                <DockPanel x:Name="NewsPanel" Opacity=".930" DataContext="{Binding NewsData}">
                     <Border Style="{StaticResource BoxPanel}">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -394,7 +394,7 @@
                     </Border>
                 </DockPanel>
 
-                <DockPanel Grid.Column="1" Opacity=".930">
+                <DockPanel Grid.Column="1" Opacity=".930" DataContext="{Binding GameView}">
                     <Border Style="{StaticResource BoxPanel}">
                         <Grid>
                             <Grid.RowDefinitions>

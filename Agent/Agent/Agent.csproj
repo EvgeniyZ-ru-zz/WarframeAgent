@@ -104,8 +104,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Animation.cs" />
+    <Compile Include="AsyncHelpers.cs" />
     <Compile Include="ViewModel\AlertsViewModel.cs" />
     <Compile Include="ViewModel\InvasionsViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\SplashViewModel.cs" />
     <Compile Include="View\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>

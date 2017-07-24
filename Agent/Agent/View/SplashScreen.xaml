@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Agent.View"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
-        mc:Ignorable="d" Loaded="SplashScreen_OnLoaded" Style="{DynamicResource WindowStyle}"
+        mc:Ignorable="d" Style="{DynamicResource WindowStyle}"
         Title="SplashScreen" Height="120" Width="330" Background="{x:Null}" AllowsTransparency="True"
         WindowStyle="None" WindowStartupLocation="CenterScreen" Icon="/Agent;component/Resources/Icon.ico">
     <Border Margin="15">

@@ -7,9 +7,8 @@
       mc:Ignorable="d" FontFamily="/Agent;component/Resources/Fonts/#Roboto"
       d:DesignHeight="540" d:DesignWidth="930"
       Title="NewsPage">
-
     <Grid>
-        <DockPanel x:Name="NewsPanel" Opacity=".930">
+        <DockPanel x:Name="NewsPanel" Opacity=".930" DataContext="{Binding NewsData}">
             <Border Style="{StaticResource BoxPanel}">
                 <Grid>
                     <Grid.RowDefinitions>

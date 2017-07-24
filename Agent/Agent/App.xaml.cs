@@ -1,9 +1,14 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Shapes;
+
 using Core;
+using Core.Events;
+
+using Agent.ViewModel;
 
 namespace Agent
 {
@@ -12,6 +17,10 @@ namespace Agent
     /// </summary>
     public partial class App : Application
     {
+        MainViewModel mainVM;
+        View.SplashScreen splashScreen;
+        View.MainWindow mainWindow;
+
         public bool ForceSoftwareRendering
         {
             get
@@ -24,6 +33,7 @@ namespace Agent
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             Settings.Load(); //Подгружаем настройки
+            mainVM = new MainViewModel();
 
             if (Settings.Program.Core.UseGpu)
             {
@@ -34,6 +44,31 @@ namespace Agent
             {
                 RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             }
+
+            var splashVM = new SplashViewModel(mainVM);
+            splashVM.Exited += OnSplashExited;
+            splashScreen = new View.SplashScreen() { DataContext = splashVM };
+            splashScreen.Show();
+            splashVM.Run();
+            mainVM.GameDataEvent.Start();
+        }
+
+        void OnSplashExited(object sender, SplashExitedEventArgs e)
+        {
+            if (e.AllowApplicationRun)
+            {
+                BackgroundEvent.Start();
+
+                // need to open main window before closing splash, otherwise application
+                // will exit (due to ShutdownMode="OnLastWindowClose")
+                mainVM.IsConnectionLost = !e.HasConnection;
+                mainWindow = new View.MainWindow() { DataContext = mainVM };
+                mainWindow.Show();
+                mainVM.Run();
+            }
+
+            splashScreen.Close();
+            splashScreen = null;
         }
 
         #region ResizeWindows

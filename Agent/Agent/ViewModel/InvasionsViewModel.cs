@@ -14,8 +14,23 @@ namespace Agent.ViewModel
 {
     class InvasionsViewModel
     {
-        public static void AddEvent(object sender, NewInvasionNotificationEventArgs e)
+        private GameViewModel GameView;
+
+        public InvasionsViewModel(GameViewModel gameView)
         {
+            GameView = gameView;
+        }
+
+        public void Run(NotificationModel watcher)
+        {
+            watcher.InvasionNotificationArrived += AddEvent;
+            watcher.InvasionNotificationDeparted += RemoveEvent;
+        }
+
+        private async void AddEvent(object sender, NewInvasionNotificationEventArgs e)
+        {
+            await AsyncHelpers.RedirectToMainThread();
+
             Debug.WriteLine($"Новое вторжение {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
 
             e.Notification.AttackerMissionInfo.Faction = e.Notification.AttackerMissionInfo.Faction.GetFilter(Filters.FilterType.Fraction).FirstOrDefault().Key;
@@ -23,22 +38,16 @@ namespace Agent.ViewModel
             e.Notification.Faction = e.Notification.Faction.GetFilter(Filters.FilterType.Fraction).FirstOrDefault().Key;
             e.Notification.NodeArray = e.Notification.Node.GetFilter(Filters.FilterType.Planet).FirstOrDefault().Key.ToUpper().Split('|');
 
-            Application.Current.Dispatcher?.InvokeAsync(() =>
-            {
-                if (MainWindow.GameView.Invasions == null) MainWindow.GameView.Invasions = new ObservableCollection<Invasion>();
-                MainWindow.GameView.Invasions.Add(e.Notification);
-            });
+            GameView.AddInvasion(e.Notification);
         }
-    
 
-        public static void RemoveEvent(object sender, RemovedInvasionNotificationEventArgs e)
+        private async void RemoveEvent(object sender, RemovedInvasionNotificationEventArgs e)
         {
+            await AsyncHelpers.RedirectToMainThread();
+
             Debug.WriteLine($"Удаляю вторжение {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
 
-            Application.Current.Dispatcher?.InvokeAsync(() =>
-            {
-                MainWindow.GameView.Invasions.Remove(e.Notification);
-            });
+            GameView.Invasions.Remove(e.Notification);
         }
     }
 }

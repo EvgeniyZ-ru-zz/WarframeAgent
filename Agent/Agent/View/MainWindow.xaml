@@ -143,7 +143,7 @@
                 <StackPanel Name="LeftPanelBottom" VerticalAlignment="Bottom" Margin="0,0,0,15" Grid.Row="3">
                     <fa:FontAwesome
                         x:Name="ConnLostImg"
-                        Visibility="Collapsed"
+                        Visibility="{Binding IsConnectionLost, Converter={StaticResource BVConverter}}"
                         Icon="Connectdevelop"
                         FontSize="20"
                         ToolTip="Connection Lost!"
@@ -151,7 +151,7 @@
                         VerticalAlignment="Bottom"
                         Spin="False"
                         SpinDuration="20"
-                        Foreground="{DynamicResource TextColor}" />
+                        Foreground="{DynamicResource TextColor}"/>
                     <RadioButton x:Name="SettingsBtn" IsEnabled="True"
                             fa:Awesome.Content="Cog"
                             GroupName="LeftMenu"

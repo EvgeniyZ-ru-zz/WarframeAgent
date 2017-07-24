@@ -21,27 +21,8 @@ namespace Agent.View
     // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : Window
     {
-        public static Game GameData = new Game();
-        public static News NewsData = new News();
-        public static GameViewModel GameView = new GameViewModel();
-        public static GlobalEvents.GameDataEvent GameDataEvent = new GlobalEvents.GameDataEvent();
-        public static NotificationModel NotificationWatcherwatcher = new NotificationModel();
-
-        public MainWindow(Visibility visibility)
-        {
-            GameData.Load($"{Settings.Program.Directories.Temp}/GameData.json");
-            NewsData.Load($"{Settings.Program.Directories.Temp}/NewsData.json");
-            var animation = new Animation(this);
-            InitializeComponent();
-            animation.InitializeAnimation();
-
-            ConnLostImg.Visibility = visibility;
-        }
-
         public MainWindow()
         {
-            GameData.Load($"{Settings.Program.Directories.Temp}/GameData.json");
-            NewsData.Load($"{Settings.Program.Directories.Temp}/NewsData.json");
             var animation = new Animation(this);
             InitializeComponent();
             animation.InitializeAnimation();
@@ -50,37 +31,23 @@ namespace Agent.View
         private void MainWindow_OnInitialized(object sender, EventArgs e)
         {
             ThemeChange(Settings.Program.Theme);
-            BgImg.Source = new BitmapImage(new Uri(
-                $"pack://application:,,,/Resources/Images/Background/{Settings.Program.BackgroundId}.jpg"));
+            ReloadBackground();
+            BackgroundEvent.Changed += BackgroundEvent_Changed;
 
             MainFrame.Navigate(new Uri("View/HomePage.xaml", UriKind.Relative));
-
-            GameDataEvent.Connected += GameDataEvent_Connected;
-            GameDataEvent.Disconnected += GameDataEvent_Disconnected;
-            GameDataEvent.Updated += GameDataEvent_Updated;
-            BackgroundEvent.Changed += BackgroundEvent_Changed;
-            NotificationWatcherwatcher.AlertNotificationArrived += AlertsViewModel.AddEvent;
-            NotificationWatcherwatcher.AlertNotificationDeparted += AlertsViewModel.RemoveEvent;
-            NotificationWatcherwatcher.InvasionNotificationArrived += InvasionsViewModel.AddEvent;
-            NotificationWatcherwatcher.InvasionNotificationDeparted += InvasionsViewModel.RemoveEvent;
-            NotificationWatcherwatcher.Start(GameData);
         }
 
-        private void BackgroundEvent_Changed()
+        private async void BackgroundEvent_Changed()
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                (ThreadStart) delegate
-                {
-                    BgImg.Source = new BitmapImage(new Uri(
-                        $"pack://application:,,,/Resources/Images/Background/{Settings.Program.BackgroundId}.jpg"));
-                });
+            await AsyncHelpers.RedirectToMainThread();
+            ReloadBackground();
         }
 
-        private void GameDataEvent_Updated()
+        // TODO: move this into a separate backgournd control
+        void ReloadBackground()
         {
-            GameData.Load($"{Settings.Program.Directories.Temp}/GameData.json");
-            NotificationWatcherwatcher.Start(GameData);
-            Debug.WriteLine(GameData.Data.Alerts.Count, $"Alerts [{DateTime.Now}]");
+            BgImg.Source = new BitmapImage(new Uri(
+                $"pack://application:,,,/Resources/Images/Background/{Settings.Program.BackgroundId}.jpg"));
         }
 
         #region Взаимодействие с окном
@@ -129,19 +96,6 @@ namespace Agent.View
         }
 
         #region События
-
-        private void GameDataEvent_Disconnected()
-        {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                (ThreadStart) delegate { ConnLostImg.Visibility = Visibility.Visible; });
-        }
-
-        private void GameDataEvent_Connected()
-        {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                (ThreadStart) delegate { ConnLostImg.Visibility = Visibility.Collapsed; });
-        }
-
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Debug.WriteLine($"w.{e.NewSize.Width} h.{e.NewSize.Height}");

@@ -17,6 +17,28 @@ namespace Core.ViewModel
         public ObservableCollection<Alert> Alerts { get; set; }
         public ObservableCollection<Invasion> Invasions { get; set; }
 
+        public void AddAlert(Alert alert)
+        {
+            if (Alerts == null) Alerts = new ObservableCollection<Alert>();
+            Alerts.Add(alert);
+        }
+
+        public void RemoveAlert(Alert alert)
+        {
+            Alerts.Remove(alert);
+        }
+
+        public void AddInvasion(Invasion invasion)
+        {
+            if (Invasions == null) Invasions = new ObservableCollection<Invasion>();
+            Invasions.Add(invasion);
+        }
+
+        public void RemoveAlert(Invasion invasion)
+        {
+            Invasions.Remove(invasion);
+        }
+
         private void reloadTimer_Elapsed(object sender, EventArgs e)
         {
             if (Alerts == null) return;
