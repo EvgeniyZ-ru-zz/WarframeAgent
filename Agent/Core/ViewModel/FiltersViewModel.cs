@@ -9,19 +9,6 @@ using Newtonsoft.Json.Linq;
 
 namespace Core.ViewModel
 {
-    public class ItemComparer : IEqualityComparer<Item>
-    {
-        public bool Equals(Item x, Item y)
-        {
-            return x.Name == y.Name;
-        }
-
-        public int GetHashCode(Item obj)
-        {
-            return obj.Name.GetHashCode();
-        }
-    }
-
     public static class Filters
     {
         public enum FilterType
@@ -106,6 +93,5 @@ namespace Core.ViewModel
                 return ReadFile("Filters/Missions.json", value, cat);
             }
         }
-
     }
 }

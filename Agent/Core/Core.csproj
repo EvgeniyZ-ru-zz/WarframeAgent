@@ -57,7 +57,6 @@
     <Compile Include="Events\FiltersEvent.cs" />
     <Compile Include="Events\GlobalEvents.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Model\DataBaseModel.cs" />
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\NewsModel.cs" />
     <Compile Include="Model\NotificationModel.cs" />
