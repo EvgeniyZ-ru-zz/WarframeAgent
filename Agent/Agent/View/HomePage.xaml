@@ -349,12 +349,13 @@
                                      ScrollViewer.VerticalScrollBarVisibility="Auto">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
+                                        <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource NewsLineColor}" Margin="0,0,0,-1">
                                         <Grid MaxHeight="33">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
-                                            <Image Stretch="UniformToFill" Margin="0,-1">
+                                            <Image Grid.Column="0" Stretch="UniformToFill" Margin="0">
                                                 <Image.Source>
                                                     <BitmapImage UriCachePolicy="Revalidate"
                                                                  UriSource="{Binding Image}" />
@@ -380,6 +381,7 @@
                                                 </DockPanel>
                                             </Grid>
                                         </Grid>
+                                        </Border>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
 
