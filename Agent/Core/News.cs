@@ -1,9 +1,10 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using Core.Model;
 using Core.ViewModel;
 using Newtonsoft.Json;
 
-namespace Core
+namespace Core.ViewModel
 {
     /// <summary>
     ///     Взаимодействие с данными новостей.
@@ -25,14 +26,16 @@ namespace Core
         ///     Загружаем JSON файл с данными новостей.
         /// </summary>
         /// <param name="fileName">Путь до JSON файла</param>
-        public void Load(string fileName)
+        public async void Load(string fileName)
         {
-            NewsModel data;
-            using (var file = File.OpenText(fileName))
+            NewsModel data = await Task.Run(() =>
             {
-                var serializer = new JsonSerializer();
-                data = (NewsModel) serializer.Deserialize(file, typeof(NewsModel));
-            }
+                using (var file = File.OpenText(fileName))
+                {
+                    var serializer = new JsonSerializer();
+                    return (NewsModel) serializer.Deserialize(file, typeof(NewsModel));
+                }
+            });
 
             Data = data;
         }

@@ -15,6 +15,7 @@ namespace Agent.ViewModel
     class SplashViewModel
     {
         readonly MainViewModel mainVM;
+        bool isFinished = false;
 
         public SplashViewModel(MainViewModel mainVM)
         {
@@ -25,6 +26,19 @@ namespace Agent.ViewModel
         {
             mainVM.GameDataEvent.Updated += GameDataEvent_Updated;
             mainVM.GameDataEvent.Disconnected += GameDataEvent_Disconnected;
+
+            var isConnected = mainVM.GameDataEvent.IsGameConnected;
+            if (isConnected != null)
+            {
+                isFinished = true;
+                mainVM.GameDataEvent.Updated -= GameDataEvent_Updated;
+                mainVM.GameDataEvent.Disconnected -= GameDataEvent_Disconnected;
+
+                if (isConnected == true)
+                    OnConnected();
+                else
+                    OnDisconnected();
+            }
         }
 
         public event EventHandler<SplashExitedEventArgs> Exited;
@@ -35,9 +49,18 @@ namespace Agent.ViewModel
         {
             await AsyncHelpers.RedirectToMainThread();
 
+            if (isFinished)
+                return;
+            isFinished = true;
+
             mainVM.GameDataEvent.Updated -= GameDataEvent_Updated;
             mainVM.GameDataEvent.Disconnected -= GameDataEvent_Disconnected;
 
+            OnDisconnected();
+        }
+
+        private void OnDisconnected()
+        {
             SplashExitedEventArgs exitArgs;
 
             if (File.Exists($"{Settings.Program.Directories.Temp}/GameData.json") &&
@@ -66,9 +89,18 @@ namespace Agent.ViewModel
         {
             await AsyncHelpers.RedirectToMainThread();
 
+            if (isFinished)
+                return;
+            isFinished = true;
+
             mainVM.GameDataEvent.Updated -= GameDataEvent_Updated;
             mainVM.GameDataEvent.Disconnected -= GameDataEvent_Disconnected;
 
+            OnConnected();
+        }
+
+        private void OnConnected()
+        {
             SplashExitedEventArgs exitArgs =  new SplashExitedEventArgs(allowRun: true, hasConnection: true);
             Exited?.Invoke(this, exitArgs);
         }

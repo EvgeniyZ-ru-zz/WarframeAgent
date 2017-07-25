@@ -8,7 +8,7 @@ namespace Agent.View
     /// <summary>
     ///     Логика взаимодействия для NewsPage.xaml
     /// </summary>
-    public partial class NewsPage : Page
+    public partial class NewsPage : UserControl
     {
         public NewsPage()
         {

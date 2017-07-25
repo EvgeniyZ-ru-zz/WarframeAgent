@@ -50,7 +50,6 @@ namespace Agent
             splashScreen = new View.SplashScreen() { DataContext = splashVM };
             splashScreen.Show();
             splashVM.Run();
-            mainVM.GameDataEvent.Start();
         }
 
         void OnSplashExited(object sender, SplashExitedEventArgs e)

@@ -11,11 +11,12 @@ namespace Core.Events
         /// <summary>
         ///     Обновление игровых данных.
         /// </summary>
-        public class GameDataEvent : EventArgs
+        public class GameDataEvent
         {
             public delegate void MethodContainer();
 
             private CancellationTokenSource _cts;
+            private object mutex = new object();
 
             /// <summary>
             ///     Данные успешно обновлены.
@@ -37,14 +38,31 @@ namespace Core.Events
             /// </summary>
             public void Start()
             {
-                _cts = new CancellationTokenSource();
-                Task.Run(() => Control(_cts.Token));
+                lock (mutex)
+                {
+                    _cts = new CancellationTokenSource();
+                    Task.Run(() => Control(_cts.Token));
+                }
             }
 
             public void Stop()
             {
-                _cts.Cancel();
-                _cts = null;
+                lock (mutex)
+                {
+                    _cts.Cancel();
+                    _cts = null;
+                }
+            }
+
+            /// <summary>
+            ///   Это свойство показывает, доступен ли сайт Settings.Program.Urls.Game
+            ///   (null означает, что ещё не известно)
+            /// </summary>
+            private bool? isGameConnected;
+            public bool? IsGameConnected
+            {
+                get { lock (mutex) return isGameConnected; }
+                private set { lock (mutex) isGameConnected = value; }
             }
 
             private async void Control(CancellationToken ct)
@@ -67,6 +85,7 @@ namespace Core.Events
                         if (!isConnected)
                         {
                             isConnected = true;
+                            IsGameConnected = true;
                             Connected?.Invoke();
                         }
 
@@ -77,6 +96,7 @@ namespace Core.Events
                         if (isConnected || isFirst)
                         {
                             isConnected = false;
+                            IsGameConnected = false;
                             Disconnected?.Invoke();
                         }
                         //TODO: LOG

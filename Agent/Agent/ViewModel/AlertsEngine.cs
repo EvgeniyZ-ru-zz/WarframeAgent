@@ -13,11 +13,11 @@ using Core.ViewModel;
 
 namespace Agent.ViewModel
 {
-    class AlertsViewModel
+    class AlertsEngine
     {
         private GameViewModel GameView;
 
-        public AlertsViewModel(GameViewModel gameView)
+        public AlertsEngine(GameViewModel gameView)
         {
             GameView = gameView;
         }

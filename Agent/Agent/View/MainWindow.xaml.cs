@@ -33,8 +33,6 @@ namespace Agent.View
             ThemeChange(Settings.Program.Theme);
             ReloadBackground();
             BackgroundEvent.Changed += BackgroundEvent_Changed;
-
-            MainFrame.Navigate(new Uri("View/HomePage.xaml", UriKind.Relative));
         }
 
         private async void BackgroundEvent_Changed()
@@ -61,7 +59,6 @@ namespace Agent.View
 
         #endregion
 
-
         private void StyleButton_Click(object sender, RoutedEventArgs e)
         {
             if (!(e.Source is Button srcButton)) return;
@@ -85,14 +82,6 @@ namespace Agent.View
                     if (res == MessageBoxResult.OK) ThemeChange(Themes.Dark);
                 }
             }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (!(e.Source is RadioButton srcButton)) return;
-            var name = srcButton.Name;
-            MainFrame.Navigate(
-                new Uri("View/" + name.Substring(0, name.Length - 3) + "Page.xaml", UriKind.Relative));
         }
 
         #region События

@@ -12,11 +12,11 @@ using Core.ViewModel;
 
 namespace Agent.ViewModel
 {
-    class InvasionsViewModel
+    class InvasionsEngine
     {
         private GameViewModel GameView;
 
-        public InvasionsViewModel(GameViewModel gameView)
+        public InvasionsEngine(GameViewModel gameView)
         {
             GameView = gameView;
         }

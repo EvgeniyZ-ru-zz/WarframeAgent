@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 using Core;
 using Core.Events;
@@ -15,19 +16,29 @@ namespace Agent.ViewModel
     class MainViewModel : VM
     {
         private Game GameData = new Game();
-        public News NewsData { get; }
-        public GameViewModel GameView { get; }
-        public AlertsViewModel AlertsViewModel { get; }
-        public InvasionsViewModel InvasionsViewModel { get; }
+        private GameViewModel GameView = new GameViewModel();
+        private AlertsEngine AlertsEngine;
+        private InvasionsEngine InvasionsEngine;
+
         public GlobalEvents.GameDataEvent GameDataEvent = new GlobalEvents.GameDataEvent();
         public NotificationModel NotificationWatcherwatcher = new NotificationModel();
 
+        public HomeViewModel HomeViewModel { get; }
+        public News NewsData { get; }
+
         public MainViewModel()
         {
-            NewsData = new News();
             GameView = new GameViewModel();
-            AlertsViewModel = new AlertsViewModel(GameView);
-            InvasionsViewModel = new InvasionsViewModel(GameView);
+            AlertsEngine = new AlertsEngine(GameView);
+            InvasionsEngine = new InvasionsEngine(GameView);
+            GameDataEvent.Start();
+
+            NewsData = new News();
+            HomeViewModel = new HomeViewModel(GameView, NewsData);
+
+            ActivateHomeCommand = new RelayCommand(() => CurrentContent = HomeViewModel);
+            ActivateNewsCommand = new RelayCommand(() => CurrentContent = NewsData);
+            CurrentContent = HomeViewModel;
         }
 
         public void Run()
@@ -38,8 +49,8 @@ namespace Agent.ViewModel
             GameDataEvent.Connected += GameDataEvent_Connected;
             GameDataEvent.Disconnected += GameDataEvent_Disconnected;
             GameDataEvent.Updated += GameDataEvent_Updated;
-            AlertsViewModel.Run(NotificationWatcherwatcher);
-            InvasionsViewModel.Run(NotificationWatcherwatcher);
+            AlertsEngine.Run(NotificationWatcherwatcher);
+            InvasionsEngine.Run(NotificationWatcherwatcher);
             NotificationWatcherwatcher.Start(GameData);
         }
 
@@ -68,5 +79,15 @@ namespace Agent.ViewModel
             get => isConnectionLost;
             set => Set(ref isConnectionLost, value);
         }
+
+        VM currentContent;
+        public VM CurrentContent
+        {
+            get => currentContent;
+            set => Set(ref currentContent, value);
+        }
+
+        public ICommand ActivateHomeCommand { get; }
+        public ICommand ActivateNewsCommand { get; }
     }
 }

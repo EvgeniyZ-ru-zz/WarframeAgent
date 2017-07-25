@@ -14,34 +14,17 @@ namespace Core.ViewModel
             reloadTimer.Start();
         }
 
-        public ObservableCollection<Alert> Alerts { get; set; }
-        public ObservableCollection<Invasion> Invasions { get; set; }
+        public ObservableCollection<Alert> Alerts { get; } = new ObservableCollection<Alert>();
+        public ObservableCollection<Invasion> Invasions { get; } = new ObservableCollection<Invasion>();
 
-        public void AddAlert(Alert alert)
-        {
-            if (Alerts == null) Alerts = new ObservableCollection<Alert>();
-            Alerts.Add(alert);
-        }
+        public void AddAlert(Alert alert) => Alerts.Add(alert);
+        public void RemoveAlert(Alert alert) => Alerts.Remove(alert);
 
-        public void RemoveAlert(Alert alert)
-        {
-            Alerts.Remove(alert);
-        }
-
-        public void AddInvasion(Invasion invasion)
-        {
-            if (Invasions == null) Invasions = new ObservableCollection<Invasion>();
-            Invasions.Add(invasion);
-        }
-
-        public void RemoveAlert(Invasion invasion)
-        {
-            Invasions.Remove(invasion);
-        }
+        public void AddInvasion(Invasion invasion) => Invasions.Add(invasion);
+        public void RemoveAlert(Invasion invasion) => Invasions.Remove(invasion);
 
         private void reloadTimer_Elapsed(object sender, EventArgs e)
         {
-            if (Alerts == null) return;
             for (var index = 0; index < (Alerts).Count; index++)
             {
                 var item = (Alerts)[index];

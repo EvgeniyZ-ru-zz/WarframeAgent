@@ -4,6 +4,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:fa="http://schemas.fontawesome.io/icons/"
+    xmlns:vm="clr-namespace:Agent.ViewModel"
+    xmlns:corevm="clr-namespace:Core.ViewModel;assembly=Core"
+    xmlns:view="clr-namespace:Agent.View"
     x:Class="Agent.View.MainWindow"
     mc:Ignorable="d"
     Style="{DynamicResource WindowStyle}" SizeChanged="Window_SizeChanged" Closed="MainWindow_OnClosed"
@@ -112,32 +115,28 @@
                                  fa:Awesome.Content="Home"
                                  GroupName="LeftMenu"
                                  Style="{StaticResource MenuButton}"
-                                 Click="Button_Click" />
+                                 Command="{Binding ActivateHomeCommand}" />
                     <RadioButton x:Name="NewsBtn"
                                  fa:Awesome.Content="NewspaperOutline"
                                  GroupName="LeftMenu"
                                  Style="{StaticResource MenuButton}"
-                                 Click="Button_Click" />
+                                 Command="{Binding ActivateNewsCommand}" />
                     <RadioButton x:Name="AlertsBtn" IsEnabled="True"
                                  fa:Awesome.Content="ExclamationTriangle"
                                  GroupName="LeftMenu"
-                                 Style="{StaticResource MenuButton}"
-                                 Click="Button_Click" />
+                                 Style="{StaticResource MenuButton}"/>
                     <RadioButton x:Name="InvasionsBtn" IsEnabled="True"
                                  fa:Awesome.Content="Bullseye"
                                  GroupName="LeftMenu"
-                                 Style="{StaticResource MenuButton}"
-                                 Click="Button_Click" />
+                                 Style="{StaticResource MenuButton}" />
                     <RadioButton x:Name="TradeBtn" IsEnabled="True"
                                  fa:Awesome.Content="BalanceScale"
                                  GroupName="LeftMenu"
-                                 Style="{StaticResource MenuButton}"
-                                 Click="Button_Click" />
+                                 Style="{StaticResource MenuButton}" />
                     <RadioButton Visibility="Visible" x:Name="ActMissionsBtn" IsEnabled="True"
                                  fa:Awesome.Content="FreeCodeCamp"
                                  GroupName="LeftMenu"
-                                 Style="{StaticResource MenuButton}"
-                                 Click="Button_Click" />
+                                 Style="{StaticResource MenuButton}" />
                 </StackPanel>
 
                 <StackPanel Name="LeftPanelBottom" VerticalAlignment="Bottom" Margin="0,0,0,15" Grid.Row="3">
@@ -155,20 +154,25 @@
                     <RadioButton x:Name="SettingsBtn" IsEnabled="True"
                             fa:Awesome.Content="Cog"
                             GroupName="LeftMenu"
-                            Style="{StaticResource MenuButton}"
-                            Click="Button_Click" />
+                            Style="{StaticResource MenuButton}" />
                     <RadioButton IsEnabled="True" x:Name="InfoBtn"
                             Style="{StaticResource MenuButton}"
                             fa:Awesome.Content="Info"
-                            GroupName="LeftMenu"
-                            Click="Button_Click" />
-
+                            GroupName="LeftMenu" />
                 </StackPanel>
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="1">
                 <!-- Основная часть приложения -->
-                <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" />
+                <Grid.Resources>
+                    <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+                        <view:HomePage/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type corevm:News}">
+                        <view:NewsPage/>
+                    </DataTemplate>
+                </Grid.Resources>
+                <ContentPresenter Content="{Binding CurrentContent}"/>
             </Grid>
 
             <Rectangle x:Name="BottomRightSizeGrip"
