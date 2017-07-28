@@ -1,5 +1,5 @@
 {
-  "Date": "14.07.2017",
+  "Date": "28.07.2017",
   "Version": 1,
   "Items": [
     {
@@ -273,6 +273,7 @@
       "/Lotus/StoreItems/Upgrades/Skins/Armor/BaroArmour/BaroArmourA": "Наплечники: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/BaroArmour/BaroArmourC": "Нагрудник: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/BaroArmour/BaroArmourL": "Наголенники: Ки'Тиир",
+      "/Lotus/StoreItems/Upgrades/Skins/Armor/BaroArmourTwo/BaroArmourTwoA": "Наплечники: Ки'Тиир Форос",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/SetThreeWinged/VTSetThreeArmLeftArmor": "Левый наплечник Дедал призма",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/SetThreeWinged/VTSetThreeArmRightArmor": "Правый наплечник Дедал призма",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/SetThreeWinged/VTSetThreeChestArmor": "Нагрудник Дедал призма",
@@ -341,7 +342,8 @@
       "/Lotus/Types/StoreItems/Boosters/CreditBooster3DayStoreItem": "Умножитель кредитов (3 дня)",
       "/Lotus/Types/StoreItems/Boosters/ResourceAmount3DayStoreItem": "Умножитель ресурсов (3 дня)",
       "/Lotus/Types/StoreItems/Packages/KavatColorPackNexus": "Генно-маскирующий набор Нексус",
-      "/Lotus/Types/StoreItems/Packages/ThreeDayCreditPack": "Умножитель кредитов (3 дня)"
+      "/Lotus/Types/StoreItems/Packages/ThreeDayCreditPack": "Умножитель кредитов (3 дня)",
+      "/Lotus/Types/StoreItems/Packages/VTEosArmourBundle": "Комплект брони Эос прайм"
     },
     {
       "type": "Дарво",
