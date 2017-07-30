@@ -4,10 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Core.Model;
 using Newtonsoft.Json.Linq;
 
-namespace Core.ViewModel
+namespace Core.Model
 {
     public static class Filters
     {
@@ -24,20 +23,20 @@ namespace Core.ViewModel
             switch (type)
             {
                 case FilterType.Item:
-                    return FiltersViewModel.Items.Find(value, "Items");
+                    return FiltersModel.Items.Find(value, "Items");
                 case FilterType.Fraction:
-                    return FiltersViewModel.Races.Find(value, "Items");
+                    return FiltersModel.Races.Find(value, "Items");
                 case FilterType.Planet:
-                    return FiltersViewModel.Planets.Find(value, "Items");
+                    return FiltersModel.Planets.Find(value, "Items");
                 case FilterType.Mission:
-                    return FiltersViewModel.Missions.Find(value, "Missions");
+                    return FiltersModel.Missions.Find(value, "Missions");
                 default:
                     return new Dictionary<string, string> { { value, null } };
             }
         }
     }
 
-    public class FiltersViewModel
+    public class FiltersModel
     {
         private static Dictionary<string, string> ReadFile(string file, string value, string cat)
         {

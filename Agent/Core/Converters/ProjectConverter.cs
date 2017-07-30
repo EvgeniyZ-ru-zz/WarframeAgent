@@ -19,7 +19,7 @@ namespace Core.Converters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
             JsonSerializer serializer)
         {
-            var list = new ObservableCollection<ProjectsModel>();
+            var list = new List<ProjectsModel>();
             var token = JToken.Load(reader);
             for (var i = 0; i < token.Count(); i++)
             {
@@ -48,7 +48,7 @@ namespace Core.Converters
                 if (token[i] != null && (double) token[i] > 0)
                     list.Add(new ProjectsModel {Name = "NULL", Value = (double) token[i]});
             }
-            return list;
+            return list.ToArray();
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

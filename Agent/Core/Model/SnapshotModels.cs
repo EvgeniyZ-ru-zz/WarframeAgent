@@ -12,51 +12,17 @@ namespace Core.Model
 {
     #region Main
 
-    public class GameModel : VM
+    public class GameSnapshotModel
     {
-        private GameModel _data;
-
-        public GameModel Data
-        {
-            get => _data;
-            set => Set(ref _data, value);
-        }
-
         public int Version { get; set; }
         public string MobileVersion { get; set; }
         public string BuildLabel { get; set; }
         public int Time { get; set; }
         public int Date { get; set; }
-        private ObservableCollection<Alert> _alerts;
-
-        public ObservableCollection<Alert> Alerts
-        {
-            get => _alerts;
-            set => Set(ref _alerts, value);
-        }
-
-        private ObservableCollection<Invasion> _invasions;
-
-        public ObservableCollection<Invasion> Invasions
-        {
-            get
-            {
-                if (_invasions == null) return _invasions;
-                _invasions = new ObservableCollection<Invasion>(_invasions.Where(p => !p.Completed));
-                return _invasions;
-            }
-            set => Set(ref _invasions, value);
-        }
-
-        private ObservableCollection<ProjectsModel> _projectPct;
-
+        public Alert[] Alerts { get; set; }
+        public Invasion[] Invasions { get; set; }
         [JsonConverter(typeof(ProjectConverter))]
-        public ObservableCollection<ProjectsModel> ProjectPct
-        {
-            get => _projectPct;
-            set => Set(ref _projectPct, value);
-        }
-
+        public ProjectsModel[] ProjectPct { get; set; }
         public string WorldSeed { get; set; }
     }
 
@@ -64,7 +30,7 @@ namespace Core.Model
 
     #region Alert
 
-    public class Alert : VM
+    public class Alert : NotifyPropertyChangedImpl
     {
         [JsonProperty("_id")]
         public Id Id { get; set; }
@@ -184,7 +150,7 @@ namespace Core.Model
 
     #region Invasions
 
-    public class Invasion: VM
+    public class Invasion: NotifyPropertyChangedImpl
     {
         [JsonProperty("_id")]
         public Id Id { get; set; }

@@ -2,10 +2,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-// ReSharper disable InconsistentNaming
-namespace Core.ViewModel
+namespace Core
 {
-    public class VM : INotifyPropertyChanged
+    public class NotifyPropertyChangedImpl
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -3,16 +3,30 @@ using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using Core.Model;
 
-namespace Core.ViewModel
+namespace Agent.ViewModel
 {
     public class GameViewModel
     {
-        public GameViewModel()
+        public GameViewModel(GameModel model)
         {
             var reloadTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
             reloadTimer.Tick += reloadTimer_Elapsed;
             reloadTimer.Start();
+
+            Model = model;
+            AlertsEngine = new AlertsEngine(this);
+            InvasionsEngine = new InvasionsEngine(this);
         }
+
+        public void Run()
+        {
+            AlertsEngine.Run(Model);
+            InvasionsEngine.Run(Model);
+        }
+
+        private AlertsEngine AlertsEngine;
+        private InvasionsEngine InvasionsEngine;
+        private GameModel Model;
 
         public ObservableCollection<Alert> Alerts { get; } = new ObservableCollection<Alert>();
         public ObservableCollection<Invasion> Invasions { get; } = new ObservableCollection<Invasion>();
@@ -28,7 +42,7 @@ namespace Core.ViewModel
             for (var index = 0; index < (Alerts).Count; index++)
             {
                 var item = (Alerts)[index];
-                item.Status = null;
+                item.Status = null; //?
             }
         }
     }
