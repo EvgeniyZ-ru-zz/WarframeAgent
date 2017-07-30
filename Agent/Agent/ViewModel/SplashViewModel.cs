@@ -24,15 +24,15 @@ namespace Agent.ViewModel
 
         public void Run()
         {
-            mainVM.GameDataEvent.Updated += GameDataEvent_Updated;
-            mainVM.GameDataEvent.Disconnected += GameDataEvent_Disconnected;
+            mainVM.ServerEvents.Updated += GameDataEvent_Updated;
+            mainVM.ServerEvents.Disconnected += GameDataEvent_Disconnected;
 
-            var isConnected = mainVM.GameDataEvent.IsGameConnected;
+            var isConnected = mainVM.ServerEvents.IsGameConnected;
             if (isConnected != null)
             {
                 isFinished = true;
-                mainVM.GameDataEvent.Updated -= GameDataEvent_Updated;
-                mainVM.GameDataEvent.Disconnected -= GameDataEvent_Disconnected;
+                mainVM.ServerEvents.Updated -= GameDataEvent_Updated;
+                mainVM.ServerEvents.Disconnected -= GameDataEvent_Disconnected;
 
                 if (isConnected == true)
                     OnConnected();
@@ -53,8 +53,8 @@ namespace Agent.ViewModel
                 return;
             isFinished = true;
 
-            mainVM.GameDataEvent.Updated -= GameDataEvent_Updated;
-            mainVM.GameDataEvent.Disconnected -= GameDataEvent_Disconnected;
+            mainVM.ServerEvents.Updated -= GameDataEvent_Updated;
+            mainVM.ServerEvents.Disconnected -= GameDataEvent_Disconnected;
 
             OnDisconnected();
         }
@@ -93,8 +93,8 @@ namespace Agent.ViewModel
                 return;
             isFinished = true;
 
-            mainVM.GameDataEvent.Updated -= GameDataEvent_Updated;
-            mainVM.GameDataEvent.Disconnected -= GameDataEvent_Disconnected;
+            mainVM.ServerEvents.Updated -= GameDataEvent_Updated;
+            mainVM.ServerEvents.Disconnected -= GameDataEvent_Disconnected;
 
             OnConnected();
         }

@@ -22,70 +22,80 @@ namespace Agent.ViewModel
             GameView = gameView;
         }
 
-        public void Run(NotificationModel watcher)
+        public void Run(GameModel model)
         {
-            watcher.AlertNotificationArrived += AddEvent;
-            watcher.AlertNotificationDeparted += RemoveEvent;
+            model.AlertNotificationArrived += AddEvent;
+            model.AlertNotificationDeparted += RemoveEvent;
+            // TODO: race condition with arriving events; check if event is already there
+            foreach (var alert in model.GetCurrentAlerts())
+            {
+                PrepareAlert(alert);
+                GameView.AddAlert(alert);
+            }
         }
 
         private async void AddEvent(object sender, NewAlertNotificationEventArgs e)
         {
             await AsyncHelpers.RedirectToMainThread();
 
-            var ntfVm = new NotificationViewModel(e.Notification);
+            var ntfVm = new NotificationViewModel(e.Notification); // TODO: replace alert with alertVM here!
             Debug.WriteLine($"Новая тревога {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
 
+            PrepareAlert(e.Notification);
+            GameView.AddAlert(e.Notification);
+        }
+
+        void PrepareAlert(Alert alert)
+        {
             #region Переводим предмет
 
             string rewardValue = null;
             string rewardType = null;
 
-            if (e.Notification.MissionInfo.MissionReward.CountedItems != null)
+            if (alert.MissionInfo.MissionReward.CountedItems != null)
             {
-                var item = e.Notification.MissionInfo.MissionReward.CountedItems[0];
+                var item = alert.MissionInfo.MissionReward.CountedItems[0];
                 var itemCount = item.ItemCount >= 2 ? $"[{item.ItemCount}]" : string.Empty;
                 var reward = item.ItemType.GetFilter(Filters.FilterType.Item).FirstOrDefault();
 
                 rewardType = reward.Value;
                 rewardValue = $"{reward.Key} {itemCount}";
             }
-            else if (e.Notification.MissionInfo.MissionReward.Items != null)
+            else if (alert.MissionInfo.MissionReward.Items != null)
             {
-                var reward = e.Notification.MissionInfo.MissionReward.Items[0].GetFilter(Filters.FilterType.Item)
+                var reward = alert.MissionInfo.MissionReward.Items[0].GetFilter(Filters.FilterType.Item)
                     .FirstOrDefault();
 
                 rewardType = reward.Value;
                 rewardValue = reward.Key;
             }
 
-            e.Notification.MissionInfo.Reward = rewardValue;
+            alert.MissionInfo.Reward = rewardValue;
 
             switch (rewardType)
             {
-                case "Шлема":
-                    e.Notification.MissionInfo.RewardColor = Brushes.BlueViolet;
-                    break;
-                case "Чертежи":
-                    e.Notification.MissionInfo.RewardColor = Brushes.BlueViolet;
-                    break;
-                case "Ауры":
-                    e.Notification.MissionInfo.RewardColor = Brushes.OrangeRed;
-                    break;
-                case "Модификаторы":
-                    e.Notification.MissionInfo.RewardColor = Brushes.DarkCyan;
-                    break;
-                default:
-                    e.Notification.MissionInfo.RewardColor = (Brush)Application.Current.Resources["TextColor"];
-                    break;
+            case "Шлема":
+                alert.MissionInfo.RewardColor = Brushes.BlueViolet;
+                break;
+            case "Чертежи":
+                alert.MissionInfo.RewardColor = Brushes.BlueViolet;
+                break;
+            case "Ауры":
+                alert.MissionInfo.RewardColor = Brushes.OrangeRed;
+                break;
+            case "Модификаторы":
+                alert.MissionInfo.RewardColor = Brushes.DarkCyan;
+                break;
+            default:
+                alert.MissionInfo.RewardColor = (Brush)Application.Current.Resources["TextColor"];
+                break;
             }
 
             #endregion
 
-            e.Notification.MissionInfo.Faction = e.Notification.MissionInfo.Faction.GetFilter(Filters.FilterType.Fraction).FirstOrDefault().Key;
-            e.Notification.MissionInfo.Planet = e.Notification.MissionInfo.Location.GetFilter(Filters.FilterType.Planet).FirstOrDefault().Key.ToUpper().Split('|');
-            e.Notification.MissionInfo.MissionType = e.Notification.MissionInfo.MissionType.GetFilter(Filters.FilterType.Mission).FirstOrDefault().Key;
-
-            GameView.AddAlert(e.Notification);
+            alert.MissionInfo.Faction = alert.MissionInfo.Faction.GetFilter(Filters.FilterType.Fraction).FirstOrDefault().Key;
+            alert.MissionInfo.Planet = alert.MissionInfo.Location.GetFilter(Filters.FilterType.Planet).FirstOrDefault().Key.ToUpper().Split('|');
+            alert.MissionInfo.MissionType = alert.MissionInfo.MissionType.GetFilter(Filters.FilterType.Mission).FirstOrDefault().Key;
         }
 
         private async void RemoveEvent(object sender, RemovedAlertNotificationEventArgs e)

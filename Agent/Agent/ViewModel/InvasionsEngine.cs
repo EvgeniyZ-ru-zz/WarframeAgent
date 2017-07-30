@@ -21,10 +21,16 @@ namespace Agent.ViewModel
             GameView = gameView;
         }
 
-        public void Run(NotificationModel watcher)
+        public void Run(GameModel model)
         {
-            watcher.InvasionNotificationArrived += AddEvent;
-            watcher.InvasionNotificationDeparted += RemoveEvent;
+            model.InvasionNotificationArrived += AddEvent;
+            model.InvasionNotificationDeparted += RemoveEvent;
+            // TODO: race condition with arriving events; check if event is already there
+            foreach (var invasion in model.GetCurrentInvasions())
+            {
+                PrepareInvasion(invasion);
+                GameView.AddInvasion(invasion);
+            }
         }
 
         private async void AddEvent(object sender, NewInvasionNotificationEventArgs e)
@@ -33,12 +39,17 @@ namespace Agent.ViewModel
 
             Debug.WriteLine($"Новое вторжение {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
 
-            e.Notification.AttackerMissionInfo.Faction = e.Notification.AttackerMissionInfo.Faction.GetFilter(Filters.FilterType.Fraction).FirstOrDefault().Key;
-            e.Notification.DefenderMissionInfo.Faction = e.Notification.DefenderMissionInfo.Faction.GetFilter(Filters.FilterType.Fraction).FirstOrDefault().Key;
-            e.Notification.Faction = e.Notification.Faction.GetFilter(Filters.FilterType.Fraction).FirstOrDefault().Key;
-            e.Notification.NodeArray = e.Notification.Node.GetFilter(Filters.FilterType.Planet).FirstOrDefault().Key.ToUpper().Split('|');
+            PrepareInvasion(e.Notification);
 
             GameView.AddInvasion(e.Notification);
+        }
+
+        void PrepareInvasion(Invasion invasion)
+        {
+            invasion.AttackerMissionInfo.Faction = invasion.AttackerMissionInfo.Faction.GetFilter(Filters.FilterType.Fraction).FirstOrDefault().Key;
+            invasion.DefenderMissionInfo.Faction = invasion.DefenderMissionInfo.Faction.GetFilter(Filters.FilterType.Fraction).FirstOrDefault().Key;
+            invasion.Faction = invasion.Faction.GetFilter(Filters.FilterType.Fraction).FirstOrDefault().Key;
+            invasion.NodeArray = invasion.Node.GetFilter(Filters.FilterType.Planet).FirstOrDefault().Key.ToUpper().Split('|');
         }
 
         private async void RemoveEvent(object sender, RemovedInvasionNotificationEventArgs e)

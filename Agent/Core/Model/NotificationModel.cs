@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Newtonsoft.Json;
+
+using Core.Events;
 
 namespace Core.Model
 {
@@ -59,67 +64,114 @@ namespace Core.Model
     /// <summary>
     ///     Класс слежения за обновлением списка.
     /// </summary>
-    public class NotificationModel
+    public class GameModel
     {
         private readonly Dictionary<string, Alert> _currentAlertsNotifications = new Dictionary<string, Alert>();
         private readonly Dictionary<string, Invasion> _currentInvasionsNotifications = new Dictionary<string, Invasion>();
-        private CancellationTokenSource _cts;
+        private GlobalEvents.ServerEvents _server;
+        private string _gameDataPath;
+        private object mutex = new object();
 
-        public void Start(Game game)
+        public void Start(GlobalEvents.ServerEvents server, string gameDataPath)
         {
-            _cts = new CancellationTokenSource();
-            Task.Run(() => Watch(_cts.Token, game));
+            lock (mutex)
+            {
+                _server = server;
+                _gameDataPath = gameDataPath;
+                _server.Updated += UpdateSnapshot;
+            }
+            UpdateSnapshot();
         }
 
         public void Stop()
         {
-            _cts.Cancel();
-            _cts = null;
-        }
-
-        private async void Watch(CancellationToken ct, Game game)
-        {
-            try
+            lock (mutex)
             {
-                await AlertEvaluateList(game); // Тревоги.
-                await InvasionEvaluateList(game); // Вторжения.
-            }
-            catch (OperationCanceledException) when (ct.IsCancellationRequested)
-            {
+                _server.Updated -= UpdateSnapshot;
+                _gameDataPath = null;
+                _server = null;
             }
         }
 
-        private async Task AlertEvaluateList(Game game)
+        public IEnumerable<Alert> GetCurrentAlerts()
         {
-            var newNotifications = game.Data.Alerts.Where(ntf => !_currentAlertsNotifications.ContainsKey(ntf.Id.Oid));
+            lock (mutex)
+                return _currentAlertsNotifications.Values;
+        }
+
+        public IEnumerable<Invasion> GetCurrentInvasions()
+        {
+            lock (mutex)
+                return _currentInvasionsNotifications.Values;
+        }
+
+        void UpdateSnapshot()
+        {
+            string path;
+            lock (mutex)
+                path = _gameDataPath;
+            if (path == null)
+                return;
+            var snapshot = Load(path);
+            AlertEvaluateList(snapshot);
+            InvasionEvaluateList(snapshot);
+        }
+
+        /// <summary>
+        ///     Загружаем JSON файл с игровыми данными.
+        /// </summary>
+        /// <param name="fileName">Путь до JSON файла</param>
+        private GameSnapshotModel Load(string fileName)
+        {
+            GameSnapshotModel data;
+            using (var file = File.OpenText(fileName))
+            {
+                var serializer = new JsonSerializer();
+                data = (GameSnapshotModel)serializer.Deserialize(file, typeof(GameSnapshotModel));
+            }
+            return data;
+        }
+
+        private void AlertEvaluateList(GameSnapshotModel snapshot)
+        {
+            List<Alert> newNotifications, removedNotifications = new List<Alert>();
+            lock (mutex)
+            {
+                newNotifications = snapshot.Alerts.Where(ntf => !_currentAlertsNotifications.ContainsKey(ntf.Id.Oid)).ToList();
+                foreach (var ntf in newNotifications)
+                    _currentAlertsNotifications.Add(ntf.Id.Oid, ntf);
+                var removedId = _currentAlertsNotifications.Keys.Except(snapshot.Alerts.Select(ntf => ntf.Id.Oid));
+                foreach (var id in removedId.ToList())
+                {
+                    removedNotifications.Add(_currentAlertsNotifications[id]);
+                    _currentAlertsNotifications.Remove(id);
+                }
+            }
             foreach (var ntf in newNotifications)
-            {
-                _currentAlertsNotifications.Add(ntf.Id.Oid, ntf);
                 FireNewAlertNotification(ntf);
-            }
-            var removedId = _currentAlertsNotifications.Keys.Except(game.Data.Alerts.Select(ntf => ntf.Id.Oid));
-            foreach (var id in removedId.ToList())
-            {
-                FireRemovedAlertNotification(_currentAlertsNotifications[id]);
-                _currentAlertsNotifications.Remove(id);
-            }
+            foreach (var ntf in removedNotifications)
+                FireRemovedAlertNotification(ntf);
         }
 
-        private async Task InvasionEvaluateList(Game game)
+        private void InvasionEvaluateList(GameSnapshotModel snapshot)
         {
-            var newNotifications =
-                game.Data.Invasions.Where(ntf => !_currentInvasionsNotifications.ContainsKey(ntf.Id.Oid));
+            List<Invasion> newNotifications, removedNotifications = new List<Invasion>();
+            lock (mutex)
+            {
+                newNotifications = snapshot.Invasions.Where(ntf => !_currentInvasionsNotifications.ContainsKey(ntf.Id.Oid)).ToList();
+                foreach (var ntf in newNotifications)
+                    _currentInvasionsNotifications.Add(ntf.Id.Oid, ntf);
+                var removedId = _currentInvasionsNotifications.Keys.Except(snapshot.Invasions.Select(ntf => ntf.Id.Oid));
+                foreach (var id in removedId.ToList())
+                {
+                    removedNotifications.Add(_currentInvasionsNotifications[id]);
+                    _currentInvasionsNotifications.Remove(id);
+                }
+            }
             foreach (var ntf in newNotifications)
-            {
-                _currentInvasionsNotifications.Add(ntf.Id.Oid, ntf);
                 FireNewInvasionNotification(ntf);
-            }
-            var removedId = _currentInvasionsNotifications.Keys.Except(game.Data.Invasions.Select(ntf => ntf.Id.Oid));
-            foreach (var id in removedId.ToList())
-            {
-                FireRemovedInvasionNotification(_currentInvasionsNotifications[id]);
-                _currentInvasionsNotifications.Remove(id);
-            }
+            foreach (var ntf in removedNotifications)
+                FireRemovedInvasionNotification(ntf);
         }
 
         #region Эвенты

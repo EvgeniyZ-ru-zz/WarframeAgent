@@ -16,22 +16,20 @@ namespace Agent.ViewModel
     class MainViewModel : VM
     {
         private Game GameData = new Game();
-        private GameViewModel GameView = new GameViewModel();
-        private AlertsEngine AlertsEngine;
-        private InvasionsEngine InvasionsEngine;
+        private GameViewModel GameView;
+        private ServerModel ServerModel;
 
-        public GlobalEvents.GameDataEvent GameDataEvent = new GlobalEvents.GameDataEvent();
-        public NotificationModel NotificationWatcherwatcher = new NotificationModel();
+        public GlobalEvents.ServerEvents ServerEvents = new GlobalEvents.ServerEvents();
+        public GameModel GameModel = new GameModel();
 
         public HomeViewModel HomeViewModel { get; }
         public News NewsData { get; }
 
         public MainViewModel()
         {
-            GameView = new GameViewModel();
-            AlertsEngine = new AlertsEngine(GameView);
-            InvasionsEngine = new InvasionsEngine(GameView);
-            GameDataEvent.Start();
+            ServerModel = new ServerModel(ServerEvents);
+            ServerModel.Start();
+            GameView = new GameViewModel(GameModel);
 
             NewsData = new News();
             HomeViewModel = new HomeViewModel(GameView, NewsData);
@@ -43,22 +41,13 @@ namespace Agent.ViewModel
 
         public void Run()
         {
-            GameData.Load($"{Settings.Program.Directories.Temp}/GameData.json");
+            //GameData.Load($"{Settings.Program.Directories.Temp}/GameData.json");
             NewsData.Load($"{Settings.Program.Directories.Temp}/NewsData.json");
 
-            GameDataEvent.Connected += GameDataEvent_Connected;
-            GameDataEvent.Disconnected += GameDataEvent_Disconnected;
-            GameDataEvent.Updated += GameDataEvent_Updated;
-            AlertsEngine.Run(NotificationWatcherwatcher);
-            InvasionsEngine.Run(NotificationWatcherwatcher);
-            NotificationWatcherwatcher.Start(GameData);
-        }
-
-        private void GameDataEvent_Updated()
-        {
-            GameData.Load($"{Settings.Program.Directories.Temp}/GameData.json");
-            NotificationWatcherwatcher.Start(GameData);
-            Debug.WriteLine(GameData.Data.Alerts.Count, $"Alerts [{DateTime.Now}]");
+            ServerEvents.Connected += GameDataEvent_Connected;
+            ServerEvents.Disconnected += GameDataEvent_Disconnected;
+            GameView.Run();
+            GameModel.Start(ServerEvents, $"{Settings.Program.Directories.Temp}/GameData.json");
         }
 
         private async void GameDataEvent_Disconnected()
