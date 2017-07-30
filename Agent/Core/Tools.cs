@@ -23,7 +23,7 @@ namespace Core
             /// <param name="adress">Адрес</param>
             /// <param name="timeout">Задержка</param>
             /// <returns>true/false</returns>
-            public static bool Ping(string adress, int timeout = 100000)
+            public static bool Ping(string adress, int timeout = 100000) //TODO: Нужна ли? Двойной запрос до сервера.
             {
                 var statusCode = 0;
                 if (adress == null) return false;
