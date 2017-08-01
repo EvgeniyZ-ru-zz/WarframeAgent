@@ -9,7 +9,7 @@
       mc:Ignorable="d" FontFamily="/Agent;component/Resources/Fonts/#Roboto"
       d:DesignHeight="540" d:DesignWidth="930">
     <UserControl.Resources>
-        <viewModel:TimeNowViewModel x:Key="UnixTime" />
+        <viewModel:TimeNowViewModel x:Key="TimeVM" />
     </UserControl.Resources>
 
     <Grid x:Name="grid">
@@ -60,13 +60,13 @@
                                                                TextTrimming="CharacterEllipsis"
                                                                FontFamily="/Agent;component/Resources/Fonts/#Roboto"
                                                                HorizontalAlignment="Center">
-                                                        <Run Text="{Binding MissionInfo.MinEnemyLevel, StringFormat={}{0:00}}" />
+                                                        <Run Text="{Binding MissionInfo.MinEnemyLevel, StringFormat={}{0:00}, Mode=OneWay}" />
                                                     </TextBlock>
                                                     <TextBlock Foreground="{DynamicResource TextColor}" FontSize="10"
                                                                TextTrimming="CharacterEllipsis"
                                                                FontFamily="/Agent;component/Resources/Fonts/#Roboto"
                                                                HorizontalAlignment="Center" Margin="0,1,0,0">
-                                                        <Run Text="{Binding MissionInfo.MaxEnemyLevel, StringFormat={}{0:00}}" />
+                                                        <Run Text="{Binding MissionInfo.MaxEnemyLevel, StringFormat={}{0:00}, Mode=OneWay}" />
                                                     </TextBlock>
                                                 </StackPanel>
                                             </Border>
@@ -83,11 +83,11 @@
                                                            TextTrimming="CharacterEllipsis"
                                                            FontFamily="/Agent;component/Resources/Fonts/#Roboto"
                                                            VerticalAlignment="Center" >
-                                                    <Run Text="{Binding MissionInfo.Faction}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
+                                                    <Run Text="{Binding MissionInfo.Faction, Mode=OneWay}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
                                                     <fa:FontAwesome Foreground="{DynamicResource TextColor}"
                                                                     Icon="AngleDoubleRight" Margin="0" FontSize="11"
                                                                     VerticalAlignment="Center" />
-                                                    <Run Text="{Binding MissionInfo.MissionType}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
+                                                    <Run Text="{Binding MissionInfo.MissionType, Mode=OneWay}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
 
                                                 </TextBlock>
                                             </StackPanel>
@@ -115,7 +115,7 @@
                                                         Icon="SnowflakeOutline" FontSize="10" Margin="2,0,1,0" />
                                                     <fa:FontAwesome Visibility="{Binding MissionInfo.RewardVisibility}"
                                                                     ToolTip="{Binding MissionInfo.Reward}"
-                                                                    Foreground="{Binding MissionInfo.RewardColor}"
+                                                                    Foreground="{Binding MissionInfo.RewardColor, TargetNullValue={StaticResource TextColor}}"
                                                                     Icon="Diamond" FontSize="10" Margin="2,0,1,0" />
                                                     <fa:FontAwesome Visibility="{Binding MissionInfo.CreditVisibility}"
                                                                     ToolTip="{Binding MissionInfo.MissionReward.Credits}"
@@ -126,9 +126,9 @@
                                             </DockPanel>
                                             <ProgressBar Name="Bar" Foreground="{DynamicResource AlertLineColor}"
                                                          BorderThickness="0"
-                                                         Minimum="{Binding Activation.Date.NumberLong}"
-                                                         Maximum="{Binding Expiry.Date.NumberLong}"
-                                                         Value="{Binding Source={StaticResource UnixTime}, Path=Now, Mode=OneWay}"
+                                                         Minimum="{Binding Activation.Date.Ticks}"
+                                                         Maximum="{Binding Expiry.Date.Ticks}"
+                                                         Value="{Binding Source={StaticResource TimeVM}, Path=Now.Ticks, Mode=OneWay}"
                                                          Background="{DynamicResource AlertProgressColor}"
                                                          BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="1"
                                                          Margin="0,0,-4,-3" Grid.ColumnSpan="3"
