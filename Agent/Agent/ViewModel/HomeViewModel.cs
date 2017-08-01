@@ -15,7 +15,7 @@ namespace Agent.ViewModel
     {
         private GameViewModel GameView;
 
-        public ObservableCollection<Alert> Alerts => GameView.Alerts;
+        public ObservableCollection<AlertViewModel> Alerts => GameView.Alerts;
         public ObservableCollection<Invasion> Invasions => GameView.Invasions;
         public News NewsData { get; }
 

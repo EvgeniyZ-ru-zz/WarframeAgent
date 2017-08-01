@@ -38,45 +38,6 @@ namespace Core.Model
         public Activation Activation { get; set; }
         public Expiry Expiry { get; set; }
         public MissionInfo MissionInfo { get; set; }
-        private Brush _statusColor;
-
-        public Brush StatusColor
-        {
-            get => _statusColor;
-            set => Set(ref _statusColor, value);
-        }
-        private string _status;
-
-        public string Status
-        {
-            get => _status;
-            set
-            {
-                var start = Tools.Time.ToDateTime(Activation.Date.NumberLong);
-                var end = Tools.Time.ToDateTime(Expiry.Date.NumberLong);
-                if (start >= DateTime.Now)
-                {
-                    value = (start - DateTime.Now).ToString(@"mm\:ss");
-                    StatusColor = Brushes.Orange;
-                }
-                else
-                {
-                    if (DateTime.Now <= end)
-                    {
-                        value = (end - DateTime.Now).ToString((end - DateTime.Now.TimeOfDay).Hour == 0
-                            ? @"mm\:ss"
-                            : @"hh\:mm\:ss");
-                        StatusColor = (SolidColorBrush) new BrushConverter().ConvertFrom("#6ECD37");
-                    }
-                    else
-                    {
-                        value = "00:00";
-                        StatusColor = Brushes.Red;
-                    }
-                }
-                Set(ref _status, value);
-            }
-        }
     }
 
     public class MissionInfo : VM
@@ -98,45 +59,6 @@ namespace Core.Model
         public bool? ArchwingRequired { get; set; }
 
         public bool? IsSharkwingMission { get; set; }
-        
-        private string _reward;
-        public string Reward
-        {
-            get => _reward;
-            set => Set(ref _reward, value);
-        }
-
-        private Brush _rewardColor;
-
-        public Brush RewardColor
-        {
-            get => _rewardColor;
-            set => Set(ref _rewardColor, value);
-        }
-
-        public Visibility ArchvingVisibility
-        {
-            get
-            {
-                if (ArchwingRequired == null || !ArchwingRequired.Value)
-                    return Visibility.Collapsed;
-
-                if (IsSharkwingMission != null && IsSharkwingMission.Value)
-                    return Visibility.Collapsed;
-
-                return Visibility.Visible;
-            }
-        }
-
-        public Visibility SharkwingVisibility => IsSharkwingMission != null && IsSharkwingMission.Value
-            ? Visibility.Visible
-            : Visibility.Collapsed;
-
-        public Visibility RewardVisibility => MissionReward.CountedItems != null || MissionReward.Items != null
-            ? Visibility.Visible
-            : Visibility.Collapsed;
-
-        public Visibility CreditVisibility => MissionReward.Credits > 0 ? Visibility.Visible : Visibility.Collapsed;
     }
 
     public class MissionReward
@@ -235,14 +157,21 @@ namespace Core.Model
 
     #region Global
 
-    public class Id
+    public class Id : IEquatable<Id>
     {
         [JsonProperty("$oid")]
         public string Oid { get; set; }
+
+        public bool Equals(Id other) => other != null && Oid == other.Oid;
+        public static bool operator == (Id l, Id r) => l?.Equals(r) ?? false;
+        public static bool operator != (Id l, Id r) => !(l == r);
+        public override bool Equals(object obj) => Equals(obj as Id);
+        public override int GetHashCode() => Oid?.GetHashCode() ?? 0;
     }
 
     public class Date
     {
+        // TODO: simplify this
         [JsonProperty("$numberLong")]
         public string NumberLongStr { get; set; }
 

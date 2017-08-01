@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using Agent.View;
+
 using Core.Model;
 using Core.ViewModel;
 
@@ -29,8 +29,8 @@ namespace Agent.ViewModel
             // TODO: race condition with arriving events; check if event is already there
             foreach (var alert in model.GetCurrentAlerts())
             {
-                PrepareAlert(alert);
-                GameView.AddAlert(alert);
+                var alertVM = PrepareAlert(alert);
+                GameView.AddAlert(alertVM);
             }
         }
 
@@ -38,64 +38,18 @@ namespace Agent.ViewModel
         {
             await AsyncHelpers.RedirectToMainThread();
 
-            var ntfVm = new NotificationViewModel(e.Notification); // TODO: replace alert with alertVM here!
             Debug.WriteLine($"Новая тревога {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
 
-            PrepareAlert(e.Notification);
-            GameView.AddAlert(e.Notification);
+            var alertVM = PrepareAlert(e.Notification);
+            GameView.AddAlert(alertVM);
         }
 
-        void PrepareAlert(Alert alert)
+        AlertViewModel PrepareAlert(Alert alert)
         {
-            #region Переводим предмет
-
-            string rewardValue = null;
-            string rewardType = null;
-
-            if (alert.MissionInfo.MissionReward.CountedItems != null)
-            {
-                var item = alert.MissionInfo.MissionReward.CountedItems[0];
-                var itemCount = item.ItemCount >= 2 ? $"[{item.ItemCount}]" : string.Empty;
-                var reward = item.ItemType.GetFilter(Filters.FilterType.Item).FirstOrDefault();
-
-                rewardType = reward.Value;
-                rewardValue = $"{reward.Key} {itemCount}";
-            }
-            else if (alert.MissionInfo.MissionReward.Items != null)
-            {
-                var reward = alert.MissionInfo.MissionReward.Items[0].GetFilter(Filters.FilterType.Item)
-                    .FirstOrDefault();
-
-                rewardType = reward.Value;
-                rewardValue = reward.Key;
-            }
-
-            alert.MissionInfo.Reward = rewardValue;
-
-            switch (rewardType)
-            {
-            case "Шлема":
-                alert.MissionInfo.RewardColor = Brushes.BlueViolet;
-                break;
-            case "Чертежи":
-                alert.MissionInfo.RewardColor = Brushes.BlueViolet;
-                break;
-            case "Ауры":
-                alert.MissionInfo.RewardColor = Brushes.OrangeRed;
-                break;
-            case "Модификаторы":
-                alert.MissionInfo.RewardColor = Brushes.DarkCyan;
-                break;
-            default:
-                alert.MissionInfo.RewardColor = (Brush)Application.Current.Resources["TextColor"];
-                break;
-            }
-
-            #endregion
-
-            alert.MissionInfo.Faction = alert.MissionInfo.Faction.GetFilter(Filters.FilterType.Fraction).FirstOrDefault().Key;
-            alert.MissionInfo.Planet = alert.MissionInfo.Location.GetFilter(Filters.FilterType.Planet).FirstOrDefault().Key.ToUpper().Split('|');
-            alert.MissionInfo.MissionType = alert.MissionInfo.MissionType.GetFilter(Filters.FilterType.Mission).FirstOrDefault().Key;
+            var activation = Core.Tools.Time.ToDateTime(alert.Activation.Date.NumberLong);
+            var expiry = Core.Tools.Time.ToDateTime(alert.Expiry.Date.NumberLong);
+            var mission = new MissionViewModel(alert.MissionInfo);
+            return new AlertViewModel(alert.Id, activation, expiry, mission);
         }
 
         private async void RemoveEvent(object sender, RemovedAlertNotificationEventArgs e)
@@ -103,7 +57,7 @@ namespace Agent.ViewModel
             await AsyncHelpers.RedirectToMainThread();
             Debug.WriteLine($"Удаляю тревогу {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
 
-            GameView.RemoveAlert(e.Notification);
+            GameView.RemoveAlertById(e.Notification.Id);
         }
     }
 }
