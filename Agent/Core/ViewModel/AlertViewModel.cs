@@ -11,13 +11,12 @@ namespace Core.ViewModel
 {
     public class AlertViewModel : VM
     {
-        public AlertViewModel(Id id, DateTime activation, DateTime expiry, MissionViewModel mission)
+        public AlertViewModel(Alert alert)
         {
-            Id = id;
-            Activation = activation;
-            Expiry = expiry;
-            MissionInfo = mission;
-            UpdateStatus();
+            Id = alert.Id;
+            Activation = Tools.Time.ToDateTime(alert.Activation.Date.NumberLong);
+            Expiry = Tools.Time.ToDateTime(alert.Expiry.Date.NumberLong);
+            MissionInfo = new MissionViewModel(alert.MissionInfo);
         }
 
         public Id Id { get; }
