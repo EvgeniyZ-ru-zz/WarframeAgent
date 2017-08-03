@@ -13,45 +13,23 @@ namespace Core.Model
 {
     #region EventArgs
 
-    // Добавление новых тревог
-    public class NewAlertNotificationEventArgs : EventArgs
+    // Добавление/удаление тревог
+    public class AlertNotificationEventArgs : EventArgs
     {
         public readonly Alert Notification;
 
-        public NewAlertNotificationEventArgs(Alert ntf)
+        public AlertNotificationEventArgs(Alert ntf)
         {
             Notification = ntf;
         }
     }
 
-    // Удаление старых тревог
-    public class RemovedAlertNotificationEventArgs : EventArgs
-    {
-        public readonly Alert Notification;
-
-        public RemovedAlertNotificationEventArgs(Alert ntf)
-        {
-            Notification = ntf;
-        }
-    }
-
-    // Добавление новых тревог
-    public class NewInvasionNotificationEventArgs : EventArgs
+    // Добавление/удаление/изменение вторжений
+    public class InvasionNotificationEventArgs : EventArgs
     {
         public readonly Invasion Notification;
 
-        public NewInvasionNotificationEventArgs(Invasion ntf)
-        {
-            Notification = ntf;
-        }
-    }
-
-    // Удаление старых тревог
-    public class RemovedInvasionNotificationEventArgs : EventArgs
-    {
-        public readonly Invasion Notification;
-
-        public RemovedInvasionNotificationEventArgs(Invasion ntf)
+        public InvasionNotificationEventArgs(Invasion ntf)
         {
             Notification = ntf;
         }
@@ -155,12 +133,17 @@ namespace Core.Model
 
         private void InvasionEvaluateList(GameSnapshotModel snapshot)
         {
-            List<Invasion> newNotifications, removedNotifications = new List<Invasion>();
+            List<Invasion> newNotifications, removedNotifications = new List<Invasion>(), changedNotifications;
             lock (mutex)
             {
                 newNotifications = snapshot.Invasions.Where(ntf => !_currentInvasionsNotifications.ContainsKey(ntf.Id.Oid)).ToList();
                 foreach (var ntf in newNotifications)
                     _currentInvasionsNotifications.Add(ntf.Id.Oid, ntf);
+                changedNotifications = snapshot.Invasions
+                    .Select(ntf =>
+                        _currentInvasionsNotifications.TryGetValue(ntf.Id.Oid, out var existingNtf) && existingNtf.Update(ntf) ? existingNtf : null)
+                    .Where(ntf => ntf != null)
+                    .ToList();
                 var removedId = _currentInvasionsNotifications.Keys.Except(snapshot.Invasions.Select(ntf => ntf.Id.Oid));
                 foreach (var id in removedId.ToList())
                 {
@@ -170,6 +153,8 @@ namespace Core.Model
             }
             foreach (var ntf in newNotifications)
                 FireNewInvasionNotification(ntf);
+            foreach (var ntf in changedNotifications)
+                FireChangedInvasionNotification(ntf);
             foreach (var ntf in removedNotifications)
                 FireRemovedInvasionNotification(ntf);
         }
@@ -179,41 +164,51 @@ namespace Core.Model
         /// <summary>
         ///     Эвент добавления новых тревог.
         /// </summary>
-        public event EventHandler<NewAlertNotificationEventArgs> AlertNotificationArrived;
+        public event EventHandler<AlertNotificationEventArgs> AlertNotificationArrived;
 
         private void FireNewAlertNotification(Alert ntf)
         {
-            AlertNotificationArrived?.Invoke(this, new NewAlertNotificationEventArgs(ntf));
+            AlertNotificationArrived?.Invoke(this, new AlertNotificationEventArgs(ntf));
         }
 
         /// <summary>
         ///     Эвент удаления старых тревог.
         /// </summary>
-        public event EventHandler<RemovedAlertNotificationEventArgs> AlertNotificationDeparted;
+        public event EventHandler<AlertNotificationEventArgs> AlertNotificationDeparted;
 
         private void FireRemovedAlertNotification(Alert ntf)
         {
-            AlertNotificationDeparted?.Invoke(this, new RemovedAlertNotificationEventArgs(ntf));
+            AlertNotificationDeparted?.Invoke(this, new AlertNotificationEventArgs(ntf));
         }
 
         /// <summary>
         ///     Эвент добавления новых вторжений.
         /// </summary>
-        public event EventHandler<NewInvasionNotificationEventArgs> InvasionNotificationArrived;
+        public event EventHandler<InvasionNotificationEventArgs> InvasionNotificationArrived;
 
         private void FireNewInvasionNotification(Invasion ntf)
         {
-            InvasionNotificationArrived?.Invoke(this, new NewInvasionNotificationEventArgs(ntf));
+            InvasionNotificationArrived?.Invoke(this, new InvasionNotificationEventArgs(ntf));
+        }
+
+        /// <summary>
+        ///     Эвент обновления известных вторжений.
+        /// </summary>
+        public event EventHandler<InvasionNotificationEventArgs> InvasionNotificationChanged;
+
+        private void FireChangedInvasionNotification(Invasion ntf)
+        {
+            InvasionNotificationChanged?.Invoke(this, new InvasionNotificationEventArgs(ntf));
         }
 
         /// <summary>
         ///     Эвент удаления старых вторжений.
         /// </summary>
-        public event EventHandler<RemovedInvasionNotificationEventArgs> InvasionNotificationDeparted;
+        public event EventHandler<InvasionNotificationEventArgs> InvasionNotificationDeparted;
 
         private void FireRemovedInvasionNotification(Invasion ntf)
         {
-            InvasionNotificationDeparted?.Invoke(this, new RemovedInvasionNotificationEventArgs(ntf));
+            InvasionNotificationDeparted?.Invoke(this, new InvasionNotificationEventArgs(ntf));
         }
 
         #endregion

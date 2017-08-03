@@ -30,7 +30,7 @@ namespace Core.Model
 
     #region Alert
 
-    public class Alert : NotifyPropertyChangedImpl
+    public class Alert
     {
         [JsonProperty("_id")]
         public Id Id { get; set; }
@@ -40,7 +40,7 @@ namespace Core.Model
         public MissionInfo MissionInfo { get; set; }
     }
 
-    public class MissionInfo : VM
+    public class MissionInfo
     {
         public string MissionType { get; set; }
         public string Faction { get; set; }
@@ -57,7 +57,6 @@ namespace Core.Model
         public string ExtraEnemySpec { get; set; }
         public List<string> CustomAdvancedSpawners { get; set; }
         public bool? ArchwingRequired { get; set; }
-
         public bool? IsSharkwingMission { get; set; }
     }
 
@@ -72,54 +71,16 @@ namespace Core.Model
 
     #region Invasions
 
-    public class Invasion: NotifyPropertyChangedImpl
+    public class Invasion
     {
         [JsonProperty("_id")]
         public Id Id { get; set; }
 
         public string Faction { get; set; }
         public string Node { get; set; }
-        public string[] NodeArray { get; set; }
 
-        private double _count;
-        public double Count
-        {
-            get => _count;
-            set => Set(ref _count, value);
-        }
-
-        private double _goal;
-        public double Goal
-        {
-            get => _goal;
-            set => Set(ref _goal, value);
-        }
-
-        private double _percentOut;
-        public double PercentOut
-        {
-            get => _percentOut;
-            set => Set(ref _percentOut, value);
-        }
-
-        private double _percent;
-        public double Percent
-        {
-            get
-            {
-                var val = DefenderMissionInfo.Faction == "FC_INFESTATION"
-                    ? (Goal + Count) / Goal * 100
-                    : (Goal + Count) / (Goal * 2) * 100;
-
-                PercentOut = 100 - val;
-                _percent = val;
-                return _percent;
-            }
-            set
-            {
-                Set(ref _percent, value);
-            }
-        }
+        public double Count { get; set; }
+        public double Goal { get; set; }
 
         public string LocTag { get; set; }
         public bool Completed { get; set; }
@@ -128,6 +89,29 @@ namespace Core.Model
         public InvasionReward DefenderReward { get; set; }
         public InvasionMissionInfo DefenderMissionInfo { get; set; }
         public Activation Activation { get; set; }
+
+        internal bool Update(Invasion ntf)
+        {
+            bool hasChanges = false;
+            if (Count != ntf.Count)
+            {
+                hasChanges = true;
+                System.Diagnostics.Debug.WriteLine($"Changed Count {Count} to {ntf.Count}");
+                Count = ntf.Count;
+            }
+            if (Goal != ntf.Goal)
+            {
+                hasChanges = true;
+                Goal = ntf.Goal;
+            }
+            if (Completed != ntf.Completed)
+            {
+                hasChanges = true;
+                Completed = ntf.Completed;
+            }
+            // is this all that can be changed?
+            return hasChanges;
+        }
     }
 
     public class InvasionReward
@@ -135,7 +119,7 @@ namespace Core.Model
         public List<CountedItem> CountedItems { get; set; }
     }
 
-    public class InvasionMissionInfo: VM
+    public class InvasionMissionInfo
     {
         public int Seed { get; set; }
         public string Faction { get; set; }
@@ -162,8 +146,8 @@ namespace Core.Model
         [JsonProperty("$oid")]
         public string Oid { get; set; }
 
-        public bool Equals(Id other) => other != null && Oid == other.Oid;
-        public static bool operator == (Id l, Id r) => l?.Equals(r) ?? false;
+        public bool Equals(Id other) => ((object)other != null) && Oid == other.Oid;
+        public static bool operator == (Id l, Id r) => l?.Equals(r) ?? ((object)r == null);
         public static bool operator != (Id l, Id r) => !(l == r);
         public override bool Equals(object obj) => Equals(obj as Id);
         public override int GetHashCode() => Oid?.GetHashCode() ?? 0;

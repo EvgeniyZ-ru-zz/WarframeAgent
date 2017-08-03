@@ -29,30 +29,22 @@ namespace Agent.ViewModel
             // TODO: race condition with arriving events; check if event is already there
             foreach (var alert in model.GetCurrentAlerts())
             {
-                var alertVM = PrepareAlert(alert);
+                var alertVM = new AlertViewModel(alert);
                 GameView.AddAlert(alertVM);
             }
         }
 
-        private async void AddEvent(object sender, NewAlertNotificationEventArgs e)
+        private async void AddEvent(object sender, AlertNotificationEventArgs e)
         {
             await AsyncHelpers.RedirectToMainThread();
 
             Debug.WriteLine($"Новая тревога {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
 
-            var alertVM = PrepareAlert(e.Notification);
+            var alertVM = new AlertViewModel(e.Notification);
             GameView.AddAlert(alertVM);
         }
 
-        AlertViewModel PrepareAlert(Alert alert)
-        {
-            var activation = Core.Tools.Time.ToDateTime(alert.Activation.Date.NumberLong);
-            var expiry = Core.Tools.Time.ToDateTime(alert.Expiry.Date.NumberLong);
-            var mission = new MissionViewModel(alert.MissionInfo);
-            return new AlertViewModel(alert.Id, activation, expiry, mission);
-        }
-
-        private async void RemoveEvent(object sender, RemovedAlertNotificationEventArgs e)
+        private async void RemoveEvent(object sender, AlertNotificationEventArgs e)
         {
             await AsyncHelpers.RedirectToMainThread();
             Debug.WriteLine($"Удаляю тревогу {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");

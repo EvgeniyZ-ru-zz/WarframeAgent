@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Core
 {
-    public class NotifyPropertyChangedImpl
+    public class NotifyPropertyChangedImpl : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

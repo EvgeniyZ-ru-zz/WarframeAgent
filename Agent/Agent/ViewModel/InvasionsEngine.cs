@@ -24,41 +24,45 @@ namespace Agent.ViewModel
         public void Run(GameModel model)
         {
             model.InvasionNotificationArrived += AddEvent;
+            model.InvasionNotificationChanged += ChangeEvent;
             model.InvasionNotificationDeparted += RemoveEvent;
             // TODO: race condition with arriving events; check if event is already there
             foreach (var invasion in model.GetCurrentInvasions())
             {
-                PrepareInvasion(invasion);
-                GameView.AddInvasion(invasion);
+                var invasionVM = new InvasionViewModel(invasion);
+                GameView.AddInvasion(invasionVM);
             }
         }
 
-        private async void AddEvent(object sender, NewInvasionNotificationEventArgs e)
+        private async void AddEvent(object sender, InvasionNotificationEventArgs e)
         {
             await AsyncHelpers.RedirectToMainThread();
 
             Debug.WriteLine($"Новое вторжение {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
 
-            PrepareInvasion(e.Notification);
-
-            GameView.AddInvasion(e.Notification);
+            var invasionVM = new InvasionViewModel(e.Notification);
+            GameView.AddInvasion(invasionVM);
         }
 
-        void PrepareInvasion(Invasion invasion)
+        private async void ChangeEvent(object sender, InvasionNotificationEventArgs e)
         {
-            invasion.AttackerMissionInfo.Faction = invasion.AttackerMissionInfo.Faction.GetFilter(Filters.FilterType.Fraction).FirstOrDefault().Key;
-            invasion.DefenderMissionInfo.Faction = invasion.DefenderMissionInfo.Faction.GetFilter(Filters.FilterType.Fraction).FirstOrDefault().Key;
-            invasion.Faction = invasion.Faction.GetFilter(Filters.FilterType.Fraction).FirstOrDefault().Key;
-            invasion.NodeArray = invasion.Node.GetFilter(Filters.FilterType.Planet).FirstOrDefault().Key.ToUpper().Split('|');
+            await AsyncHelpers.RedirectToMainThread();
+
+            Debug.WriteLine($"Изменённое вторжение {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
+
+            var invasionVM = GameView.TryGetInvasionById(e.Notification.Id);
+            if (invasionVM == null)
+                return;
+            invasionVM.Update();
         }
 
-        private async void RemoveEvent(object sender, RemovedInvasionNotificationEventArgs e)
+        private async void RemoveEvent(object sender, InvasionNotificationEventArgs e)
         {
             await AsyncHelpers.RedirectToMainThread();
 
             Debug.WriteLine($"Удаляю вторжение {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
 
-            GameView.Invasions.Remove(e.Notification);
+            GameView.RemoveInvasionById(e.Notification.Id);
         }
     }
 }

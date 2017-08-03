@@ -59,15 +59,13 @@
                                                     <TextBlock Foreground="{DynamicResource TextColor}" FontSize="10"
                                                                TextTrimming="CharacterEllipsis"
                                                                FontFamily="/Agent;component/Resources/Fonts/#Roboto"
-                                                               HorizontalAlignment="Center">
-                                                        <Run Text="{Binding MissionInfo.MinEnemyLevel, StringFormat={}{0:00}, Mode=OneWay}" />
-                                                    </TextBlock>
+                                                               HorizontalAlignment="Center"
+                                                               Text="{Binding MissionInfo.MinEnemyLevel, StringFormat={}{0:00}}"/>
                                                     <TextBlock Foreground="{DynamicResource TextColor}" FontSize="10"
                                                                TextTrimming="CharacterEllipsis"
                                                                FontFamily="/Agent;component/Resources/Fonts/#Roboto"
-                                                               HorizontalAlignment="Center" Margin="0,1,0,0">
-                                                        <Run Text="{Binding MissionInfo.MaxEnemyLevel, StringFormat={}{0:00}, Mode=OneWay}" />
-                                                    </TextBlock>
+                                                               HorizontalAlignment="Center" Margin="0,1,0,0"
+                                                               Text="{Binding MissionInfo.MaxEnemyLevel, StringFormat={}{0:00}}"/>
                                                 </StackPanel>
                                             </Border>
                                             <StackPanel Grid.Column="1" Grid.Row="0" Margin="0,0,0,2">
@@ -88,7 +86,6 @@
                                                                     Icon="AngleDoubleRight" Margin="0" FontSize="11"
                                                                     VerticalAlignment="Center" />
                                                     <Run Text="{Binding MissionInfo.MissionType, Mode=OneWay}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
-
                                                 </TextBlock>
                                             </StackPanel>
 
@@ -181,7 +178,6 @@
                                          ItemContainerStyle="{StaticResource AlertListItem}">
                                     <ListBox.GroupStyle>
                                         <GroupStyle>
-
                                             <GroupStyle.HeaderTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Margin="3,5,3,0" FontWeight="Medium"
@@ -219,27 +215,24 @@
                                                                    Grid.Column="0" HorizontalAlignment="Left"
                                                                    Foreground="{DynamicResource TextColor}" FontSize="10"
                                                                    TextTrimming="CharacterEllipsis"
-                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto">
-                                                            <Run Text="{Binding Goal}"/>
-                                                        </TextBlock>
+                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto"
+                                                                   Text="{Binding Goal}"/>
                                                         <TextBlock FontWeight="Medium"
                                                                    Grid.Column="1" HorizontalAlignment="Center"
                                                                    Foreground="{DynamicResource TextColor}" FontSize="11"
                                                                    TextTrimming="CharacterEllipsis"
-                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto" Margin="0">
-                                                            <Run Text="{Binding NodeArray[1]}"/>
-                                                        </TextBlock>
+                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto" Margin="0"
+                                                                   Text="{Binding NodeArray[1]}"/>
                                                         <TextBlock FontWeight="Medium"
                                                                    Grid.Column="2" HorizontalAlignment="Right"
                                                                    Foreground="{DynamicResource TextColor}" FontSize="10"
                                                                    TextTrimming="CharacterEllipsis"
-                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto">
-                                                            <Run Text="{Binding Count}"/>
-                                                        </TextBlock>
+                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto"
+                                                                   Text="{Binding Count}"/>
                                                     </Grid>
                                                     <ProgressBar Grid.Row="1" Name="Bar" Foreground="{DynamicResource InvasionsLineColor}"
                                                                  BorderThickness="0"
-                                                                 Value="{Binding Path=Percent}"
+                                                                 Value="{Binding Path=Percent, Mode=OneWay}"
                                                                  Background="{DynamicResource AlertProgressColor}"
                                                                  BorderBrush="{x:Null}" Height="2" />
                                                     <Grid Grid.Row="2" Margin="8,2,8,0">
@@ -252,16 +245,14 @@
                                                                    Grid.Column="0" HorizontalAlignment="Left"
                                                                    Foreground="{DynamicResource TextColor}" FontSize="10"
                                                                    TextTrimming="CharacterEllipsis"
-                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto">
-                                                            <Run Text="{Binding Percent, StringFormat='\{0:n2\}%'}"/>
-                                                        </TextBlock>
+                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto"
+                                                                   Text="{Binding Percent, StringFormat='\{0:n2\}%'}"/>
                                                         <TextBlock FontWeight="Medium"
                                                                    Grid.Column="2" HorizontalAlignment="Right"
                                                                    Foreground="{DynamicResource TextColor}" FontSize="10"
                                                                    TextTrimming="CharacterEllipsis"
-                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto">
-                                                            <Run Text="{Binding PercentOut, StringFormat='\{0:n2\}%'}"/>
-                                                        </TextBlock>
+                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto"
+                                                                   Text="{Binding PercentOut, StringFormat='\{0:n2\}%'}"/>
                                                     </Grid>
                                                 </Grid>
                                                 <Image Grid.Row="0" RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Width="33" Source="/Agent;component/Resources/Images/Fractions/GrineerMan.png"/>

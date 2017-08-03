@@ -69,6 +69,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Model\FiltersModel.cs" />
     <Compile Include="ViewModel\AlertViewModel.cs" />
+    <Compile Include="ViewModel\InvasionViewModel.cs" />
     <Compile Include="ViewModel\MissionViewModel.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
     <Compile Include="SettingCore.cs" />

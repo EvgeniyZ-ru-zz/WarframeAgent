@@ -32,18 +32,25 @@ namespace Agent.ViewModel
         private GameModel Model;
 
         public ObservableCollection<AlertViewModel> Alerts { get; } = new ObservableCollection<AlertViewModel>();
-        public ObservableCollection<Invasion> Invasions { get; } = new ObservableCollection<Invasion>();
+        public ObservableCollection<InvasionViewModel> Invasions { get; } = new ObservableCollection<InvasionViewModel>();
 
         public void AddAlert(AlertViewModel alert) => Alerts.Add(alert);
+        public AlertViewModel TryGetAlertById(Id id) => Alerts.FirstOrDefault(a => a.Id == id);
         public void RemoveAlertById(Id id)
         {
-            AlertViewModel alert = Alerts.FirstOrDefault(a => a.Id == id);
+            AlertViewModel alert = TryGetAlertById(id);
             if (alert != null)
                 Alerts.Remove(alert);
         }
 
-        public void AddInvasion(Invasion invasion) => Invasions.Add(invasion);
-        public void RemoveInvasion(Invasion invasion) => Invasions.Remove(invasion);
+        public void AddInvasion(InvasionViewModel invasion) => Invasions.Add(invasion);
+        public InvasionViewModel TryGetInvasionById(Id id) => Invasions.FirstOrDefault(i => i.Id == id);
+        public void RemoveInvasionById(Id id)
+        {
+            InvasionViewModel invasion = TryGetInvasionById(id);
+            if (invasion != null)
+                Invasions.Remove(invasion);
+        }
 
         private void reloadTimer_Elapsed(object sender, EventArgs e)
         {
