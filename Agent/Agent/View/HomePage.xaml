@@ -3,14 +3,13 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:view="clr-namespace:Agent.View"
+      xmlns:local="clr-namespace:Agent.View"
       xmlns:fa="http://schemas.fontawesome.io/icons/"
       xmlns:viewModel="clr-namespace:Core.ViewModel;assembly=Core"
       mc:Ignorable="d" FontFamily="/Agent;component/Resources/Fonts/#Roboto"
       d:DesignHeight="540" d:DesignWidth="930">
     <UserControl.Resources>
         <viewModel:TimeNowViewModel x:Key="TimeVM" />
-        <view:DateTimeConverter x:Key="DateTimeConverter"/>
     </UserControl.Resources>
 
     <Grid x:Name="grid">
@@ -124,9 +123,9 @@
                                             </DockPanel>
                                             <ProgressBar Name="Bar" Foreground="{DynamicResource AlertLineColor}"
                                                          BorderThickness="0"
-                                                         Minimum="{Binding Activation, Converter={StaticResource DateTimeConverter}}"
-                                                         Maximum="{Binding Expiry, Converter={StaticResource DateTimeConverter}}"
-                                                         Value="{Binding Now, Source={StaticResource TimeVM}, Mode=OneWay, Converter={StaticResource DateTimeConverter}}"
+                                                         Minimum="{Binding Activation.Ticks}"
+                                                         Maximum="{Binding Expiry.Ticks}"
+                                                         Value="{Binding Now.Ticks, Source={StaticResource TimeVM}, Mode=OneWay}"
                                                          Background="{DynamicResource AlertProgressColor}"
                                                          BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="1"
                                                          Margin="0,0,-4,-3" Grid.ColumnSpan="3"
