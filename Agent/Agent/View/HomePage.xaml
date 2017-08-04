@@ -123,9 +123,9 @@
                                             </DockPanel>
                                             <ProgressBar Name="Bar" Foreground="{DynamicResource AlertLineColor}"
                                                          BorderThickness="0"
-                                                         Minimum="{Binding Activation.Date.Ticks}"
-                                                         Maximum="{Binding Expiry.Date.Ticks}"
-                                                         Value="{Binding Source={StaticResource TimeVM}, Path=Now.Ticks, Mode=OneWay}"
+                                                         Minimum="{Binding Activation.Ticks}"
+                                                         Maximum="{Binding Expiry.Ticks}"
+                                                         Value="{Binding Now.Ticks, Source={StaticResource TimeVM}, Mode=OneWay}"
                                                          Background="{DynamicResource AlertProgressColor}"
                                                          BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="1"
                                                          Margin="0,0,-4,-3" Grid.ColumnSpan="3"
