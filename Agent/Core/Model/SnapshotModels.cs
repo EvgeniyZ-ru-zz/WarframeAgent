@@ -96,7 +96,6 @@ namespace Core.Model
             if (Count != ntf.Count)
             {
                 hasChanges = true;
-                System.Diagnostics.Debug.WriteLine($"Changed Count {Count} to {ntf.Count}");
                 Count = ntf.Count;
             }
             if (Goal != ntf.Goal)
