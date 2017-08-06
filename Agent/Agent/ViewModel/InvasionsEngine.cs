@@ -40,9 +40,11 @@ namespace Agent.ViewModel
 
             Debug.WriteLine($"Новое вторжение {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
 
-            var invasionVM = new InvasionViewModel(e.Notification);
             if (!e.Notification.Completed)
-                GameView.AddInvasion(invasionVM);
+            {
+                var invasionVM = new InvasionViewModel(e.Notification);
+                GameView.AddInvasion(new InvasionViewModel(e.Notification));
+            }
         }
 
         private async void ChangeEvent(object sender, InvasionNotificationEventArgs e)
@@ -51,10 +53,16 @@ namespace Agent.ViewModel
 
             Debug.WriteLine($"Изменённое вторжение {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
 
-            var invasionVM = GameView.TryGetInvasionById(e.Notification.Id);
-            if (invasionVM == null)
-                return;
-            invasionVM.Update();
+            if (e.Notification.Completed)
+            {
+                RemoveEvent(sender, e);
+            }
+            else
+            {
+                var invasionVM = GameView.TryGetInvasionById(e.Notification.Id);
+                if (invasionVM != null)
+                    invasionVM.Update();
+            }
         }
 
         private async void RemoveEvent(object sender, InvasionNotificationEventArgs e)
