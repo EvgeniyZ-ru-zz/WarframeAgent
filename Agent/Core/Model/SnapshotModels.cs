@@ -84,10 +84,15 @@ namespace Core.Model
 
         public string LocTag { get; set; }
         public bool Completed { get; set; }
-        public object AttackerReward { get; set; }
+
+        [JsonConverter(typeof(IgnoreNonObjectConverter<InvasionReward>))]
+        public InvasionReward AttackerReward { get; set; }
         public InvasionMissionInfo AttackerMissionInfo { get; set; }
+
+        [JsonConverter(typeof(IgnoreNonObjectConverter<InvasionReward>))]
         public InvasionReward DefenderReward { get; set; }
         public InvasionMissionInfo DefenderMissionInfo { get; set; }
+
         public Activation Activation { get; set; }
 
         internal bool Update(Invasion ntf)
