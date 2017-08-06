@@ -41,7 +41,8 @@ namespace Agent.ViewModel
             Debug.WriteLine($"Новое вторжение {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
 
             var invasionVM = new InvasionViewModel(e.Notification);
-            GameView.AddInvasion(invasionVM);
+            if (!e.Notification.Completed)
+                GameView.AddInvasion(invasionVM);
         }
 
         private async void ChangeEvent(object sender, InvasionNotificationEventArgs e)
