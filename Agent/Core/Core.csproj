@@ -55,6 +55,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\IgnoreNonObjectConverter.cs" />
     <Compile Include="Converters\ProjectConverter.cs" />
     <Compile Include="Events\BackgroundEvent.cs" />
     <Compile Include="Events\FiltersEvent.cs" />

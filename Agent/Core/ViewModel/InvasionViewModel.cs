@@ -24,7 +24,7 @@ namespace Core.ViewModel
             NodeArray = invasion.Node.GetFilter(Model.Filters.FilterType.Planet).FirstOrDefault().Key.ToUpper().Split('|');
             LocTag = invasion.LocTag.GetFilter(Model.Filters.FilterType.Mission).FirstOrDefault().Key;
             DefenderReward = GetRewardString(invasion.DefenderReward);
-            //AttackerReward = GetRewardString(invasion.AttackerReward);
+            AttackerReward = GetRewardString(invasion.AttackerReward);
             AttackerColor = GetFactionColor(invasion.AttackerMissionInfo.Faction);
             DefenderColor = GetFactionColor(invasion.DefenderMissionInfo.Faction);
             Update();
