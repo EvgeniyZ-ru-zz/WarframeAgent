@@ -79,6 +79,10 @@ namespace Core.ViewModel
             var count = reward?.CountedItems[0]?.ItemCount;
             if (count > 1)
                 rewardString += $" [{count}]";
+
+            if (string.IsNullOrEmpty(rewardString))
+                return "Награды нет";
+
             return rewardString;
         }
 
