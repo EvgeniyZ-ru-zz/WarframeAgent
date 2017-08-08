@@ -25,12 +25,11 @@ namespace Core.ViewModel
             return new FactionViewModel(value.Name, brush, geometry);
         }
 
-        public static FactionViewModel ById(string factionId)
-        {
-            if (_knownFactions.Count == 0)
-                throw new InvalidOperationException("Calling this too early? There are no factions available");
-            return _knownFactions.TryGetValue(factionId, out var faction) ? faction : null;
-        }
+        static FactionViewModel CreateUnknown(string name) =>
+            new FactionViewModel(name, Brushes.Black, new EllipseGeometry(new System.Windows.Point(), 1, 1));
+
+        public static FactionViewModel ById(string factionId) =>
+            _knownFactions.TryGetValue(factionId, out var faction) ? faction : CreateUnknown(factionId);
 
         private FactionViewModel(string name, Brush color, Geometry logo)
         {
