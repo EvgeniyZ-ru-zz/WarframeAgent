@@ -18,15 +18,13 @@ namespace Core.ViewModel
             this.invasion = invasion;
             Id = invasion.Id;
             isDefenderFactionInfestation = invasion.DefenderMissionInfo.Faction == "FC_INFESTATION";
-            AttackerFaction = invasion.AttackerMissionInfo.Faction.GetFilter(Model.Filters.FilterType.Fraction).FirstOrDefault().Key;
-            DefenderFaction = invasion.DefenderMissionInfo.Faction.GetFilter(Model.Filters.FilterType.Fraction).FirstOrDefault().Key;
-            Faction = invasion.Faction.GetFilter(Model.Filters.FilterType.Fraction).FirstOrDefault().Key;
+            AttackerFaction = FactionViewModel.ById(invasion.AttackerMissionInfo.Faction);
+            DefenderFaction = FactionViewModel.ById(invasion.DefenderMissionInfo.Faction);
+            Faction = FactionViewModel.ById(invasion.Faction);
             NodeArray = invasion.Node.GetFilter(Model.Filters.FilterType.Planet).FirstOrDefault().Key.ToUpper().Split('|');
             LocTag = invasion.LocTag.GetFilter(Model.Filters.FilterType.Mission).FirstOrDefault().Key;
             DefenderReward = GetRewardString(invasion.DefenderReward);
             AttackerReward = GetRewardString(invasion.AttackerReward);
-            AttackerColor = GetFactionColor(invasion.AttackerMissionInfo.Faction);
-            DefenderColor = GetFactionColor(invasion.DefenderMissionInfo.Faction);
             Update();
         }
 
@@ -39,12 +37,10 @@ namespace Core.ViewModel
 
         public Id Id { get; }
         public string LocTag { get; }
-        public string Faction { get; }
+        public FactionViewModel Faction { get; }
         public string[] NodeArray { get; }
-        public string DefenderFaction { get; }
-        public string AttackerFaction { get; }
-        public Brush DefenderColor { get; }
-        public Brush AttackerColor { get; }
+        public FactionViewModel DefenderFaction { get; }
+        public FactionViewModel AttackerFaction { get; }
         public string DefenderReward { get; }
         public string AttackerReward { get; }
 
@@ -63,15 +59,6 @@ namespace Core.ViewModel
             get => _goal;
             private set => Set(ref _goal, value);
         }
-
-        static Dictionary<string, Brush> _factionColors = new Dictionary<string, Brush>()
-        {
-            ["FC_GRINEER"]     = new SolidColorBrush(Color.FromRgb(r: 0xbd, g: 0x58, b: 0x57)), //FFbd5857
-            ["FC_CORPUS"]      = new SolidColorBrush(Color.FromRgb(r: 0x3f, g: 0x85, b: 0xca)), //FF3f85ca
-            ["FC_INFESTATION"] = new SolidColorBrush(Color.FromRgb(r: 0x1f, g: 0x97, b: 0x45))  //FF1F9745
-        };
-        static Brush GetFactionColor(string faction) =>
-            _factionColors.TryGetValue(faction, out var brush) ? brush : null;
 
         static string GetRewardString(InvasionReward reward)
         {
