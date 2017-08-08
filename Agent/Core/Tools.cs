@@ -55,11 +55,11 @@ namespace Core
             /// </summary>
             /// <param name="url">Адрес файла</param>
             /// <param name="patch">Куда сохранять</param>
-            public static void DownloadFile(string url, string patch)
+            public static void DownloadFile(string url, string relativePath)
             {
                 using (var c = new WebClient())
                 {
-                    c.DownloadFile(url, patch);
+                    c.DownloadFile(url, Model.StorageModel.ExpandRelativeName(relativePath));
                 }
             }
 

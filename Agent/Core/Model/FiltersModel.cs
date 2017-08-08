@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Core.Model
@@ -14,8 +15,7 @@ namespace Core.Model
         {
             Item,
             Planet,
-            Mission,
-            Fraction
+            Mission
         }
 
         public static Dictionary<string, string> GetFilter(this string value, FilterType type)
@@ -24,8 +24,6 @@ namespace Core.Model
             {
                 case FilterType.Item:
                     return FiltersModel.Items.Find(value, "Items");
-                case FilterType.Fraction:
-                    return FiltersModel.Races.Find(value, "Items");
                 case FilterType.Planet:
                     return FiltersModel.Planets.Find(value, "Items");
                 case FilterType.Mission:
@@ -42,7 +40,8 @@ namespace Core.Model
         {
             try
             {
-                var strings = File.ReadAllText(file, Encoding.UTF8);
+                var absoluteFile = StorageModel.ExpandRelativeName(file);
+                var strings = File.ReadAllText(absoluteFile, Encoding.UTF8);
                 var json = JObject.Parse(strings);
                 var result = json[cat]
                     .Where(s => s[value] != null)
@@ -69,14 +68,6 @@ namespace Core.Model
             }
         }
 
-        public static class Races
-        {
-            public static Dictionary<string, string> Find(string value, string cat)
-            {
-                return ReadFile("Filters/Race.json", value, cat);
-            }
-        }
-
         public static class Planets
         {
             public static Dictionary<string, string> Find(string value, string cat)
@@ -91,6 +82,35 @@ namespace Core.Model
             {
                 return ReadFile("Filters/Missions.json", value, cat);
             }
+        }
+
+        public static class Factions
+        {
+            public static Dictionary<string, FactionInfo> GetAll()
+            {
+                var absoluteFile = StorageModel.ExpandRelativeName("Filters/Factions.json");
+                JsonSerializer s = JsonSerializer.CreateDefault();
+                using (var text = File.OpenText(absoluteFile))
+                using (var jreader = new JsonTextReader(text))
+                {
+                    var model = s.Deserialize<FactionsModel>(jreader);
+                    return model.Items;
+                }
+            }
+        }
+
+        public class FactionInfo
+        {
+            public string Name { get; set; }
+            public string Color { get; set; }
+            public string Logo { get; set; }
+        }
+
+        public class FactionsModel
+        {
+            public DateTime Date { get; set; }
+            public int Version { get; set; }
+            public Dictionary<string, FactionInfo> Items { get; set; }
         }
     }
 }

@@ -54,9 +54,9 @@ namespace Core.Model
                     if (!Directory.Exists(tempDir)) Directory.CreateDirectory(tempDir);
 
                     if (Tools.Network.Ping(Settings.Program.Urls.News) && isFirst)
-                        Tools.Network.DownloadFile(Settings.Program.Urls.News, $"{tempDir}/NewsData.json");
+                        Tools.Network.DownloadFile(Settings.Program.Urls.News, Path.Combine(tempDir, "NewsData.json"));
 
-                    Tools.Network.DownloadFile(Settings.Program.Urls.Game, $"{tempDir}/GameData.json");
+                    Tools.Network.DownloadFile(Settings.Program.Urls.Game, Path.Combine(tempDir, "GameData.json"));
                     events.RaiseUpdate();
                     if (!isConnected)
                     {
