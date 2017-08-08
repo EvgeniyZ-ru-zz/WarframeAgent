@@ -88,13 +88,21 @@ namespace Core.Model
         {
             public static Dictionary<string, FactionInfo> GetAll()
             {
-                var absoluteFile = StorageModel.ExpandRelativeName("Filters/Factions.json");
-                JsonSerializer s = JsonSerializer.CreateDefault();
-                using (var text = File.OpenText(absoluteFile))
-                using (var jreader = new JsonTextReader(text))
+                try
                 {
-                    var model = s.Deserialize<FactionsModel>(jreader);
-                    return model.Items;
+                    var absoluteFile = StorageModel.ExpandRelativeName("Filters/Factions.json");
+                    JsonSerializer s = JsonSerializer.CreateDefault();
+                    using (var text = File.OpenText(absoluteFile))
+                    using (var jreader = new JsonTextReader(text))
+                    {
+                        var model = s.Deserialize<FactionsModel>(jreader);
+                        return model.Items;
+                    }
+                }
+                catch (Exception e)
+                {
+                    //? LOG?
+                    return new Dictionary<string, FactionInfo>();
                 }
             }
         }
