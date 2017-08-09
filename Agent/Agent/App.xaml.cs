@@ -4,11 +4,12 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Shapes;
-
+using System.Windows.Threading;
 using Core;
 using Core.Events;
 
 using Agent.ViewModel;
+using NLog;
 
 namespace Agent
 {
@@ -32,6 +33,8 @@ namespace Agent
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            Application.Current.DispatcherUnhandledException += AppDispatcherUnhandledException;
+
             Settings.Load(); //Подгружаем настройки
             mainVM = new MainViewModel();
 
@@ -51,6 +54,31 @@ namespace Agent
             splashScreen.Show();
             splashVM.Run();
         }
+
+        #region Exception
+
+        private void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            Tools.Logging.Send(LogLevel.Fatal, "An application error occurred.", e.Exception);
+#if DEBUG // In debug mode do not custom-handle the exception, let Visual Studio handle it
+            e.Handled = false;
+#else
+                ShowUnhandledException(e); 
+            #endif
+        }
+
+        private void ShowUnhandledException(DispatcherUnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+
+            var errorMessage =
+                $"An application error occurred.\nPlease check whether your data is correct and repeat the action. If this error occurs again there seems to be a more serious malfunction in the application, and you better close it.\n\nError: {e.Exception.Message + (e.Exception.InnerException != null ? "\n" + e.Exception.InnerException.Message : null)}";
+
+            MessageBox.Show(errorMessage, "Application Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            Current.Shutdown();
+        }
+
+        #endregion
 
         void OnSplashExited(object sender, SplashExitedEventArgs e)
         {

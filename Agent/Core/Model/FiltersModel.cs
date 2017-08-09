@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NLog;
 
 namespace Core.Model
 {
@@ -55,7 +56,7 @@ namespace Core.Model
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
+                Tools.Logging.Send(LogLevel.Warn, $"Ошибка при чтение {file}.", e);
                 return new Dictionary<string, string> { { value, null } };
             }
         }
@@ -101,7 +102,7 @@ namespace Core.Model
                 }
                 catch (Exception e)
                 {
-                    //? LOG?
+                    Tools.Logging.Send(LogLevel.Warn, "Ошибка чтения фракций", e);
                     return new Dictionary<string, FactionInfo>();
                 }
             }

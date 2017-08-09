@@ -7,8 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Agent.View;
+using Core;
 using Core.Model;
 using Core.ViewModel;
+using NLog;
 
 namespace Agent.ViewModel
 {
@@ -38,11 +40,11 @@ namespace Agent.ViewModel
         {
             await AsyncHelpers.RedirectToMainThread();
 
-            Debug.WriteLine($"Новое вторжение {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
+            Tools.Logging.Send(LogLevel.Debug, $"Новое вторжение {e.Notification.Id.Oid}!");
 
             if (!e.Notification.Completed)
             {
-                var invasionVM = new InvasionViewModel(e.Notification);
+                var invasionVM = new InvasionViewModel(e.Notification); //TODO ??
                 GameView.AddInvasion(new InvasionViewModel(e.Notification));
             }
         }
@@ -50,8 +52,8 @@ namespace Agent.ViewModel
         private async void ChangeEvent(object sender, InvasionNotificationEventArgs e)
         {
             await AsyncHelpers.RedirectToMainThread();
-
-            Debug.WriteLine($"Изменённое вторжение {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
+            
+            Tools.Logging.Send(LogLevel.Debug, $"Изменённое вторжение {e.Notification.Id.Oid}!");
 
             if (e.Notification.Completed)
             {
@@ -69,7 +71,7 @@ namespace Agent.ViewModel
         {
             await AsyncHelpers.RedirectToMainThread();
 
-            Debug.WriteLine($"Удаляю вторжение {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
+            Tools.Logging.Send(LogLevel.Debug, $"Удаляю вторжение {e.Notification.Id.Oid}!");
 
             GameView.RemoveInvasionById(e.Notification.Id);
         }

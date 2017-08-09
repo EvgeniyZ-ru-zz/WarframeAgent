@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NLog;
 
 namespace Core.Model
 {
@@ -63,8 +64,8 @@ namespace Core.Model
                         isConnected = true;
                         events.ReportConnectStatus(true);
                     }
-
-                    Debug.WriteLine("Data Updated!");
+                    
+                    Tools.Logging.Send(LogLevel.Debug, "Data Updated!");
                 }
                 else
                 {
@@ -73,7 +74,6 @@ namespace Core.Model
                         isConnected = false;
                         events.ReportConnectStatus(false);
                     }
-                    //TODO: LOG
                 }
                 isFirst = false;
                 await Task.Delay(TimeSpan.FromMinutes(1), ct);

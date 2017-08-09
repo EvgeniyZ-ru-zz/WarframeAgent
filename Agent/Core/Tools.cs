@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
 
 namespace Core
 {
@@ -38,9 +42,9 @@ namespace Core
                     statusCode = (int) response.StatusCode;
                     response.Close();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //TODO: Логирование
+                    Logging.Send(LogLevel.Warn, "Ping Error", e);
                 }
 
                 return statusCode == 200;
@@ -112,6 +116,16 @@ namespace Core
             }
 
             #endregion
+        }
+
+        public class Logging
+        {
+            private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+            public static void Send(LogLevel level, string message, Exception exception = null, object param = null)
+            {
+                Debug.WriteLine($"{message}\n{exception}");
+                Logger.Log(level, exception, message, param);
+            }
         }
     }
 }

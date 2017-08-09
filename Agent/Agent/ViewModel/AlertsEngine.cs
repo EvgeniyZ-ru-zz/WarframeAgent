@@ -7,9 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-
+using Core;
 using Core.Model;
 using Core.ViewModel;
+using NLog;
 
 namespace Agent.ViewModel
 {
@@ -38,8 +39,8 @@ namespace Agent.ViewModel
         {
             await AsyncHelpers.RedirectToMainThread();
 
-            Debug.WriteLine($"Новая тревога {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
-
+            Tools.Logging.Send(LogLevel.Debug, $"Новая тревога {e.Notification.Id.Oid}!");
+            
             var alertVM = new AlertViewModel(e.Notification);
             GameView.AddAlert(alertVM);
         }
@@ -47,7 +48,7 @@ namespace Agent.ViewModel
         private async void RemoveEvent(object sender, AlertNotificationEventArgs e)
         {
             await AsyncHelpers.RedirectToMainThread();
-            Debug.WriteLine($"Удаляю тревогу {e.Notification.Id.Oid}!", $"[{DateTime.Now}]");
+            Tools.Logging.Send(LogLevel.Debug, $"Удаляю тревогу {e.Notification.Id.Oid}!");
 
             GameView.RemoveAlertById(e.Notification.Id);
         }
