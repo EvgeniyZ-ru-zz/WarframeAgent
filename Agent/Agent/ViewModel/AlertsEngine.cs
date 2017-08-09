@@ -39,7 +39,7 @@ namespace Agent.ViewModel
         {
             await AsyncHelpers.RedirectToMainThread();
 
-            Tools.Logging.Send(LogLevel.Debug, $"Новая тревога {e.Notification.Id.Oid}!");
+            Tools.Logging.Send(LogLevel.Debug, $"Новая тревога {e.Notification.Id.Oid}!", param: e.Notification);
             
             var alertVM = new AlertViewModel(e.Notification);
             GameView.AddAlert(alertVM);
@@ -48,7 +48,7 @@ namespace Agent.ViewModel
         private async void RemoveEvent(object sender, AlertNotificationEventArgs e)
         {
             await AsyncHelpers.RedirectToMainThread();
-            Tools.Logging.Send(LogLevel.Debug, $"Удаляю тревогу {e.Notification.Id.Oid}!");
+            Tools.Logging.Send(LogLevel.Debug, $"Удаляю тревогу {e.Notification.Id.Oid}!", param: e.Notification);
 
             GameView.RemoveAlertById(e.Notification.Id);
         }

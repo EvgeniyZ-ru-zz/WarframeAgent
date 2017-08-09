@@ -35,6 +35,9 @@ namespace Agent
         {
             Application.Current.DispatcherUnhandledException += AppDispatcherUnhandledException;
 
+            Tools.Logging.Send(LogLevel.Trace, $"Version: {System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}");
+            Tools.Logging.Send(LogLevel.Trace, $"OS: {Environment.OSVersion}");
+
             Settings.Load(); //Подгружаем настройки
             mainVM = new MainViewModel();
 

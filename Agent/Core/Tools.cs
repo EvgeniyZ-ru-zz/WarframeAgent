@@ -123,7 +123,11 @@ namespace Core
             private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
             public static void Send(LogLevel level, string message, Exception exception = null, object param = null)
             {
-                Debug.WriteLine($"{message}\n{exception}");
+                string errorMsg = null;
+                if (exception != null)
+                    errorMsg = $"\n{exception}";
+
+                Debug.WriteLine($"{message}{errorMsg}");
                 Logger.Log(level, exception, message, param);
             }
         }
