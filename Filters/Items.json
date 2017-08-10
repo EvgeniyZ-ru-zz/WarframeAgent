@@ -1,5 +1,5 @@
 {
-  "Date": "28.07.2017",
+  "Date": "10.08.2017",
   "Version": 1,
   "Items": [
     {
@@ -82,6 +82,7 @@
       "/Lotus/StoreItems/Types/Recipes/Helmets/StatlessV2TrinityAltHelmetBlueprint": "Шлем тринити: Меридиан (чертеж)",
       "/Lotus/StoreItems/Types/Recipes/Helmets/StatlessFrostAltHelmetBlueprint": "Шлем фроста: Аврора (чертеж)",
       "/Lotus/StoreItems/Types/Recipes/Helmets/StatlessV2FrostAltHelmetBlueprint": "Шлем фроста: Шквал (чертеж)",
+      "/Lotus/StoreItems/Types/Recipes/Helmets/PriestAltHelmetBlueprint": "Шлем харроу: Викарий (чертеж)",
       "/Lotus/StoreItems/Types/Recipes/Helmets/DragonAltHelmetBlueprint": "Шлем хромы: Драк (чертеж)",
       "/Lotus/StoreItems/Types/Recipes/Helmets/ChromaAltBHelmetBlueprint": "Шлем хромы: Амару (чертеж)",
       "/Lotus/StoreItems/Types/Recipes/Helmets/AnimaAltHelmetBlueprint": "Шлем эквинокс: Солнцестояние (чертеж)",
@@ -175,7 +176,9 @@
       "/Lotus/StoreItems/Upgrades/Mods/FusionBundles/AlertFusionBundleMedium": "Эндо х100",
       "/Lotus/StoreItems/Upgrades/Mods/FusionBundles/AlertFusionBundleLarge": "Эндо х150",
       "/Lotus/StoreItems/Types/Game/CatbrowPet/CatbrowGeneticSignature": "Генетические коды кават",
-      "/Lotus/StoreItems/Types/Game/KubrowPet/Eggs/KubrowEgg": "Яйцо кубрау"
+      "/Lotus/StoreItems/Types/Game/KubrowPet/Eggs/KubrowEgg": "Яйцо кубрау",
+      "/Lotus/StoreItems/Types/Items/MiscItems/OrokinCatalyst": "Катализатор орокин (чертеж)",
+      "/Lotus/StoreItems/Types/Items/MiscItems/OrokinReactor": "Реактор орокин (чертеж)"
     },
     {
       "type": "Вторжения",
@@ -316,6 +319,7 @@
       "/Lotus/StoreItems/Upgrades/Skins/Sentinels/Tails/PrismaFishTail": "Хвост стража: карпий хвост призма",
       "/Lotus/StoreItems/Upgrades/Skins/Sentinels/Wings/BaroPetWings": "Крылья стража: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Sentinels/Wings/PrismaJetWings": "Крылья стража: реактивные крылья призма",
+      "/Lotus/StoreItems/Upgrades/Skins/Sentinels/Wings/PrismaJetWingsRight": "Крылья стража: реактивные крылья призма",
       "/Lotus/StoreItems/Upgrades/Skins/Sigils/PrimeTraderSigil": "Призма сигил",
       "/Lotus/StoreItems/Upgrades/Skins/SummerSolstice/SummerSolsticeTwinGrakatas": "Скин парных гракат: Тосун",
       "/Lotus/StoreItems/Upgrades/Skins/VoidTrader/BaroArrow": "Ки'Тиир стрелы",
