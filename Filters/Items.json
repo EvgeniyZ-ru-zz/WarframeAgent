@@ -1,5 +1,5 @@
 {
-  "Date": "10.08.2017",
+  "Date": "11.08.2017",
   "Version": 1,
   "Items": [
     {
@@ -258,6 +258,7 @@
       "/Lotus/StoreItems/Upgrades/Mods/Pistol/WeaponEventSlashDamageMod": "Порез",
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/DualStat/ElectEventRifleMod": "Высокое напряжение",
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/Expert/PrimedWeaponFactionDamageCorpus": "Погибель корпуса прайм",
+      "/Lotus/StoreItems/Upgrades/Mods/Rifle/Expert/PrimedWeaponFactionDamageCorrupted": "Погибель порабащенных прайм",
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/Expert/PrimedWeaponFactionDamageGrineer": "Погибель гринир прайм",
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/Expert/PrimedWeaponFactionDamageInfested": "Погибель заражённых прайм",
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/Expert/WeaponFreezeDamageModExpert": "Крио патроны прайм",
@@ -277,6 +278,7 @@
       "/Lotus/StoreItems/Upgrades/Skins/Armor/BaroArmour/BaroArmourC": "Нагрудник: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/BaroArmour/BaroArmourL": "Наголенники: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/BaroArmourTwo/BaroArmourTwoA": "Наплечники: Ки'Тиир Форос",
+      "/Lotus/StoreItems/Upgrades/Skins/Armor/BaroArmourTwo/BaroArmourTwoC": "Нагрудник: Ки'Тиир Форос",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/SetThreeWinged/VTSetThreeArmLeftArmor": "Левый наплечник Дедал призма",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/SetThreeWinged/VTSetThreeArmRightArmor": "Правый наплечник Дедал призма",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/SetThreeWinged/VTSetThreeChestArmor": "Нагрудник Дедал призма",
