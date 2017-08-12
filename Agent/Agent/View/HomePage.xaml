@@ -245,7 +245,7 @@
                                                                    TextTrimming="CharacterEllipsis"
                                                                    FontFamily="/Agent;component/Resources/Fonts/#Roboto"
                                                                    Margin="0"
-                                                                   Text="{Binding Sector.Location}"
+                                                                   Text="{Binding Sector.Location, TargetNullValue='(неизвестное место)'}"
                                                                    ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
                                                                    Padding="5,2,5,2" VerticalAlignment="Center"
                                                                    TextAlignment="Center" />

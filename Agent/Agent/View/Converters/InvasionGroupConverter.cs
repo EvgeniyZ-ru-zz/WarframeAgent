@@ -31,7 +31,7 @@ namespace Agent.View.Converters
 
             public bool Equals(InvasionGroup other) => other != null && other.Planet == Planet && other.LocTag == LocTag;
 
-            public override string ToString() => $"{Planet}: {LocTag}";
+            public override string ToString() => $"{Planet ?? "(неизвестная планета)"}: {LocTag}";
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
