@@ -37,6 +37,7 @@ namespace Core.Model
 
     public class FiltersModel
     {
+        // TODO: закешировать это! не читать каждый раз
         private static Dictionary<string, string> ReadFile(string file, string value, string cat)
         {
             try
@@ -87,6 +88,7 @@ namespace Core.Model
 
         public static class Factions
         {
+            // TODO: закешировать это! не читать каждый раз
             public static Dictionary<string, FactionInfo> GetAll()
             {
                 try

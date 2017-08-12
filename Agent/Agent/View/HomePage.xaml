@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Agent.View"
+             xmlns:view="clr-namespace:Agent.View"
+             xmlns:converters="clr-namespace:Agent.View.Converters"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:viewModel="clr-namespace:Core.ViewModel;assembly=Core"
              mc:Ignorable="d" FontFamily="/Agent;component/Resources/Fonts/#Roboto"
@@ -71,14 +72,17 @@
                                                 </StackPanel>
                                             </Border>
                                             <StackPanel Grid.Column="1" Grid.Row="0" Margin="0,0,0,2">
+                                                <StackPanel.Resources>
+                                                    <converters:NullToStringConverter x:Key="MiddleConverter" OnNonNull=" – "/>
+                                                </StackPanel.Resources>
                                                 <TextBlock Margin="3,2,3,0" FontWeight="Medium"
                                                            Foreground="{DynamicResource TextColor}" FontSize="11"
                                                            TextTrimming="CharacterEllipsis"
                                                            FontFamily="/Agent;component/Resources/Fonts/#Roboto">
-                                                    <Run Text="{Binding MissionInfo.Planet[0]}"
-                                                         ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
-                                                    <Run Text="-" />
-                                                    <Run Text="{Binding MissionInfo.Planet[1]}"
+                                                    <Run Text="{Binding MissionInfo.Sector.Planet, Mode=OneWay}"
+                                                         ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" /><!--
+                                                    --><Run Text="{Binding MissionInfo.Sector.Planet, Mode=OneWay, Converter={StaticResource MiddleConverter}}" /><!--
+                                                    --><Run Text="{Binding MissionInfo.Sector.Location, Mode=OneWay}"
                                                          ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
                                                 </TextBlock>
                                                 <TextBlock Margin="3,2,3,0" Foreground="{DynamicResource TextColor}"
@@ -167,9 +171,11 @@
                             <Grid Grid.Row="1">
                                 <Grid.Resources>
 
+                                    <converters:InvasionGroupConverter x:Key="InvasionGroupConverter"/>
+
                                     <CollectionViewSource x:Key="GroupedInvasions" Source="{Binding Invasions}">
                                         <CollectionViewSource.GroupDescriptions>
-                                            <PropertyGroupDescription PropertyName="NodeArray[0]" />
+                                            <PropertyGroupDescription Converter="{StaticResource InvasionGroupConverter}" />
                                         </CollectionViewSource.GroupDescriptions>
                                     </CollectionViewSource>
 
@@ -239,7 +245,7 @@
                                                                    TextTrimming="CharacterEllipsis"
                                                                    FontFamily="/Agent;component/Resources/Fonts/#Roboto"
                                                                    Margin="0"
-                                                                   Text="{Binding NodeArray[1]}"
+                                                                   Text="{Binding Sector.Location}"
                                                                    ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
                                                                    Padding="5,2,5,2" VerticalAlignment="Center"
                                                                    TextAlignment="Center" />
