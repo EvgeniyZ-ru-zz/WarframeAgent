@@ -16,7 +16,7 @@ namespace Core.ViewModel
         public int MaxEnemyLevel { get; }
         public string Reward { get; }
         public FactionViewModel Faction { get; }
-        public string[] Planet { get; }
+        public SectorViewModel Sector { get; }
         public string MissionType { get; }
         public Brush RewardColor { get; }
         public Visibility ArchvingVisibility { get; }
@@ -31,7 +31,7 @@ namespace Core.ViewModel
             Reward = rewardValue;
             RewardColor = GetBrushForReward(rewardType);
             Faction = FactionViewModel.ById(missionInfo.Faction);
-            Planet = missionInfo.Location.GetFilter(Model.Filters.FilterType.Planet).FirstOrDefault().Key.ToUpper().Split('|');
+            Sector = SectorViewModel.FromSector(missionInfo.Location);
             MissionType = missionInfo.MissionType.GetFilter(Model.Filters.FilterType.Mission).FirstOrDefault().Key;
             ArchvingVisibility = (missionInfo.ArchwingRequired != true) || (missionInfo.IsSharkwingMission == true)
                 ? Visibility.Collapsed

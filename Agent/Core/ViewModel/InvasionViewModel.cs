@@ -21,7 +21,7 @@ namespace Core.ViewModel
             AttackerFaction = FactionViewModel.ById(invasion.AttackerMissionInfo.Faction);
             DefenderFaction = FactionViewModel.ById(invasion.DefenderMissionInfo.Faction);
             Faction = FactionViewModel.ById(invasion.Faction);
-            NodeArray = invasion.Node.GetFilter(Model.Filters.FilterType.Planet).FirstOrDefault().Key.ToUpper().Split('|');
+            Sector = SectorViewModel.FromSector(invasion.Node);
             LocTag = invasion.LocTag.GetFilter(Model.Filters.FilterType.Mission).FirstOrDefault().Key;
             DefenderReward = GetRewardString(invasion.DefenderReward);
             AttackerReward = GetRewardString(invasion.AttackerReward);
@@ -38,7 +38,7 @@ namespace Core.ViewModel
         public Id Id { get; }
         public string LocTag { get; }
         public FactionViewModel Faction { get; }
-        public string[] NodeArray { get; }
+        public SectorViewModel Sector { get; }
         public FactionViewModel DefenderFaction { get; }
         public FactionViewModel AttackerFaction { get; }
         public string DefenderReward { get; }
