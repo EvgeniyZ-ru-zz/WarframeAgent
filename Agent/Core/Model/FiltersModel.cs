@@ -12,33 +12,32 @@ namespace Core.Model
 {
     public static class Filters
     {
-        public enum FilterType
-        {
-            Item,
-            Planet,
-            Mission
-        }
+        public static (string value, string type) ExpandItem(string item) =>
+            (FiltersModel.AllItems != null && FiltersModel.AllItems.TryGetValue(item, out var result)) ? result : (item, null);
 
-        public static Dictionary<string, string> GetFilter(this string value, FilterType type)
-        {
-            switch (type)
-            {
-                case FilterType.Item:
-                    return FiltersModel.Items.Find(value, "Items");
-                case FilterType.Planet:
-                    return FiltersModel.Planets.Find(value, "Items");
-                case FilterType.Mission:
-                    return FiltersModel.Missions.Find(value, "Missions");
-                default:
-                    return new Dictionary<string, string> { { value, null } };
-            }
-        }
+        public static (string planet, string location) ExpandSector(string item) =>
+            (FiltersModel.AllSectors != null && FiltersModel.AllSectors.TryGetValue(item, out var result)) ? result : (null, item);
+
+        public static string ExpandMission(string item) =>
+            (FiltersModel.AllMissions != null && FiltersModel.AllMissions.TryGetValue(item, out var result)) ? result : item;
     }
 
-    public class FiltersModel
+    class FiltersModel
     {
-        // TODO: закешировать это! не читать каждый раз
-        private static Dictionary<string, string> ReadFile(string file, string value, string cat)
+        public static Dictionary<string, (string value, string type)> AllItems =
+            ParseFile("Filters/Items.json", "Items", pair => pair);
+
+        public static Dictionary<string, (string planet, string location)> AllSectors =
+            ParseFile("Filters/Planets.json", "Items", pair =>
+                {
+                    var parts = pair.value.Split('|');
+                    return (planet: parts[0], location: parts[1]);
+                });
+
+        public static Dictionary<string, string> AllMissions =
+            ParseFile("Filters/Missions.json", "Missions", pair => pair.value);
+
+        private static Dictionary<string, T> ParseFile<T>(string file, string cat, Func<(string value, string type), T> selector)
         {
             try
             {
@@ -46,43 +45,22 @@ namespace Core.Model
                 var strings = File.ReadAllText(absoluteFile, Encoding.UTF8);
                 var json = JObject.Parse(strings);
                 var result = json[cat]
-                    .Where(s => s[value] != null)
-                    .Select(s => new
+                    //.Where(s => ((int?)s["enable"] ?? 1) == 1)
+                    .SelectMany(s =>
                     {
-                        Value = s[value]?.ToString(),
-                        Type = s["type"]?.ToString()
-                    }).ToDictionary(p => p.Value, e => e.Type);
+                        var type = (string)s["type"];
+                        return ((JObject)s).Properties()
+                                               .Where(p => p.Name != "type" && p.Name != "enable")
+                                               .Select(p => (key: p.Name, v: selector((value: (string)p.Value, type: type))));
+                    })
+                    .ToDictionary(t => t.key, t => t.v);
 
                 return result;
             }
             catch (Exception e)
             {
-                Tools.Logging.Send(LogLevel.Warn, $"Ошибка при чтение {file}.", e);
-                return new Dictionary<string, string> { { value, null } };
-            }
-        }
-
-        public static class Items
-        {
-            public static Dictionary<string, string> Find(string value, string cat)
-            {
-                return ReadFile("Filters/Items.json", value, cat);
-            }
-        }
-
-        public static class Planets
-        {
-            public static Dictionary<string, string> Find(string value, string cat)
-            {
-                return ReadFile("Filters/Planets.json", value, cat);
-            }
-        }
-
-        public static class Missions
-        {
-            public static Dictionary<string, string> Find(string value, string cat)
-            {
-                return ReadFile("Filters/Missions.json", value, cat);
+                Tools.Logging.Send(LogLevel.Warn, $"Ошибка при чтении {file}.", e);
+                return null;
             }
         }
 
