@@ -22,7 +22,7 @@ namespace Core.ViewModel
             if (fiOrNull == null)
                 return null;
             var fi = fiOrNull.Value;
-            var brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(fi.color));
+            var brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(fi.color)); //TODO: Падает при отсутсвтие файла Factions
             var geometry = Geometry.Parse(fi.logo);
             return new FactionViewModel(fi.name, brush, geometry);
         }
