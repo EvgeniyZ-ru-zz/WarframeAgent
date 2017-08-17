@@ -229,7 +229,7 @@
                                                             <ColumnDefinition Width="Auto" />
                                                         </Grid.ColumnDefinitions>
                                                         <StackPanel Grid.Column="0"
-                                                                    Background="{Binding AttackerFaction.Color}" Width="35"
+                                                                    Background="{Binding DefenderFaction.Color}" Width="35"
                                                                     HorizontalAlignment="Left" VerticalAlignment="Top">
                                                             <TextBlock Foreground="White" FontSize="10"
                                                                        TextTrimming="CharacterEllipsis"
@@ -251,7 +251,7 @@
                                                                    TextAlignment="Center" />
 
                                                         <StackPanel Grid.Column="2"
-                                                                    Background="{Binding DefenderFaction.Color}" Width="35"
+                                                                    Background="{Binding AttackerFaction.Color}" Width="35"
                                                                     HorizontalAlignment="Right" VerticalAlignment="Top">
                                                             <TextBlock Foreground="White" FontSize="10"
                                                                        TextTrimming="CharacterEllipsis"
@@ -293,17 +293,8 @@
                                                 </Grid>
 
 
-                                                <Border BorderBrush="{Binding AttackerFaction.Color}" BorderThickness="0,0,1,0"
+                                                <Border BorderBrush="{Binding DefenderFaction.Color}" BorderThickness="0,0,1,0"
                                                         Grid.Column="0" Width="30" Margin="0,0,0,3" Background="Transparent"
-                                                        ToolTip="{Binding AttackerFaction.Name}">
-                                                    <Path MaxHeight="23" MaxWidth="23"
-                                                          Fill="{Binding AttackerFaction.Color}" HorizontalAlignment="Center"
-                                                          VerticalAlignment="Center" StrokeThickness="0"
-                                                          Stretch="Uniform" SnapsToDevicePixels="True"
-                                                          Data="{Binding AttackerFaction.Logo}" />
-                                                </Border>
-                                                <Border BorderBrush="{Binding DefenderFaction.Color}" BorderThickness="1,0,0,0"
-                                                        Grid.Column="2" Width="30" Margin="0,0,0,3" Background="Transparent"
                                                         ToolTip="{Binding DefenderFaction.Name}">
                                                     <Path MaxHeight="23" MaxWidth="23"
                                                           Fill="{Binding DefenderFaction.Color}" HorizontalAlignment="Center"
@@ -311,11 +302,20 @@
                                                           Stretch="Uniform" SnapsToDevicePixels="True"
                                                           Data="{Binding DefenderFaction.Logo}" />
                                                 </Border>
+                                                <Border BorderBrush="{Binding AttackerFaction.Color}" BorderThickness="1,0,0,0"
+                                                        Grid.Column="2" Width="30" Margin="0,0,0,3" Background="Transparent"
+                                                        ToolTip="{Binding AttackerFaction.Name}">
+                                                    <Path MaxHeight="23" MaxWidth="23"
+                                                          Fill="{Binding AttackerFaction.Color}" HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center" StrokeThickness="0"
+                                                          Stretch="Uniform" SnapsToDevicePixels="True"
+                                                          Data="{Binding AttackerFaction.Logo}" />
+                                                </Border>
                                                 <ProgressBar Grid.Column="0" Grid.ColumnSpan="3"
-                                                             Foreground="{Binding AttackerFaction.Color}"
+                                                             Foreground="{Binding DefenderFaction.Color}"
                                                              BorderThickness="0"
                                                              Value="{Binding Path=Percent, Mode=OneWay}"
-                                                             Background="{Binding DefenderFaction.Color}"
+                                                             Background="{Binding AttackerFaction.Color}"
                                                              BorderBrush="{x:Null}" Height="1"
                                                              VerticalAlignment="Bottom" />
 
