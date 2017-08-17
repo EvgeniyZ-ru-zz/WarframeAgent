@@ -19,10 +19,11 @@ namespace Core.ViewModel
         static FactionViewModel TryCreateNew(string factionId)
         {
             var fiOrNull = Model.Filters.TryExpandFaction(factionId);
-            if (fiOrNull == null)
-                return null;
+            if (fiOrNull == null) return null;
             var fi = fiOrNull.Value;
-            var brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(fi.color)); //TODO: Падает при отсутсвтие файла Factions
+            var factionColor = ColorConverter.ConvertFromString(fi.color);
+            if (factionColor == null) return null;
+            var brush = new SolidColorBrush((Color)factionColor);
             var geometry = Geometry.Parse(fi.logo);
             return new FactionViewModel(fi.name, brush, geometry);
         }
