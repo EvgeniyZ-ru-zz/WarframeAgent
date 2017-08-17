@@ -13,16 +13,19 @@ namespace Core.Model
     public static class Filters
     {
         public static (string value, string type) ExpandItem(string item) =>
-            (FiltersModel.AllItems != null && FiltersModel.AllItems.TryGetValue(item, out var result)) ? result : (item, null);
+            FiltersModel.AllItems.TryGetValue(item, out var result) ? result : (item, null);
 
         public static (string planet, string location) ExpandSector(string item) =>
-            (FiltersModel.AllSectors != null && FiltersModel.AllSectors.TryGetValue(item, out var result)) ? result : (null, item);
+            FiltersModel.AllSectors.TryGetValue(item, out var result) ? result : (null, item);
 
         public static string ExpandMission(string item) =>
-            (FiltersModel.AllMissions != null && FiltersModel.AllMissions.TryGetValue(item, out var result)) ? result : item;
+            FiltersModel.AllMissions.TryGetValue(item, out var result) ? result : item;
+
+        public static (string name, string color, string logo)? TryExpandFaction(string item) =>
+            FiltersModel.AllFactions.TryGetValue(item, out var result) ? result : default((string name, string color, string logo));
     }
 
-    class FiltersModel
+    public class FiltersModel
     {
         public static Dictionary<string, (string value, string type)> AllItems =
             ParseFile("Filters/Items.json", "Items", pair => pair);
@@ -36,6 +39,9 @@ namespace Core.Model
 
         public static Dictionary<string, string> AllMissions =
             ParseFile("Filters/Missions.json", "Missions", pair => pair.value);
+
+        public static Dictionary<string, (string name, string color, string logo)> AllFactions =
+            GetAllFactions();
 
         private static Dictionary<string, T> ParseFile<T>(string file, string cat, Func<(string value, string type), T> selector)
         {
@@ -60,31 +66,27 @@ namespace Core.Model
             catch (Exception e)
             {
                 Tools.Logging.Send(LogLevel.Warn, $"Ошибка при чтении {file}.", e);
-                return null;
+                return new Dictionary<string, T>();
             }
         }
 
-        public static class Factions
+        public static Dictionary<string, (string name, string color, string logo)> GetAllFactions()
         {
-            // TODO: закешировать это! не читать каждый раз
-            public static Dictionary<string, FactionInfo> GetAll()
+            try
             {
-                try
+                var absoluteFile = StorageModel.ExpandRelativeName("Filters/Factions.json");
+                JsonSerializer s = JsonSerializer.CreateDefault();
+                using (var text = File.OpenText(absoluteFile))
+                using (var jreader = new JsonTextReader(text))
                 {
-                    var absoluteFile = StorageModel.ExpandRelativeName("Filters/Factions.json");
-                    JsonSerializer s = JsonSerializer.CreateDefault();
-                    using (var text = File.OpenText(absoluteFile))
-                    using (var jreader = new JsonTextReader(text))
-                    {
-                        var model = s.Deserialize<FactionsModel>(jreader);
-                        return model.Items;
-                    }
+                    var model = s.Deserialize<FactionsModel>(jreader);
+                    return model.Items.ToDictionary(kvp => kvp.Key, kvp => (kvp.Value.Name, kvp.Value.Color, kvp.Value.Logo));
                 }
-                catch (Exception e)
-                {
-                    Tools.Logging.Send(LogLevel.Warn, "Ошибка чтения фракций", e);
-                    return new Dictionary<string, FactionInfo>();
-                }
+            }
+            catch (Exception e)
+            {
+                Tools.Logging.Send(LogLevel.Warn, "Ошибка чтения фракций", e);
+                return new Dictionary<string, (string name, string color, string logo)>();
             }
         }
 

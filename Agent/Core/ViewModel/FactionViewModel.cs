@@ -14,22 +14,30 @@ namespace Core.ViewModel
         public Brush Color { get; }
         public Geometry Logo { get; }
 
-        static Dictionary<string, FactionViewModel> _knownFactions =
-            Model.FiltersModel.Factions.GetAll().ToDictionary(kvp => kvp.Key, kvp => FromFactionInfo(kvp.Value));
+        static Dictionary<string, FactionViewModel> _knownFactions = new Dictionary<string, FactionViewModel>();
 
-        static FactionViewModel FromFactionInfo(Model.FiltersModel.FactionInfo value)
+        static FactionViewModel TryCreateNew(string factionId)
         {
-            var color = (Color)ColorConverter.ConvertFromString(value.Color);
-            var brush = new SolidColorBrush(color);
-            var geometry = Geometry.Parse(value.Logo);
-            return new FactionViewModel(value.Name, brush, geometry);
+            var fiOrNull = Model.Filters.TryExpandFaction(factionId);
+            if (fiOrNull == null)
+                return null;
+            var fi = fiOrNull.Value;
+            var brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(fi.color));
+            var geometry = Geometry.Parse(fi.logo);
+            return new FactionViewModel(fi.name, brush, geometry);
         }
 
         static FactionViewModel CreateUnknown(string name) =>
             new FactionViewModel(name, Brushes.Black, new EllipseGeometry(new System.Windows.Point(), 1, 1));
 
-        public static FactionViewModel ById(string factionId) =>
-            _knownFactions.TryGetValue(factionId, out var faction) ? faction : CreateUnknown(factionId);
+        public static FactionViewModel ById(string factionId)
+        {
+            if (_knownFactions.TryGetValue(factionId, out var knownFaction))
+                return knownFaction;
+            var newFaction = TryCreateNew(factionId) ?? CreateUnknown(factionId);
+            _knownFactions.Add(factionId, newFaction);
+            return newFaction;
+        }
 
         private FactionViewModel(string name, Brush color, Geometry logo)
         {
