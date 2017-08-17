@@ -88,7 +88,6 @@ namespace Core
             /// <param name="url">Адрес для отправки</param>
             public static void SendPut(object data, string url = "https://evgeniy-z.ru/api/v2/agent/filters")
             {
-                //var data = new { Name = name, Type = type, Version = version };
                 PutRequest(data, url);
             }
 
@@ -119,8 +118,16 @@ namespace Core
                 {
                     writer.Write(serializedObject);
                 }
-                //var response = request.GetResponse() as HttpWebResponse;
-                //Console.WriteLine(response.StatusCode);
+                try
+                {
+                    var response = request.GetResponse() as HttpWebResponse;
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Logging.Send(LogLevel.Warn, "Put request Error!");
+                }
+                catch (Exception e)
+                {
+                    Logging.Send(LogLevel.Warn, "Put request Error!", e);
+                }
             }
 
             #endregion
