@@ -1,12 +1,22 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
-    <!-- Основное окно -->
+    
     <DropShadowEffect x:Key="BoxShadow" BlurRadius="10" Direction="-90" RenderingBias="Quality" ShadowDepth="1" />
+    <DropShadowEffect x:Key="PopShadow" BlurRadius="3" Direction="-90" RenderingBias="Quality" ShadowDepth="1" />
+
+    <!-- Стиль блоков Home окна -->
     <Style x:Key="BoxPanel" TargetType="Border">
         <Setter Property="Effect" Value="{StaticResource BoxShadow}" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor}" />
         <Setter Property="Margin" Value="10" />
+        <Setter Property="CornerRadius" Value="2" />
+    </Style>
+
+    <!-- Стиль всплывающего (верхнего) окна -->
+    <Style x:Key="PopUpPanel" TargetType="Border">
+        <Setter Property="Effect" Value="{StaticResource PopShadow}" />
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor}" />
+        <Setter Property="Margin" Value="5,0" />
         <Setter Property="CornerRadius" Value="2" />
     </Style>
 </ResourceDictionary>

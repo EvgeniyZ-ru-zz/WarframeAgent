@@ -13,7 +13,7 @@
     Height="610" MaxHeight="610" MaxWidth="1000" MinHeight="460" MinWidth="740" Title="Warframe Agent"
     Width="1000" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanMinimize"
     WindowStartupLocation="CenterScreen" ShowInTaskbar="True" SnapsToDevicePixels="True" UseLayoutRounding="True"
-    Icon="/Agent;component/Resources/Icon.ico" LocationChanged="Window_LocationChanged"
+    Icon="/Agent;component/Resources/Icon.ico" LocationChanged="Window_LocationChanged" FontFamily="/Agent;component/Resources/Fonts/#Roboto"
     Initialized="MainWindow_OnInitialized">
 
     <Border Margin="15" Style="{DynamicResource MainBorder}" CornerRadius="15">
@@ -173,6 +173,23 @@
                     </DataTemplate>
                 </Grid.Resources>
                 <ContentPresenter Content="{Binding CurrentContent}"/>
+                <Border x:Name="PopUpPanel" Height="40" VerticalAlignment="Top" Style="{StaticResource PopUpPanel}" Margin="5,-40,5,0"
+                        BorderBrush="{DynamicResource InvasionsLineColor}" BorderThickness="0,0,0,2">
+                    <Grid Margin="5,3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" BorderBrush="{DynamicResource InvasionsLineColor}" BorderThickness="0,0,1,0">
+                        <fa:FontAwesome Foreground="{DynamicResource TextColor}" TextOptions.TextHintingMode="Animated"
+                                        Icon="NewspaperOutline" VerticalAlignment="Center" FontSize="16" Margin="0,0,5,0" />
+                        </Border>
+                        <TextBlock Grid.Column="1" Foreground="{DynamicResource TextColor}" Margin="5,0"
+                                   FontSize="13" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                                   Text="Привет мир Привет мир Привет мир Привет мир Привет мир Привет мир Привет мир Привет мир Привет мир Привет мир Привет мир Привет мир Привет мир Привет мир Привет мир Привет мир Привет мир "/>
+                    </Grid>
+                </Border>
             </Grid>
 
             <Rectangle x:Name="BottomRightSizeGrip"
