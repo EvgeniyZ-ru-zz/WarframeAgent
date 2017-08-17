@@ -22,7 +22,7 @@ namespace Core.ViewModel
             DefenderFaction = FactionViewModel.ById(invasion.DefenderMissionInfo.Faction);
             Faction = FactionViewModel.ById(invasion.Faction);
             Sector = SectorViewModel.FromSector(invasion.Node);
-            LocTag = invasion.LocTag.GetFilter(Model.Filters.FilterType.Mission).FirstOrDefault().Key;
+            LocTag = Model.Filters.ExpandMission(invasion.LocTag);
             DefenderReward = GetRewardString(invasion.DefenderReward);
             AttackerReward = GetRewardString(invasion.AttackerReward);
             Update();
@@ -62,15 +62,16 @@ namespace Core.ViewModel
 
         static string GetRewardString(InvasionReward reward)
         {
-            var rewardString = reward?.CountedItems[0]?.ItemType.GetFilter(Model.Filters.FilterType.Item).FirstOrDefault().Key;
-            var count = reward?.CountedItems[0]?.ItemCount;
+            var item0 = reward?.CountedItems[0];
+            var expandedReward = item0?.ItemType != null ? Model.Filters.ExpandItem(item0?.ItemType).value : null;
+            var count = item0?.ItemCount;
             if (count > 1)
-                rewardString += $" [{count}]";
+                expandedReward += $" [{count}]";
 
-            if (string.IsNullOrEmpty(rewardString))
+            if (string.IsNullOrEmpty(expandedReward))
                 return "Награды нет";
 
-            return rewardString;
+            return expandedReward;
         }
 
         void UpdatePercent()

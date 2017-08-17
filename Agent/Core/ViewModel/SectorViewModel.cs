@@ -18,18 +18,8 @@ namespace Core.ViewModel
 
         public static SectorViewModel FromSector(string sector)
         {
-            var filtered = sector.GetFilter(Model.Filters.FilterType.Planet).FirstOrDefault().Key;
-            string planet = null, location = null;
-            if (filtered != null)
-            {
-                var parts = filtered.ToUpper().Split('|');
-                if (parts.Length == 2)
-                {
-                    planet = parts[0];
-                    location = parts[1];
-                }
-            }
-            return new SectorViewModel(planet, location ?? sector);
+            var (planet, location) = Model.Filters.ExpandSector(sector);
+            return new SectorViewModel(planet, location);
         }
 
         public string Planet { get; }

@@ -12,33 +12,38 @@ namespace Core.Model
 {
     public static class Filters
     {
-        public enum FilterType
-        {
-            Item,
-            Planet,
-            Mission
-        }
+        public static (string value, string type) ExpandItem(string item) =>
+            FiltersModel.AllItems.TryGetValue(item, out var result) ? result : (item, null);
 
-        public static Dictionary<string, string> GetFilter(this string value, FilterType type)
-        {
-            switch (type)
-            {
-                case FilterType.Item:
-                    return FiltersModel.Items.Find(value, "Items");
-                case FilterType.Planet:
-                    return FiltersModel.Planets.Find(value, "Items");
-                case FilterType.Mission:
-                    return FiltersModel.Missions.Find(value, "Missions");
-                default:
-                    return new Dictionary<string, string> { { value, null } };
-            }
-        }
+        public static (string planet, string location) ExpandSector(string item) =>
+            FiltersModel.AllSectors.TryGetValue(item, out var result) ? result : (null, item);
+
+        public static string ExpandMission(string item) =>
+            FiltersModel.AllMissions.TryGetValue(item, out var result) ? result : item;
+
+        public static (string name, string color, string logo)? TryExpandFaction(string item) =>
+            FiltersModel.AllFactions.TryGetValue(item, out var result) ? result : default((string name, string color, string logo));
     }
 
     public class FiltersModel
     {
-        // TODO: закешировать это! не читать каждый раз
-        private static Dictionary<string, string> ReadFile(string file, string value, string cat)
+        public static Dictionary<string, (string value, string type)> AllItems =
+            ParseFile("Filters/Items.json", "Items", pair => pair);
+
+        public static Dictionary<string, (string planet, string location)> AllSectors =
+            ParseFile("Filters/Planets.json", "Items", pair =>
+                {
+                    var parts = pair.value.Split('|');
+                    return (planet: parts[0], location: parts[1]);
+                });
+
+        public static Dictionary<string, string> AllMissions =
+            ParseFile("Filters/Missions.json", "Missions", pair => pair.value);
+
+        public static Dictionary<string, (string name, string color, string logo)> AllFactions =
+            GetAllFactions();
+
+        private static Dictionary<string, T> ParseFile<T>(string file, string cat, Func<(string value, string type), T> selector)
         {
             try
             {
@@ -46,67 +51,42 @@ namespace Core.Model
                 var strings = File.ReadAllText(absoluteFile, Encoding.UTF8);
                 var json = JObject.Parse(strings);
                 var result = json[cat]
-                    .Where(s => s[value] != null)
-                    .Select(s => new
+                    //.Where(s => ((int?)s["enable"] ?? 1) == 1)
+                    .SelectMany(s =>
                     {
-                        Value = s[value]?.ToString(),
-                        Type = s["type"]?.ToString()
-                    }).ToDictionary(p => p.Value, e => e.Type);
+                        var type = (string)s["type"];
+                        return ((JObject)s).Properties()
+                                               .Where(p => p.Name != "type" && p.Name != "enable")
+                                               .Select(p => (key: p.Name, v: selector((value: (string)p.Value, type: type))));
+                    })
+                    .ToDictionary(t => t.key, t => t.v);
 
                 return result;
             }
             catch (Exception e)
             {
-                Tools.Logging.Send(LogLevel.Warn, $"Ошибка при чтение {file}.", e);
-                return new Dictionary<string, string> { { value, null } };
+                Tools.Logging.Send(LogLevel.Warn, $"Ошибка при чтении {file}.", e);
+                return new Dictionary<string, T>();
             }
         }
 
-        public static class Items
+        public static Dictionary<string, (string name, string color, string logo)> GetAllFactions()
         {
-            public static Dictionary<string, string> Find(string value, string cat)
+            try
             {
-                return ReadFile("Filters/Items.json", value, cat);
-            }
-        }
-
-        public static class Planets
-        {
-            public static Dictionary<string, string> Find(string value, string cat)
-            {
-                return ReadFile("Filters/Planets.json", value, cat);
-            }
-        }
-
-        public static class Missions
-        {
-            public static Dictionary<string, string> Find(string value, string cat)
-            {
-                return ReadFile("Filters/Missions.json", value, cat);
-            }
-        }
-
-        public static class Factions
-        {
-            // TODO: закешировать это! не читать каждый раз
-            public static Dictionary<string, FactionInfo> GetAll()
-            {
-                try
+                var absoluteFile = StorageModel.ExpandRelativeName("Filters/Factions.json");
+                JsonSerializer s = JsonSerializer.CreateDefault();
+                using (var text = File.OpenText(absoluteFile))
+                using (var jreader = new JsonTextReader(text))
                 {
-                    var absoluteFile = StorageModel.ExpandRelativeName("Filters/Factions.json");
-                    JsonSerializer s = JsonSerializer.CreateDefault();
-                    using (var text = File.OpenText(absoluteFile))
-                    using (var jreader = new JsonTextReader(text))
-                    {
-                        var model = s.Deserialize<FactionsModel>(jreader);
-                        return model.Items;
-                    }
+                    var model = s.Deserialize<FactionsModel>(jreader);
+                    return model.Items.ToDictionary(kvp => kvp.Key, kvp => (kvp.Value.Name, kvp.Value.Color, kvp.Value.Logo));
                 }
-                catch (Exception e)
-                {
-                    Tools.Logging.Send(LogLevel.Warn, "Ошибка чтения фракций", e);
-                    return new Dictionary<string, FactionInfo>();
-                }
+            }
+            catch (Exception e)
+            {
+                Tools.Logging.Send(LogLevel.Warn, "Ошибка чтения фракций", e);
+                return new Dictionary<string, (string name, string color, string logo)>();
             }
         }
 

@@ -32,7 +32,7 @@ namespace Core.ViewModel
             RewardColor = GetBrushForReward(rewardType);
             Faction = FactionViewModel.ById(missionInfo.Faction);
             Sector = SectorViewModel.FromSector(missionInfo.Location);
-            MissionType = missionInfo.MissionType.GetFilter(Model.Filters.FilterType.Mission).FirstOrDefault().Key;
+            MissionType = Model.Filters.ExpandMission(missionInfo.MissionType);
             ArchvingVisibility = (missionInfo.ArchwingRequired != true) || (missionInfo.IsSharkwingMission == true)
                 ? Visibility.Collapsed
                 : Visibility.Visible;
@@ -55,17 +55,16 @@ namespace Core.ViewModel
             if (missionInfo.MissionReward.CountedItems != null)
             {
                 var item = missionInfo.MissionReward.CountedItems[0];
-                var itemCount = item.ItemCount >= 2 ? $"[{item.ItemCount}]" : string.Empty;
-                var reward = item.ItemType.GetFilter(Model.Filters.FilterType.Item).FirstOrDefault();
+                var itemCount = item.ItemCount >= 2 ? $" [{item.ItemCount}]" : string.Empty;
+                var reward = Model.Filters.ExpandItem(item.ItemType);
 
-                return (rewardType: reward.Value, rewardValue: $"{reward.Key} {itemCount}");
+                return (rewardType: reward.type, rewardValue: $"{reward.value}{itemCount}");
             }
             else if (missionInfo.MissionReward.Items != null)
             {
-                var reward = missionInfo.MissionReward.Items[0].GetFilter(Model.Filters.FilterType.Item)
-                    .FirstOrDefault();
+                var reward = Model.Filters.ExpandItem(missionInfo.MissionReward.Items[0]);
 
-                return (rewardType: reward.Value, rewardValue: reward.Key);
+                return (rewardType: reward.type, rewardValue: reward.value);
             }
 
             return (null, null);
