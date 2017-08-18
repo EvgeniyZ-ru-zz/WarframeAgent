@@ -17,6 +17,6 @@
         <Setter Property="Effect" Value="{StaticResource PopShadow}" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor}" />
         <Setter Property="Margin" Value="5,0" />
-        <Setter Property="CornerRadius" Value="2" />
+        <Setter Property="CornerRadius" Value="0,0,2,2" />
     </Style>
 </ResourceDictionary>
