@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Agent.ViewModel;
@@ -28,7 +29,7 @@ namespace Agent.View
             animation = new Animation(this);
             InitializeComponent();
             animation.InitializeAnimation();
-            ShowPopUp("Привет мир!", FontAwesomeIcon.Amazon);
+            ShowPopUp("Привет мир!", FontAwesomeIcon.Amazon, "#FF3782CD");
         }
 
         private void MainWindow_OnInitialized(object sender, EventArgs e)
@@ -38,8 +39,10 @@ namespace Agent.View
             BackgroundEvent.Changed += BackgroundEvent_Changed;
         }
 
-        public void ShowPopUp(string text, FontAwesomeIcon icon)
+        public void ShowPopUp(string text, FontAwesomeIcon icon, string color)
         {
+            var convertFromString = ColorConverter.ConvertFromString(color);
+            if (convertFromString != null) PopUpPanel.BorderBrush = new SolidColorBrush((Color)convertFromString);
             PopUpIcon.Icon = icon;
             PopUpText.Text = text;
             animation.PopUpAnimation();
