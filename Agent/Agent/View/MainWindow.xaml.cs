@@ -12,6 +12,7 @@ using Core;
 using Core.Events;
 using Core.Model;
 using Core.ViewModel;
+using FontAwesome.WPF;
 
 namespace Agent.View
 {
@@ -21,11 +22,13 @@ namespace Agent.View
     // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : Window
     {
+        private static Animation animation;
         public MainWindow()
         {
-            var animation = new Animation(this);
+            animation = new Animation(this);
             InitializeComponent();
             animation.InitializeAnimation();
+            ShowPopUp("Привет мир!", FontAwesomeIcon.Amazon);
         }
 
         private void MainWindow_OnInitialized(object sender, EventArgs e)
@@ -33,6 +36,13 @@ namespace Agent.View
             ThemeChange(Settings.Program.Theme);
             ReloadBackground();
             BackgroundEvent.Changed += BackgroundEvent_Changed;
+        }
+
+        public void ShowPopUp(string text, FontAwesomeIcon icon)
+        {
+            PopUpIcon.Icon = icon;
+            PopUpText.Text = text;
+            animation.PopUpAnimation();
         }
 
         private async void BackgroundEvent_Changed()
