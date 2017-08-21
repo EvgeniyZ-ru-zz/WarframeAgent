@@ -22,7 +22,7 @@ namespace Core.ViewModel
             DefenderFaction = FactionViewModel.ById(invasion.DefenderMissionInfo.Faction);
             Faction = FactionViewModel.ById(invasion.Faction);
             Sector = SectorViewModel.FromSector(invasion.Node);
-            LocTag = Model.Filters.ExpandMission(invasion.LocTag);
+            LocTag = Model.Filters.ExpandMission(invasion.LocTag)?.Name ?? invasion.LocTag;
             DefenderReward = GetRewardString(invasion.DefenderReward);
             AttackerReward = GetRewardString(invasion.AttackerReward);
             Update();
@@ -63,7 +63,8 @@ namespace Core.ViewModel
         static string GetRewardString(InvasionReward reward)
         {
             var item0 = reward?.CountedItems[0];
-            var expandedReward = item0?.ItemType != null ? Model.Filters.ExpandItem(item0?.ItemType).value : null;
+            var item0Type = item0?.ItemType;
+            var expandedReward = Model.Filters.ExpandItem(item0Type)?.Value ?? item0Type;
             var count = item0?.ItemCount;
             if (count > 1)
                 expandedReward += $" [{count}]";

@@ -10,40 +10,74 @@ using NLog;
 
 namespace Core.Model
 {
-    public static class Filters
+    using Filter;
+
+    namespace Filter
     {
-        public static (string value, string type) ExpandItem(string item) =>
-            FiltersModel.AllItems.TryGetValue(item, out var result) ? result : (item, null);
+        public class Faction
+        {
+            public Faction(string name, string color, string logo) { Name = name; Color = color; Logo = logo; }
+            public string Name { get; }
+            public string Color { get; }
+            public string Logo { get; }
+        }
 
-        public static (string planet, string location) ExpandSector(string item) =>
-            FiltersModel.AllSectors.TryGetValue(item, out var result) ? result : (null, item);
+        public class Item
+        {
+            public Item(string value, string type, bool enabled) { Value = value; Type = type; Enabled = enabled; }
+            public string Value { get; }
+            public string Type { get; }
+            public bool Enabled { get; }
+        }
 
-        public static string ExpandMission(string item) =>
-            FiltersModel.AllMissions.TryGetValue(item, out var result) ? result : item;
+        public class Sector
+        {
+            public Sector(string planet, string location) { Planet = planet; Location = location; }
+            public string Planet { get; }
+            public string Location { get; }
+        }
 
-        public static (string name, string color, string logo)? TryExpandFaction(string item) =>
-            FiltersModel.AllFactions.TryGetValue(item, out var result) ? result : default((string name, string color, string logo));
+        public class Mission
+        {
+            public Mission(string name) { Name = name; }
+            public string Name { get; }
+        }
     }
 
-    public class FiltersModel
+    public static class Filters
     {
-        public static Dictionary<string, (string value, string type)> AllItems =
-            ParseFile("Filters/Items.json", "Items", pair => pair);
+        public static Item ExpandItem(string item) =>
+            FiltersModel.AllItems.TryGetValue(item ?? string.Empty, out var result) ? result : null;
 
-        public static Dictionary<string, (string planet, string location)> AllSectors =
-            ParseFile("Filters/Planets.json", "Items", pair =>
+        public static Sector ExpandSector(string item) =>
+            FiltersModel.AllSectors.TryGetValue(item ?? string.Empty, out var result) ? result : null;
+
+        public static Mission ExpandMission(string item) =>
+            FiltersModel.AllMissions.TryGetValue(item ?? string.Empty, out var result) ? result : null;
+
+        public static Faction ExpandFaction(string item) =>
+            FiltersModel.AllFactions.TryGetValue(item ?? string.Empty, out var result) ? result : null;
+    }
+
+    class FiltersModel
+    {
+        public static Dictionary<string, Item> AllItems =
+            ParseFile("Filters/Items.json", "Items", (value, type, enabled) => new Item(value: value, type: type, enabled: enabled));
+
+        public static Dictionary<string, Sector> AllSectors =
+            ParseFile("Filters/Planets.json", "Items", (value, type, enabled) =>
                 {
-                    var parts = pair.value.Split('|');
-                    return (planet: parts[0], location: parts[1]);
+                    var parts = value.Split('|');
+                    return new Sector(planet: parts[0], location: parts[1]);
                 });
 
-        public static Dictionary<string, string> AllMissions =
-            ParseFile("Filters/Missions.json", "Missions", pair => pair.value);
+        public static Dictionary<string, Mission> AllMissions =
+            ParseFile("Filters/Missions.json", "Missions", (value, type, enabled) => new Mission(value));
 
-        public static Dictionary<string, (string name, string color, string logo)> AllFactions =
+        public static Dictionary<string, Faction> AllFactions =
             GetAllFactions();
 
-        private static Dictionary<string, T> ParseFile<T>(string file, string cat, Func<(string value, string type), T> selector)
+        private static Dictionary<string, T> ParseFile<T>(string file, string cat, Func<string, string, bool, T> selector)
         {
             try
             {
@@ -51,13 +85,13 @@ namespace Core.Model
                 var strings = File.ReadAllText(absoluteFile, Encoding.UTF8);
                 var json = JObject.Parse(strings);
                 var result = json[cat]
-                    //.Where(s => ((int?)s["enable"] ?? 1) == 1)
                     .SelectMany(s =>
                     {
                         var type = (string)s["type"];
+                        var enabled = ((int?)s["enable"] ?? 1) != 0;
                         return ((JObject)s).Properties()
                                                .Where(p => p.Name != "type" && p.Name != "enable")
-                                               .Select(p => (key: p.Name, v: selector((value: (string)p.Value, type: type))));
+                                               .Select(p => (key: p.Name, v: selector((string)p.Value, type, enabled)));
                     })
                     .ToDictionary(t => t.key, t => t.v);
 
@@ -70,7 +104,7 @@ namespace Core.Model
             }
         }
 
-        public static Dictionary<string, (string name, string color, string logo)> GetAllFactions()
+        public static Dictionary<string, Faction> GetAllFactions()
         {
             try
             {
@@ -80,28 +114,21 @@ namespace Core.Model
                 using (var jreader = new JsonTextReader(text))
                 {
                     var model = s.Deserialize<FactionsModel>(jreader);
-                    return model.Items.ToDictionary(kvp => kvp.Key, kvp => (kvp.Value.Name, kvp.Value.Color, kvp.Value.Logo));
+                    return model.Items;
                 }
             }
             catch (Exception e)
             {
                 Tools.Logging.Send(LogLevel.Warn, "Ошибка чтения фракций", e);
-                return new Dictionary<string, (string name, string color, string logo)>();
+                return new Dictionary<string, Faction>();
             }
-        }
-
-        public class FactionInfo
-        {
-            public string Name { get; set; }
-            public string Color { get; set; }
-            public string Logo { get; set; }
         }
 
         public class FactionsModel
         {
             public DateTime Date { get; set; }
             public int Version { get; set; }
-            public Dictionary<string, FactionInfo> Items { get; set; }
+            public Dictionary<string, Faction> Items { get; set; }
         }
     }
 }

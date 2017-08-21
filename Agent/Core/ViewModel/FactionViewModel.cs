@@ -18,13 +18,12 @@ namespace Core.ViewModel
 
         static FactionViewModel TryCreateNew(string factionId)
         {
-            var fiOrNull = Model.Filters.TryExpandFaction(factionId);
-            if (fiOrNull == null)
+            var fi = Model.Filters.ExpandFaction(factionId);
+            if (fi == null)
                 return null;
-            var fi = fiOrNull.Value;
-            var brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(fi.color));
-            var geometry = Geometry.Parse(fi.logo);
-            return new FactionViewModel(fi.name, brush, geometry);
+            var brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(fi.Color));
+            var geometry = Geometry.Parse(fi.Logo);
+            return new FactionViewModel(fi.Name, brush, geometry);
         }
 
         static FactionViewModel CreateUnknown(string name) =>
