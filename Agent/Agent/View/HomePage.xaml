@@ -59,11 +59,11 @@
                                                     BorderThickness="0,0,1,0" Padding="0,0,3,0">
                                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
                                                             Margin="0,0,2,0">
-                                                    <TextBlock Foreground="{DynamicResource TextColor}" FontSize="10"
+                                                    <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11"
                                                                TextTrimming="CharacterEllipsis"
                                                                HorizontalAlignment="Center"
                                                                Text="{Binding MissionInfo.MinEnemyLevel, StringFormat={}{0:00}}" />
-                                                    <TextBlock Foreground="{DynamicResource TextColor}" FontSize="10"
+                                                    <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11"
                                                                TextTrimming="CharacterEllipsis"
                                                                HorizontalAlignment="Center" Margin="0,1,0,0"
                                                                Text="{Binding MissionInfo.MaxEnemyLevel, StringFormat={}{0:00}}" />
@@ -73,8 +73,8 @@
                                                 <StackPanel.Resources>
                                                     <converters:NullToStringConverter x:Key="MiddleConverter" OnNonNull=" – " />
                                                 </StackPanel.Resources>
-                                                <TextBlock Margin="3,2,3,0" FontWeight="Medium"
-                                                           Foreground="{DynamicResource TextColor}" FontSize="11"
+                                                <TextBlock Margin="3,2,3,0" 
+                                                           Foreground="{DynamicResource TextColor}" FontSize="12.5"
                                                            TextTrimming="CharacterEllipsis">
                                                     <Run Text="{Binding MissionInfo.Sector.Planet, Mode=OneWay}"
                                                          ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
@@ -86,14 +86,14 @@
                                                     <Run Text="{Binding MissionInfo.Sector.Location, Mode=OneWay}"
                                                          ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
                                                 </TextBlock>
-                                                <TextBlock Margin="3,2,3,0" Foreground="{DynamicResource TextColor}"
-                                                           FontSize="11"
+                                                <TextBlock Margin="3,0" Foreground="{DynamicResource TextColor}"
+                                                           FontSize="12"
                                                            TextTrimming="CharacterEllipsis"
                                                            VerticalAlignment="Center">
                                                     <Run Text="{Binding MissionInfo.Faction.Name, Mode=OneWay}"
                                                          ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
                                                     <fa:FontAwesome Foreground="{DynamicResource TextColor}"
-                                                                    Icon="AngleDoubleRight" Margin="0" FontSize="11"
+                                                                    Icon="AngleDoubleRight" Margin="0"
                                                                     VerticalAlignment="Center" />
                                                     <Run Text="{Binding MissionInfo.MissionType, Mode=OneWay}"
                                                          ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
@@ -104,7 +104,7 @@
                                                 <StackPanel Margin="0,2,0,0" DockPanel.Dock="Top"
                                                             Orientation="Horizontal" HorizontalAlignment="Right">
                                                     <TextBlock
-                                                        Foreground="{DynamicResource TextColor}" FontSize="11"
+                                                        Foreground="{DynamicResource TextColor}" FontSize="12"
                                                         TextTrimming="CharacterEllipsis" Text="{Binding Status}"
                                                         VerticalAlignment="Top" />
                                                 </StackPanel>
@@ -194,10 +194,10 @@
                                         <GroupStyle>
                                             <GroupStyle.HeaderTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Margin="3,5,3,0" FontWeight="Medium"
-                                                               Foreground="{DynamicResource TextColor}" FontSize="11"
-                                                               TextTrimming="CharacterEllipsis">
-                                                        <fa:FontAwesome Icon="Globe" />
+                                                    <TextBlock Margin="3,5,3,0"
+                                                               Foreground="{DynamicResource TextColor}" FontSize="12.5"
+                                                               TextTrimming="CharacterEllipsis" FontFamily="/Agent;component/Resources/Fonts/#Roboto">
+                                                        <fa:FontAwesome Icon="CircleOutlineNotch" TextOptions.TextHintingMode="Animated" />
                                                         <Run Text="{Binding Name, Mode=OneWay}" />
                                                     </TextBlock>
                                                 </DataTemplate>
@@ -230,16 +230,16 @@
                                                                     Background="{Binding DefenderFaction.Color}"
                                                                     Width="35"
                                                                     HorizontalAlignment="Left" VerticalAlignment="Top">
-                                                            <TextBlock Foreground="White" FontSize="10"
+                                                            <TextBlock Foreground="White" FontSize="10.4"
                                                                        TextTrimming="CharacterEllipsis"
                                                                        Text="{Binding Percent, StringFormat='\{0:n2\}'}"
                                                                        VerticalAlignment="Center"
                                                                        HorizontalAlignment="Center" Padding="1,1" />
                                                         </StackPanel>
 
-                                                        <TextBlock FontWeight="Medium" Grid.Column="1"
+                                                        <TextBlock Grid.Column="1"
                                                                    Foreground="{DynamicResource TextColor}"
-                                                                   FontSize="11"
+                                                                   FontSize="12.5"
                                                                    TextTrimming="CharacterEllipsis"
                                                                    Margin="0"
                                                                    Text="{Binding Sector.Location, TargetNullValue='(неизвестное место)'}"
@@ -251,7 +251,7 @@
                                                                     Background="{Binding AttackerFaction.Color}"
                                                                     Width="35"
                                                                     HorizontalAlignment="Right" VerticalAlignment="Top">
-                                                            <TextBlock Foreground="White" FontSize="10"
+                                                            <TextBlock Foreground="White" FontSize="10.4"
                                                                        TextTrimming="CharacterEllipsis"
                                                                        Text="{Binding PercentOut, StringFormat='\{0:n2\}'}"
                                                                        VerticalAlignment="Center"
@@ -269,7 +269,7 @@
 
                                                         <TextBlock Grid.Column="0"
                                                                    Foreground="{DynamicResource TextColor}"
-                                                                   FontSize="11"
+                                                                   FontSize="12"
                                                                    TextTrimming="CharacterEllipsis"
                                                                    ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
                                                                    Text="{Binding AttackerReward}"
@@ -278,7 +278,7 @@
 
                                                         <TextBlock Grid.Column="1"
                                                                    Foreground="{DynamicResource TextColor}"
-                                                                   FontSize="11"
+                                                                   FontSize="12"
                                                                    TextTrimming="CharacterEllipsis"
                                                                    ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
                                                                    Text="{Binding DefenderReward}"
@@ -324,6 +324,7 @@
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>
+
                                 <ListBox Grid.Row="1" ItemsSource="{Binding ProjectPct}"
                                          ScrollViewer.CanContentScroll="False" Background="{x:Null}"
                                          BorderBrush="{x:Null}" VerticalContentAlignment="Top"
@@ -422,14 +423,14 @@
                                                         <RowDefinition Height="Auto" />
                                                     </Grid.RowDefinitions>
                                                     <TextBlock Foreground="{DynamicResource TextColor}" Grid.Row="0"
-                                                               FontSize="11" TextTrimming="CharacterEllipsis"
-                                                               FontWeight="Medium" Text="{Binding Title}"
+                                                               FontSize="13" TextTrimming="CharacterEllipsis"
+                                                               Text="{Binding Title}"
                                                                ToolTip="{Binding Title}" Margin="5,2,3,0" />
                                                     <DockPanel Grid.Row="1" Margin="5,0,5,2" HorizontalAlignment="Left">
                                                         <fa:FontAwesome Foreground="{DynamicResource TextColor}"
-                                                                        Icon="Bars" Margin="0,0,2,0" FontSize="11" />
+                                                                        Icon="Bars" Margin="0,0,2,0" FontSize="12" />
                                                         <TextBlock Foreground="{DynamicResource TextColor}"
-                                                                   FontSize="11"
+                                                                   FontSize="12"
                                                                    TextTrimming="CharacterEllipsis"
                                                                    Text="{Binding Description}"
                                                                    ToolTip="{Binding Description}" />

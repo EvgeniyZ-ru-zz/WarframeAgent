@@ -74,7 +74,7 @@ namespace Core.ViewModel
 
         static Brush GetBrushForReward(string rewardType)
         {
-            switch (rewardType)
+            switch (rewardType) //TODO: Переделать на универсальный тип (если будет смена языка, то названия не будут на русском).
             {
             case "Шлема":
                 return Brushes.BlueViolet;
