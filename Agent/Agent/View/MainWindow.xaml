@@ -99,12 +99,14 @@
                 <Border Style="{DynamicResource LeftPanelBorder}" Margin="0,-1,0,0" Grid.RowSpan="4" />
                 <StackPanel Grid.Row="0" Name="LeftPanelTheme" Orientation="Horizontal" HorizontalAlignment="Center"
                             VerticalAlignment="Top" Margin="0,5">
-                    <Button Name="ThemeBtn" Click="StyleButton_Click" Style="{StaticResource NoChromeButton}" Cursor="Hand"
-                            Margin="0,0,6,0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <Button Name="ThemeBtn" 
+                            Click="StyleButton_Click" Style="{StaticResource NoChromeButton}"
+                            Cursor="Hand" Margin="0,0,6,0" HorizontalAlignment="Center" VerticalAlignment="Top">
                         <fa:FontAwesome Foreground="{DynamicResource TextColor}" Icon="Adjust" FontSize="9" />
                     </Button>
-                    <Button Name="ChangeBg" Click="StyleButton_Click" Style="{StaticResource NoChromeButton}" Cursor="Hand"
-                            HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <Button Name="ChangeBg" 
+                            Click="StyleButton_Click" Style="{StaticResource NoChromeButton}"
+                            Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Top">
                         <fa:FontAwesome Foreground="{DynamicResource TextColor}" Icon="PictureOutline" FontSize="9" />
                     </Button>
                 </StackPanel>
@@ -124,7 +126,7 @@
                     <RadioButton x:Name="AlertsBtn" IsEnabled="True"
                                  fa:Awesome.Content="ExclamationTriangle"
                                  GroupName="LeftMenu"
-                                 Style="{StaticResource MenuButton}"/>
+                                 Style="{StaticResource MenuButton}" />
                     <RadioButton x:Name="InvasionsBtn" IsEnabled="True"
                                  fa:Awesome.Content="Bullseye"
                                  GroupName="LeftMenu"
@@ -150,15 +152,15 @@
                         VerticalAlignment="Bottom"
                         Spin="False"
                         SpinDuration="20"
-                        Foreground="{DynamicResource TextColor}"/>
+                        Foreground="{DynamicResource TextColor}" />
                     <RadioButton x:Name="SettingsBtn" IsEnabled="True"
-                            fa:Awesome.Content="Cog"
-                            GroupName="LeftMenu"
-                            Style="{StaticResource MenuButton}" />
+                                 fa:Awesome.Content="Cog"
+                                 GroupName="LeftMenu"
+                                 Style="{StaticResource MenuButton}" />
                     <RadioButton IsEnabled="True" x:Name="InfoBtn"
-                            Style="{StaticResource MenuButton}"
-                            fa:Awesome.Content="Info"
-                            GroupName="LeftMenu" />
+                                 Style="{StaticResource MenuButton}"
+                                 fa:Awesome.Content="Info"
+                                 GroupName="LeftMenu" />
                 </StackPanel>
             </Grid>
 
@@ -166,13 +168,35 @@
                 <!-- Основная часть приложения -->
                 <Grid.Resources>
                     <DataTemplate DataType="{x:Type vm:HomeViewModel}">
-                        <view:HomePage/>
+                        <view:HomePage />
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type corevm:News}">
-                        <view:NewsPage/>
+                        <view:NewsPage />
                     </DataTemplate>
                 </Grid.Resources>
-                <ContentPresenter Content="{Binding CurrentContent}"/>
+                <ContentPresenter Content="{Binding CurrentContent}" />
+                <Border x:Name="PopUpPanel" 
+                        Height="40" VerticalAlignment="Top" 
+                        Style="{StaticResource PopUpPanel}"
+                        Margin="5,-40,5,0"
+                        BorderBrush="{DynamicResource InvasionsLineColor}" BorderThickness="0,0,0,2">
+                    <Grid Margin="5,3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" BorderBrush="{DynamicResource InvasionsLineColor}"
+                                BorderThickness="0,0,1,0">
+                            <fa:FontAwesome x:Name="PopUpIcon" Foreground="{DynamicResource TextColor}"
+                                            TextOptions.TextHintingMode="Animated"
+                                            Icon="NewspaperOutline" VerticalAlignment="Center" FontSize="16"
+                                            Margin="0,0,5,0" />
+                        </Border>
+                        <TextBlock x:Name="PopUpText" Grid.Column="1" Foreground="{DynamicResource TextColor}" Margin="5,0"
+                                   FontSize="13" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                    </Grid>
+                </Border>
             </Grid>
 
             <Rectangle x:Name="BottomRightSizeGrip"
@@ -182,8 +206,6 @@
                        VerticalAlignment="Bottom"
                        Cursor="SizeNWSE"
                        Style="{StaticResource RectBorderStyle}" Grid.Row="1" Grid.Column="1" />
-
         </Grid>
-
     </Border>
 </Window>

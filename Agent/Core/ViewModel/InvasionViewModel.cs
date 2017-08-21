@@ -69,10 +69,7 @@ namespace Core.ViewModel
             if (count > 1)
                 expandedReward += $" [{count}]";
 
-            if (string.IsNullOrEmpty(expandedReward))
-                return "Награды нет";
-
-            return expandedReward;
+            return string.IsNullOrEmpty(expandedReward) ? "Недоступно" : expandedReward;
         }
 
         void UpdatePercent()

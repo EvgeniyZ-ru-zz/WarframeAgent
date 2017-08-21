@@ -78,6 +78,59 @@ namespace Core
             }
 
             #endregion
+
+            #region Send Bad Filter
+
+            /// <summary>
+            /// Отправляет Put запрос на указанный адрес
+            /// </summary>
+            /// <param name="data">Объект для сериализации в JSON</param>
+            /// <param name="url">Адрес для отправки</param>
+            public static void SendPut(object data, string url = "https://evgeniy-z.ru/api/v2/agent/filters")
+            {
+                PutRequest(data, url);
+            }
+
+            /// <summary>
+            /// Отправляет Put запрос на указанный адрес
+            /// </summary>
+            /// <param name="name">Переменная для отрпавки</param>
+            /// <param name="type">Тип (items, missions), соответсвует имени файла самого фильтра</param>
+            /// <param name="version">Версия приложения</param>
+            /// <param name="url">Адрес для отправки</param>
+            public static void SendPut(string name, string type, string version, string url = "https://evgeniy-z.ru/api/v2/agent/filters")
+            {
+                var data = new { Name = name, Type = type, Version = version };
+                PutRequest(data, url);
+            }
+
+            private static void PutRequest(object data, string url)
+            {
+                string serializedObject = Newtonsoft.Json.JsonConvert.SerializeObject(data);
+                HttpWebRequest request = WebRequest.CreateHttp(url);
+                request.Method = "PUT";
+                request.AllowWriteStreamBuffering = false;
+                request.ContentType = "application/json";
+                request.Accept = "Accept=application/json";
+                request.SendChunked = false;
+                request.ContentLength = serializedObject.Length;
+                using (var writer = new StreamWriter(request.GetRequestStream()))
+                {
+                    writer.Write(serializedObject);
+                }
+                try
+                {
+                    var response = request.GetResponse() as HttpWebResponse;
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Logging.Send(LogLevel.Warn, "Put request Error!");
+                }
+                catch (Exception e)
+                {
+                    Logging.Send(LogLevel.Warn, "Put request Error!", e);
+                }
+            }
+
+            #endregion
         }
 
         /// <summary>

@@ -13,7 +13,7 @@
         <viewModel:TimeNowViewModel x:Key="TimeVM" />
     </UserControl.Resources>
 
-    <Grid x:Name="grid">
+    <Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -59,41 +59,41 @@
                                                     BorderThickness="0,0,1,0" Padding="0,0,3,0">
                                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
                                                             Margin="0,0,2,0">
-                                                    <TextBlock Foreground="{DynamicResource TextColor}" FontSize="10"
+                                                    <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11"
                                                                TextTrimming="CharacterEllipsis"
-                                                               FontFamily="/Agent;component/Resources/Fonts/#Roboto"
                                                                HorizontalAlignment="Center"
                                                                Text="{Binding MissionInfo.MinEnemyLevel, StringFormat={}{0:00}}" />
-                                                    <TextBlock Foreground="{DynamicResource TextColor}" FontSize="10"
+                                                    <TextBlock Foreground="{DynamicResource TextColor}" FontSize="11"
                                                                TextTrimming="CharacterEllipsis"
-                                                               FontFamily="/Agent;component/Resources/Fonts/#Roboto"
                                                                HorizontalAlignment="Center" Margin="0,1,0,0"
                                                                Text="{Binding MissionInfo.MaxEnemyLevel, StringFormat={}{0:00}}" />
                                                 </StackPanel>
                                             </Border>
                                             <StackPanel Grid.Column="1" Grid.Row="0" Margin="0,0,0,2">
                                                 <StackPanel.Resources>
-                                                    <converters:NullToStringConverter x:Key="MiddleConverter" OnNonNull=" – "/>
+                                                    <converters:NullToStringConverter x:Key="MiddleConverter" OnNonNull=" – " />
                                                 </StackPanel.Resources>
-                                                <TextBlock Margin="3,2,3,0" FontWeight="Medium"
-                                                           Foreground="{DynamicResource TextColor}" FontSize="11"
-                                                           TextTrimming="CharacterEllipsis"
-                                                           FontFamily="/Agent;component/Resources/Fonts/#Roboto">
+                                                <TextBlock Margin="3,2,3,0" 
+                                                           Foreground="{DynamicResource TextColor}" FontSize="12.5"
+                                                           TextTrimming="CharacterEllipsis">
                                                     <Run Text="{Binding MissionInfo.Sector.Planet, Mode=OneWay}"
-                                                         ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" /><!--
-                                                    --><Run Text="{Binding MissionInfo.Sector.Planet, Mode=OneWay, Converter={StaticResource MiddleConverter}}" /><!--
-                                                    --><Run Text="{Binding MissionInfo.Sector.Location, Mode=OneWay}"
+                                                         ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
+                                                    <!--
+                                                    -->
+                                                    <Run Text="{Binding MissionInfo.Sector.Planet, Mode=OneWay, Converter={StaticResource MiddleConverter}}" />
+                                                    <!--
+                                                    -->
+                                                    <Run Text="{Binding MissionInfo.Sector.Location, Mode=OneWay}"
                                                          ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
                                                 </TextBlock>
-                                                <TextBlock Margin="3,2,3,0" Foreground="{DynamicResource TextColor}"
-                                                           FontSize="11"
+                                                <TextBlock Margin="3,0" Foreground="{DynamicResource TextColor}"
+                                                           FontSize="12"
                                                            TextTrimming="CharacterEllipsis"
-                                                           FontFamily="/Agent;component/Resources/Fonts/#Roboto"
                                                            VerticalAlignment="Center">
                                                     <Run Text="{Binding MissionInfo.Faction.Name, Mode=OneWay}"
                                                          ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
                                                     <fa:FontAwesome Foreground="{DynamicResource TextColor}"
-                                                                    Icon="AngleDoubleRight" Margin="0" FontSize="11"
+                                                                    Icon="AngleDoubleRight" Margin="0"
                                                                     VerticalAlignment="Center" />
                                                     <Run Text="{Binding MissionInfo.MissionType, Mode=OneWay}"
                                                          ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
@@ -104,9 +104,8 @@
                                                 <StackPanel Margin="0,2,0,0" DockPanel.Dock="Top"
                                                             Orientation="Horizontal" HorizontalAlignment="Right">
                                                     <TextBlock
-                                                        Foreground="{DynamicResource TextColor}" FontSize="11"
+                                                        Foreground="{DynamicResource TextColor}" FontSize="12"
                                                         TextTrimming="CharacterEllipsis" Text="{Binding Status}"
-                                                        FontFamily="/Agent;component/Resources/Fonts/#Roboto"
                                                         VerticalAlignment="Top" />
                                                 </StackPanel>
                                                 <StackPanel Margin="0,0,0,2" DockPanel.Dock="Bottom"
@@ -171,7 +170,7 @@
                             <Grid Grid.Row="1">
                                 <Grid.Resources>
 
-                                    <converters:InvasionGroupConverter x:Key="InvasionGroupConverter"/>
+                                    <converters:InvasionGroupConverter x:Key="InvasionGroupConverter" />
 
                                     <CollectionViewSource x:Key="GroupedInvasions" Source="{Binding Invasions}">
                                         <CollectionViewSource.GroupDescriptions>
@@ -195,11 +194,10 @@
                                         <GroupStyle>
                                             <GroupStyle.HeaderTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Margin="3,5,3,0" FontWeight="Medium"
-                                                               Foreground="{DynamicResource TextColor}" FontSize="11"
-                                                               TextTrimming="CharacterEllipsis"
-                                                               FontFamily="/Agent;component/Resources/Fonts/#Roboto">
-                                                        <fa:FontAwesome Icon="Globe" />
+                                                    <TextBlock Margin="3,5,3,0"
+                                                               Foreground="{DynamicResource TextColor}" FontSize="12.5"
+                                                               TextTrimming="CharacterEllipsis" FontFamily="/Agent;component/Resources/Fonts/#Roboto">
+                                                        <fa:FontAwesome Icon="CircleOutlineNotch" TextOptions.TextHintingMode="Animated" />
                                                         <Run Text="{Binding Name, Mode=OneWay}" />
                                                     </TextBlock>
                                                 </DataTemplate>
@@ -229,21 +227,20 @@
                                                             <ColumnDefinition Width="Auto" />
                                                         </Grid.ColumnDefinitions>
                                                         <StackPanel Grid.Column="0"
-                                                                    Background="{Binding AttackerFaction.Color}" Width="35"
+                                                                    Background="{Binding DefenderFaction.Color}"
+                                                                    Width="35"
                                                                     HorizontalAlignment="Left" VerticalAlignment="Top">
-                                                            <TextBlock Foreground="White" FontSize="10"
+                                                            <TextBlock Foreground="White" FontSize="10.4"
                                                                        TextTrimming="CharacterEllipsis"
-                                                                       FontFamily="/Agent;component/Resources/Fonts/#Roboto"
                                                                        Text="{Binding Percent, StringFormat='\{0:n2\}'}"
                                                                        VerticalAlignment="Center"
                                                                        HorizontalAlignment="Center" Padding="1,1" />
                                                         </StackPanel>
 
-                                                        <TextBlock FontWeight="Medium" Grid.Column="1"
+                                                        <TextBlock Grid.Column="1"
                                                                    Foreground="{DynamicResource TextColor}"
-                                                                   FontSize="11"
+                                                                   FontSize="12.5"
                                                                    TextTrimming="CharacterEllipsis"
-                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto"
                                                                    Margin="0"
                                                                    Text="{Binding Sector.Location, TargetNullValue='(неизвестное место)'}"
                                                                    ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
@@ -251,11 +248,11 @@
                                                                    TextAlignment="Center" />
 
                                                         <StackPanel Grid.Column="2"
-                                                                    Background="{Binding DefenderFaction.Color}" Width="35"
+                                                                    Background="{Binding AttackerFaction.Color}"
+                                                                    Width="35"
                                                                     HorizontalAlignment="Right" VerticalAlignment="Top">
-                                                            <TextBlock Foreground="White" FontSize="10"
+                                                            <TextBlock Foreground="White" FontSize="10.4"
                                                                        TextTrimming="CharacterEllipsis"
-                                                                       FontFamily="/Agent;component/Resources/Fonts/#Roboto"
                                                                        Text="{Binding PercentOut, StringFormat='\{0:n2\}'}"
                                                                        VerticalAlignment="Center"
                                                                        HorizontalAlignment="Center" Padding="1,1" />
@@ -272,20 +269,18 @@
 
                                                         <TextBlock Grid.Column="0"
                                                                    Foreground="{DynamicResource TextColor}"
-                                                                   FontSize="11"
+                                                                   FontSize="12"
                                                                    TextTrimming="CharacterEllipsis"
                                                                    ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
-                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto"
                                                                    Text="{Binding AttackerReward}"
                                                                    VerticalAlignment="Center"
                                                                    HorizontalAlignment="Left" Margin="2,0,2,3" />
 
                                                         <TextBlock Grid.Column="1"
                                                                    Foreground="{DynamicResource TextColor}"
-                                                                   FontSize="11"
+                                                                   FontSize="12"
                                                                    TextTrimming="CharacterEllipsis"
                                                                    ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
-                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto"
                                                                    Text="{Binding DefenderReward}"
                                                                    VerticalAlignment="Center"
                                                                    HorizontalAlignment="Right" Margin="2,0,2,3" />
@@ -293,29 +288,35 @@
                                                 </Grid>
 
 
-                                                <Border BorderBrush="{Binding AttackerFaction.Color}" BorderThickness="0,0,1,0"
-                                                        Grid.Column="0" Width="30" Margin="0,0,0,3" Background="Transparent"
-                                                        ToolTip="{Binding AttackerFaction.Name}">
-                                                    <Path MaxHeight="23" MaxWidth="23"
-                                                          Fill="{Binding AttackerFaction.Color}" HorizontalAlignment="Center"
-                                                          VerticalAlignment="Center" StrokeThickness="0"
-                                                          Stretch="Uniform" SnapsToDevicePixels="True"
-                                                          Data="{Binding AttackerFaction.Logo}" />
-                                                </Border>
-                                                <Border BorderBrush="{Binding DefenderFaction.Color}" BorderThickness="1,0,0,0"
-                                                        Grid.Column="2" Width="30" Margin="0,0,0,3" Background="Transparent"
+                                                <Border BorderBrush="{Binding DefenderFaction.Color}"
+                                                        BorderThickness="0,0,1,0"
+                                                        Grid.Column="0" Width="30" Margin="0,0,0,3"
+                                                        Background="Transparent"
                                                         ToolTip="{Binding DefenderFaction.Name}">
                                                     <Path MaxHeight="23" MaxWidth="23"
-                                                          Fill="{Binding DefenderFaction.Color}" HorizontalAlignment="Center"
+                                                          Fill="{Binding DefenderFaction.Color}"
+                                                          HorizontalAlignment="Center"
                                                           VerticalAlignment="Center" StrokeThickness="0"
                                                           Stretch="Uniform" SnapsToDevicePixels="True"
                                                           Data="{Binding DefenderFaction.Logo}" />
                                                 </Border>
+                                                <Border BorderBrush="{Binding AttackerFaction.Color}"
+                                                        BorderThickness="1,0,0,0"
+                                                        Grid.Column="2" Width="30" Margin="0,0,0,3"
+                                                        Background="Transparent"
+                                                        ToolTip="{Binding AttackerFaction.Name}">
+                                                    <Path MaxHeight="23" MaxWidth="23"
+                                                          Fill="{Binding AttackerFaction.Color}"
+                                                          HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center" StrokeThickness="0"
+                                                          Stretch="Uniform" SnapsToDevicePixels="True"
+                                                          Data="{Binding AttackerFaction.Logo}" />
+                                                </Border>
                                                 <ProgressBar Grid.Column="0" Grid.ColumnSpan="3"
-                                                             Foreground="{Binding AttackerFaction.Color}"
+                                                             Foreground="{Binding DefenderFaction.Color}"
                                                              BorderThickness="0"
                                                              Value="{Binding Path=Percent, Mode=OneWay}"
-                                                             Background="{Binding DefenderFaction.Color}"
+                                                             Background="{Binding AttackerFaction.Color}"
                                                              BorderBrush="{x:Null}" Height="1"
                                                              VerticalAlignment="Bottom" />
 
@@ -323,6 +324,7 @@
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>
+
                                 <ListBox Grid.Row="1" ItemsSource="{Binding ProjectPct}"
                                          ScrollViewer.CanContentScroll="False" Background="{x:Null}"
                                          BorderBrush="{x:Null}" VerticalContentAlignment="Top"
@@ -421,18 +423,17 @@
                                                         <RowDefinition Height="Auto" />
                                                     </Grid.RowDefinitions>
                                                     <TextBlock Foreground="{DynamicResource TextColor}" Grid.Row="0"
-                                                               FontSize="11" TextTrimming="CharacterEllipsis"
-                                                               FontWeight="Medium" Text="{Binding Title}"
+                                                               FontSize="13" TextTrimming="CharacterEllipsis"
+                                                               Text="{Binding Title}"
                                                                ToolTip="{Binding Title}" Margin="5,2,3,0" />
                                                     <DockPanel Grid.Row="1" Margin="5,0,5,2" HorizontalAlignment="Left">
                                                         <fa:FontAwesome Foreground="{DynamicResource TextColor}"
-                                                                        Icon="Bars" Margin="0,0,2,0" FontSize="11" />
+                                                                        Icon="Bars" Margin="0,0,2,0" FontSize="12" />
                                                         <TextBlock Foreground="{DynamicResource TextColor}"
-                                                                   FontSize="11"
+                                                                   FontSize="12"
                                                                    TextTrimming="CharacterEllipsis"
                                                                    Text="{Binding Description}"
-                                                                   ToolTip="{Binding Description}"
-                                                                   FontFamily="/Agent;component/Resources/Fonts/#Roboto" />
+                                                                   ToolTip="{Binding Description}" />
                                                     </DockPanel>
                                                 </Grid>
                                             </Grid>
