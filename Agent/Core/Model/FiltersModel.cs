@@ -14,6 +14,17 @@ namespace Core.Model
 
     namespace Filter
     {
+        public enum Type
+        {
+            Factions,
+            Items,
+            Missions,
+            Planets,
+            Race,
+            Sorties,
+            Void
+        }
+
         public class Faction
         {
             public Faction(string name, string color, string logo) { Name = name; Color = color; Logo = logo; }
@@ -46,7 +57,7 @@ namespace Core.Model
 
     public static class Filters
     {
-        static T Expand<T>(string item, Dictionary<string, T> dict) where T : class
+        static T Expand<T>(string item, Dictionary<string, T> dict, Type type) where T : class
         {
             if (item == null)
                 return null;
@@ -54,14 +65,14 @@ namespace Core.Model
                 return null;
             bool isFilterFood = dict.TryGetValue(item, out var result);
             if (!isFilterFood)
-                BadFilterReportModel.ReportBadFilter(item, null);
+                BadFilterReportModel.ReportBadFilter(item, type);
             return result;
         }
 
-        public static Item ExpandItem(string item) => Expand(item, FiltersModel.AllItems);
-        public static Sector ExpandSector(string item) => Expand(item, FiltersModel.AllSectors);
-        public static Mission ExpandMission(string item) => Expand(item, FiltersModel.AllMissions);
-        public static Faction ExpandFaction(string item) => Expand(item, FiltersModel.AllFactions);
+        public static Item ExpandItem(string item) => Expand(item, FiltersModel.AllItems, Type.Items);
+        public static Sector ExpandSector(string item) => Expand(item, FiltersModel.AllSectors, Type.Planets);
+        public static Mission ExpandMission(string item) => Expand(item, FiltersModel.AllMissions, Type.Missions);
+        public static Faction ExpandFaction(string item) => Expand(item, FiltersModel.AllFactions, Type.Factions);
     }
 
     class FiltersModel

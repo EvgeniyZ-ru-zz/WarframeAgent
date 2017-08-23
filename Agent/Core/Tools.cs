@@ -2,7 +2,9 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using NLog;
 using NLog.Config;
@@ -192,5 +194,23 @@ namespace Core
                 Logger.Log(level, exception, message, param);
             }
         }
+
+        /// <summary>
+        ///   Асинхронная работа с потоками
+        /// </summary>
+        public class Async
+        {
+            public static ThreadPoolRedirector RedirectToThreadPool() =>
+                default(ThreadPoolRedirector);
+
+            public struct ThreadPoolRedirector : INotifyCompletion
+            {
+                public ThreadPoolRedirector GetAwaiter() => this;
+                public bool IsCompleted => Thread.CurrentThread.IsThreadPoolThread;
+                public void OnCompleted(Action continuation) => ThreadPool.QueueUserWorkItem(o => continuation());
+                public void GetResult() { }
+            }
+        }
+
     }
 }
