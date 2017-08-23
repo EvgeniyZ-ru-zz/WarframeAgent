@@ -180,6 +180,20 @@
                         Style="{StaticResource PopUpPanel}"
                         Margin="5,-40,5,0"
                         BorderBrush="{DynamicResource InvasionsLineColor}" BorderThickness="0,0,0,2">
+                    <Border.Resources>
+                        <Storyboard x:Key="ShowPopupStoryboard">
+                            <ThicknessAnimation To="5,0" Duration="0:0:1" Storyboard.TargetProperty="Margin">
+                                <ThicknessAnimation.EasingFunction>
+                                    <ExponentialEase />
+                                </ThicknessAnimation.EasingFunction>
+                            </ThicknessAnimation>
+                            <ThicknessAnimation Duration="0:0:1" BeginTime="0:0:4.5" Storyboard.TargetProperty="Margin">
+                                <ThicknessAnimation.EasingFunction>
+                                    <ExponentialEase />
+                                </ThicknessAnimation.EasingFunction>
+                            </ThicknessAnimation>
+                        </Storyboard>
+                    </Border.Resources>
                     <Grid Margin="5,3">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />

@@ -110,6 +110,7 @@ namespace Core
             private static async Task<bool> PutRequest(object data, string url)
             {
                 string serializedObject = Newtonsoft.Json.JsonConvert.SerializeObject(data);
+                Logging.Send(LogLevel.Debug, $"Отправка на сервер объекта {serializedObject}");
                 HttpWebRequest request = WebRequest.CreateHttp(url);
                 request.Method = "PUT";
                 request.AllowWriteStreamBuffering = false;
@@ -117,27 +118,51 @@ namespace Core
                 request.Accept = "Accept=application/json";
                 request.SendChunked = false;
                 request.ContentLength = serializedObject.Length;
-                using (var writer = new StreamWriter(await request.GetRequestStreamAsync()))
-                {
-                    await writer.WriteAsync(serializedObject);
-                }
+                // request.Timeout doesn't work for asynchronous requests
                 try
                 {
-                    var response = (HttpWebResponse)(await request.GetResponseAsync());
-                    switch (response.StatusCode)
+                    var timeoutTask = Task.Delay(5000);
+                    var putTask = PutWorker(request, serializedObject);
+                    var firstToFinish = Task.WhenAny(timeoutTask, putTask);
+                    if (firstToFinish == timeoutTask)
                     {
-                    case HttpStatusCode.OK:
-                    case HttpStatusCode.Conflict:
-                        return true;
+                        request.Abort();
                     }
+                    else
+                    {
+                        var statusCode = await putTask;
+                        switch (statusCode)
+                        {
+                        case HttpStatusCode.OK:
+                        case HttpStatusCode.Conflict:
+                            Logging.Send(LogLevel.Debug, "Отправка на сервер: получено подтверждение");
+                            return true;
+                        }
 
-                    Logging.Send(LogLevel.Warn, "Put request Error!");
+                        Logging.Send(LogLevel.Warn, $"Отправка на сервер: получен неожиданный код ответа {statusCode}");
+                    }
+                }
+                catch (WebException e) when (e.Response is HttpWebResponse hwr && hwr.StatusCode == HttpStatusCode.Conflict)
+                {
+                    Logging.Send(LogLevel.Debug, "Отправка на сервер: получено подтверждение");
+                    return true;
                 }
                 catch (Exception e)
                 {
-                    Logging.Send(LogLevel.Warn, "Put request Error!", e);
+                    Logging.Send(LogLevel.Warn, "Отправка на сервер: произошло исключение", e);
                 }
                 return false;
+            }
+
+            private static async Task<HttpStatusCode> PutWorker(HttpWebRequest request, string s)
+            {
+                using (var writer = new StreamWriter(await request.GetRequestStreamAsync()))
+                {
+                    await writer.WriteAsync(s);
+                    Logging.Send(LogLevel.Debug, "Отправка на сервер: запрос послан");
+                }
+                var response = (HttpWebResponse)(await request.GetResponseAsync());
+                return response.StatusCode;
             }
 
             #endregion

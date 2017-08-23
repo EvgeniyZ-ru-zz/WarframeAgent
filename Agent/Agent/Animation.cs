@@ -95,21 +95,9 @@ namespace Agent
 
         public void PopUpAnimation()
         {
-            var animation = new ThicknessAnimation();
-            animation.EasingFunction = new ExponentialEase();
-            animation.To = new Thickness(5, 0, 5, 0);
-            animation.Completed += PopUpCompleted;
-            main.PopUpPanel.BeginAnimation(FrameworkElement.MarginProperty, animation);
-        }
-
-        private async void PopUpCompleted(object sender, EventArgs eventArgs)
-        {
-            await Task.Delay(TimeSpan.FromSeconds(3.5));
-            var animation = new ThicknessAnimation();
-            animation.EasingFunction = new ExponentialEase();
-            animation.To = new Thickness(5, -40, 5, 0);
-            animation.Duration = TimeSpan.FromSeconds(1);
-            main.PopUpPanel.BeginAnimation(FrameworkElement.MarginProperty, animation);
+            var popup = main.PopUpPanel;
+            var storyboard = (Storyboard)popup.Resources["ShowPopupStoryboard"];
+            popup.BeginStoryboard(storyboard);
         }
 
         #endregion
