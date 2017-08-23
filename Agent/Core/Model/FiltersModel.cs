@@ -116,7 +116,7 @@ namespace Core.Model
             catch (Exception e)
             {
                 Tools.Logging.Send(LogLevel.Warn, $"Ошибка при чтении {file}.", e);
-                return new Dictionary<string, T>();
+                return null;
             }
         }
 
@@ -136,7 +136,7 @@ namespace Core.Model
             catch (Exception e)
             {
                 Tools.Logging.Send(LogLevel.Warn, "Ошибка чтения фракций", e);
-                return new Dictionary<string, Faction>();
+                return null;
             }
         }
 
