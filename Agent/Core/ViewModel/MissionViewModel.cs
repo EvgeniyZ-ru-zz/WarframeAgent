@@ -32,7 +32,7 @@ namespace Core.ViewModel
             RewardColor = GetBrushForReward(rewardType);
             Faction = FactionViewModel.ById(missionInfo.Faction);
             Sector = SectorViewModel.FromSector(missionInfo.Location);
-            MissionType = Model.Filters.ExpandMission(missionInfo.MissionType);
+            MissionType = Model.Filters.ExpandMission(missionInfo.MissionType)?.Name ?? missionInfo.MissionType;
             ArchvingVisibility = (missionInfo.ArchwingRequired != true) || (missionInfo.IsSharkwingMission == true)
                 ? Visibility.Collapsed
                 : Visibility.Visible;
@@ -52,22 +52,24 @@ namespace Core.ViewModel
         {
             #region Переводим предмет
 
+            string rewardKey = null;
+            string itemCount = null;
             if (missionInfo.MissionReward.CountedItems != null)
             {
                 var item = missionInfo.MissionReward.CountedItems[0];
-                var itemCount = item.ItemCount >= 2 ? $" [{item.ItemCount}]" : string.Empty;
-                var reward = Model.Filters.ExpandItem(item.ItemType);
-
-                return (rewardType: reward.type, rewardValue: $"{reward.value}{itemCount}");
+                itemCount = item.ItemCount >= 2 ? $" [{item.ItemCount}]" : string.Empty;
+                rewardKey = item.ItemType;
             }
             else if (missionInfo.MissionReward.Items != null)
             {
-                var reward = Model.Filters.ExpandItem(missionInfo.MissionReward.Items[0]);
-
-                return (rewardType: reward.type, rewardValue: reward.value);
+                rewardKey = missionInfo.MissionReward.Items[0];
             }
 
-            return (null, null);
+            var reward = Model.Filters.ExpandItem(rewardKey);
+            string rewardValue = reward?.Value ?? rewardKey;
+            if (itemCount != null)
+                rewardValue += itemCount;
+            return (rewardType: reward?.Type, rewardValue: rewardValue);
 
             #endregion
         }

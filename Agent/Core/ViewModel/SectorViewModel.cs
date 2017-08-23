@@ -18,8 +18,8 @@ namespace Core.ViewModel
 
         public static SectorViewModel FromSector(string sector)
         {
-            var (planet, location) = Model.Filters.ExpandSector(sector);
-            return new SectorViewModel(planet, location);
+            var sectorFilter = Model.Filters.ExpandSector(sector);
+            return new SectorViewModel(sectorFilter?.Planet, sectorFilter?.Location ?? sector);
         }
 
         public string Planet { get; }

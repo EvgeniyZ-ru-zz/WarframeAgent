@@ -27,6 +27,7 @@ namespace Agent.ViewModel
 
         public MainViewModel()
         {
+            BadFilterReportModel.Start();
             ServerModel = new ServerModel(ServerEvents);
             ServerModel.Start();
             GameView = new GameViewModel(GameModel);
@@ -48,6 +49,11 @@ namespace Agent.ViewModel
             ServerEvents.Disconnected += GameDataEvent_Disconnected;
             GameView.Run();
             GameModel.Start(ServerEvents, $"{Settings.Program.Directories.Temp}/GameData.json");
+        }
+
+        public async Task StopAsync()
+        {
+            await BadFilterReportModel.StopAsync();
         }
 
         private async void GameDataEvent_Disconnected()

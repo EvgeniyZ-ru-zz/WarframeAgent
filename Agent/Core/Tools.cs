@@ -2,7 +2,10 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -86,9 +89,9 @@ namespace Core
             /// </summary>
             /// <param name="data">Объект для сериализации в JSON</param>
             /// <param name="url">Адрес для отправки</param>
-            public static void SendPut(object data, string url = "https://evgeniy-z.ru/api/v2/agent/filters")
+            public static Task<bool> SendPut(object data, string url = "https://evgeniy-z.ru/api/v2/agent/filters")
             {
-                PutRequest(data, url);
+                return PutRequest(data, url);
             }
 
             /// <summary>
@@ -98,13 +101,13 @@ namespace Core
             /// <param name="type">Тип (items, missions), соответсвует имени файла самого фильтра</param>
             /// <param name="version">Версия приложения</param>
             /// <param name="url">Адрес для отправки</param>
-            public static void SendPut(string name, string type, string version, string url = "https://evgeniy-z.ru/api/v2/agent/filters")
+            public static Task<bool> SendPut(string name, string type, string version, string url = "https://evgeniy-z.ru/api/v2/agent/filters")
             {
                 var data = new { Name = name, Type = type, Version = version };
-                PutRequest(data, url);
+                return PutRequest(data, url);
             }
 
-            private static void PutRequest(object data, string url)
+            private static async Task<bool> PutRequest(object data, string url)
             {
                 string serializedObject = Newtonsoft.Json.JsonConvert.SerializeObject(data);
                 HttpWebRequest request = WebRequest.CreateHttp(url);
@@ -114,20 +117,27 @@ namespace Core
                 request.Accept = "Accept=application/json";
                 request.SendChunked = false;
                 request.ContentLength = serializedObject.Length;
-                using (var writer = new StreamWriter(request.GetRequestStream()))
+                using (var writer = new StreamWriter(await request.GetRequestStreamAsync()))
                 {
-                    writer.Write(serializedObject);
+                    await writer.WriteAsync(serializedObject);
                 }
                 try
                 {
-                    var response = request.GetResponse() as HttpWebResponse;
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Logging.Send(LogLevel.Warn, "Put request Error!");
+                    var response = (HttpWebResponse)(await request.GetResponseAsync());
+                    switch (response.StatusCode)
+                    {
+                    case HttpStatusCode.OK:
+                    case HttpStatusCode.Conflict:
+                        return true;
+                    }
+
+                    Logging.Send(LogLevel.Warn, "Put request Error!");
                 }
                 catch (Exception e)
                 {
                     Logging.Send(LogLevel.Warn, "Put request Error!", e);
                 }
+                return false;
             }
 
             #endregion
@@ -184,5 +194,23 @@ namespace Core
                 Logger.Log(level, exception, message, param);
             }
         }
+
+        /// <summary>
+        ///   Асинхронная работа с потоками
+        /// </summary>
+        public class Async
+        {
+            public static ThreadPoolRedirector RedirectToThreadPool() =>
+                default(ThreadPoolRedirector);
+
+            public struct ThreadPoolRedirector : INotifyCompletion
+            {
+                public ThreadPoolRedirector GetAwaiter() => this;
+                public bool IsCompleted => Thread.CurrentThread.IsThreadPoolThread;
+                public void OnCompleted(Action continuation) => ThreadPool.QueueUserWorkItem(o => continuation());
+                public void GetResult() { }
+            }
+        }
+
     }
 }
