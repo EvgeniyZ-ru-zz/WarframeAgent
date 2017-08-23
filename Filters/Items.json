@@ -1,6 +1,6 @@
 {
-  "Date": "11.08.2017",
-  "Version": 1,
+  "Date": "22.08.2017",
+  "Version": 2,
   "Items": [
     {
       "type": "Ресурсы",
@@ -160,7 +160,8 @@
       "/Lotus/StoreItems/Upgrades/Mods/Pistol/DualStat/GrinderMod": "Смертоносный ливень",
       "/Lotus/StoreItems/Upgrades/Mods/Warframe/DualStat/FortitudeMod": "Стойкость",
       "/Lotus/StoreItems/Upgrades/Mods/Warframe/DualStat/ConstitutionMod": "Телосложение",
-      "/Lotus/StoreItems/Upgrades/Mods/Melee/DualStat/FocusEnergyMod": "Фокусировка энергии"
+      "/Lotus/StoreItems/Upgrades/Mods/Melee/DualStat/FocusEnergyMod": "Фокусировка энергии",
+      "/Lotus/StoreItems/Powersuits/Harlequin/LightAugmentCard": "Полное Затмение"
     },
     {
       "type": "Остальное",
