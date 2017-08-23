@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Agent.View;
 using Core;
 using Core.Events;
 
@@ -22,6 +24,61 @@ namespace Agent
         View.SplashScreen splashScreen;
         View.MainWindow mainWindow;
 
+        /// <summary>The event mutex name.</summary>
+        private const string UniqueEventName = "7330f03f-38d8-40bc-b123-fba47f61a7e5";
+
+        /// <summary>The unique mutex name.</summary>
+        private const string UniqueMutexName = "7330f03f-38d8-40bc-b123-fba47f61a7e4";
+
+        /// <summary>The event wait handle.</summary>
+        private EventWaitHandle eventWaitHandle;
+
+        /// <summary>The mutex.</summary>
+        private Mutex mutex;
+
+        public App()
+        {
+            CheckWindow();
+        }
+
+        private void CheckWindow()
+        {
+
+
+            this.mutex = new Mutex(true, UniqueMutexName, out bool isOwned);
+            this.eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, UniqueEventName);
+
+            // So, C# would not give a warning that this variable is not used.
+            GC.KeepAlive(this.mutex);
+
+            if (isOwned)
+            {
+                // Spawn a thread which will be waiting for our event
+                var thread = new Thread(
+                    () =>
+                    {
+                        while (this.eventWaitHandle.WaitOne())
+                        {
+                            Current.Dispatcher.BeginInvoke(
+                                (Action)(() => ((MainWindow)Current.MainWindow).BringToForeground()));
+                        }
+                    })
+                {
+
+                    // It is important mark it as background otherwise it will prevent app from exiting.
+                    IsBackground = true
+                };
+                thread.Start();
+                return;
+            }
+
+            // Notify other instance so it could bring itself to foreground.
+            this.eventWaitHandle.Set();
+
+            // Terminate this instance.
+            this.Shutdown();
+        }
+
         public bool ForceSoftwareRendering
         {
             get
@@ -33,7 +90,7 @@ namespace Agent
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            Application.Current.DispatcherUnhandledException += AppDispatcherUnhandledException;
+            Current.DispatcherUnhandledException += AppDispatcherUnhandledException;
 
             Tools.Logging.Send(LogLevel.Trace, $"Version: {System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}");
             Tools.Logging.Send(LogLevel.Trace, $"OS: {Environment.OSVersion}");
