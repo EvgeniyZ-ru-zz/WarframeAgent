@@ -42,17 +42,17 @@ namespace Agent.View
 
         public void BringToForeground()
         {
-            if (this.WindowState == WindowState.Minimized || this.Visibility == Visibility.Hidden)
+            if (WindowState == WindowState.Minimized || Visibility == Visibility.Hidden)
             {
-                this.Show();
-                this.WindowState = WindowState.Normal;
+                Show();
+                WindowState = WindowState.Normal;
             }
 
             // According to some sources these steps gurantee that an app will be brought to foreground.
-            this.Activate();
-            this.Topmost = true;
-            this.Topmost = false;
-            this.Focus();
+            Activate();
+            Topmost = true;
+            Topmost = false;
+            Focus();
         }
 
         public void ShowPopUp(string text, FontAwesomeIcon icon, string color)
