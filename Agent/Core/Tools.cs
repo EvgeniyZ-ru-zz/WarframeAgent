@@ -87,7 +87,7 @@ namespace Core
             /// </summary>
             /// <param name="data">Объект для сериализации в JSON</param>
             /// <param name="url">Адрес для отправки</param>
-            public static Task SendPut(object data, string url = "https://evgeniy-z.ru/api/v2/agent/filters")
+            public static Task<bool> SendPut(object data, string url = "https://evgeniy-z.ru/api/v2/agent/filters")
             {
                 return PutRequest(data, url);
             }
@@ -99,13 +99,13 @@ namespace Core
             /// <param name="type">Тип (items, missions), соответсвует имени файла самого фильтра</param>
             /// <param name="version">Версия приложения</param>
             /// <param name="url">Адрес для отправки</param>
-            public static Task SendPut(string name, string type, string version, string url = "https://evgeniy-z.ru/api/v2/agent/filters")
+            public static Task<bool> SendPut(string name, string type, string version, string url = "https://evgeniy-z.ru/api/v2/agent/filters")
             {
                 var data = new { Name = name, Type = type, Version = version };
                 return PutRequest(data, url);
             }
 
-            private static async Task PutRequest(object data, string url)
+            private static async Task<bool> PutRequest(object data, string url)
             {
                 string serializedObject = Newtonsoft.Json.JsonConvert.SerializeObject(data);
                 HttpWebRequest request = WebRequest.CreateHttp(url);
@@ -122,13 +122,20 @@ namespace Core
                 try
                 {
                     var response = (HttpWebResponse)(await request.GetResponseAsync());
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Logging.Send(LogLevel.Warn, "Put request Error!");
+                    switch (response.StatusCode)
+                    {
+                    case HttpStatusCode.OK:
+                    case HttpStatusCode.Conflict:
+                        return true;
+                    }
+
+                    Logging.Send(LogLevel.Warn, "Put request Error!");
                 }
                 catch (Exception e)
                 {
                     Logging.Send(LogLevel.Warn, "Put request Error!", e);
                 }
+                return false;
             }
 
             #endregion

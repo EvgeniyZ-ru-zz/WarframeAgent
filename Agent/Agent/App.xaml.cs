@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+
 using Core;
 using Core.Events;
 
@@ -13,9 +15,6 @@ using NLog;
 
 namespace Agent
 {
-    /// <summary>
-    ///     Логика взаимодействия для App.xaml
-    /// </summary>
     public partial class App : Application
     {
         MainViewModel mainVM;
@@ -33,7 +32,7 @@ namespace Agent
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            Application.Current.DispatcherUnhandledException += AppDispatcherUnhandledException;
+            DispatcherUnhandledException += AppDispatcherUnhandledException;
 
             Tools.Logging.Send(LogLevel.Trace, $"Version: {System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}");
             Tools.Logging.Send(LogLevel.Trace, $"OS: {Environment.OSVersion}");
@@ -41,15 +40,8 @@ namespace Agent
             Settings.Load(); //Подгружаем настройки
             mainVM = new MainViewModel();
 
-            if (Settings.Program.Core.UseGpu)
-            {
-                if (ForceSoftwareRendering)
-                    RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-            }
-            else
-            {
+            if (!Settings.Program.Core.UseGpu || ForceSoftwareRendering)
                 RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-            }
 
             var splashVM = new SplashViewModel(mainVM);
             splashVM.Exited += OnSplashExited;
@@ -90,15 +82,25 @@ namespace Agent
                 BackgroundEvent.Start();
 
                 // need to open main window before closing splash, otherwise application
-                // will exit (due to ShutdownMode="OnLastWindowClose")
+                // will lose its focus
                 mainVM.IsConnectionLost = !e.HasConnection;
                 mainWindow = new View.MainWindow() { DataContext = mainVM };
+                mainWindow.Closed += (o, args) => CleanupExit();
                 mainWindow.Show();
                 mainVM.Run();
             }
 
             splashScreen.Close();
             splashScreen = null;
+
+            if (!e.AllowApplicationRun)
+                CleanupExit();
+        }
+
+        async void CleanupExit()
+        {
+            await mainVM.StopAsync();
+            Shutdown(1);
         }
 
         #region ResizeWindows

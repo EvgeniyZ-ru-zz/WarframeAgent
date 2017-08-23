@@ -46,17 +46,22 @@ namespace Core.Model
 
     public static class Filters
     {
-        public static Item ExpandItem(string item) =>
-            FiltersModel.AllItems.TryGetValue(item ?? string.Empty, out var result) ? result : null;
+        static T Expand<T>(string item, Dictionary<string, T> dict) where T : class
+        {
+            if (item == null)
+                return null;
+            if (dict == null)
+                return null;
+            bool isFilterFood = dict.TryGetValue(item, out var result);
+            if (!isFilterFood)
+                BadFilterReportModel.ReportBadFilter(item, null);
+            return result;
+        }
 
-        public static Sector ExpandSector(string item) =>
-            FiltersModel.AllSectors.TryGetValue(item ?? string.Empty, out var result) ? result : null;
-
-        public static Mission ExpandMission(string item) =>
-            FiltersModel.AllMissions.TryGetValue(item ?? string.Empty, out var result) ? result : null;
-
-        public static Faction ExpandFaction(string item) =>
-            FiltersModel.AllFactions.TryGetValue(item ?? string.Empty, out var result) ? result : null;
+        public static Item ExpandItem(string item) => Expand(item, FiltersModel.AllItems);
+        public static Sector ExpandSector(string item) => Expand(item, FiltersModel.AllSectors);
+        public static Mission ExpandMission(string item) => Expand(item, FiltersModel.AllMissions);
+        public static Faction ExpandFaction(string item) => Expand(item, FiltersModel.AllFactions);
     }
 
     class FiltersModel
