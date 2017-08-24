@@ -123,7 +123,7 @@ namespace Core
                 {
                     var timeoutTask = Task.Delay(5000);
                     var putTask = PutWorker(request, serializedObject);
-                    var firstToFinish = Task.WhenAny(timeoutTask, putTask);
+                    var firstToFinish = await Task.WhenAny(timeoutTask, putTask);
                     if (firstToFinish == timeoutTask)
                     {
                         request.Abort();
