@@ -147,7 +147,8 @@ namespace Core
                         {
                         case HttpStatusCode.OK:
                         case HttpStatusCode.Conflict:
-                            Logging.Send(LogLevel.Debug, "Отправка на сервер: получено подтверждение");
+                            Logging.Send(LogLevel.Debug,
+                                $"Отправка на сервер: получено подтверждение{(statusCode == HttpStatusCode.OK ? "" : " (фильтр уже добавлен)")}");
                             return true;
                         }
 
@@ -156,7 +157,7 @@ namespace Core
                 }
                 catch (WebException e) when (e.Response is HttpWebResponse hwr && hwr.StatusCode == HttpStatusCode.Conflict)
                 {
-                    Logging.Send(LogLevel.Debug, "Отправка на сервер: получено подтверждение");
+                    Logging.Send(LogLevel.Debug, "Отправка на сервер: получено подтверждение (фильтр уже добавлен)");
                     return true;
                 }
                 catch (Exception e)
