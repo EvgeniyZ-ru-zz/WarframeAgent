@@ -123,6 +123,18 @@ namespace Core
                 {
                     var timeoutTask = Task.Delay(5000);
                     var putTask = PutWorker(request, serializedObject);
+
+                    async Task<HttpStatusCode> PutWorker(HttpWebRequest req, string s)
+                    {
+                        using (var writer = new StreamWriter(await req.GetRequestStreamAsync()))
+                        {
+                            await writer.WriteAsync(s);
+                            Logging.Send(LogLevel.Debug, "Отправка на сервер: запрос послан");
+                        }
+                        var response = (HttpWebResponse)(await req.GetResponseAsync());
+                        return response.StatusCode;
+                    }
+
                     var firstToFinish = await Task.WhenAny(timeoutTask, putTask);
                     if (firstToFinish == timeoutTask)
                     {
@@ -152,17 +164,6 @@ namespace Core
                     Logging.Send(LogLevel.Warn, "Отправка на сервер: произошло исключение", e);
                 }
                 return false;
-            }
-
-            private static async Task<HttpStatusCode> PutWorker(HttpWebRequest request, string s)
-            {
-                using (var writer = new StreamWriter(await request.GetRequestStreamAsync()))
-                {
-                    await writer.WriteAsync(s);
-                    Logging.Send(LogLevel.Debug, "Отправка на сервер: запрос послан");
-                }
-                var response = (HttpWebResponse)(await request.GetResponseAsync());
-                return response.StatusCode;
             }
 
             #endregion
