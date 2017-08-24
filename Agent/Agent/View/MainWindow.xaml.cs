@@ -34,7 +34,7 @@ namespace Agent.View
 
         private void MainWindow_OnInitialized(object sender, EventArgs e)
         {
-            ThemeChange(Settings.Program.Theme);
+            ThemeChange(Settings.Program.Configure.Theme);
             ReloadBackground();
             BackgroundEvent.Changed += BackgroundEvent_Changed;
         }
@@ -74,7 +74,7 @@ namespace Agent.View
         void ReloadBackground()
         {
             BgImg.Source = new BitmapImage(new Uri(
-                $"pack://application:,,,/Resources/Images/Background/{Settings.Program.BackgroundId}.jpg"));
+                $"pack://application:,,,/Resources/Images/Background/{Settings.Program.Data.BackgroundId}.jpg"));
         }
 
         #region Взаимодействие с окном
@@ -102,7 +102,7 @@ namespace Agent.View
                 var res = MessageBox.Show(
                     "При смене темы могут возникнуть \"артефакты\".\nРекомендую перезапустить приложение.",
                     "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-                if (Settings.Program.Theme == Themes.Dark)
+                if (Settings.Program.Configure.Theme == Themes.Dark)
                 {
                     if (res == MessageBoxResult.OK) ThemeChange(Themes.Light);
                 }
@@ -147,7 +147,7 @@ namespace Agent.View
             var resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
             Application.Current.Resources.Clear();
             Application.Current.Resources.MergedDictionaries.Add(resourceDict);
-            Settings.Program.Theme = theme;
+            Settings.Program.Configure.Theme = theme;
             Settings.Program.Save();
         }
 

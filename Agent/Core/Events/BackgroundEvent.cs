@@ -12,13 +12,13 @@ namespace Core.Events
 
         private static void ChangeMethod()
         {
-            if (Settings.Program.RandomBackground)
+            if (Settings.Program.Configure.RandomBackground)
             {
                 var rand = new Random();
                 var randValue = rand.Next(1, 8);
-                while (randValue == Settings.Program.BackgroundId)
+                while (randValue == Settings.Program.Data.BackgroundId)
                     randValue = rand.Next(1, 8);
-                Settings.Program.BackgroundId = randValue;
+                Settings.Program.Data.BackgroundId = randValue;
                 Settings.Program.Save();
             }
             Changed?.Invoke();
@@ -28,8 +28,8 @@ namespace Core.Events
         {
             var task = new Task(() =>
             {
-                if (Settings.Program.RandomBackground)
-                    while (Settings.Program.RandomBackground)
+                if (Settings.Program.Configure.RandomBackground)
+                    while (Settings.Program.Configure.RandomBackground)
                     {
                         Thread.Sleep(TimeSpan.FromMinutes(5));
                         ChangeMethod();

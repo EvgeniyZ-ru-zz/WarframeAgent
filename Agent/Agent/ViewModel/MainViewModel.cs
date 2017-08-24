@@ -15,7 +15,6 @@ namespace Agent.ViewModel
 {
     class MainViewModel : VM
     {
-        private Game GameData = new Game();
         private GameViewModel GameView;
         private ServerModel ServerModel;
 

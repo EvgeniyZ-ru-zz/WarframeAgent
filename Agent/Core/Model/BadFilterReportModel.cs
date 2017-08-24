@@ -12,9 +12,9 @@ namespace Core.Model
     public class BadFilterReportModel
     {
         static BadFilterReportModel Instance = new BadFilterReportModel();
-        static public void Start() { }
-        static public Task StopAsync() => Instance.DisposeAsync();
-        static public void ReportBadFilter(string filter, Filter.Type type) => Instance.ReportBadFilterImpl(filter, type);
+        public static void Start() { }
+        public static Task StopAsync() => Instance.DisposeAsync();
+        public static void ReportBadFilter(string filter, Filter.Type type) => Instance.ReportBadFilterImpl(filter, type);
 
         readonly BufferBlock<(string filter, Filter.Type type)> reportQueue = new BufferBlock<(string filter, Filter.Type type)>();
         readonly Task consumerTask;
@@ -52,7 +52,7 @@ namespace Core.Model
                 {
                     // TODO: проверить в файле
                     Tools.Logging.Send(LogLevel.Debug, $"Очередь фильтров, отправка фильтра {item.filter}, тип {item.type}");
-                    var sendSuccessful = await Tools.Network.SendPut(item.filter, item.type.ToString(), "1"); // TODO: correct version
+                    var sendSuccessful = await Tools.Network.SendPut(item.filter, item.type.ToString(), Settings.Program.Data.Version);
                     if (sendSuccessful)
                     {
                         Tools.Logging.Send(LogLevel.Debug, "Очередь фильтров, отправка успешна");

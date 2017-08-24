@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -90,13 +91,15 @@ namespace Agent
         {
             DispatcherUnhandledException += AppDispatcherUnhandledException;
 
-            Tools.Logging.Send(LogLevel.Trace, $"Version: {System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}");
+            Tools.Logging.Send(LogLevel.Trace, $"Version: {Assembly.GetExecutingAssembly().GetName().Version}");
             Tools.Logging.Send(LogLevel.Trace, $"OS: {Environment.OSVersion}");
 
             Settings.Load(); //Подгружаем настройки
+            Settings.Program.Data.Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            Settings.Program.Save();
             mainVM = new MainViewModel();
 
-            if (!Settings.Program.Core.UseGpu || ForceSoftwareRendering)
+            if (!Settings.Program.Configure.UseGpu || ForceSoftwareRendering)
                 RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
             var splashVM = new SplashViewModel(mainVM);
