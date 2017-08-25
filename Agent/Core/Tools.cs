@@ -27,16 +27,16 @@ namespace Core
             /// <summary>
             ///     Проверить адрес на доступность
             /// </summary>
-            /// <param name="adress">Адрес</param>
+            /// <param name="address">Адрес</param>
             /// <param name="timeout">Задержка</param>
             /// <returns>true/false</returns>
-            public static bool Ping(string adress, int timeout = 100000) //TODO: Нужна ли? Двойной запрос до сервера.
+            public static bool Ping(Uri address, int timeout = 100000) //TODO: Нужна ли? Двойной запрос до сервера.
             {
                 var statusCode = 0;
-                if (adress == null) return false;
+                if (address == null) return false;
                 try
                 {
-                    var request = (HttpWebRequest) WebRequest.Create(adress);
+                    var request = (HttpWebRequest) WebRequest.Create(address);
                     request.AllowAutoRedirect = true;
                     request.Timeout = timeout;
                     request.Method = WebRequestMethods.Http.Get;
@@ -62,11 +62,11 @@ namespace Core
             /// </summary>
             /// <param name="url">Адрес файла</param>
             /// <param name="patch">Куда сохранять</param>
-            public static void DownloadFile(string url, string relativePath)
+            public static void DownloadFile(Uri uri, string relativePath)
             {
                 using (var c = new WebClient())
                 {
-                    c.DownloadFile(url, Model.StorageModel.ExpandRelativeName(relativePath));
+                    c.DownloadFile(uri, Model.StorageModel.ExpandRelativeName(relativePath));
                 }
             }
 
@@ -74,10 +74,10 @@ namespace Core
 
             #region ReadText
 
-            public static string ReadText(string url)
+            public static string ReadText(Uri uri)
             {
                 var wc = new WebClient {Encoding = Encoding.UTF8};
-                return wc.DownloadString(url);
+                return wc.DownloadString(uri);
             }
 
             #endregion
@@ -89,9 +89,9 @@ namespace Core
             /// </summary>
             /// <param name="data">Объект для сериализации в JSON</param>
             /// <param name="url">Адрес для отправки</param>
-            public static Task<bool> SendPut(object data, string url = "https://evgeniy-z.ru/api/v2/agent/filters")
+            public static Task<bool> SendPut(object data, Uri uri = null)
             {
-                return PutRequest(data, url);
+                return PutRequest(data, uri ?? new Uri("https://evgeniy-z.ru/api/v2/agent/filters"));
             }
 
             /// <summary>
@@ -101,17 +101,17 @@ namespace Core
             /// <param name="type">Тип (items, missions), соответсвует имени файла самого фильтра</param>
             /// <param name="version">Версия приложения</param>
             /// <param name="url">Адрес для отправки</param>
-            public static Task<bool> SendPut(string name, string type, string version, string url = "https://evgeniy-z.ru/api/v2/agent/filters")
+            public static Task<bool> SendPut(string name, string type, string version, Uri uri = null)
             {
                 var data = new { Name = name, Type = type, Version = version };
-                return PutRequest(data, url);
+                return PutRequest(data, uri ?? new Uri("https://evgeniy-z.ru/api/v2/agent/filters"));
             }
 
-            private static async Task<bool> PutRequest(object data, string url)
+            private static async Task<bool> PutRequest(object data, Uri uri)
             {
                 string serializedObject = Newtonsoft.Json.JsonConvert.SerializeObject(data);
                 Logging.Send(LogLevel.Debug, $"Отправка на сервер объекта {serializedObject}");
-                HttpWebRequest request = WebRequest.CreateHttp(url);
+                HttpWebRequest request = WebRequest.CreateHttp(uri);
                 request.Method = "PUT";
                 request.AllowWriteStreamBuffering = false;
                 request.ContentType = "application/json";
