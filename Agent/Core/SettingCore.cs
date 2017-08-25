@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Core
@@ -8,53 +9,45 @@ namespace Core
     ///     Чтение/запись настроек из JSON файла
     /// </summary>
     /// <typeparam name="T">Класс</typeparam>
-    public class SettingCore<T> where T : new()
+    public class SettingCore<T> where T : SettingCore<T>, new()
     {
         private const string DefaultFile = "Settings.json";
 
+        [JsonIgnore]
+        private string expandedFilename;
+
         #region Load
 
-        /// <summary>
-        ///     Загружает настройки из JSON файла.
-        /// </summary>
-        /// <param name="fileName">Название JSON файла</param>
-        /// <returns>Object</returns>
-        public static T Load(string fileName = DefaultFile)
+        public static T Load(string filename = DefaultFile)
         {
-            var t = new T();
-            if (File.Exists(fileName))
+            var expandedFilename = Model.StorageModel.ExpandRelativeName(filename);
+            if (File.Exists(expandedFilename))
+            {
                 try
                 {
-                    t = JObject.Parse(File.ReadAllText(fileName)).ToObject<T>();
+                    using (var text = File.OpenText(expandedFilename))
+                    using (var jtext = new JsonTextReader(text))
+                    {
+                        var t = JObject.Load(jtext).ToObject<T>();
+                        t.expandedFilename = expandedFilename;
+                        return t;
+                    }
                 }
                 catch (Exception)
                 {
-                    File.Delete(fileName);
+                    File.Delete(expandedFilename);
                 }
-            return t;
+            }
+            return new T() { expandedFilename = expandedFilename };
         }
 
         #endregion
 
         #region Save
 
-        /// <summary>
-        ///     Сохранение настроек в файл.
-        /// </summary>
-        /// <param name="fileName">Название JSON файла</param>
-        public void Save(string fileName = DefaultFile)
+        public void Save()
         {
-            File.WriteAllText(fileName, JObject.FromObject(this).ToString());
-        }
-
-        /// <summary>
-        ///     Сохранение объекта в JSON файл
-        /// </summary>
-        /// <param name="pSettings">Объект для записи</param>
-        /// <param name="fileName">Название JSON файла</param>
-        public static void Save(T pSettings, string fileName = DefaultFile)
-        {
-            File.WriteAllText(fileName, JObject.FromObject(pSettings).ToString());
+            File.WriteAllText(expandedFilename, JObject.FromObject(this).ToString());
         }
 
         #endregion

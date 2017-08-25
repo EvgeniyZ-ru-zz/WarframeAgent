@@ -1,4 +1,7 @@
-﻿namespace Core
+﻿using System;
+using System.Collections.Generic;
+
+namespace Core
 {
     public enum Themes
     {
@@ -6,10 +9,10 @@
         Dark
     }
 
-    #region ViewModel Setting
+    #region Model Setting
 
     /// <summary>
-    ///     ViewModel для настроек.
+    ///     Model для настроек.
     /// </summary>
     public class MainSettings : SettingCore<MainSettings>
     {
@@ -29,12 +32,15 @@
     {
         public string Game { get; set; } = "http://content.warframe.com/dynamic/worldState.php";
         public string News { get; set; } = "https://www.warframe.com/ru/news/get_posts?page=1&category=pc";
+        public string Filter { get; set; } = "https://evgeniy-z.ru/api/v2/agent/filters/url";
     }
 
     public class Data
     {
         public string Version { get; set; }
         public int BackgroundId { get; set; } = 1;
+        public static readonly int MinBackgroundId = 1;
+        public static readonly int MaxBackgroundId = 7;
     }
 
     public class Configure
@@ -42,6 +48,21 @@
         public bool RandomBackground { get; set; } = true;
         public bool UseGpu { get; set; } = true;
         public Themes Theme { get; set; }
+    }
+
+    public class Filters
+    {
+        public Dictionary<Model.Filter.Type, Uri> Content { get; set; } =
+            new Dictionary<Model.Filter.Type, Uri>()
+            {
+                [Model.Filter.Type.Planets]  = new Uri("https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Planets.json"),
+                [Model.Filter.Type.Race]     = new Uri("https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Race.json"),
+                [Model.Filter.Type.Missions] = new Uri("https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Missions.json"),
+                [Model.Filter.Type.Items]    = new Uri("https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Items.json"),
+                [Model.Filter.Type.Factions] = new Uri("https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Factions.json"),
+                [Model.Filter.Type.Sorties]  = new Uri("https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Sorties.json"),
+                [Model.Filter.Type.Void]     = new Uri("https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Void.json")
+            };
     }
 
     #endregion

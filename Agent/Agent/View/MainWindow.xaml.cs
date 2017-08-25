@@ -35,7 +35,7 @@ namespace Agent.View
         private void MainWindow_OnInitialized(object sender, EventArgs e)
         {
             ThemeChange(Settings.Program.Configure.Theme);
-            ReloadBackground();
+            ReloadBackground(Settings.Program.Data.BackgroundId);
             BackgroundEvent.Changed += BackgroundEvent_Changed;
         }
 
@@ -64,17 +64,17 @@ namespace Agent.View
             animation.PopUpAnimation();
         }
 
-        private async void BackgroundEvent_Changed()
+        private async void BackgroundEvent_Changed(int newBackgroundId)
         {
             await AsyncHelpers.RedirectToMainThread();
-            ReloadBackground();
+            ReloadBackground(newBackgroundId);
         }
 
         // TODO: move this into a separate backgournd control
-        void ReloadBackground()
+        void ReloadBackground(int newBackgroundId)
         {
             BgImg.Source = new BitmapImage(new Uri(
-                $"pack://application:,,,/Resources/Images/Background/{Settings.Program.Data.BackgroundId}.jpg"));
+                $"pack://application:,,,/Resources/Images/Background/{newBackgroundId}.jpg"));
         }
 
         #region Взаимодействие с окном
