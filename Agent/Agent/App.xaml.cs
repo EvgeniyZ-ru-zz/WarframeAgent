@@ -137,8 +137,6 @@ namespace Agent
         {
             if (e.AllowApplicationRun)
             {
-                BackgroundEvent.Start();
-
                 // need to open main window before closing splash, otherwise application
                 // will lose its focus
                 mainVM.IsConnectionLost = !e.HasConnection;
