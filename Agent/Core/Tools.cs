@@ -80,6 +80,12 @@ namespace Core
                 return wc.DownloadString(uri);
             }
 
+            public static Task<string> ReadTextAsync(Uri uri)
+            {
+                var wc = new WebClient {Encoding = Encoding.UTF8};
+                return wc.DownloadStringTaskAsync(uri);
+            }
+
             #endregion
 
             #region Send Bad Filter
