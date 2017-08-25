@@ -1,0 +1,214 @@
+﻿<UserControl x:Class="Agent.View.AlertsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:converters="clr-namespace:Agent.View.Converters"
+             xmlns:viewModel="clr-namespace:Core.ViewModel;assembly=Core"
+             mc:Ignorable="d" FontFamily="/Agent;component/Resources/Fonts/#Roboto"
+      d:DesignHeight="540" d:DesignWidth="930">
+    <UserControl.Resources>
+        <viewModel:TimeNowViewModel x:Key="TimeVM" />
+        <converters:NullToStringConverter x:Key="MiddleConverter" OnNonNull=" – " />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <DockPanel x:Name="NewsPanel" Opacity=".930" Width="200" HorizontalAlignment="Left">
+            <Border Style="{StaticResource BoxPanel}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Foreground="{DynamicResource TextColor}" Text="Тревоги" FontSize="17"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" />
+                    <Border Grid.Row="0" BorderBrush="{DynamicResource AlertLineColor}" BorderThickness="0,0,0,2" />
+
+                    <ListBox Grid.Row="1" ScrollViewer.CanContentScroll="False" SelectedIndex="0"
+                             ItemsSource="{Binding Alerts}" IsSynchronizedWithCurrentItem="True" Background="{x:Null}" BorderBrush="{x:Null}"
+                             VerticalContentAlignment="Top"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto"
+                             ItemContainerStyle="{StaticResource AlertListItem}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5,2" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="{DynamicResource TextColor}" FontSize="13"
+                                                   TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <Run Text="{Binding MissionInfo.Sector.Planet, Mode=OneWay}"
+                                                 ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
+                                            <Run Text="{Binding MissionInfo.Sector.Planet, Mode=OneWay, Converter={StaticResource MiddleConverter}}" />
+                                            <Run Text="{Binding MissionInfo.Sector.Location, Mode=OneWay}"
+                                                 ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,2">
+                                        <StackPanel Margin="5,0,0,0" DockPanel.Dock="Bottom"
+                                                    Orientation="Horizontal" HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center">
+                                            <fa:FontAwesome
+                                                Visibility="{Binding MissionInfo.ArchvingVisibility}"
+                                                Foreground="{DynamicResource TextColor}" Icon="SunOutline"
+                                                ToolTip="Арчвинг миссия"
+                                                FontSize="11" Margin="0" />
+                                            <fa:FontAwesome
+                                                Visibility="{Binding MissionInfo.SharkwingVisibility}"
+                                                ToolTip="Шарквинг миссия"
+                                                Foreground="{DynamicResource TextColor}"
+                                                Icon="SnowflakeOutline" FontSize="11" Margin="2,0,1,0" />
+                                            <fa:FontAwesome Visibility="{Binding MissionInfo.RewardVisibility}"
+                                                            ToolTip="{Binding MissionInfo.Reward}"
+                                                            Foreground="{Binding MissionInfo.RewardColor, TargetNullValue={StaticResource TextColor}}"
+                                                            Icon="Diamond" FontSize="11" Margin="2,0,1,0" />
+                                            <fa:FontAwesome Visibility="{Binding MissionInfo.CreditVisibility}"
+                                                            ToolTip="{Binding MissionInfo.MissionReward.Credits}"
+                                                            Foreground="{DynamicResource TextColor}"
+                                                            Icon="CreditCard" FontSize="11" Margin="2,0,0,-1" />
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <ProgressBar Name="Bar" Foreground="{DynamicResource AlertLineColor}"
+                                                 BorderThickness="0" Grid.Row="0"
+                                                 Minimum="{Binding Activation.Ticks}"
+                                                 Maximum="{Binding Expiry.Ticks}"
+                                                 Value="{Binding Now.Ticks, Source={StaticResource TimeVM}, Mode=OneWay}"
+                                                 Background="{DynamicResource AlertProgressColor}"
+                                                 BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="1" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                </Grid>
+            </Border>
+        </DockPanel>
+
+        <Grid Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+
+
+
+            <DockPanel Opacity=".930" >
+                <Border Style="{StaticResource BoxPanel}" Margin="0,10,10,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.OpacityMask>
+                            <VisualBrush Visual="{Binding ElementName=OpacitySource}"/>
+                        </Grid.OpacityMask>
+                        <Border CornerRadius="2" ClipToBounds="True" Grid.RowSpan="2" Name="OpacitySource" Background="{DynamicResource BackgroundColor}"/>
+
+                        <Image Grid.Row="0" Source="/Agent;component/Resources/Images/Planets/11-min.jpg" Stretch="UniformToFill" />
+                        
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="8,3" HorizontalAlignment="Left" >
+                            <TextBlock Foreground="{DynamicResource TextColor}" FontSize="16" Typography.Capitals="AllSmallCaps"
+                                       TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,3">
+                                <Run Text="{Binding Alerts/MissionInfo.Sector.Planet, Mode=OneWay}"
+                                     ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
+                                <Run Text="{Binding Alerts/MissionInfo.Sector.Planet, Mode=OneWay, Converter={StaticResource MiddleConverter}}" />
+                                <Run Text="{Binding Alerts/MissionInfo.Sector.Location, Mode=OneWay}"
+                                     ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
+                            </TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,2">
+                            <StackPanel Margin="0,0,5,0" DockPanel.Dock="Bottom"
+                                        Orientation="Horizontal" HorizontalAlignment="Right"
+                                        VerticalAlignment="Center">
+                                <fa:FontAwesome
+                                    Visibility="{Binding Alerts/MissionInfo.ArchvingVisibility}"
+                                    Foreground="{DynamicResource TextColor}" Icon="SunOutline"
+                                    ToolTip="Арчвинг миссия"
+                                    FontSize="13" Margin="0" />
+                                <fa:FontAwesome
+                                    Visibility="{Binding Alerts/MissionInfo.SharkwingVisibility}"
+                                    ToolTip="Шарквинг миссия"
+                                    Foreground="{DynamicResource TextColor}"
+                                    Icon="SnowflakeOutline" FontSize="13" Margin="2,0,1,0" />
+                                <fa:FontAwesome Visibility="{Binding Alerts/MissionInfo.RewardVisibility}"
+                                                ToolTip="{Binding Alerts/MissionInfo.Reward}"
+                                                Foreground="{Binding Alerts/MissionInfo.RewardColor, TargetNullValue={StaticResource TextColor}}"
+                                                Icon="Diamond" FontSize="13" Margin="2,0,1,-1" />
+                                <fa:FontAwesome Visibility="{Binding Alerts/MissionInfo.CreditVisibility}"
+                                                ToolTip="{Binding Alerts/MissionInfo.MissionReward.Credits}"
+                                                Foreground="{DynamicResource TextColor}"
+                                                Icon="CreditCard" FontSize="13" Margin="2,0,0,-1" />
+                            </StackPanel>
+                            <Border BorderBrush="{Binding Alerts/StatusColor}" BorderThickness="1,0,0,0" Height="22" Margin="0,0,3,0" />
+                            <TextBlock FontSize="13" Text="{Binding Alerts/Status}" VerticalAlignment="Center" Foreground="{DynamicResource TextColor}"/>
+                        </StackPanel>
+
+                        <ProgressBar Name="Bar" Foreground="{DynamicResource AlertLineColor}"
+                                     BorderThickness="0" Grid.Row="1"
+                                     Minimum="{Binding Alerts/Activation.Ticks}"
+                                     Maximum="{Binding Alerts/Expiry.Ticks}"
+                                     Value="{Binding Now.Ticks, Source={StaticResource TimeVM}, Mode=OneWay}"
+                                     Background="{DynamicResource AlertProgressColor}"
+                                     BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="2" />
+                    </Grid>
+                </Border>    
+            </DockPanel>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </Grid>
+    </Grid>
+</UserControl>

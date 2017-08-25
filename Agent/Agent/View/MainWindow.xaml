@@ -126,7 +126,8 @@
                     <RadioButton x:Name="AlertsBtn" IsEnabled="True"
                                  fa:Awesome.Content="ExclamationTriangle"
                                  GroupName="LeftMenu"
-                                 Style="{StaticResource MenuButton}" />
+                                 Style="{StaticResource MenuButton}"
+                                 Command="{Binding ActivateAlertsCommand}"/>
                     <RadioButton x:Name="InvasionsBtn" IsEnabled="True"
                                  fa:Awesome.Content="Bullseye"
                                  GroupName="LeftMenu"
@@ -172,6 +173,9 @@
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type corevm:News}">
                         <view:NewsPage />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:AlertsViewModel}">
+                        <view:AlertsPage />
                     </DataTemplate>
                 </Grid.Resources>
                 <ContentPresenter Content="{Binding CurrentContent}" />

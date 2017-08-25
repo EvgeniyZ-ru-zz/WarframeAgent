@@ -23,6 +23,7 @@ namespace Agent.ViewModel
 
         public HomeViewModel HomeViewModel { get; }
         public News NewsData { get; }
+        public AlertsViewModel AlertsViewModel { get; }
 
         public MainViewModel()
         {
@@ -33,9 +34,11 @@ namespace Agent.ViewModel
 
             NewsData = new News();
             HomeViewModel = new HomeViewModel(GameView, NewsData);
+            AlertsViewModel = new AlertsViewModel(GameView);
 
             ActivateHomeCommand = new RelayCommand(() => CurrentContent = HomeViewModel);
             ActivateNewsCommand = new RelayCommand(() => CurrentContent = NewsData);
+            ActivateAlertsCommand = new RelayCommand(() => CurrentContent = AlertsViewModel);
             CurrentContent = HomeViewModel;
         }
 
@@ -83,5 +86,6 @@ namespace Agent.ViewModel
 
         public ICommand ActivateHomeCommand { get; }
         public ICommand ActivateNewsCommand { get; }
+        public ICommand ActivateAlertsCommand { get; }
     }
 }

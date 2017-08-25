@@ -29,7 +29,7 @@ namespace Agent.View
             animation = new Animation(this);
             InitializeComponent();
             animation.InitializeAnimation();
-            ShowPopUp("Привет мир!", FontAwesomeIcon.Amazon, "#FF3782CD");
+            //ShowPopUp("Привет мир!", FontAwesomeIcon.Amazon, "#FF3782CD");
         }
 
         private void MainWindow_OnInitialized(object sender, EventArgs e)

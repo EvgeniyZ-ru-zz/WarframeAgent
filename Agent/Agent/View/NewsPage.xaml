@@ -42,16 +42,16 @@
                                             <RowDefinition />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
-                                        <TextBlock Foreground="{DynamicResource TextColor}" Grid.Row="0" FontSize="12"
-                                                   TextTrimming="CharacterEllipsis" FontWeight="Medium"
-                                                   Text="{Binding Title}" ToolTip="{Binding Title}" Margin="5,5,3,0" />
+                                        <TextBlock Foreground="{DynamicResource TextColor}" Grid.Row="0" FontSize="16"
+                                                   TextTrimming="CharacterEllipsis" Typography.Capitals="AllSmallCaps"
+                                                   Text="{Binding Title}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Margin="5,5,3,0" />
                                         <DockPanel Grid.Row="1">
                                             <DockPanel Margin="5,0,5,4" HorizontalAlignment="Left">
                                                 <fa:FontAwesome Foreground="{DynamicResource TextColor}" Icon="Bars"
-                                                                Margin="0,0,2,0" FontSize="12" />
-                                                <TextBlock Foreground="{DynamicResource TextColor}" FontSize="12"
+                                                                Margin="0,0,2,0" FontSize="13" />
+                                                <TextBlock Foreground="{DynamicResource TextColor}" FontSize="13"
                                                            TextTrimming="CharacterEllipsis"
-                                                           Text="{Binding Description}" ToolTip="{Binding Description}"
+                                                           Text="{Binding Description}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
                                                            FontFamily="/Agent;component/Resources/Fonts/#Roboto" />
                                             </DockPanel>
                                             <DockPanel Margin="5,0,5,2" HorizontalAlignment="Right">

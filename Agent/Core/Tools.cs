@@ -215,7 +215,7 @@ namespace Core
                 if (exception != null)
                     errorMsg = $"\n{exception}";
 
-                Debug.WriteLine($"{message}{errorMsg}");
+                Debug.WriteLine($"[{DateTime.Now}] {message}{errorMsg}");
                 Logger.Log(level, exception, message, param);
             }
         }

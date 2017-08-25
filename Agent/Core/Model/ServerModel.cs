@@ -65,7 +65,7 @@ namespace Core.Model
                         events.ReportConnectStatus(true);
                     }
                     
-                    Tools.Logging.Send(LogLevel.Debug, "Data Updated!");
+                    Tools.Logging.Send(LogLevel.Debug, "Данные успешно обновлены.");
                 }
                 else
                 {

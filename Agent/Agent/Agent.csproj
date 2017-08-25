@@ -31,6 +31,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+	<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -113,6 +114,7 @@
     <Compile Include="AsyncHelpers.cs" />
     <Compile Include="ViewModel\AlertsEngine.cs" />
     <Compile Include="ViewModel\GameViewModel.cs" />
+    <Compile Include="ViewModel\AlertsViewModel.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\InvasionsEngine.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -124,6 +126,9 @@
     <Compile Include="View\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\AlertsPage.xaml.cs">
+      <DependentUpon>AlertsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\NewsPage.xaml.cs">
       <DependentUpon>NewsPage.xaml</DependentUpon>
     </Compile>
@@ -133,6 +138,10 @@
     <Page Include="View\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AlertsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\NewsPage.xaml">
       <SubType>Designer</SubType>
@@ -260,6 +269,23 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Fractions\InfestedRunner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Planets\0-min.jpg" />
+    <Resource Include="Resources\Images\Planets\1-min.jpg" />
+    <Resource Include="Resources\Images\Planets\10-min.jpg" />
+    <Resource Include="Resources\Images\Planets\11-min.jpg" />
+    <Resource Include="Resources\Images\Planets\12-min.jpg" />
+    <Resource Include="Resources\Images\Planets\13-min.jpg" />
+    <Resource Include="Resources\Images\Planets\14-min.jpg" />
+    <Resource Include="Resources\Images\Planets\2-min.jpg" />
+    <Resource Include="Resources\Images\Planets\3-min.jpg" />
+    <Resource Include="Resources\Images\Planets\4-min.jpg" />
+    <Resource Include="Resources\Images\Planets\5-min.jpg" />
+    <Resource Include="Resources\Images\Planets\6-min.jpg" />
+    <Resource Include="Resources\Images\Planets\7-min.jpg" />
+    <Resource Include="Resources\Images\Planets\8-min.jpg" />
+    <Resource Include="Resources\Images\Planets\9-min.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

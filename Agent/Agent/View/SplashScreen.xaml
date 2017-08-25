@@ -3,24 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Agent.View"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d" Style="{DynamicResource WindowStyle}"
-        Title="SplashScreen" Height="120" Width="330" Background="{x:Null}" AllowsTransparency="True"
+        Title="SplashScreen" Height="120" Width="330" AllowsTransparency="True"
         WindowStyle="None" WindowStartupLocation="CenterScreen" Icon="/Agent;component/Resources/Icon.ico">
-    <Border Margin="15">
-        <Border.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FFEBEBEB" Offset="0" />
-                <GradientStop Color="#FFD7D7D7" Offset="1" />
-            </LinearGradientBrush>
-        </Border.Background>
-        <Border.Effect>
-            <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" ShadowDepth="2" />
-        </Border.Effect>
+    <Border Style="{StaticResource BoxPanel}">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Label FontSize="18" Foreground="#FF404040" VerticalAlignment="Center" Content="WARFRAME AGENT" />
-            <fa:ImageAwesome Icon="Cog" Spin="True" SpinDuration="4" Width="30"
+            <Label FontSize="18" Foreground="{DynamicResource TextColor}" VerticalAlignment="Center"
+                   Content="WARFRAME AGENT" />
+            <fa:ImageAwesome Icon="CircleOutlineNotch" Spin="True" SpinDuration="4" Width="30"
                              Foreground="{DynamicResource TextColor}" />
         </StackPanel>
     </Border>

@@ -423,7 +423,7 @@
                                                         <RowDefinition Height="Auto" />
                                                     </Grid.RowDefinitions>
                                                     <TextBlock Foreground="{DynamicResource TextColor}" Grid.Row="0"
-                                                               FontSize="13" TextTrimming="CharacterEllipsis"
+                                                               FontSize="12" TextTrimming="CharacterEllipsis"
                                                                Text="{Binding Title}"
                                                                ToolTip="{Binding Title}" Margin="5,2,3,0" />
                                                     <DockPanel Grid.Row="1" Margin="5,0,5,2" HorizontalAlignment="Left">
