@@ -4,46 +4,62 @@ using System.Threading.Tasks;
 
 namespace Core.Events
 {
-    public class BackgroundEvent
+    public static class BackgroundEvent
     {
-        public delegate void MethodContainer();
+        public static event Action<int> Changed;
+        static Task settingsWatchTask;
+        static CancellationTokenSource watchCts = new CancellationTokenSource(), delayCts;
+        static Random rand = new Random();
+        static readonly TimeSpan changeDelay = TimeSpan.FromSeconds(10);
 
-        public static event MethodContainer Changed;
-
-        private static void ChangeMethod()
+        static void UpdateBackground()
         {
-            if (Settings.Program.Configure.RandomBackground)
-            {
-                var rand = new Random();
-                var randValue = rand.Next(1, 8);
-                while (randValue == Settings.Program.Data.BackgroundId)
-                    randValue = rand.Next(1, 8);
-                Settings.Program.Data.BackgroundId = randValue;
-                Settings.Program.Save();
-            }
-            Changed?.Invoke();
+            int randValue = rand.Next(Data.MinBackgroundId, Data.MaxBackgroundId); // [min..max-1]
+            if (randValue == Settings.Program.Data.BackgroundId)
+                randValue++;
+            Settings.Program.Data.BackgroundId = randValue;
+            Settings.Program.Save();
+            Changed?.Invoke(randValue);
         }
 
         public static void Start()
         {
-            var task = new Task(() =>
+            settingsWatchTask = WatchSettings(watchCts.Token);
+        }
+
+        public static async Task StopAsync()
+        {
+            watchCts.Cancel();
+            await settingsWatchTask;
+        }
+
+        static async Task WatchSettings(CancellationToken ct)
+        {
+            while (!ct.IsCancellationRequested)
             {
-                if (Settings.Program.Configure.RandomBackground)
-                    while (Settings.Program.Configure.RandomBackground)
+                var forceUpdate = false;
+                using (delayCts = CancellationTokenSource.CreateLinkedTokenSource(ct))
+                {
+                    try
                     {
-                        Thread.Sleep(TimeSpan.FromMinutes(5));
-                        ChangeMethod();
+                        await Task.Delay(changeDelay, delayCts.Token);
                     }
-                else
-                    ChangeMethod();
-            });
-            task.Start();
+                    catch (OperationCanceledException)
+                    {
+                        forceUpdate = true;
+                    }
+                }
+                delayCts = null;
+                if (ct.IsCancellationRequested)
+                    break;
+                if (Settings.Program.Configure.RandomBackground || forceUpdate)
+                    UpdateBackground();
+            }
         }
 
         public static void Restart()
         {
-            var task = new Task(ChangeMethod);
-            task.Start();
+            delayCts?.Cancel();
         }
     }
 }
