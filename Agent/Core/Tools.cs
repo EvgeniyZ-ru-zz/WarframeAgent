@@ -123,7 +123,19 @@ namespace Core
                 {
                     var timeoutTask = Task.Delay(5000);
                     var putTask = PutWorker(request, serializedObject);
-                    var firstToFinish = Task.WhenAny(timeoutTask, putTask);
+
+                    async Task<HttpStatusCode> PutWorker(HttpWebRequest req, string s)
+                    {
+                        using (var writer = new StreamWriter(await req.GetRequestStreamAsync()))
+                        {
+                            await writer.WriteAsync(s);
+                            Logging.Send(LogLevel.Debug, "Отправка на сервер: запрос послан");
+                        }
+                        var response = (HttpWebResponse)(await req.GetResponseAsync());
+                        return response.StatusCode;
+                    }
+
+                    var firstToFinish = await Task.WhenAny(timeoutTask, putTask);
                     if (firstToFinish == timeoutTask)
                     {
                         request.Abort();
@@ -135,7 +147,8 @@ namespace Core
                         {
                         case HttpStatusCode.OK:
                         case HttpStatusCode.Conflict:
-                            Logging.Send(LogLevel.Debug, "Отправка на сервер: получено подтверждение");
+                            Logging.Send(LogLevel.Debug,
+                                $"Отправка на сервер: получено подтверждение{(statusCode == HttpStatusCode.OK ? "" : " (фильтр уже добавлен)")}");
                             return true;
                         }
 
@@ -144,7 +157,7 @@ namespace Core
                 }
                 catch (WebException e) when (e.Response is HttpWebResponse hwr && hwr.StatusCode == HttpStatusCode.Conflict)
                 {
-                    Logging.Send(LogLevel.Debug, "Отправка на сервер: получено подтверждение");
+                    Logging.Send(LogLevel.Debug, "Отправка на сервер: получено подтверждение (фильтр уже добавлен)");
                     return true;
                 }
                 catch (Exception e)
@@ -152,17 +165,6 @@ namespace Core
                     Logging.Send(LogLevel.Warn, "Отправка на сервер: произошло исключение", e);
                 }
                 return false;
-            }
-
-            private static async Task<HttpStatusCode> PutWorker(HttpWebRequest request, string s)
-            {
-                using (var writer = new StreamWriter(await request.GetRequestStreamAsync()))
-                {
-                    await writer.WriteAsync(s);
-                    Logging.Send(LogLevel.Debug, "Отправка на сервер: запрос послан");
-                }
-                var response = (HttpWebResponse)(await request.GetResponseAsync());
-                return response.StatusCode;
             }
 
             #endregion
