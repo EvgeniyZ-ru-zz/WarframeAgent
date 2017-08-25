@@ -1,6 +1,6 @@
 {
-  "Date": "22.08.2017",
-  "Version": 2,
+  "Date": "25.08.2017",
+  "Version": 3,
   "Items": [
     {
       "type": "Ресурсы",
@@ -280,6 +280,7 @@
       "/Lotus/StoreItems/Upgrades/Skins/Armor/BaroArmour/BaroArmourL": "Наголенники: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/BaroArmourTwo/BaroArmourTwoA": "Наплечники: Ки'Тиир Форос",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/BaroArmourTwo/BaroArmourTwoC": "Нагрудник: Ки'Тиир Форос",
+      "/Lotus/StoreItems/Upgrades/Skins/Armor/BaroArmourTwo/BaroArmourTwoL": "Наголенники: Ки'Тиир Форос",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/SetThreeWinged/VTSetThreeArmLeftArmor": "Левый наплечник Дедал призма",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/SetThreeWinged/VTSetThreeArmRightArmor": "Правый наплечник Дедал призма",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/SetThreeWinged/VTSetThreeChestArmor": "Нагрудник Дедал призма",
