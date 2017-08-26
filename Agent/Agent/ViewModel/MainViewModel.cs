@@ -17,6 +17,7 @@ namespace Agent.ViewModel
     {
         private GameViewModel GameView;
         private ServerModel ServerModel;
+        private FiltersEvent FiltersEvent = new FiltersEvent();
 
         public GlobalEvents.ServerEvents ServerEvents = new GlobalEvents.ServerEvents();
         public GameModel GameModel = new GameModel();
@@ -25,9 +26,11 @@ namespace Agent.ViewModel
         public News NewsData { get; }
         public AlertsViewModel AlertsViewModel { get; }
 
+        Task finishInit;
         public MainViewModel()
         {
             BadFilterReportModel.Start();
+            finishInit = FiltersEvent.Start(); // добавляйте ещё через Task.WhenAll
             ServerModel = new ServerModel(ServerEvents);
             ServerModel.Start();
             GameView = new GameViewModel(GameModel);
@@ -41,6 +44,8 @@ namespace Agent.ViewModel
             ActivateAlertsCommand = new RelayCommand(() => CurrentContent = AlertsViewModel);
             CurrentContent = HomeViewModel;
         }
+
+        public async Task FinishInit() => await finishInit;
 
         public void Run()
         {
@@ -58,7 +63,8 @@ namespace Agent.ViewModel
         {
             await Task.WhenAll(
                 BadFilterReportModel.StopAsync(),
-                BackgroundEvent.StopAsync());
+                BackgroundEvent.StopAsync(),
+                FiltersEvent.StopAsync());
         }
 
         private async void GameDataEvent_Disconnected()
