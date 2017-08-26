@@ -77,41 +77,29 @@ namespace Core.Model
 
     class FiltersModel
     {
-        public static Dictionary<string, Item> AllItems =
+        internal static Dictionary<string, Item> AllItems =
             ParseFile("Filters/Items.json", "Items", (value, type, enabled) => new Item(value: value, type: type, enabled: enabled));
 
-        public static Dictionary<string, Sector> AllSectors =
+        internal static Dictionary<string, Sector> AllSectors =
             ParseFile("Filters/Planets.json", "Items", (value, type, enabled) =>
                 {
                     var parts = value.Split('|');
                     return new Sector(planet: parts[0], location: parts[1]);
                 });
 
-        public static Dictionary<string, Mission> AllMissions =
+        internal static Dictionary<string, Mission> AllMissions =
             ParseFile("Filters/Missions.json", "Missions", (value, type, enabled) => new Mission(value));
 
-        public static Dictionary<string, Faction> AllFactions =
+        internal static Dictionary<string, Faction> AllFactions =
             GetAllFactions();
 
-        private static Dictionary<string, T> ParseFile<T>(string file, string cat, Func<string, string, bool, T> selector)
+        internal static Dictionary<string, T> ParseFile<T>(string file, string cat, Func<string, string, bool, T> selector)
         {
             try
             {
                 var absoluteFile = StorageModel.ExpandRelativeName(file);
-                var strings = File.ReadAllText(absoluteFile, Encoding.UTF8);
-                var json = JObject.Parse(strings);
-                var result = json[cat]
-                    .SelectMany(s =>
-                    {
-                        var type = (string)s["type"];
-                        var enabled = ((int?)s["enable"] ?? 1) != 0;
-                        return ((JObject)s).Properties()
-                                               .Where(p => p.Name != "type" && p.Name != "enable")
-                                               .Select(p => (key: p.Name, v: selector((string)p.Value, type, enabled)));
-                    })
-                    .ToDictionary(t => t.key, t => t.v);
-
-                return result;
+                var text = File.ReadAllText(absoluteFile, Encoding.UTF8);
+                return ParseText(text, cat, selector).data;
             }
             catch (Exception e)
             {
@@ -120,7 +108,25 @@ namespace Core.Model
             }
         }
 
-        public static Dictionary<string, Faction> GetAllFactions()
+        internal static (Dictionary<string, T> data, int version) ParseText<T>(string text, string cat, Func<string, string, bool, T> selector)
+        {
+            var json = JObject.Parse(text);
+            var version = (int)json["Version"];
+            var result = json[cat]
+                .SelectMany(s =>
+                {
+                    var type = (string)s["type"];
+                    var enabled = ((int?)s["enable"] ?? 1) != 0;
+                    return ((JObject)s).Properties()
+                                            .Where(p => p.Name != "type" && p.Name != "enable")
+                                            .Select(p => (key: p.Name, v: selector((string)p.Value, type, enabled)));
+                })
+                .ToDictionary(t => t.key, t => t.v);
+
+            return (result, version);
+        }
+
+        internal static Dictionary<string, Faction> GetAllFactions()
         {
             try
             {

@@ -51,11 +51,14 @@ namespace Agent.ViewModel
             ServerEvents.Disconnected += GameDataEvent_Disconnected;
             GameView.Run();
             GameModel.Start(ServerEvents, $"{Settings.Program.Directories.Temp}/GameData.json");
+            BackgroundEvent.Start();
         }
 
         public async Task StopAsync()
         {
-            await BadFilterReportModel.StopAsync();
+            await Task.WhenAll(
+                BadFilterReportModel.StopAsync(),
+                BackgroundEvent.StopAsync());
         }
 
         private async void GameDataEvent_Disconnected()
