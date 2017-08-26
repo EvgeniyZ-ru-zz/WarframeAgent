@@ -8,6 +8,9 @@
         Title="SplashScreen" Height="120" Width="330" AllowsTransparency="True"
         WindowStyle="None" WindowStartupLocation="CenterScreen" Icon="/Agent;component/Resources/Icon.ico">
     <Border Style="{StaticResource BoxPanel}">
+        <Border.Effect>
+            <DropShadowEffect Direction="-90" ShadowDepth="0" Color="#FF3A2985"/>
+        </Border.Effect>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label FontSize="18" Foreground="{DynamicResource TextColor}" VerticalAlignment="Center"
                    Content="WARFRAME AGENT" />

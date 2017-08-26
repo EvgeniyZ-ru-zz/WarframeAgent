@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:fa="http://schemas.fontawesome.io/icons/"
-      mc:Ignorable="d" FontFamily="/Agent;component/Resources/Fonts/#Roboto"
+      mc:Ignorable="d" 
       d:DesignHeight="540" d:DesignWidth="930">
     <Grid>
         <DockPanel x:Name="NewsPanel" Opacity=".930">
@@ -52,14 +52,14 @@
                                                 <TextBlock Foreground="{DynamicResource TextColor}" FontSize="13"
                                                            TextTrimming="CharacterEllipsis"
                                                            Text="{Binding Description}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
-                                                           FontFamily="/Agent;component/Resources/Fonts/#Roboto" />
+                                                           />
                                             </DockPanel>
                                             <DockPanel Margin="5,0,5,2" HorizontalAlignment="Right">
                                                 <fa:FontAwesome Foreground="{DynamicResource TextColor}"
                                                                 Icon="ClockOutline" Margin="0,0,2,0" FontSize="12" />
                                                 <TextBlock Foreground="{DynamicResource TextColor}" FontSize="12"
                                                            TextTrimming="CharacterEllipsis" Text="{Binding Date}"
-                                                           FontFamily="/Agent;component/Resources/Fonts/#Roboto" />
+                                                           />
                                             </DockPanel>
                                         </DockPanel>
                                     </Grid>

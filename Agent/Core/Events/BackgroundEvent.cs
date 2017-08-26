@@ -10,7 +10,7 @@ namespace Core.Events
         static Task settingsWatchTask;
         static CancellationTokenSource watchCts = new CancellationTokenSource(), delayCts;
         static Random rand = new Random();
-        static readonly TimeSpan changeDelay = TimeSpan.FromSeconds(10);
+        static readonly TimeSpan changeDelay = TimeSpan.FromMinutes(5);
 
         static void UpdateBackground()
         {

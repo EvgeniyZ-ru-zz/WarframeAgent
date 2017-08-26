@@ -6,7 +6,7 @@
       xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:converters="clr-namespace:Agent.View.Converters"
              xmlns:viewModel="clr-namespace:Core.ViewModel;assembly=Core"
-             mc:Ignorable="d" FontFamily="/Agent;component/Resources/Fonts/#Roboto"
+             mc:Ignorable="d" 
       d:DesignHeight="540" d:DesignWidth="930">
     <UserControl.Resources>
         <viewModel:TimeNowViewModel x:Key="TimeVM" />
@@ -41,7 +41,7 @@
                             <DataTemplate>
                                 <Grid>
                                     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5,2" HorizontalAlignment="Left">
-                                        <TextBlock Foreground="{DynamicResource TextColor}" FontSize="13"
+                                        <TextBlock Foreground="{DynamicResource TextColor}" FontSize="14" FontWeight="Regular"
                                                    TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center">
                                             <Run Text="{Binding MissionInfo.Sector.Planet, Mode=OneWay}"
                                                  ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />

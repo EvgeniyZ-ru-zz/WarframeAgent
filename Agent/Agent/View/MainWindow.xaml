@@ -13,7 +13,7 @@
     Height="610" MaxHeight="610" MaxWidth="1000" MinHeight="460" MinWidth="740" Title="Warframe Agent"
     Width="1000" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanMinimize"
     WindowStartupLocation="CenterScreen" ShowInTaskbar="True" SnapsToDevicePixels="True" UseLayoutRounding="True"
-    Icon="/Agent;component/Resources/Icon.ico" LocationChanged="Window_LocationChanged"
+    Icon="/Agent;component/Resources/Icon.ico"
     Initialized="MainWindow_OnInitialized">
 
     <Border Margin="15" Style="{DynamicResource MainBorder}" CornerRadius="15">
@@ -54,37 +54,6 @@
                             Click="CloseBtn_Click" />
                 </DockPanel>
             </Grid>
-
-            <Popup Grid.Row="0" Grid.Column="0" Name="MyPopup"
-                   Placement="Right"
-                   HorizontalOffset="-320"
-                   VerticalOffset="40"
-                   AllowsTransparency="True">
-                <Grid>
-                    <Border Style="{DynamicResource MainBorder}" Margin="10,1,10,10" BorderThickness="1,0,1,1"
-                            Width="250" MaxHeight="250">
-                        <Border.BorderBrush>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="#FF747474" Offset="0.40" />
-                                <GradientStop Color="Transparent" />
-                            </LinearGradientBrush>
-                        </Border.BorderBrush>
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="5" Direction="-90" RenderingBias="Quality" ShadowDepth="1" />
-                        </Border.Effect>
-                        <StackPanel x:Name="notifyControl">
-                            <ListBox ItemsSource="{Binding Notifications}" Margin="10" Background="{x:Null}"
-                                     BorderBrush="{x:Null}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Text}" />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ListBox>
-                        </StackPanel>
-                    </Border>
-                </Grid>
-            </Popup>
             <Image x:Name="BgImg" Stretch="UniformToFill" Opacity="0.50"
                    Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0"
                    Source="/Agent;component/Resources/Images/Background/1.jpg" />

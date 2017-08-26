@@ -4,7 +4,7 @@
     <!-- Основное окно -->
     <Style x:Key="WindowStyle" TargetType="Window">
         <Setter Property="Background" Value="{x:Null}" />
-        <Setter Property="FontFamily" Value="/Agent;component/Resources/Fonts/#Roboto" />
+        <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
 
     <!-- Основной цвет приложения -->

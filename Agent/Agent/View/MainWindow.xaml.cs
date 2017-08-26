@@ -117,20 +117,8 @@ namespace Agent.View
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Debug.WriteLine($"w.{e.NewSize.Width} h.{e.NewSize.Height}");
-            ResetPopUp();
         }
 
-        private void Window_LocationChanged(object sender, EventArgs e)
-        {
-            ResetPopUp();
-        }
-
-        private void ResetPopUp()
-        {
-            var offset = MyPopup.HorizontalOffset;
-            MyPopup.HorizontalOffset = offset + 1;
-            MyPopup.HorizontalOffset = offset;
-        }
 
         private void MainWindow_OnClosed(object sender, EventArgs e)
         {
