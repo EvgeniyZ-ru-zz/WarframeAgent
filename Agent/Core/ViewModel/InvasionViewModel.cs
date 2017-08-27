@@ -23,8 +23,12 @@ namespace Core.ViewModel
             Faction = FactionViewModel.ById(invasion.Faction);
             Sector = SectorViewModel.FromSector(invasion.Node);
             LocTag = Model.Filters.ExpandMission(invasion.LocTag)?.Name ?? invasion.LocTag;
-            DefenderReward = GetRewardString(invasion.DefenderReward);
-            AttackerReward = GetRewardString(invasion.AttackerReward);
+            var defRew = GetRewardString(invasion.DefenderReward);
+            var atkRew = GetRewardString(invasion.AttackerReward);
+            DefenderReward = defRew.value;
+            AttackerReward = atkRew.value;
+            AttackerRewardCount = atkRew.count;
+            DefenderRewardCount = defRew.count;
             Update();
         }
 
@@ -43,6 +47,8 @@ namespace Core.ViewModel
         public FactionViewModel AttackerFaction { get; }
         public string DefenderReward { get; }
         public string AttackerReward { get; }
+        public string AttackerRewardCount { get; }
+        public string DefenderRewardCount { get; }
 
         private readonly bool isDefenderFactionInfestation;
 
@@ -60,16 +66,17 @@ namespace Core.ViewModel
             private set => Set(ref _goal, value);
         }
 
-        static string GetRewardString(InvasionReward reward)
+        static (string value, string count) GetRewardString(InvasionReward reward)
         {
             var item0 = reward?.CountedItems[0];
             var item0Type = item0?.ItemType;
+            var itemCount = "";
             var expandedReward = Model.Filters.ExpandItem(item0Type)?.Value ?? item0Type;
             var count = item0?.ItemCount;
             if (count > 1)
-                expandedReward += $" [{count}]";
+                itemCount= $" [{count}]";
 
-            return string.IsNullOrEmpty(expandedReward) ? "Недоступно" : expandedReward;
+            return (value: string.IsNullOrEmpty(expandedReward) ? "Недоступно" : expandedReward, count: itemCount);
         }
 
         void UpdatePercent()
