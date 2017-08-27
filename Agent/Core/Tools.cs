@@ -80,10 +80,11 @@ namespace Core
                 return wc.DownloadString(uri);
             }
 
-            public static Task<string> ReadTextAsync(Uri uri)
+            public static Task<string> ReadTextAsync(Uri uri, CancellationToken ct = default(CancellationToken))
             {
                 var wc = new WebClient {Encoding = Encoding.UTF8};
-                return wc.DownloadStringTaskAsync(uri);
+                using (ct.Register(wc.CancelAsync))
+                    return wc.DownloadStringTaskAsync(uri);
             }
 
             #endregion
