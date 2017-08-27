@@ -82,7 +82,7 @@ namespace Agent.ViewModel
                 exitArgs = new SplashExitedEventArgs(allowRun: false, hasConnection: false);
             }
 
-            Exited?.Invoke(this, exitArgs);
+            CleanupAndSignalExit(exitArgs);
         }
 
         private async void GameDataEvent_Updated()
@@ -102,6 +102,12 @@ namespace Agent.ViewModel
         private void OnConnected()
         {
             SplashExitedEventArgs exitArgs =  new SplashExitedEventArgs(allowRun: true, hasConnection: true);
+            CleanupAndSignalExit(exitArgs);
+        }
+
+        async void CleanupAndSignalExit(SplashExitedEventArgs exitArgs)
+        {
+            await mainVM.FinishInit();
             Exited?.Invoke(this, exitArgs);
         }
         #endregion

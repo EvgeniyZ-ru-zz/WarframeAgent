@@ -77,41 +77,31 @@ namespace Core.Model
 
     class FiltersModel
     {
-        internal static Dictionary<string, Item> AllItems =
-            ParseFile("Filters/Items.json", "Items", (value, type, enabled) => new Item(value: value, type: type, enabled: enabled));
+        internal static Dictionary<string, Item> AllItems;
+        internal static Dictionary<string, Sector> AllSectors;
+        internal static Dictionary<string, Mission> AllMissions;
+        internal static Dictionary<string, Faction> AllFactions;
 
-        internal static Dictionary<string, Sector> AllSectors =
-            ParseFile("Filters/Planets.json", "Items", (value, type, enabled) =>
+        internal static (Dictionary<string, Item> data, int version) ParseItems(int oldVersion, string text) =>
+            ParseText(oldVersion, text, cat: "Items", selector: (value, type, enabled) => new Item(value: value, type: type, enabled: enabled));
+
+        internal static (Dictionary<string, Sector> data, int version) ParseSectors(int oldVersion, string text) =>
+            ParseText(oldVersion, text, cat: "Items", selector: (value, type, enabled) =>
                 {
                     var parts = value.Split('|');
                     return new Sector(planet: parts[0], location: parts[1]);
                 });
 
-        internal static Dictionary<string, Mission> AllMissions =
-            ParseFile("Filters/Missions.json", "Missions", (value, type, enabled) => new Mission(value));
+        internal static (Dictionary<string, Mission> data, int version) ParseMissions(int oldVersion, string text) =>
+            ParseText(oldVersion, text, cat: "Missions", selector: (value, type, enabled) => new Mission(value));
 
-        internal static Dictionary<string, Faction> AllFactions =
-            GetAllFactions();
-
-        internal static Dictionary<string, T> ParseFile<T>(string file, string cat, Func<string, string, bool, T> selector)
-        {
-            try
-            {
-                var absoluteFile = StorageModel.ExpandRelativeName(file);
-                var text = File.ReadAllText(absoluteFile, Encoding.UTF8);
-                return ParseText(text, cat, selector).data;
-            }
-            catch (Exception e)
-            {
-                Tools.Logging.Send(LogLevel.Warn, $"Ошибка при чтении {file}.", e);
-                return null;
-            }
-        }
-
-        internal static (Dictionary<string, T> data, int version) ParseText<T>(string text, string cat, Func<string, string, bool, T> selector)
+        private static (Dictionary<string, T> data, int version) ParseText<T>(int oldVersion, string text, string cat, Func<string, string, bool, T> selector)
         {
             var json = JObject.Parse(text);
             var version = (int)json["Version"];
+            if (version <= oldVersion)
+                return (null, version);
+
             var result = json[cat]
                 .SelectMany(s =>
                 {
@@ -126,24 +116,13 @@ namespace Core.Model
             return (result, version);
         }
 
-        internal static Dictionary<string, Faction> GetAllFactions()
+        internal static (Dictionary<string, Faction> data, int version) ParseFactions(int oldVersion, string text)
         {
-            try
-            {
-                var absoluteFile = StorageModel.ExpandRelativeName("Filters/Factions.json");
-                JsonSerializer s = JsonSerializer.CreateDefault();
-                using (var text = File.OpenText(absoluteFile))
-                using (var jreader = new JsonTextReader(text))
-                {
-                    var model = s.Deserialize<FactionsModel>(jreader);
-                    return model.Items;
-                }
-            }
-            catch (Exception e)
-            {
-                Tools.Logging.Send(LogLevel.Warn, "Ошибка чтения фракций", e);
-                return null;
-            }
+            var model = JsonConvert.DeserializeObject<FactionsModel>(text);
+            if (model.Version > oldVersion)
+                return (model.Items, model.Version);
+            else
+                return (null, model.Version);
         }
 
         public class FactionsModel

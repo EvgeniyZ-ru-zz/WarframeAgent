@@ -245,5 +245,22 @@ namespace Core
             }
         }
 
+        /// <summary>
+        ///   Асинхронная работа с файлами
+        /// </summary>
+        public class File
+        {
+            public static async Task WriteAllTextAsync(string path, string text)
+            {
+                using (var f = System.IO.File.CreateText(path))
+                    await f.WriteAsync(text);
+            }
+
+            public static async Task<string> ReadAllTextAsync(string path)
+            {
+                using (var f = System.IO.File.OpenText(path))
+                    return await f.ReadToEndAsync();
+            }
+        }
     }
 }
