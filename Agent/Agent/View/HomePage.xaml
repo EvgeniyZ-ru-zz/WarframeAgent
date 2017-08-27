@@ -439,13 +439,13 @@
                                                     </Grid.RowDefinitions>
                                                     <TextBlock Foreground="{DynamicResource TextColor}" Grid.Row="0"
                                                                FontSize="16" FontWeight="Medium" Typography.Capitals="AllSmallCaps"
-                                                               Text="{Binding Title}"
+                                                               Text="{Binding Title}" TextTrimming="CharacterEllipsis"
                                                                ToolTip="{Binding Title}" Margin="5,0,3,0" />
-                                                    <DockPanel Grid.Row="1" Margin="5,0,5,1" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                                                    <DockPanel Grid.Row="1" Margin="5,0,5,2" HorizontalAlignment="Left" VerticalAlignment="Top" >
                                                         <fa:FontAwesome Foreground="{DynamicResource TextColor}"
                                                                         Icon="Bars" Margin="0,1,2,0" FontSize="12" VerticalAlignment="Center" />
                                                         <TextBlock Foreground="{DynamicResource TextColor}"
-                                                                   FontSize="14" Typography.Capitals="AllSmallCaps"
+                                                                   FontSize="15" Typography.Capitals="AllSmallCaps"
                                                                    TextTrimming="CharacterEllipsis"
                                                                    Text="{Binding Description}"
                                                                    ToolTip="{Binding Description}" />
