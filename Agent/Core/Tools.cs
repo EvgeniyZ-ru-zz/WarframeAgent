@@ -80,11 +80,29 @@ namespace Core
                 return wc.DownloadString(uri);
             }
 
-            public static Task<string> ReadTextAsync(Uri uri, CancellationToken ct = default(CancellationToken))
+            public static async Task<string> ReadTextAsync(Uri uri, CancellationToken ct = default(CancellationToken))
             {
                 var wc = new WebClient {Encoding = Encoding.UTF8};
                 using (ct.Register(wc.CancelAsync))
-                    return wc.DownloadStringTaskAsync(uri);
+                    return await wc.DownloadStringTaskAsync(uri);
+            }
+
+            public static async Task<string> ReadTextAsync(Uri uri, TimeSpan timeout, CancellationToken ct = default(CancellationToken))
+            {
+                var wc = new WebClient {Encoding = Encoding.UTF8};
+                using (var cts = CancellationTokenSource.CreateLinkedTokenSource(ct))
+                using (cts.Token.Register(wc.CancelAsync))
+                {
+                    try
+                    {
+                        cts.CancelAfter(timeout);
+                        return await wc.DownloadStringTaskAsync(uri);
+                    }
+                    catch (OperationCanceledException ex) when (cts.IsCancellationRequested && !ct.IsCancellationRequested)
+                    {
+                        throw new TimeoutException("Couldn't read text within allotted time frame", ex);
+                    }
+                }
             }
 
             #endregion
@@ -261,6 +279,20 @@ namespace Core
             {
                 using (var f = System.IO.File.OpenText(path))
                     return await f.ReadToEndAsync();
+            }
+
+            public static async Task<string> ReadAllTextAsync(string path, TimeSpan timeout, CancellationToken ct)
+            {
+                var timeoutTask = Task.Delay(timeout, ct);
+                using (var f = System.IO.File.OpenText(path))
+                {
+                    var readTask = f.ReadToEndAsync();
+                    var firstFinished = await Task.WhenAny(timeoutTask, readTask);
+                    if (firstFinished == readTask)
+                        return await readTask;
+                    await timeoutTask;
+                    throw new TimeoutException("Read operation didn't finish within allotted time");
+                }
             }
         }
     }
