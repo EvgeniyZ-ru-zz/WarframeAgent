@@ -97,7 +97,8 @@ namespace Core.Events
                 Model.Filter.Type.Items,
                 Model.Filter.Type.Planets,
                 Model.Filter.Type.Missions,
-                Model.Filter.Type.Factions
+                Model.Filter.Type.Factions,
+                Model.Filter.Type.Builds
             };
 
         Dictionary<Model.Filter.Type, int> versions = SupportedFilterTypes.ToDictionary(k => k, k => -1);
@@ -142,6 +143,11 @@ namespace Core.Events
             {
                 Tools.Logging.Send(LogLevel.Trace, "Управление фильтрами: получаем адреса фильтров");
                 var uris = await FetchFilterAddresses(ct);
+                foreach (var type in SupportedFilterTypes)
+                {
+                    if (!uris.ContainsKey(type))
+                        Tools.Logging.Send(LogLevel.Error, $"Управление фильтрами: нету адреса фильтра для {type}");
+                }
                 Tools.Logging.Send(LogLevel.Trace, "Управление фильтрами: адреса фильтров получены");
                 while (!ct.IsCancellationRequested)
                 {
@@ -149,7 +155,8 @@ namespace Core.Events
                     foreach (var type in SupportedFilterTypes)
                     {
                         ct.ThrowIfCancellationRequested();
-                        var uri = uris[type];
+                        if (!uris.TryGetValue(type, out var uri))
+                            continue;
                         Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: грузим фильтр {type} из {uri}");
                         var filterText = await Tools.Network.ReadTextAsync(uri, TimeSpan.FromSeconds(10), ct);
                         Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: фильтр {type} загружен");
@@ -212,6 +219,8 @@ namespace Core.Events
                     return (await RunUpdate(Model.FiltersModel.ParseMissions, data => Model.FiltersModel.AllMissions = data)).version;
                 case Model.Filter.Type.Factions:
                     return (await RunUpdate(Model.FiltersModel.ParseFactions, data => Model.FiltersModel.AllFactions = data)).version;
+                case Model.Filter.Type.Builds:
+                    return (await RunUpdate(Model.FiltersModel.ParseBuilds, data => Model.FiltersModel.AllBuilds = data)).version;
                 }
             }
             catch (OperationCanceledException) when (ct.IsCancellationRequested)

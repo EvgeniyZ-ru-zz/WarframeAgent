@@ -29,9 +29,10 @@ namespace Core.ViewModel
 
         public void Update()
         {
-            Name = $"Строение {build.Number}";
+            var filteredBuild = Model.Filters.ExpandBuild(Id);
+            Name = filteredBuild?.Name ?? $"Строение {Id}";
+            Faction = FactionViewModel.ById(filteredBuild?.Faction);
             Value = build.Value;
-            Faction = FactionViewModel.ById("?");
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Core.Model
     {
         public enum Type
         {
+            Builds,
             Factions,
             Items,
             Missions,
@@ -23,6 +24,13 @@ namespace Core.Model
             Race,
             Sorties,
             Void
+        }
+
+        public class Build
+        {
+            public Build(string name, string faction) { Name = name; Faction = faction; }
+            public string Name { get; }
+            public string Faction { get; }
         }
 
         public class Faction
@@ -57,7 +65,7 @@ namespace Core.Model
 
     public static class Filters
     {
-        static T Expand<T>(string item, Dictionary<string, T> dict, Type type) where T : class
+        static T Expand<K, T>(K item, Dictionary<K, T> dict, Type type) where T : class
         {
             if (item == null)
                 return null;
@@ -65,7 +73,7 @@ namespace Core.Model
                 return null;
             bool isFilterFood = dict.TryGetValue(item, out var result);
             if (!isFilterFood)
-                BadFilterReportModel.ReportBadFilter(item, type);
+                BadFilterReportModel.ReportBadFilter(item.ToString(), type);
             return result;
         }
 
@@ -73,6 +81,7 @@ namespace Core.Model
         public static Sector ExpandSector(string item) => Expand(item, FiltersModel.AllSectors, Type.Planets);
         public static Mission ExpandMission(string item) => Expand(item, FiltersModel.AllMissions, Type.Missions);
         public static Faction ExpandFaction(string item) => Expand(item, FiltersModel.AllFactions, Type.Factions);
+        public static Filter.Build ExpandBuild(int item) => Expand(item, FiltersModel.AllBuilds, Type.Builds);
     }
 
     class FiltersModel
@@ -81,6 +90,7 @@ namespace Core.Model
         internal static Dictionary<string, Sector> AllSectors;
         internal static Dictionary<string, Mission> AllMissions;
         internal static Dictionary<string, Faction> AllFactions;
+        internal static Dictionary<int, Filter.Build> AllBuilds;
 
         internal static (Dictionary<string, Item> data, int version) ParseItems(int oldVersion, string text) =>
             ParseText(oldVersion, text, cat: "Items", selector: (value, type, enabled) => new Item(value: value, type: type, enabled: enabled));
@@ -130,6 +140,22 @@ namespace Core.Model
             public DateTime Date { get; set; }
             public int Version { get; set; }
             public Dictionary<string, Faction> Items { get; set; }
+        }
+
+        internal static (Dictionary<int, Filter.Build> data, int version) ParseBuilds(int oldVersion, string text)
+        {
+            var model = JsonConvert.DeserializeObject<BuildsModel>(text);
+            if (model.Version > oldVersion)
+                return (model.Items, model.Version);
+            else
+                return (null, model.Version);
+        }
+
+        public class BuildsModel
+        {
+            public DateTime Date { get; set; }
+            public int Version { get; set; }
+            public Dictionary<int, Filter.Build> Items { get; set; }
         }
     }
 }
