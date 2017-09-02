@@ -83,7 +83,7 @@ namespace Core.ViewModel
             var expandedReward = Model.Filters.ExpandItem(item0Type)?.Value ?? item0Type;
             var count = item0?.ItemCount;
             if (count > 1)
-                itemCount= $" [{count}]";
+                itemCount = $" [{count}]";
 
             return (value: string.IsNullOrEmpty(expandedReward) ? "Недоступно" : expandedReward, count: itemCount);
         }
