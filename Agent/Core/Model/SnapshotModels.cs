@@ -21,8 +21,7 @@ namespace Core.Model
         public int Date { get; set; }
         public Alert[] Alerts { get; set; }
         public Invasion[] Invasions { get; set; }
-        [JsonConverter(typeof(ProjectConverter))]
-        public ProjectsModel[] ProjectPct { get; set; }
+        public double[] ProjectPct { get; set; }
         public string WorldSeed { get; set; }
     }
 
@@ -134,11 +133,18 @@ namespace Core.Model
 
     #region Project
 
+    [Obsolete]
     public class ProjectsModel
     {
         public string Name { get; set; }
         public double Value { get; set; }
         public SolidColorBrush Color { get; set; }
+    }
+
+    public class Build
+    {
+        public int Number { get; set; }
+        public double Value { get; set; }
     }
 
     #endregion

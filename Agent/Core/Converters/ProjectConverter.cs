@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Core.Converters
 {
+    [Obsolete]
     public class ProjectConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
