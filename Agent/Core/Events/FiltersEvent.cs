@@ -23,7 +23,7 @@ namespace Core.Events
         /// <summary>
         ///     Фильтр "Items" успешно обновлен.
         /// </summary>
-        public event Action ItemsUpdated;
+        public event EventHandler<EventArgs> ItemsUpdated;
 
         public async Task Start()
         {
@@ -203,7 +203,7 @@ namespace Core.Events
                     {
                         (bool ok, int version) = await RunUpdate(Model.FiltersModel.ParseItems, data => Model.FiltersModel.AllItems = data);
                         if (ok)
-                            ItemsUpdated?.Invoke();
+                            ItemsUpdated?.Invoke(this, EventArgs.Empty);
                         return version;
                     }
                 case Model.Filter.Type.Planets:

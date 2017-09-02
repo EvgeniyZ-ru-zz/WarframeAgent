@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
+
+using Core.Events;
 using Core.Model;
 
 namespace Core.ViewModel
@@ -13,7 +12,7 @@ namespace Core.ViewModel
     {
         private Invasion invasion;
 
-        public InvasionViewModel(Invasion invasion)
+        public InvasionViewModel(Invasion invasion, FiltersEvent filtersEvent)
         {
             this.invasion = invasion;
             Id = invasion.Id;
@@ -23,13 +22,21 @@ namespace Core.ViewModel
             Faction = FactionViewModel.ById(invasion.Faction);
             Sector = SectorViewModel.FromSector(invasion.Node);
             LocTag = Model.Filters.ExpandMission(invasion.LocTag)?.Name ?? invasion.LocTag;
+            ConvertAndSetReward();
+            Update();
+            ItemsUpdatedWeakEventManager.AddHandler(filtersEvent, OnItemsFilterUpdated);
+        }
+
+        void OnItemsFilterUpdated(object sender, EventArgs args) => ConvertAndSetReward();
+
+        void ConvertAndSetReward()
+        {
             var defRew = GetRewardString(invasion.DefenderReward);
             var atkRew = GetRewardString(invasion.AttackerReward);
             DefenderReward = defRew.value;
             AttackerReward = atkRew.value;
             AttackerRewardCount = atkRew.count;
             DefenderRewardCount = defRew.count;
-            Update();
         }
 
         public void Update()
@@ -45,10 +52,12 @@ namespace Core.ViewModel
         public SectorViewModel Sector { get; }
         public FactionViewModel DefenderFaction { get; }
         public FactionViewModel AttackerFaction { get; }
-        public string DefenderReward { get; }
-        public string AttackerReward { get; }
-        public string AttackerRewardCount { get; }
-        public string DefenderRewardCount { get; }
+
+        string defenderReward, attackerReward, attackerRewardCount, defenderRewardCount;
+        public string DefenderReward { get => defenderReward; private set => Set(ref defenderReward, value); }
+        public string DefenderRewardCount { get => defenderRewardCount; private set => Set(ref defenderRewardCount, value); }
+        public string AttackerReward { get => attackerReward; private set => Set(ref attackerReward, value); }
+        public string AttackerRewardCount { get => attackerRewardCount; private set => Set(ref attackerRewardCount, value); }
 
         private readonly bool isDefenderFactionInfestation;
 

@@ -65,6 +65,7 @@
     <Compile Include="Converters\IgnoreNonObjectConverter.cs" />
     <Compile Include="Converters\ProjectConverter.cs" />
     <Compile Include="Events\BackgroundEvent.cs" />
+    <Compile Include="Events\CustomWeakEventManager.cs" />
     <Compile Include="Events\FiltersEvent.cs" />
     <Compile Include="Events\GlobalEvents.cs" />
     <Compile Include="Model\BadFilterReportModel.cs" />

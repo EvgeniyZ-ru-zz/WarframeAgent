@@ -5,20 +5,21 @@ using System.Windows.Threading;
 
 using Core.Model;
 using Core.ViewModel;
+using Core.Events;
 
 namespace Agent.ViewModel
 {
     public class GameViewModel
     {
-        public GameViewModel(GameModel model)
+        public GameViewModel(GameModel model, FiltersEvent filtersEvent)
         {
             var reloadTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
             reloadTimer.Tick += reloadTimer_Elapsed;
             reloadTimer.Start();
 
             Model = model;
-            AlertsEngine = new AlertsEngine(this);
-            InvasionsEngine = new InvasionsEngine(this);
+            AlertsEngine = new AlertsEngine(this, filtersEvent);
+            InvasionsEngine = new InvasionsEngine(this, filtersEvent);
         }
 
         public void Run()

@@ -33,7 +33,7 @@ namespace Agent.ViewModel
             finishInit = FiltersEvent.Start(); // добавляйте ещё через Task.WhenAll
             ServerModel = new ServerModel(ServerEvents);
             ServerModel.Start();
-            GameView = new GameViewModel(GameModel);
+            GameView = new GameViewModel(GameModel, FiltersEvent);
 
             NewsData = new News();
             HomeViewModel = new HomeViewModel(GameView, NewsData);
