@@ -12,20 +12,18 @@ namespace Core.Events
 {
     public class FiltersEvent
     {
-        public delegate void MethodContainer();
-
         private CancellationTokenSource _cts;
         private Task _mainTask;
 
         /// <summary>
         ///     Данные успешно обновлены.
         /// </summary>
-        public event MethodContainer Updated;
+        public event Action Updated;
 
         /// <summary>
         ///     Фильтр "Items" успешно обновлен.
         /// </summary>
-        public event MethodContainer ItemsUpdated;
+        public event EventHandler<EventArgs> ItemsUpdated;
 
         public async Task Start()
         {
@@ -36,7 +34,7 @@ namespace Core.Events
             }
             catch (OperationCanceledException ex) when (_cts.IsCancellationRequested)
             {
-                // TODO: Log
+                Tools.Logging.Send(LogLevel.Debug, $"Управление фильтрами: начальная загрузка отменена", ex);
                 return;
             }
             _mainTask = RunFilterUpdateLoop(_cts.Token);
@@ -50,15 +48,17 @@ namespace Core.Events
                 await _mainTask;
         }
 
+        #pragma warning disable CS0649
         struct NameUriPair { public string name; public Uri url; }
+        #pragma warning restore CS0649
         async Task<Dictionary<Model.Filter.Type, Uri>> FetchFilterAddresses(CancellationToken ct)
         {
             var fetchUri = Settings.Program.Urls.Filter;
-            Tools.Logging.Send(LogLevel.Debug, $"Фильтры: получаю адреса свежих фильтров из {fetchUri}");
+            Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: получаю адреса свежих фильтров из {fetchUri}");
             try
             {
-                var fetchedJson = await Tools.Network.ReadTextAsync(fetchUri);
-                Tools.Logging.Send(LogLevel.Debug, $"Фильтры: получил адреса свежих фильтров");
+                var fetchedJson = await Tools.Network.ReadTextAsync(fetchUri, TimeSpan.FromSeconds(10), ct);
+                Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: получил адреса свежих фильтров");
                 var uris = await Task.Run(() => // parse in the background
                 {
                     var values = JsonConvert.DeserializeObject<NameUriPair[]>(fetchedJson);
@@ -66,26 +66,26 @@ namespace Core.Events
                         p => (Model.Filter.Type)Enum.Parse(typeof(Model.Filter.Type), p.name, ignoreCase: true),
                         p => p.url);
                 }, ct);
-                Tools.Logging.Send(LogLevel.Debug, $"Фильтры: разбор адресов фильтров окончен");
+                Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: разбор адресов фильтров окончен");
 
                 var currentUris = Settings.Program.Filters.Content;
                 // если есть отличия, запишем на диск
                 if (!(uris.OrderBy(t => t.Key).SequenceEqual(currentUris.OrderBy(t => t.Key))))
                 {
-                    Tools.Logging.Send(LogLevel.Debug, "Фильтры: получены новые адреса фильтры, сохраняю");
+                    Tools.Logging.Send(LogLevel.Info, "Управление фильтрами: получены новые адреса фильтров, сохраняю");
                     Settings.Program.Filters.Content = uris;
                     Settings.Program.Save();
                 }
                 else
                 {
-                    Tools.Logging.Send(LogLevel.Debug, $"Фильтры: изменений в адресах фильтров нет");
+                    Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: изменений в адресах фильтров нет");
                 }
 
                 return uris;
             }
             catch (Exception ex)
             {
-                Tools.Logging.Send(LogLevel.Warn, $"Ошибка при загрузке и разборе списка адресов {fetchUri}.", ex);
+                Tools.Logging.Send(LogLevel.Warn, $"Управление фильтрами: Ошибка при загрузке и разборе списка адресов {fetchUri}.", ex);
                 return Settings.Program.Filters.Content;
             }
         }
@@ -104,22 +104,26 @@ namespace Core.Events
 
         async Task RunInitialPopulation(CancellationToken ct)
         {
-            Tools.Logging.Send(LogLevel.Debug, "Фильтры: начальная загрузка сохранённых фильтров");
+            Tools.Logging.Send(LogLevel.Trace, "Управление фильтрами: начальная загрузка сохранённых фильтров");
             foreach (var type in SupportedFilterTypes)
             {
                 ct.ThrowIfCancellationRequested();
                 string path = GetFilterFilePath(type);
-                Tools.Logging.Send(LogLevel.Debug, $"Фильтры: начальная загрузка фильтра {type} из файла {path}");
+                Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: начальная загрузка фильтра {type} из файла {path}");
                 string filterText;
                 try
                 {
                     var expandedPath = Model.StorageModel.ExpandRelativeName(path);
-                    filterText = await Tools.File.ReadAllTextAsync(expandedPath);
-                    Tools.Logging.Send(LogLevel.Debug, $"Фильтры: фильтр {type} прочитан из файла {path}");
+                    filterText = await Tools.File.ReadAllTextAsync(expandedPath, TimeSpan.FromSeconds(3), ct);
+                    Tools.Logging.Send(LogLevel.Info, $"Управление фильтрами: фильтр {type} прочитан из файла {path}");
+                }
+                catch (OperationCanceledException)
+                {
+                    throw;
                 }
                 catch (Exception e)
                 {
-                    Tools.Logging.Send(LogLevel.Warn, $"Ошибка при чтении {path}.", e);
+                    Tools.Logging.Send(LogLevel.Warn, $"Управление фильтрами: ошибка при чтении {path}.", e);
                     continue;
                 }
 
@@ -128,38 +132,39 @@ namespace Core.Events
                 var newVersion = await TryUpdateFilter(currentVersion, type, filterText, ct);
                 versions[type] = newVersion;
             }
-            Tools.Logging.Send(LogLevel.Debug, "Фильтры: начальная загрузка сохранённых фильтров окончена");
+            Tools.Logging.Send(LogLevel.Trace, "Управление фильтрами: начальная загрузка сохранённых фильтров окончена");
         }
 
         async Task RunFilterUpdateLoop(CancellationToken ct)
         {
-            Tools.Logging.Send(LogLevel.Debug, "Фильтры: запускаем цикл обновления");
+            Tools.Logging.Send(LogLevel.Trace, "Управление фильтрами: запускаем цикл обновления");
             try
             {
-                Tools.Logging.Send(LogLevel.Debug, "Фильтры: получаем адреса фильтров");
+                Tools.Logging.Send(LogLevel.Trace, "Управление фильтрами: получаем адреса фильтров");
                 var uris = await FetchFilterAddresses(ct);
-                Tools.Logging.Send(LogLevel.Debug, "Фильтры: адреса фильтров получены");
+                Tools.Logging.Send(LogLevel.Trace, "Управление фильтрами: адреса фильтров получены");
                 while (!ct.IsCancellationRequested)
                 {
-                    Tools.Logging.Send(LogLevel.Debug, "Фильтры: запрашиваем версию фильтров");
+                    Tools.Logging.Send(LogLevel.Trace, "Управление фильтрами: запрашиваем версию фильтров");
                     foreach (var type in SupportedFilterTypes)
                     {
+                        ct.ThrowIfCancellationRequested();
                         var uri = uris[type];
-                        Tools.Logging.Send(LogLevel.Debug, $"Фильтры: грузим фильтр {type} из {uri}");
-                        var filterText = await Tools.Network.ReadTextAsync(uri, ct);
-                        Tools.Logging.Send(LogLevel.Debug, $"Фильтры: фильтр {type} загружен");
+                        Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: грузим фильтр {type} из {uri}");
+                        var filterText = await Tools.Network.ReadTextAsync(uri, TimeSpan.FromSeconds(10), ct);
+                        Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: фильтр {type} загружен");
                         var currentVersion = versions[type];
                         var newVersion = await TryUpdateFilter(currentVersion, type, filterText, ct);
                         if (newVersion > currentVersion)
                         {
                             string path = GetFilterFilePath(type);
                             var expandedPath = Model.StorageModel.ExpandRelativeName(path);
-                            Tools.Logging.Send(LogLevel.Debug, $"Фильтры: фильтр {type} обновился, сохраняю в файл {path}");
+                            Tools.Logging.Send(LogLevel.Info, $"Управление фильтрами: фильтр {type} обновился, сохраняю в файл {path}");
                             await Tools.File.WriteAllTextAsync(expandedPath, filterText);
                         }
                         versions[type] = newVersion;
                     }
-                    Tools.Logging.Send(LogLevel.Debug, "Фильтры: итерация обновления окончена");
+                    Tools.Logging.Send(LogLevel.Trace, "Управление фильтрами: итерация обновления окончена");
 
                     await Task.Delay(TimeSpan.FromMinutes(10), ct);
                 }
@@ -168,68 +173,45 @@ namespace Core.Events
             {
                 /* ничего не делаем, нас отменили */
             }
-            Tools.Logging.Send(LogLevel.Debug, $"Обновление фильтров: цикл обновления завершён");
+            Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: цикл обновления завершён");
         }
 
         async Task<int> TryUpdateFilter(int oldVersion, Model.Filter.Type type, string filterText, CancellationToken ct)
         {
             try
             {
-                Tools.Logging.Send(LogLevel.Debug, $"Фильтры: разбираю фильтр {type}");
+                Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: разбираю фильтр {type}");
+
+                async Task<(bool ok, int version)> RunUpdate<T>(Func<int, string, (T, int)> parser, Action<T> setter)
+                {
+                    (var data, var version) = await Task.Run(() => parser(oldVersion, filterText), ct);
+                    ct.ThrowIfCancellationRequested();
+                    if (data == null || version <= oldVersion)
+                    {
+                        Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: версия фильтра {type} не обновилась");
+                        return (false, oldVersion);
+                    }
+                    Tools.Logging.Send(LogLevel.Info, $"Управление фильтрами: заменяю фильтр {type} на версию {version}");
+                    setter(data);
+                    Updated?.Invoke();
+                    return (true, version);
+                }
+
                 switch (type)
                 {
                 case Model.Filter.Type.Items:
                     {
-                        (var data, var version) = await Task.Run(() => Model.FiltersModel.ParseItems(oldVersion, filterText), ct);
-                        ct.ThrowIfCancellationRequested();
-                        if (data == null || version <= oldVersion)
-                        {
-                            Tools.Logging.Send(LogLevel.Debug, $"Фильтры: версия фильтра {type} не обновилась");
-                            return oldVersion;
-                        }
-                        Tools.Logging.Send(LogLevel.Debug, $"Фильтры: заменяю фильтр {type} на версию {version}");
-                        Model.FiltersModel.AllItems = data;
+                        (bool ok, int version) = await RunUpdate(Model.FiltersModel.ParseItems, data => Model.FiltersModel.AllItems = data);
+                        if (ok)
+                            ItemsUpdated?.Invoke(this, EventArgs.Empty);
                         return version;
                     }
                 case Model.Filter.Type.Planets:
-                    {
-                        (var data, var version) = await Task.Run(() => Model.FiltersModel.ParseSectors(oldVersion, filterText), ct);
-                        ct.ThrowIfCancellationRequested();
-                        if (data == null || version <= oldVersion)
-                        {
-                            Tools.Logging.Send(LogLevel.Debug, $"Фильтры: версия фильтра {type} не обновилась");
-                            return oldVersion;
-                        }
-                        Tools.Logging.Send(LogLevel.Debug, $"Фильтры: заменяю фильтр {type} на версию {version}");
-                        Model.FiltersModel.AllSectors = data;
-                        return version;
-                    }
+                    return (await RunUpdate(Model.FiltersModel.ParseSectors, data => Model.FiltersModel.AllSectors = data)).version;
                 case Model.Filter.Type.Missions:
-                    {
-                        (var data, var version) = await Task.Run(() => Model.FiltersModel.ParseMissions(oldVersion, filterText), ct);
-                        ct.ThrowIfCancellationRequested();
-                        if (data == null || version <= oldVersion)
-                        {
-                            Tools.Logging.Send(LogLevel.Debug, $"Фильтры: версия фильтра {type} не обновилась");
-                            return oldVersion;
-                        }
-                        Tools.Logging.Send(LogLevel.Debug, $"Фильтры: заменяю фильтр {type} на версию {version}");
-                        Model.FiltersModel.AllMissions = data;
-                        return version;
-                    }
+                    return (await RunUpdate(Model.FiltersModel.ParseMissions, data => Model.FiltersModel.AllMissions = data)).version;
                 case Model.Filter.Type.Factions:
-                    {
-                        (var data, var version) = await Task.Run(() => Model.FiltersModel.ParseFactions(oldVersion, filterText), ct);
-                        ct.ThrowIfCancellationRequested();
-                        if (data == null || version <= oldVersion)
-                        {
-                            Tools.Logging.Send(LogLevel.Debug, $"Фильтры: версия фильтра {type} не обновилась");
-                            return oldVersion;
-                        }
-                        Tools.Logging.Send(LogLevel.Debug, $"Фильтры: заменяю фильтр {type} на версию {version}");
-                        Model.FiltersModel.AllFactions = data;
-                        return version;
-                    }
+                    return (await RunUpdate(Model.FiltersModel.ParseFactions, data => Model.FiltersModel.AllFactions = data)).version;
                 }
             }
             catch (OperationCanceledException) when (ct.IsCancellationRequested)
@@ -238,11 +220,11 @@ namespace Core.Events
             }
             catch (Exception e)
             {
-                Tools.Logging.Send(LogLevel.Warn, $"Ошибка при разборе фильтра типа {type}", e);
+                Tools.Logging.Send(LogLevel.Warn, $"Управление фильтрами: ошибка при разборе фильтра типа {type}", e);
                 return oldVersion;
             }
 
-            throw new NotSupportedException($"Не имплементирована обработка типа фильтров {type}");
+            throw new NotSupportedException($"Управление фильтрами: не имплементирована обработка типа фильтров {type}");
         }
     }
 }

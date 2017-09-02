@@ -6,10 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Agent.View;
+
 using Core;
 using Core.Model;
 using Core.ViewModel;
+using Core.Events;
+
 using NLog;
 
 namespace Agent.ViewModel
@@ -17,10 +19,12 @@ namespace Agent.ViewModel
     class InvasionsEngine
     {
         private GameViewModel GameView;
+        private FiltersEvent FiltersEvent;
 
-        public InvasionsEngine(GameViewModel gameView)
+        public InvasionsEngine(GameViewModel gameView, FiltersEvent filtersEvent)
         {
             GameView = gameView;
+            FiltersEvent = filtersEvent;
         }
 
         public void Run(GameModel model)
@@ -31,7 +35,7 @@ namespace Agent.ViewModel
             // TODO: race condition with arriving events; check if event is already there
             foreach (var invasion in model.GetCurrentInvasions())
             {
-                var invasionVM = new InvasionViewModel(invasion);
+                var invasionVM = new InvasionViewModel(invasion, FiltersEvent);
                 GameView.AddInvasion(invasionVM);
             }
         }
@@ -44,7 +48,7 @@ namespace Agent.ViewModel
             {
                 Tools.Logging.Send(LogLevel.Debug, $"Новое вторжение {e.Notification.Id.Oid}!");
 
-                var invasionVM = new InvasionViewModel(e.Notification);
+                var invasionVM = new InvasionViewModel(e.Notification, FiltersEvent);
                 GameView.AddInvasion(invasionVM);
             }
             else

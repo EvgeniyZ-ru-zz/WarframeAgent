@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 
 using Core.Model;
+using Core.Events;
 
 namespace Core.ViewModel
 {
     public class AlertViewModel : VM
     {
-        public AlertViewModel(Alert alert)
+        public AlertViewModel(Alert alert, FiltersEvent filtersEvent)
         {
             Id = alert.Id;
             Activation = Tools.Time.ToDateTime(alert.Activation.Date.NumberLong);
             Expiry = Tools.Time.ToDateTime(alert.Expiry.Date.NumberLong);
-            MissionInfo = new MissionViewModel(alert.MissionInfo);
+            MissionInfo = new MissionViewModel(alert.MissionInfo, filtersEvent);
         }
 
         public Id Id { get; }

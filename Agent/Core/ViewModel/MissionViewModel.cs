@@ -7,14 +7,18 @@ using System.Windows;
 using System.Windows.Media;
 
 using Core.Model;
+using Core.Events;
 
 namespace Core.ViewModel
 {
     public class MissionViewModel : VM
     {
+        string reward;
+        MissionInfo missionInfo;
+
         public int MinEnemyLevel { get; }
         public int MaxEnemyLevel { get; }
-        public string Reward { get; }
+        public string Reward { get => reward; private set => Set(ref reward, value); } // может поменяться при обновлении фильтров
         public FactionViewModel Faction { get; }
         public SectorViewModel Sector { get; }
         public string MissionType { get; }
@@ -25,7 +29,7 @@ namespace Core.ViewModel
         public Visibility CreditVisibility { get; }
         public MissionReward MissionReward { get; } //? exposing model class to UI?
 
-        public MissionViewModel(MissionInfo missionInfo)
+        public MissionViewModel(MissionInfo missionInfo, FiltersEvent filtersEvent)
         {
             var (rewardType, rewardValue) = GetRewardProperties(missionInfo);
             Reward = rewardValue;
@@ -46,12 +50,19 @@ namespace Core.ViewModel
             MinEnemyLevel = missionInfo.MinEnemyLevel;
             MaxEnemyLevel = missionInfo.MaxEnemyLevel;
             MissionReward = missionInfo.MissionReward;
+
+            this.missionInfo = missionInfo;
+            ItemsUpdatedWeakEventManager.AddHandler(filtersEvent, OnItemsFilterUpdated);
+        }
+
+        void OnItemsFilterUpdated(object sender, EventArgs args)
+        {
+            var (rewardType, rewardValue) = GetRewardProperties(missionInfo);
+            Reward = rewardValue;
         }
 
         static (string rewardType, string rewardValue) GetRewardProperties(MissionInfo missionInfo)
         {
-            #region Переводим предмет
-
             string rewardKey = null;
             string itemCount = null;
             if (missionInfo.MissionReward.CountedItems != null)
@@ -70,8 +81,6 @@ namespace Core.ViewModel
             if (itemCount != null)
                 rewardValue += itemCount;
             return (rewardType: reward?.Type, rewardValue: rewardValue);
-
-            #endregion
         }
 
         static Brush GetBrushForReward(string rewardType)
