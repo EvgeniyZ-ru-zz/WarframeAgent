@@ -20,6 +20,7 @@ namespace Agent.ViewModel
             Model = model;
             AlertsEngine = new AlertsEngine(this, filtersEvent);
             InvasionsEngine = new InvasionsEngine(this, filtersEvent);
+            BuildsEngine = new BuildsEngine(this);
         }
 
         public void Run()
@@ -30,10 +31,12 @@ namespace Agent.ViewModel
 
         private AlertsEngine AlertsEngine;
         private InvasionsEngine InvasionsEngine;
+        private BuildsEngine BuildsEngine;
         private GameModel Model;
 
         public ObservableCollection<AlertViewModel> Alerts { get; } = new ObservableCollection<AlertViewModel>();
         public ObservableCollection<InvasionViewModel> Invasions { get; } = new ObservableCollection<InvasionViewModel>();
+        public ObservableCollection<BuildViewModel> Builds { get; } = new ObservableCollection<BuildViewModel>();
 
         public void AddAlert(AlertViewModel alert) => Alerts.Add(alert);
         public AlertViewModel TryGetAlertById(Id id) => Alerts.FirstOrDefault(a => a.Id == id);
@@ -51,6 +54,15 @@ namespace Agent.ViewModel
             InvasionViewModel invasion = TryGetInvasionById(id);
             if (invasion != null)
                 Invasions.Remove(invasion);
+        }
+
+        public void AddBuild(BuildViewModel build) => Builds.Add(build);
+        public BuildViewModel TryGetBuildById(int id) => Builds.FirstOrDefault(i => i.Id == id);
+        public void RemoveBuildById(int id)
+        {
+            BuildViewModel build = TryGetBuildById(id);
+            if (build != null)
+                Builds.Remove(build);
         }
 
         private void reloadTimer_Elapsed(object sender, EventArgs e)

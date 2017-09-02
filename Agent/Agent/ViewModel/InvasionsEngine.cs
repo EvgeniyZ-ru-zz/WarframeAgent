@@ -46,14 +46,14 @@ namespace Agent.ViewModel
 
             if (!e.Notification.Completed)
             {
-                Tools.Logging.Send(LogLevel.Debug, $"Новое вторжение {e.Notification.Id.Oid}!");
+                Tools.Logging.Send(LogLevel.Info, $"Новое вторжение {e.Notification.Id.Oid}!");
 
                 var invasionVM = new InvasionViewModel(e.Notification, FiltersEvent);
                 GameView.AddInvasion(invasionVM);
             }
             else
             {
-                Tools.Logging.Send(LogLevel.Debug, $"Вторжение {e.Notification.Id.Oid} завершено, пропускаю");
+                Tools.Logging.Send(LogLevel.Info, $"Вторжение {e.Notification.Id.Oid} завершено, пропускаю");
             }
         }
 
@@ -67,11 +67,10 @@ namespace Agent.ViewModel
             }
             else
             {
-                Tools.Logging.Send(LogLevel.Debug, $"Изменённое вторжение {e.Notification.Id.Oid}!");
+                Tools.Logging.Send(LogLevel.Info, $"Изменённое вторжение {e.Notification.Id.Oid}!");
 
                 var invasionVM = GameView.TryGetInvasionById(e.Notification.Id);
-                if (invasionVM != null)
-                    invasionVM.Update();
+                invasionVM?.Update();
             }
         }
 
@@ -79,7 +78,7 @@ namespace Agent.ViewModel
         {
             await AsyncHelpers.RedirectToMainThread();
 
-            Tools.Logging.Send(LogLevel.Debug, $"Удаляю вторжение {e.Notification.Id.Oid}!");
+            Tools.Logging.Send(LogLevel.Info, $"Удаляю вторжение {e.Notification.Id.Oid}!");
 
             GameView.RemoveInvasionById(e.Notification.Id);
         }

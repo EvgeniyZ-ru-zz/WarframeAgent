@@ -87,7 +87,7 @@ namespace Core.Model
                 return _currentInvasionsNotifications.Values;
         }
 
-        public IEnumerable<Build> GetCurrentBuildPercents()
+        public IEnumerable<Build> GetCurrentBuilds()
         {
             lock (mutex)
                 return _currentBuilds.Where(b => b.Value > 0).ToList();
