@@ -133,14 +133,6 @@ namespace Core.Model
 
     #region Project
 
-    [Obsolete]
-    public class ProjectsModel
-    {
-        public string Name { get; set; }
-        public double Value { get; set; }
-        public SolidColorBrush Color { get; set; }
-    }
-
     public class Build
     {
         public int Number { get; set; }
@@ -165,15 +157,8 @@ namespace Core.Model
 
     public class Date
     {
-        // TODO: simplify this
         [JsonProperty("$numberLong")]
-        public string NumberLongStr { get; set; }
-
-        public long NumberLong
-        {
-            get => long.Parse(NumberLongStr);
-            set => NumberLongStr = value.ToString();
-        }
+        public long NumberLong { get; set; }
     }
 
     public class Activation
