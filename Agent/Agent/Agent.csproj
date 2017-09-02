@@ -112,6 +112,7 @@
     </ApplicationDefinition>
     <Compile Include="Animation.cs" />
     <Compile Include="AsyncHelpers.cs" />
+    <Compile Include="ViewModel\BuildsEngine.cs" />
     <Compile Include="ViewModel\AlertsEngine.cs" />
     <Compile Include="ViewModel\GameViewModel.cs" />
     <Compile Include="ViewModel\AlertsViewModel.cs" />

@@ -1,0 +1,14 @@
+﻿{
+  "Date": "08.08.2017",
+  "Version": 1,
+  "Items": {
+    "0": {
+      "Name" : "Фоморианец",
+      "Faction": "FC_CORPUS"
+    },
+    "1": {
+      "Name": "Армада Секачей",
+      "Faction": "FC_GRINEER"
+    }
+  }
+}

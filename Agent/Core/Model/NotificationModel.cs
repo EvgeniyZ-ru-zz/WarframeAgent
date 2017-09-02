@@ -87,10 +87,10 @@ namespace Core.Model
                 return _currentInvasionsNotifications.Values;
         }
 
-        public IEnumerable<Build> GetCurrentBuildPercents()
+        public IEnumerable<Build> GetCurrentBuilds()
         {
             lock (mutex)
-                return _currentBuilds.AsReadOnly();
+                return _currentBuilds.Where(b => b.Value > 0).ToList();
         }
 
         void UpdateSnapshot()
@@ -180,21 +180,32 @@ namespace Core.Model
                 int commonNumber = Math.Min(oldNumber, newNumber);
                 for (int i = 0; i < commonNumber; i++)
                 {
-                    if (_currentBuilds[i].Value != snapshot.ProjectPct[i])
+                    var curr = _currentBuilds[i];
+                    var newValue = snapshot.ProjectPct[i];
+                    if (curr.Value != newValue)
                     {
-                        _currentBuilds[i].Value = snapshot.ProjectPct[i];
-                        changedNotifications.Add(_currentBuilds[i]);
+                        if (curr.Value == 0)
+                            newNotifications.Add(curr);
+                        else if (newValue == 0)
+                            removedNotifications.Add(curr);
+                        else
+                            changedNotifications.Add(curr);
+                        curr.Value = newValue;
                     }
                 }
                 for (int i = oldNumber; i < newNumber; i++)
                 {
-                    Build notification = new Build() { Number = i, Value = snapshot.ProjectPct[i] };
-                    newNotifications.Add(notification);
+                    var newValue = snapshot.ProjectPct[i];
+                    Build notification = new Build() { Number = i, Value = newValue };
+                    if (newValue > 0)
+                        newNotifications.Add(notification);
                     _currentBuilds.Add(notification);
                 }
                 for (int i = newNumber; i < oldNumber; i++)
                 {
-                    removedNotifications.Add(_currentBuilds[i]);
+                    var curr = _currentBuilds[i];
+                    if (curr.Value > 0)
+                        removedNotifications.Add(curr);
                 }
                 if (newNumber < oldNumber)
                     _currentBuilds.RemoveRange(newNumber, newNumber - oldNumber);
