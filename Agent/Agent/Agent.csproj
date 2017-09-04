@@ -124,6 +124,7 @@
     <Compile Include="View\Converters\BooleanConverters.cs" />
     <Compile Include="View\Converters\InvasionGroupConverter.cs" />
     <Compile Include="View\Converters\NullConverters.cs" />
+    <Compile Include="View\Converters\NumericConverters.cs" />
     <Compile Include="View\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>

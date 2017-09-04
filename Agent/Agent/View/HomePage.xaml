@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:view="clr-namespace:Agent.View"
              xmlns:converters="clr-namespace:Agent.View.Converters"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
@@ -29,6 +30,9 @@
                 <DockPanel Grid.Column="0" Opacity=".930">
                     <Border Style="{StaticResource BoxPanel}">
                         <Grid>
+                            <Grid.Resources>
+                                <converters:ConstantMultiplyingLongConverter Multiplier="-1" x:Key="Negator"/>
+                            </Grid.Resources>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -71,19 +75,15 @@
                                             </Border>
                                             <StackPanel Grid.Column="1" Grid.Row="0" Margin="0,0,0,2">
                                                 <StackPanel.Resources>
-                                                    <converters:NullToStringConverter x:Key="MiddleConverter" OnNonNull="–" />
+                                                    <converters:NullToStringConverter x:Key="MiddleConverter" OnNonNull=" – " />
                                                 </StackPanel.Resources>
                                                 <TextBlock Margin="3,0,3,-4" FontWeight="Medium" Typography.Capitals="AllSmallCaps"
                                                            Foreground="{DynamicResource TextColor}" FontSize="16"
                                                            TextTrimming="CharacterEllipsis">
                                                     <Run Text="{Binding MissionInfo.Sector.Planet, Mode=OneWay}"
-                                                         ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
-                                                    <!--
-                                                    -->
-                                                    <Run Text="{Binding MissionInfo.Sector.Planet, Mode=OneWay, Converter={StaticResource MiddleConverter}}" />
-                                                    <!--
-                                                    -->
-                                                    <Run Text="{Binding MissionInfo.Sector.Location, Mode=OneWay}"
+                                                         ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" /><!-- положение комментариев важно!
+                                                    --><Run Text="{Binding MissionInfo.Sector.Planet, Mode=OneWay, Converter={StaticResource MiddleConverter}}" /><!--
+                                                    --><Run Text="{Binding MissionInfo.Sector.Location, Mode=OneWay}"
                                                          ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
                                                 </TextBlock>
                                                 <TextBlock Margin="3,0" Foreground="{DynamicResource TextColor}"
@@ -140,6 +140,20 @@
                                                          BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="1"
                                                          Margin="0,0,-4,-3" Grid.ColumnSpan="3"
                                                          Grid.Column="0" />
+                                            <ProgressBar Name="CountdownBar" Foreground="Orange"
+                                                         BorderThickness="0"
+                                                         Minimum="{Binding Activation.Ticks, Converter={StaticResource Negator}}"
+                                                         Maximum="{Binding PreActivation.Ticks, Converter={StaticResource Negator}}"
+                                                         Value="{Binding Now.Ticks, Source={StaticResource TimeVM}, Mode=OneWay, Converter={StaticResource Negator}}"
+                                                         Background="Transparent"
+                                                         BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="1"
+                                                         Margin="0,0,-4,-3" Grid.ColumnSpan="3"
+                                                         Grid.Column="0"
+                                                         RenderTransformOrigin="0.5,0.5" >
+                                                <ProgressBar.RenderTransform>
+                                                    <ScaleTransform ScaleX="-1"/>
+                                                </ProgressBar.RenderTransform>
+                                            </ProgressBar>
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
