@@ -2,6 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NLog;
 
 namespace Core
 {
@@ -30,14 +31,31 @@ namespace Core
                     {
                         var t = JObject.Load(jtext).ToObject<T>();
                         t.expandedFilename = expandedFilename;
+                        Tools.Logging.Send(LogLevel.Info, $"Настройки: файл с настройками прочитан успешно");
                         return t;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
+                {
+                    Tools.Logging.Send(LogLevel.Error, $"Настройки: ошибка при чтении файла настроек, удаляю файл", ex);
+                }
+
+                // если мы здесь, чтение настроек не удалось, файл повреждён?
+                try
                 {
                     File.Delete(expandedFilename);
                 }
+                catch (Exception ex)
+                {
+                    Tools.Logging.Send(LogLevel.Error, $"Настройки: ошибка при удалении файла настроек", ex);
+                }
             }
+            else
+            {
+                Tools.Logging.Send(LogLevel.Info, $"Настройки: файл с настройками не найден");
+            }
+
+            Tools.Logging.Send(LogLevel.Info, $"Настройки: созданы настройки по умолчанию");
             return new T() { expandedFilename = expandedFilename };
         }
 
@@ -47,7 +65,20 @@ namespace Core
 
         public void Save()
         {
-            File.WriteAllText(expandedFilename, JObject.FromObject(this).ToString());
+            try
+            {
+                Tools.Logging.Send(LogLevel.Trace, $"Настройки: сохраняю в файл");
+                File.WriteAllText(expandedFilename, JObject.FromObject(this).ToString());
+                Tools.Logging.Send(LogLevel.Info, $"Настройки: сохранение произведено успешно");
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Tools.Logging.Send(LogLevel.Error, $"Настройки: недостаточно прав для сохранения в файл {expandedFilename}", e);
+            }
+            catch (IOException e)
+            {
+                Tools.Logging.Send(LogLevel.Error, $"Настройки: не могу сохранить в файл {expandedFilename}", e);
+            }
         }
 
         #endregion
