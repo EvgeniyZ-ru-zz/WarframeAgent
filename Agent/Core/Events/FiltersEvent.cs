@@ -167,6 +167,7 @@ namespace Core.Events
                             string path = GetFilterFilePath(type);
                             var expandedPath = Model.StorageModel.ExpandRelativeName(path);
                             Tools.Logging.Send(LogLevel.Info, $"Управление фильтрами: фильтр {type} обновился, сохраняю в файл {path}");
+                            if (!Directory.Exists("Filters")) Directory.CreateDirectory("Filters");
                             await Tools.File.WriteAllTextAsync(expandedPath, filterText);
                         }
                         versions[type] = newVersion;
