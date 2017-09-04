@@ -347,8 +347,8 @@
                             
                             <Border Grid.Row="2" BorderThickness="0,2,0,0" BorderBrush="{StaticResource InvasionsLineColor}" Margin="0,2,0,0" Padding="0,1">
                                 <ListBox ScrollViewer.CanContentScroll="False"
-                                         Background="{x:Null}" BorderBrush="{x:Null}" MaxHeight="65"
-                                         VerticalContentAlignment="Top" ItemsSource="{Binding Invasions}"
+                                         Background="{x:Null}" BorderBrush="{x:Null}" MaxHeight="68"
+                                         VerticalContentAlignment="Top" ItemsSource="{Binding Builds}"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                          ScrollViewer.VerticalScrollBarVisibility="Auto"
                                          ItemContainerStyle="{StaticResource AlertListItem}">
@@ -359,17 +359,17 @@
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <Border BorderBrush="{Binding AttackerFaction.Color}"
+                                                <Border BorderBrush="{Binding Faction.Color}"
                                                         BorderThickness="0,0,1,0"
                                                         Grid.Column="0" Width="25" Margin="0,0,0,3"
                                                         Background="Transparent"
-                                                        ToolTip="{Binding AttackerFaction.Name}">
+                                                        ToolTip="{Binding Faction.Name}">
                                                     <Path MaxHeight="20" MaxWidth="20"
-                                                          Fill="{Binding AttackerFaction.Color}"
+                                                          Fill="{Binding Faction.Color}"
                                                           HorizontalAlignment="Center"
                                                           VerticalAlignment="Center" StrokeThickness="0"
                                                           Stretch="Uniform" SnapsToDevicePixels="True"
-                                                          Data="{Binding AttackerFaction.Logo}" />
+                                                          Data="{Binding Faction.Logo}" />
                                                 </Border>
                                                 <Grid Grid.Column="1" Margin="5,-4,5,2">
                                                     <Grid.RowDefinitions>
@@ -377,11 +377,11 @@
                                                         <RowDefinition Height="*"/>
                                                     </Grid.RowDefinitions>
                                                     <TextBlock Grid.Row="0" Foreground="{DynamicResource TextColor}" FontSize="16" FontWeight="Medium" Typography.Capitals="AllSmallCaps"
-                                                               TextTrimming="CharacterEllipsis" Text="Привет мир" />
+                                                               TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
                                                     <ProgressBar Grid.Row="1"
-                                                                 Foreground="{Binding AttackerFaction.Color}"
+                                                                 Foreground="{Binding Faction.Color}"
                                                                  BorderThickness="0" 
-                                                                 Value="35"
+                                                                 Value="{Binding Value}"
                                                                  Background="#4C555555"
                                                                  BorderBrush="{x:Null}" />
                                                 </Grid>

@@ -27,6 +27,7 @@ namespace Agent.ViewModel
         {
             AlertsEngine.Run(Model);
             InvasionsEngine.Run(Model);
+            BuildsEngine.Run(Model);
         }
 
         private AlertsEngine AlertsEngine;
