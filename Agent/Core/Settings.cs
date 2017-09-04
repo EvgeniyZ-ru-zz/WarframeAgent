@@ -62,7 +62,8 @@ namespace Core
                 [Model.Filter.Type.Items]    = new Uri("https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Items.json"),
                 [Model.Filter.Type.Factions] = new Uri("https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Factions.json"),
                 [Model.Filter.Type.Sorties]  = new Uri("https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Sorties.json"),
-                [Model.Filter.Type.Void]     = new Uri("https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Void.json")
+                [Model.Filter.Type.Void]     = new Uri("https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Void.json"),
+                [Model.Filter.Type.Builds]   = new Uri("https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Builds.json")
             };
     }
 
