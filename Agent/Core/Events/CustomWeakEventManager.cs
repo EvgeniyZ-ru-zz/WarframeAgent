@@ -33,7 +33,7 @@ namespace Core.Events
                 // at first use, create and register a new manager
                 if (manager == null)
                 {
-                    manager = (TSelf)Activator.CreateInstance(typeof(TSelf), true);
+                    manager = (TSelf)Activator.CreateInstance(managerType, nonPublic: true);
                     SetCurrentManager(managerType, manager);
                 }
 

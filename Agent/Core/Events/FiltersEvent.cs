@@ -167,8 +167,19 @@ namespace Core.Events
                             string path = GetFilterFilePath(type);
                             var expandedPath = Model.StorageModel.ExpandRelativeName(path);
                             Tools.Logging.Send(LogLevel.Info, $"Управление фильтрами: фильтр {type} обновился, сохраняю в файл {path}");
-                            if (!Directory.Exists("Filters")) Directory.CreateDirectory("Filters");
-                            await Tools.File.WriteAllTextAsync(expandedPath, filterText);
+                            try
+                            {
+                                Directory.CreateDirectory(Path.GetDirectoryName(expandedPath));
+                                await Tools.File.WriteAllTextAsync(expandedPath, filterText);
+                            }
+                            catch (UnauthorizedAccessException e)
+                            {
+                                Tools.Logging.Send(LogLevel.Error, $"Управление фильтрами: недостаточно прав для сохранения в файл {path}", e);
+                            }
+                            catch (IOException e)
+                            {
+                                Tools.Logging.Send(LogLevel.Error, $"Управление фильтрами: не могу сохранить в файл {path}", e);
+                            }
                         }
                         versions[type] = newVersion;
                     }

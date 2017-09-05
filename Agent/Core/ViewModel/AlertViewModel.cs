@@ -16,11 +16,13 @@ namespace Core.ViewModel
         {
             Id = alert.Id;
             Activation = Tools.Time.ToDateTime(alert.Activation.Date.NumberLong);
+            PreActivation = Activation.AddMinutes(-5);
             Expiry = Tools.Time.ToDateTime(alert.Expiry.Date.NumberLong);
             MissionInfo = new MissionViewModel(alert.MissionInfo, filtersEvent);
         }
 
         public Id Id { get; }
+        public DateTime PreActivation { get; }
         public DateTime Activation { get; }
         public DateTime Expiry { get; }
         public MissionViewModel MissionInfo { get; }
@@ -41,9 +43,9 @@ namespace Core.ViewModel
 
         public void UpdateStatus()
         {
-            if (Activation >= DateTime.Now)
+            if (DateTime.Now <= Activation)
             {
-                Status = (Activation - DateTime.Now).ToString(@"mm\:ss");
+                Status = (Activation - DateTime.Now).ToString(@"\−mm\:ss");
                 StatusColor = Brushes.Orange;
                 //TODO: Добавить "Обратный" прогресс бар при начале события.
             }
