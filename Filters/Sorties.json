@@ -1,9 +1,7 @@
 {
-  "Date": "03.03.2017",
   "Version": 1,
-  "Sorties": [
-    {
-      "type": "Босс",
+  "Items": {
+    "Boss": {
       "SORTIE_BOSS_HEK": "Вэй Хек",
       "SORTIE_BOSS_RUK": "Генерал Саргас Рук",
       "SORTIE_BOSS_VOR": "Капитан Вор",
@@ -20,8 +18,7 @@
       "SORTIE_BOSS_INFALAD": "Муталист Алад V",
       "SORTIE_BOSS_PHORID": "Форид"
     },
-    {
-      "type": "Модификатор",
+    "Modifier": {
       "SORTIE_MODIFIER_EXIMUS": "Крепость эксимусов",
       "": "Плотный туман",
       "SORTIE_MODIFIER_LOW_ENERGY": "Уменьшенная энергия",
@@ -51,5 +48,5 @@
       "SORTIE_MODIFIER_VIRAL": "Элементальные улучшения противников (вирус)",
       "SORTIE_MODIFIER_CORROSIVE": "Элементальные улучшения противников (коррозия)"
     }
-  ]
+  }
 }

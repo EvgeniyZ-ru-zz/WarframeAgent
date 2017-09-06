@@ -23,12 +23,12 @@
       "/Lotus/Types/Items/MiscItems/Tellurium": "Теллуриум",
       "/Lotus/Types/Items/MiscItems/Ferrite": "Феррит",
       "/Lotus/Types/Items/MiscItems/Alertium": "Экстракт нитаина",
-      "/Lotus/Types/Items/MiscItems/OrokinCell": "Элемент питания орокин",			
+      "/Lotus/Types/Items/MiscItems/OrokinCell": "Элемент питания орокин",
       "/Lotus/Types/Items/MiscItems/Eventium": "Синтула"
     },
     {
       "type": "Шлема",
-	  "enable": 1,
+      "enable": 1,
       "/Lotus/StoreItems/Types/Recipes/Helmets/BrawlerAltHelmetBlueprint": "Шлем атласа: Тартар (чертеж)",
       "/Lotus/StoreItems/Types/Recipes/Helmets/BrawlerAltTwoHelmetBlueprint": "Шлем атласа: Сикоро (чертеж)",
       "/Lotus/StoreItems/Types/Recipes/Helmets/StatlessBansheeAltHelmetBlueprint": "Шлем банши: Реверб (чертеж)",
@@ -96,7 +96,7 @@
     },
     {
       "type": "Чертежи",
-	  "enable": 1,
+      "enable": 1,
       "/Lotus/StoreItems/Types/Recipes/WarframeRecipes/TrapperChassisBlueprint": "Вобан: каркас (чертеж)",
       "/Lotus/StoreItems/Types/Recipes/WarframeRecipes/TrapperHelmetBlueprint": "Вобан: нейрооптика (чертеж)",
       "/Lotus/StoreItems/Types/Recipes/WarframeRecipes/TrapperSystemsBlueprint": "Вобан: система (чертеж)",
@@ -116,7 +116,7 @@
     },
     {
       "type": "Ауры",
-	  "enable": 1,
+      "enable": 1,
       "/Lotus/StoreItems/Upgrades/Mods/Aura/InfestationSpeedReductionAuraMod": "Бремя зараженных (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerLootRadarAuraMod": "Детектор добычи (аура)",
       "/Lotus/StoreItems/Upgrades/Mods/Aura/PlayerEnemyRadarAuraMod": "Детектор противника (аура)",
@@ -144,7 +144,7 @@
     },
     {
       "type": "Модификаторы",
-	  "enable": 1,
+      "enable": 1,
       "/Lotus/StoreItems/Upgrades/Mods/Warframe/DualStat/VigorMod": "Биоэнергия",
       "/Lotus/StoreItems/Upgrades/Mods/Warframe/DualStat/RunSpeedArmorMod": "Бронированная ловкость",
       "/Lotus/StoreItems/Upgrades/Mods/Shotgun/DualStat/AcceleratedBlastMod": "Взрывное ускорение",
@@ -165,7 +165,7 @@
     },
     {
       "type": "Остальное",
-	  "enable": 1,
+      "enable": 1,
       "/Lotus/Types/Game/CatbrowPet/CatbrowGeneticSignature": "Генетические коды кават",
       "/Lotus/Types/Items/MiscItems/OrokinCatalyst": "Катализатор орокин",
       "/Lotus/Types/Items/MiscItems/OrokinReactor": "Реактор орокин",
@@ -183,7 +183,7 @@
     },
     {
       "type": "Вторжения",
-	  "enable": 0,
+      "enable": 0,
       "/Lotus/Types/Items/MiscItems/InfestedAladCoordinate": "Муталист-навигационные координаты",
       "/Lotus/Types/Recipes/Components/UtilityUnlockerBlueprint": "Адаптер эксилус (чертеж)",
       "/Lotus/Types/Items/Research/BioComponent": "Мутагенная масса",
@@ -223,7 +223,7 @@
     },
     {
       "type": "Баро",
-	  "enable": 0,
+      "enable": 0,
       "/Lotus/StoreItems/Types/BoosterPacks/PremiumRareArtifactPack": "Набор модов 'Дракон'",
       "/Lotus/StoreItems/Types/BoosterPacks/UncommonArtifactPack": "Набор модов 'Феникс'",
       "/Lotus/StoreItems/Types/Game/KubrowPet/Patterns/KubrowPetPatternPrimeTraderA": "Фокусный шаблон меха",
@@ -308,9 +308,9 @@
       "/Lotus/StoreItems/Upgrades/Skins/MeleeDangles/FireMeleeDangle": "Пира сугатра",
       "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/EarpieceBaroA": "Серьги: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/EarpieceBaroB": "Серьга: Ки'Тиир",
-      "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/BaroMouthPieceA": "Ки'Тиир Атмос маска",	    
+      "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/BaroMouthPieceA": "Ки'Тиир Атмос маска",
       "/Lotus/StoreItems/Upgrades/Skins/Pirate/HydroidAlternateSkin": "Скин Гидройда: Бессмертный",
-      "/Lotus/StoreItems/Upgrades/Skins/Tengu/ZephyrAlternateSkin": "Скин Зефир: Бессмертный", 	    
+      "/Lotus/StoreItems/Upgrades/Skins/Tengu/ZephyrAlternateSkin": "Скин Зефир: Бессмертный",
       "/Lotus/StoreItems/Upgrades/Skins/Scarves/BaroCape": "Ки'Тиир сандана",
       "/Lotus/StoreItems/Upgrades/Skins/Scarves/BaroCape2Scarf": "Ки'Тиир сандана: Разза",
       "/Lotus/StoreItems/Upgrades/Skins/Scarves/KazBaroCape": "Ки'Тиир сандана: Диакс",
@@ -355,7 +355,7 @@
     },
     {
       "type": "Дарво",
-	  "enable": 0,
+      "enable": 0,
       "/Lotus/StoreItems/Powersuits/AntiMatter/Anti": "Нова",
       "/Lotus/StoreItems/Powersuits/Banshee/Banshee": "Банши",
       "/Lotus/StoreItems/Powersuits/Berserker/Berserker": "Валькирия",
