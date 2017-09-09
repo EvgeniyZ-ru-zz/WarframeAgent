@@ -1,6 +1,6 @@
 {
-  "Date": "25.08.2017",
-  "Version": 3,
+  "Date": "09.09.2017",
+  "Version": 4,
   "Items": [
     {
       "type": "Ресурсы",
@@ -231,6 +231,7 @@
       "/Lotus/StoreItems/Types/Items/Emotes/BaroEmote": "Жест: Харизма Ки'Тиир",
       "/Lotus/StoreItems/Types/Items/ShipDecos/BaroKiTeerBobbleHead": "Статуэтка - Баро Ки'Тиир",
       "/Lotus/StoreItems/Types/Items/ShipDecos/PedistalPrime": "Пьедистал прайм",
+      "/Lotus/StoreItems/Types/Items/ShipDecos/OrbiterPictureFrameBaro": "Дисплей Ромбовидный",
       "/Lotus/StoreItems/Types/Items/MiscItems/PhotoboothTileInarosTomb": "Сцена каптуры: Гробница Инароса",
       "/Lotus/StoreItems/Types/Keys/MummyQuestKeyBlueprint": "Пески Инароса (квест)",
       "/Lotus/StoreItems/Types/Recipes/Components/CorruptedBombardBallBlueprint": "Спектр: порабощенный бомбардир (чертеж)",
@@ -335,6 +336,7 @@
       "/Lotus/StoreItems/Weapons/Corpus/Melee/KickAndPunch/PrismaObex": "Обекс призма",
       "/Lotus/StoreItems/Weapons/Corpus/LongGuns/CorpusUMP/PrismaCorpusUMP": "Тетра призма",
       "/Lotus/StoreItems/Weapons/Corpus/LongGuns/CrpShockRifle/QuantaVandal": "Кванта вандал",
+      "/Lotus/StoreItems/Weapons/Corpus/Pistols/CrpHandRL/PrismaAngstrum": "Ангстрем Призма",
       "/Lotus/StoreItems/Weapons/Grineer/LongGuns/GrineerSniperRifle/VulkarWraith": "Вулкар Призрак",
       "/Lotus/StoreItems/Weapons/Grineer/LongGuns/VoidTraderGorgon/VTGorgon": "Горгона призма",
       "/Lotus/StoreItems/Weapons/Grineer/Melee/GrineerMachetteAndCleaver/PrismaDualCleavers": "Парные секачи призма",
