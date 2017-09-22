@@ -1,6 +1,6 @@
 {
-  "Date": "09.09.2017",
-  "Version": 4,
+  "Date": "23.09.2017",
+  "Version": 5,
   "Items": [
     {
       "type": "Ресурсы",
@@ -259,6 +259,7 @@
       "/Lotus/StoreItems/Upgrades/Mods/Pistol/WeaponEventPistolImpactDamageMod": "Избиение",
       "/Lotus/StoreItems/Upgrades/Mods/Pistol/WeaponEventSlashDamageMod": "Порез",
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/DualStat/ElectEventRifleMod": "Высокое напряжение",
+      "/Lotus/StoreItems/Upgrades/Mods/Rifle/DualStat/FireEventRifleMod": "Термитные пули",
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/Expert/PrimedWeaponFactionDamageCorpus": "Погибель корпуса прайм",
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/Expert/PrimedWeaponFactionDamageCorrupted": "Погибель порабащенных прайм",
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/Expert/PrimedWeaponFactionDamageGrineer": "Погибель гринир прайм",
@@ -269,6 +270,7 @@
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/WeaponEventRifleImpactDamageMod": "Ударное направление",
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/WeaponEventSlashDamageMod": "Шквал клыков",
       "/Lotus/StoreItems/Upgrades/Mods/Shotgun/DualStat/ElectEventShotgunMod": "Контузия",
+      "/Lotus/StoreItems/Upgrades/Mods/Shotgun/DualStat/FireEventShotgunMod": "Разброс инферно",
       "/Lotus/StoreItems/Upgrades/Mods/Shotgun/Expert/WeaponCritDamageModExpert": "Опустошение прайм",
       "/Lotus/StoreItems/Upgrades/Mods/Shotgun/Expert/WeaponDamageAmountModExpert": "В упор прайм",
       "/Lotus/StoreItems/Upgrades/Mods/Shotgun/Expert/WeaponShotgunConvertAmmoModExpert": "Мутатор прайм: дробовик",
