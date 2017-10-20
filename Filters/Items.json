@@ -1,6 +1,6 @@
 {
-  "Date": "06.10.2017",
-  "Version": 6,
+  "Date": "21.10.2017",
+  "Version": 7,
   "Items": [
     {
       "type": "Ресурсы",
@@ -286,6 +286,7 @@
       "/Lotus/StoreItems/Upgrades/Skins/Armor/BaroArmourTwo/BaroArmourTwoA": "Наплечники: Ки'Тиир Форос",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/BaroArmourTwo/BaroArmourTwoC": "Нагрудник: Ки'Тиир Форос",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/BaroArmourTwo/BaroArmourTwoL": "Наголенники: Ки'Тиир Форос",
+      "/Lotus/StoreItems/Upgrades/Skins/Armor/Halloween2014Wings/PrismaNaberusArmArmor": "Наберус Призма",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/SetThreeWinged/VTSetThreeArmLeftArmor": "Левый наплечник Дедал призма",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/SetThreeWinged/VTSetThreeArmRightArmor": "Правый наплечник Дедал призма",
       "/Lotus/StoreItems/Upgrades/Skins/Armor/SetThreeWinged/VTSetThreeChestArmor": "Нагрудник Дедал призма",
@@ -313,6 +314,7 @@
       "/Lotus/StoreItems/Upgrades/Skins/MeleeDangles/FireMeleeDangle": "Пира сугатра",
       "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/EarpieceBaroA": "Серьги: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/EarpieceBaroB": "Серьга: Ки'Тиир",
+      "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/EarpieceBaroC": "Серьги: Ки'Тиир Атомос",
       "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/BaroMouthPieceA": "Ки'Тиир Атмос маска",
       "/Lotus/StoreItems/Upgrades/Skins/Pirate/HydroidAlternateSkin": "Скин Гидройда: Бессмертный",
       "/Lotus/StoreItems/Upgrades/Skins/Tengu/ZephyrAlternateSkin": "Скин Зефир: Бессмертный",
