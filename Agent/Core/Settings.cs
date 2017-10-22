@@ -33,7 +33,7 @@ namespace Core
     {
         public Uri Game { get; set; } = new Uri("http://content.warframe.com/dynamic/worldState.php");
         public Uri News { get; set; } = new Uri("https://www.warframe.com/ru/news/get_posts?page=1&category=pc");
-        public Uri Filter { get; set; } = new Uri("https://evgeniy-z.ru/api/v2/agent/filters/url");
+        public Uri Filter { get; set; } = new Uri("https://evgeniy-z.ru/api/v2/agent/filters/url/rus");
     }
 
     public class Data

@@ -95,15 +95,44 @@ namespace Core.Model
         internal static (Dictionary<string, Item> data, int version) ParseItems(int oldVersion, string text) =>
             ParseText(oldVersion, text, cat: "Items", selector: (value, type, enabled) => new Item(value: value, type: type, enabled: enabled));
 
-        internal static (Dictionary<string, Sector> data, int version) ParseSectors(int oldVersion, string text) =>
-            ParseText(oldVersion, text, cat: "Items", selector: (value, type, enabled) =>
-                {
-                    var parts = value.Split('|');
-                    return new Sector(planet: parts[0], location: parts[1]);
-                });
+        //internal static (Dictionary<string, Sector> data, int version) ParseSectors(int oldVersion, string text) =>
+        //    ParseText(oldVersion, text, cat: "Items", selector: (value, type, enabled) =>
+        //        {
+        //            var parts = value.Split('|');
+        //            return new Sector(planet: parts[0], location: parts[1]);
+        //        });
 
-        internal static (Dictionary<string, Mission> data, int version) ParseMissions(int oldVersion, string text) =>
-            ParseText(oldVersion, text, cat: "Missions", selector: (value, type, enabled) => new Mission(value));
+
+
+        internal static (Dictionary<string, Sector> data, int version) ParseSectors(int oldVersion, string text)
+        {
+            var model = JsonConvert.DeserializeObject<SectorsModel>(text);
+            if (model.Version > oldVersion)
+            {
+                var parts = model.Items.ToDictionary(t => t.Key, t => new Sector(t.Value.Split('|')[0], t.Value.Split('|')[1]));
+                return (parts, model.Version);
+            }
+            
+            else
+                return (null, model.Version);
+        }
+
+        internal static (Dictionary<string, Mission> data, int version) ParseMissions(int oldVersion, string text)
+        {
+            var model = JsonConvert.DeserializeObject<MissionsModel>(text);
+            if (model.Version > oldVersion)
+            {
+                var parts = model.Missions.ToDictionary(t => t.Key, t => new Mission(t.Value));
+                return (parts, model.Version);
+            }
+
+            else
+                return (null, model.Version);
+        }
+
+
+        //internal static (Dictionary<string, Mission> data, int version) ParseMissions(int oldVersion, string text) =>
+        //    ParseText(oldVersion, text, cat: "Missions", selector: (value, type, enabled) => new Mission(value));
 
         private static (Dictionary<string, T> data, int version) ParseText<T>(int oldVersion, string text, string cat, Func<string, string, bool, T> selector)
         {
@@ -140,6 +169,19 @@ namespace Core.Model
             public DateTime Date { get; set; }
             public int Version { get; set; }
             public Dictionary<string, Faction> Items { get; set; }
+        }
+
+
+        public class SectorsModel
+        {
+            public int Version { get; set; }
+            public Dictionary<string, string> Items { get; set; }
+        }
+
+        public class MissionsModel
+        {
+            public int Version { get; set; }
+            public Dictionary<string, string> Missions { get; set; }
         }
 
         internal static (Dictionary<int, Filter.Build> data, int version) ParseBuilds(int oldVersion, string text)
