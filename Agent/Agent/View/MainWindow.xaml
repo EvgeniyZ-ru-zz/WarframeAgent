@@ -41,7 +41,7 @@
                 <StackPanel x:Name="HeadTitle" Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Left"
                             VerticalAlignment="Center" Margin="10,0,0,0">
                     <TextBlock x:Name="TitleLbl" Text="WARFRAME AGENT"
-                               FontSize="25" Style="{DynamicResource TitleColor}" />
+                               FontSize="24" Style="{DynamicResource TitleColor}"  />
                 </StackPanel>
                 <Grid PreviewMouseDown="Grid_PreviewMouseDown" Grid.ColumnSpan="2" Grid.Column="0" Margin="0,5,0,0"
                       Background="Transparent" />

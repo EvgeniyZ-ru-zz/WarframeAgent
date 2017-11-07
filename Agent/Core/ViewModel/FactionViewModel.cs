@@ -31,6 +31,7 @@ namespace Core.ViewModel
 
         public static FactionViewModel ById(string factionId)
         {
+            if (factionId == null) return null;
             if (_knownFactions.TryGetValue(factionId, out var knownFaction))
                 return knownFaction;
             var newFaction = TryCreateNew(factionId) ?? CreateUnknown(factionId);
