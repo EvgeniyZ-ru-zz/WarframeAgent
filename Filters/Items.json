@@ -1,6 +1,6 @@
 {
-  "Date": "21.10.2017",
-  "Version": 7,
+  "Date": "04.11.2017",
+  "Version": 9,
   "Items": [
     {
       "type": "Ресурсы",
@@ -149,6 +149,7 @@
       "/Lotus/StoreItems/Upgrades/Mods/Warframe/DualStat/RunSpeedArmorMod": "Бронированная ловкость",
       "/Lotus/StoreItems/Upgrades/Mods/Shotgun/DualStat/AcceleratedBlastMod": "Взрывное ускорение",
       "/Lotus/StoreItems/Upgrades/Mods/Sentinel/SentinelLootRadarEnemyRadarMod": "Животный инстинкт",
+      "/Lotus/StoreItems/Upgrades/Mods/Randomized/LotusRifleRandomModRare": "Мод разлома",
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/DualStat/ShredMod": "Кромсание",
       "/Lotus/StoreItems/Upgrades/Mods/Pistol/DualStat/IceStormMod": "Ледяная буря",
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/DualStat/HammerShotMod": "Мощный выстрел",
@@ -311,6 +312,7 @@
       "/Lotus/StoreItems/Upgrades/Skins/Liset/LisetInsectSkinPrimeTrader": "Скин Мантиса: призма",
       "/Lotus/StoreItems/Upgrades/Skins/Liset/LisetSkinVoidTrader": "Скин Лисета: призма",
       "/Lotus/StoreItems/Upgrades/Skins/MeleeDangles/BaroMeleeDangle": "Сугатра: Ки'Тиир",
+      "/Lotus/StoreItems/Upgrades/Skins/MeleeDangles/BaroInarosMeleeDangle": "Анпу Сугатра",
       "/Lotus/StoreItems/Upgrades/Skins/MeleeDangles/FireMeleeDangle": "Пира сугатра",
       "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/EarpieceBaroA": "Серьги: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/EarpieceBaroB": "Серьга: Ки'Тиир",
@@ -334,6 +336,7 @@
       "/Lotus/StoreItems/Upgrades/Skins/Sigils/PrimeTraderSigil": "Призма сигил",
       "/Lotus/StoreItems/Upgrades/Skins/SummerSolstice/SummerSolsticeTwinGrakatas": "Скин парных гракат: Тосун",
       "/Lotus/StoreItems/Upgrades/Skins/VoidTrader/BaroArrow": "Ки'Тиир стрелы",
+      "/Lotus/StoreItems/Upgrades/Skins/VoidTrader/BaroInarosPolearmSkin": "Скин посоха: Анпу",
       "/Lotus/StoreItems/Upgrades/Skins/VoidTrader/PrismaArrow": "Стрелы призма",
       "/Lotus/StoreItems/Upgrades/Skins/VoidTrader/VTHalloweenDarkSword": "Скин тёмного меча: День мертвых",
       "/Lotus/StoreItems/Upgrades/Skins/VoidTrader/VTQuanta": "Скин кванты: Наледь",
