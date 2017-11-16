@@ -16,7 +16,28 @@
     </UserControl.Resources>
 
     <Grid>
-        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Opacity=".930">
+            <Border Margin="10,0" Padding="5,10" Background="{DynamicResource BackgroundColor}" CornerRadius="0,0,2,2">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" Direction="-90" ShadowDepth="1" RenderingBias="Quality"/>
+                </Border.Effect>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" FontSize="14" Foreground="{StaticResource TextColor}" Text="{}{TIME}" HorizontalAlignment="Center" />
+                    <TextBlock Grid.Column="1" FontSize="14" Foreground="{StaticResource TextColor}" Text="{}{TIME}" HorizontalAlignment="Center" />
+                    <TextBlock Grid.Column="2" FontSize="14" Foreground="{StaticResource TextColor}" Text="{}{TIME}" HorizontalAlignment="Center" />
+                </Grid>
+            </Border>
+        </DockPanel>
+        <Grid Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
@@ -40,7 +61,7 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Foreground="{DynamicResource TextColor}" Text="ТРЕВОГИ" FontSize="18" FontWeight="Medium"
+                            <TextBlock Foreground="{DynamicResource TextColor}" Text="ТРЕВОГИ" FontSize="17" FontWeight="Medium"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5"  />
                             <Border Grid.Row="0" BorderBrush="{DynamicResource AlertLineColor}"
                                     BorderThickness="0,0,0,2" />
@@ -163,56 +184,34 @@
                     </Border>
                 </DockPanel>
 
-                <Grid Grid.Column="1" Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition MinHeight="68" Height="Auto"/>
-                    </Grid.RowDefinitions>
+                <DockPanel Grid.Column="1" Opacity=".930">
+                    <Border Style="{StaticResource BoxPanel}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
 
-
-                    <Grid Opacity=".930" Grid.Row="0" >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Border Grid.Row="0" Style="{StaticResource BoxPanel}"  CornerRadius="2,2,2,2" Margin="0" >
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-
-                                <TextBlock Foreground="{DynamicResource TextColor}" Text="ВТОРЖЕНИЯ" FontSize="18" FontWeight="Medium"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" />
-                                <Border Grid.Row="0" BorderBrush="{DynamicResource InvasionsLineColor}"
+                            <TextBlock Foreground="{DynamicResource TextColor}" Text="ВТОРЖЕНИЯ" FontSize="17" FontWeight="Medium"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5"  />
+                            <Border Grid.Row="0" BorderBrush="{DynamicResource InvasionsLineColor}"
                                     BorderThickness="0,0,0,2" />
 
-                                <Grid Grid.Row="1">
-                                    <Grid.Resources>
-
-                                        <converters:InvasionGroupConverter x:Key="InvasionGroupConverter" />
-
-                                        <CollectionViewSource x:Key="GroupedInvasions" Source="{Binding Invasions}">
-                                            <CollectionViewSource.GroupDescriptions>
-                                                <PropertyGroupDescription Converter="{StaticResource InvasionGroupConverter}" />
-                                            </CollectionViewSource.GroupDescriptions>
-                                        </CollectionViewSource>
-
-                                    </Grid.Resources>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <ListBox Grid.Row="0" ScrollViewer.CanContentScroll="False"
+                            <TabControl Grid.Row="1" Style="{DynamicResource TabStyleInvisions}">
+                                <TabItem Style="{StaticResource TabItemStyleInvisions}" >
+                                    <TabItem.Header>
+                                        <fa:FontAwesome Icon="List" FontSize="14" Foreground="{DynamicResource TextColor}"/>
+                                    </TabItem.Header>
+                                    <TabItem.Content>
+                                        <ListBox ScrollViewer.CanContentScroll="False"
                                          ItemsSource="{Binding Invasions}"
                                          Background="{x:Null}" BorderBrush="{x:Null}"
                                          VerticalContentAlignment="Top"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                          ScrollViewer.VerticalScrollBarVisibility="Auto"
                                          ItemContainerStyle="{StaticResource AlertListItem}">
-                                        <!--<ListBox.GroupStyle>
+                                            <!--<ListBox.GroupStyle>
                                         <GroupStyle>
                                             <GroupStyle.HeaderTemplate>
                                                 <DataTemplate>
@@ -226,40 +225,40 @@
                                             </GroupStyle.HeaderTemplate>
                                         </GroupStyle>
                                     </ListBox.GroupStyle>-->
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid Height="33" Margin="0,1,0,2">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                    </Grid.ColumnDefinitions>
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid Height="33" Margin="0,1,0,2">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
 
 
-                                                    <Grid Grid.Column="1">
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition />
-                                                            <RowDefinition />
-                                                        </Grid.RowDefinitions>
+                                                        <Grid Grid.Column="1">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                            </Grid.RowDefinitions>
 
-                                                        <Grid VerticalAlignment="Top">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto" />
-                                                                <ColumnDefinition Width="*" />
-                                                                <ColumnDefinition Width="Auto" />
-                                                            </Grid.ColumnDefinitions>
-                                                            <Border Grid.Column="0" CornerRadius="0,1,1,0"
+                                                            <Grid VerticalAlignment="Top">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Border Grid.Column="0" CornerRadius="0,1,1,0"
                                                                     Background="{Binding DefenderFaction.Color}"
                                                                     Width="37"
                                                                     HorizontalAlignment="Left" VerticalAlignment="Top">
-                                                                <TextBlock Foreground="White" FontSize="11"
+                                                                    <TextBlock Foreground="White" FontSize="11"
                                                                        TextTrimming="CharacterEllipsis"
                                                                        Text="{Binding Percent, StringFormat='\{0:n2\}'}"
                                                                        VerticalAlignment="Center"
                                                                        HorizontalAlignment="Center" Padding="1,1" />
-                                                            </Border>
+                                                                </Border>
 
-                                                            <TextBlock Grid.Column="1"
+                                                                <TextBlock Grid.Column="1"
                                                                    Foreground="{DynamicResource TextColor}"
                                                                    FontSize="13" FontWeight="SemiBold"
                                                                    TextTrimming="CharacterEllipsis"
@@ -269,93 +268,93 @@
                                                                    Padding="5,2,5,2" VerticalAlignment="Center"
                                                                    TextAlignment="Center" />
 
-                                                            <Border Grid.Column="2" CornerRadius="1,0,0,1"
+                                                                <Border Grid.Column="2" CornerRadius="1,0,0,1"
                                                                     Background="{Binding AttackerFaction.Color}"
                                                                     Width="37"
                                                                     HorizontalAlignment="Right" VerticalAlignment="Top">
-                                                                <TextBlock Foreground="White" FontSize="11"
+                                                                    <TextBlock Foreground="White" FontSize="11"
                                                                        TextTrimming="CharacterEllipsis"
                                                                        Text="{Binding PercentOut, StringFormat='\{0:n2\}'}"
                                                                        VerticalAlignment="Center"
                                                                        HorizontalAlignment="Center" Padding="1,1" />
-                                                            </Border>
+                                                                </Border>
 
-                                                        </Grid>
+                                                            </Grid>
 
-                                                        <Grid VerticalAlignment="Bottom" Grid.Row="1">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="*" />
-                                                                <ColumnDefinition Width="*" />
-                                                            </Grid.ColumnDefinitions>
-
-
-                                                            <Grid Grid.Column="0" VerticalAlignment="Center" Margin="0,-2,0,3"  >
+                                                            <Grid VerticalAlignment="Bottom" Grid.Row="1">
                                                                 <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="Auto"/>
-                                                                    <ColumnDefinition Width="*"/>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="*" />
                                                                 </Grid.ColumnDefinitions>
-                                                                <TextBlock Grid.Column="0" Foreground="{DynamicResource TextColor}"
+
+
+                                                                <Grid Grid.Column="0" VerticalAlignment="Center" Margin="0,-2,0,3"  >
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Grid.Column="0" Foreground="{DynamicResource TextColor}"
                                                                        FontSize="13"
                                                                        TextTrimming="CharacterEllipsis"
                                                                        Text="{Binding AttackerRewardCount}" 
                                                                        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-2,0,-2,0" />
 
-                                                                <TextBlock Grid.Column="1" Foreground="{DynamicResource TextColor}"
+                                                                    <TextBlock Grid.Column="1" Foreground="{DynamicResource TextColor}"
                                                                        FontSize="12"
                                                                        TextTrimming="CharacterEllipsis"
                                                                        ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
                                                                        Text="{Binding AttackerReward, Converter={StaticResource AllCaps}}"
                                                                        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,0,0,0" />
-                                                            </Grid>
+                                                                </Grid>
 
 
-                                                            <Grid Grid.Column="1" VerticalAlignment="Center" Margin="0,-2,0,3"  >
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                    <ColumnDefinition Width="Auto"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <TextBlock Grid.Column="0" Foreground="{DynamicResource TextColor}"
+                                                                <Grid Grid.Column="1" VerticalAlignment="Center" Margin="0,-2,0,3"  >
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Grid.Column="0" Foreground="{DynamicResource TextColor}"
                                                                        FontSize="12"
                                                                        TextTrimming="CharacterEllipsis"
                                                                        ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
                                                                        Text="{Binding DefenderReward, Converter={StaticResource AllCaps}}"
                                                                        HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,2,0" />
 
-                                                                <TextBlock Grid.Column="1" Foreground="{DynamicResource TextColor}"
+                                                                    <TextBlock Grid.Column="1" Foreground="{DynamicResource TextColor}"
                                                                        FontSize="13"
                                                                        TextTrimming="CharacterEllipsis"
                                                                        Text="{Binding DefenderRewardCount}" 
                                                                        HorizontalAlignment="Right" VerticalAlignment="Center" Margin="-2,0,1,0" />
+                                                                </Grid>
                                                             </Grid>
                                                         </Grid>
-                                                    </Grid>
 
 
-                                                    <Border BorderBrush="{Binding DefenderFaction.Color}"
+                                                        <Border BorderBrush="{Binding DefenderFaction.Color}"
                                                         BorderThickness="0,0,1,0"
                                                         Grid.Column="0" Width="30" Margin="0,0,0,3"
                                                         Background="Transparent"
                                                         ToolTip="{Binding DefenderFaction.Name}">
-                                                        <Path MaxHeight="23" MaxWidth="23"
+                                                            <Path MaxHeight="23" MaxWidth="23"
                                                           Fill="{Binding DefenderFaction.Color}"
                                                           HorizontalAlignment="Center"
                                                           VerticalAlignment="Center" StrokeThickness="0"
                                                           Stretch="Uniform" SnapsToDevicePixels="True"
                                                           Data="{Binding DefenderFaction.Logo}" />
-                                                    </Border>
-                                                    <Border BorderBrush="{Binding AttackerFaction.Color}"
+                                                        </Border>
+                                                        <Border BorderBrush="{Binding AttackerFaction.Color}"
                                                         BorderThickness="1,0,0,0"
                                                         Grid.Column="2" Width="30" Margin="0,0,0,3"
                                                         Background="Transparent"
                                                         ToolTip="{Binding AttackerFaction.Name}">
-                                                        <Path MaxHeight="23" MaxWidth="23"
+                                                            <Path MaxHeight="23" MaxWidth="23"
                                                           Fill="{Binding AttackerFaction.Color}"
                                                           HorizontalAlignment="Center"
                                                           VerticalAlignment="Center" StrokeThickness="0"
                                                           Stretch="Uniform" SnapsToDevicePixels="True"
                                                           Data="{Binding AttackerFaction.Logo}" />
-                                                    </Border>
-                                                    <ProgressBar Grid.Column="0" Grid.ColumnSpan="3"
+                                                        </Border>
+                                                        <ProgressBar Grid.Column="0" Grid.ColumnSpan="3"
                                                              Foreground="{Binding DefenderFaction.Color}"
                                                              BorderThickness="0"
                                                              Value="{Binding Path=Percent, Mode=OneWay}"
@@ -363,72 +362,73 @@
                                                              BorderBrush="{x:Null}" Height="1"
                                                              VerticalAlignment="Bottom" />
 
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
-                                </Grid>
-                            </Grid>
-                        </Border>
-                    </Grid>
-                    <Grid Opacity=".930" Grid.Row="2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Border Grid.Row="0" Style="{StaticResource BoxPanel}" CornerRadius="2,2,2,2" Margin="0,2,0,0">
-                            <Grid>
-                                <ListBox ScrollViewer.CanContentScroll="False"
-                                         Background="{x:Null}" BorderBrush="{x:Null}" MaxHeight="68"
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </TabItem.Content>
+                                </TabItem>
+                                <TabItem Style="{StaticResource TabItemStyleInvisions}">
+                                    <TabItem.Header>
+                                        <fa:FontAwesome Icon="Building" FontSize="14" Foreground="{DynamicResource TextColor}"/>
+                                    </TabItem.Header>
+                                    <TabItem.Content>
+                                        <ListBox ScrollViewer.CanContentScroll="False"
+                                         Background="{x:Null}" BorderBrush="{x:Null}"
                                          VerticalContentAlignment="Top" ItemsSource="{Binding Builds}"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                          ScrollViewer.VerticalScrollBarVisibility="Auto"
                                          ItemContainerStyle="{StaticResource AlertListItem}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid Height="25" Margin="0,1,0,2">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Border BorderBrush="{Binding Faction.Color}"
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border BorderBrush="{StaticResource InvasionsLineColor}" BorderThickness="0,0,0,1">
+                                                        <Grid Height="33" Margin="0,1,0,2">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Border BorderBrush="{Binding Faction.Color}"
                                                         BorderThickness="0,0,1,0"
                                                         Grid.Column="0" Width="25" Margin="0,0,0,3"
                                                         Background="Transparent"
                                                         ToolTip="{Binding Faction.Name}">
-                                                    <Path MaxHeight="25" MaxWidth="25"
+                                                                <Path MaxHeight="23" MaxWidth="23"
                                                           Fill="{Binding Faction.Color}"
                                                           HorizontalAlignment="Center"
                                                           VerticalAlignment="Center" StrokeThickness="0"
                                                           Stretch="Uniform" SnapsToDevicePixels="True"
                                                           Data="{Binding Faction.Logo}" />
-                                                </Border>
-                                                <Grid Grid.Column="1" Margin="3,0,5,2">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"/>
-                                                        <RowDefinition Height="*"/>
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock Grid.Row="0" Foreground="{DynamicResource TextColor}" FontSize="12" FontWeight="SemiBold" Margin="1,0,0,1"
+                                                            </Border>
+                                                            <Grid Grid.Column="1" Margin="3,0,5,2">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto"/>
+                                                                    <RowDefinition Height="*"/>
+                                                                </Grid.RowDefinitions>
+                                                                <TextBlock Grid.Row="0" Foreground="{DynamicResource TextColor}" FontSize="12" FontWeight="SemiBold" Margin="1,2,0,0"
                                                                TextTrimming="CharacterEllipsis" Text="{Binding Name, Converter={StaticResource AllCaps}}" />
-                                                    <ProgressBar Grid.Row="1"
+                                                                <ProgressBar Grid.Row="1"
                                                                  Foreground="{Binding Faction.Color}"
                                                                  BorderThickness="0" Height="10"
                                                                  Value="{Binding Value}"
                                                                  Background="#4C555555"
                                                                  BorderBrush="{x:Null}" >
-                                                        <ProgressBar.ToolTip>
-                                                            <ToolTip Content="{Binding Value}" ContentStringFormat="{}{0:0.00}%" />
-                                                        </ProgressBar.ToolTip>
-                                                    </ProgressBar>
-                                                </Grid>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </Grid>
-                        </Border>
-                    </Grid>
-                </Grid>
+                                                                    <ProgressBar.ToolTip>
+                                                                        <ToolTip Content="{Binding Value}" ContentStringFormat="{}{0:0.00}%" />
+                                                                    </ProgressBar.ToolTip>
+                                                                </ProgressBar>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </TabItem.Content>
+                                </TabItem>
+                            </TabControl>
+
+                        </Grid>
+                    </Border>
+                </DockPanel>
                 
                 <DockPanel Grid.Column="2" Opacity=".930" DataContext="{Binding GameView}">
                     <Border Style="{StaticResource BoxPanel}">
@@ -439,7 +439,7 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Foreground="{DynamicResource TextColor}" Text="ТОРГОВЦЫ" FontSize="18" FontWeight="Medium"
+                            <TextBlock Foreground="{DynamicResource TextColor}" Text="ТОРГОВЦЫ" FontSize="17" FontWeight="Medium"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" />
                             <Border Grid.Row="0" BorderBrush="{DynamicResource TradeLineColor}"
                                     BorderThickness="0,0,0,2" />
@@ -465,7 +465,7 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Foreground="{DynamicResource TextColor}" Text="НОВОСТИ" FontSize="18" FontWeight="Medium"
+                            <TextBlock Foreground="{DynamicResource TextColor}" Text="НОВОСТИ" FontSize="17" FontWeight="Medium"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" />
                             <Border Grid.Row="0" BorderBrush="{DynamicResource NewsLineColor}"
                                     BorderThickness="0,0,0,2" />
@@ -532,7 +532,7 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Foreground="{DynamicResource TextColor}" Text="ВЫЛАЗКИ" FontSize="18" FontWeight="Medium"
+                            <TextBlock Foreground="{DynamicResource TextColor}" Text="ВЫЛАЗКИ" FontSize="17" FontWeight="Medium"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" />
                             <Border Grid.Row="0" BorderBrush="{DynamicResource SortiesLineColor}"
                                     BorderThickness="0,0,0,2" />
