@@ -13,6 +13,14 @@ namespace Core.Model
 {
     #region EventArgs
 
+    // Добавление/удаление новостей
+    public class NewsNotificationEventArgs : EventArgs
+    {
+        public readonly NewsPost Notification;
+        public NewsNotificationEventArgs(NewsPost ntf) =>
+            Notification = ntf;
+    }
+
     // Добавление/удаление тревог
     public class AlertNotificationEventArgs : EventArgs
     {
@@ -46,20 +54,23 @@ namespace Core.Model
     /// </summary>
     public class GameModel
     {
+        private readonly Dictionary<string, NewsPost> _currentNewsNotifications = new Dictionary<string, NewsPost>();
         private readonly Dictionary<string, Alert> _currentAlertsNotifications = new Dictionary<string, Alert>();
         private readonly Dictionary<string, Invasion> _currentInvasionsNotifications = new Dictionary<string, Invasion>();
         private readonly List<Build> _currentBuilds = new List<Build>();
 
         private GlobalEvents.ServerEvents _server;
         private string _gameDataPath;
+        private string _newsDataPath;
         private object mutex = new object();
 
-        public void Start(GlobalEvents.ServerEvents server, string gameDataPath)
+        public void Start(GlobalEvents.ServerEvents server, string gameDataPath, string newsDataPath)
         {
             lock (mutex)
             {
                 _server = server;
                 _gameDataPath = gameDataPath;
+                _newsDataPath = newsDataPath;
                 _server.Updated += UpdateSnapshot;
             }
             UpdateSnapshot();
@@ -70,9 +81,16 @@ namespace Core.Model
             lock (mutex)
             {
                 _server.Updated -= UpdateSnapshot;
+                _newsDataPath = null;
                 _gameDataPath = null;
                 _server = null;
             }
+        }
+
+        public IEnumerable<NewsPost> GetCurrentNews()
+        {
+            lock (mutex)
+                return _currentNewsNotifications.Values;
         }
 
         public IEnumerable<Alert> GetCurrentAlerts()
@@ -95,30 +113,58 @@ namespace Core.Model
 
         void UpdateSnapshot()
         {
-            string path;
+            string gamePath;
+            string newsPath;
             lock (mutex)
-                path = _gameDataPath;
-            if (path == null)
+            {
+                gamePath = _gameDataPath;
+                newsPath = _newsDataPath;
+            }
+
+            if (gamePath == null || newsPath == null)
                 return;
-            var snapshot = Load(path);
-            AlertEvaluateList(snapshot);
-            InvasionEvaluateList(snapshot);
-            BuildEvaluateList(snapshot);
+            var gameSnapshot = Load<GameSnapshotModel>(gamePath);
+            var newsSnapshot = Load<NewsSnapshotModel>(newsPath);
+            NewsEvaluteList(newsSnapshot);
+            AlertEvaluateList(gameSnapshot);
+            InvasionEvaluateList(gameSnapshot);
+            BuildEvaluateList(gameSnapshot);
         }
 
         /// <summary>
         ///     Загружаем JSON файл с игровыми данными.
         /// </summary>
         /// <param name="fileName">Путь до JSON файла</param>
-        private GameSnapshotModel Load(string fileName)
+        private T Load<T>(string fileName)
         {
-            GameSnapshotModel data;
+            T data;
             using (var file = File.OpenText(fileName))
             {
                 var serializer = new JsonSerializer();
-                data = (GameSnapshotModel)serializer.Deserialize(file, typeof(GameSnapshotModel));
+                data = (T)serializer.Deserialize(file, typeof(T));
             }
             return data;
+        }
+
+        private void NewsEvaluteList(NewsSnapshotModel snapshot)
+        {
+            List<NewsPost> newNotifications, removedNotifications = new List<NewsPost>();
+            lock (mutex)
+            {
+                newNotifications = snapshot.Posts.Where(ntf => !_currentNewsNotifications.ContainsKey(ntf.Title)).ToList();
+                foreach (var ntf in newNotifications)
+                    _currentNewsNotifications.Add(ntf.Title, ntf);
+                var removedId = _currentNewsNotifications.Keys.Except(snapshot.Posts.Select(ntf => ntf.Title));
+                foreach (var id in removedId.ToList())
+                {
+                    removedNotifications.Add(_currentNewsNotifications[id]);
+                    _currentNewsNotifications.Remove(id);
+                }
+            }
+            foreach (var ntf in newNotifications)
+                FireNewNewsNotification(ntf);
+            foreach (var ntf in removedNotifications)
+                FireRemovedNewsNotification(ntf);
         }
 
         private void AlertEvaluateList(GameSnapshotModel snapshot)
@@ -219,6 +265,22 @@ namespace Core.Model
         }
 
         #region Эвенты
+
+        /// <summary>
+        ///     Эвент добавления новых новостей.
+        /// </summary>
+        public event EventHandler<NewsNotificationEventArgs> NewsNotificationArrived;
+
+        private void FireNewNewsNotification(NewsPost ntf) =>
+            NewsNotificationArrived?.Invoke(this, new NewsNotificationEventArgs(ntf));
+
+        /// <summary>
+        ///     Эвент удаления старых новостей.
+        /// </summary>
+        public event EventHandler<NewsNotificationEventArgs> NewsNotificationDeparted;
+
+        private void FireRemovedNewsNotification(NewsPost ntf) =>
+            NewsNotificationDeparted?.Invoke(this, new NewsNotificationEventArgs(ntf));
 
         /// <summary>
         ///     Эвент добавления новых тревог.

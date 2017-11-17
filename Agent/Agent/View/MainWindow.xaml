@@ -140,7 +140,7 @@
                     <DataTemplate DataType="{x:Type vm:HomeViewModel}">
                         <view:HomePage />
                     </DataTemplate>
-                    <DataTemplate DataType="{x:Type corevm:News}">
+                    <DataTemplate DataType="{x:Type vm:NewsViewModel}">
                         <view:NewsPage />
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type vm:AlertsViewModel}">

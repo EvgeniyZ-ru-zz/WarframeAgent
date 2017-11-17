@@ -47,7 +47,6 @@ namespace Core.ViewModel
             {
                 Status = (Activation - DateTime.Now).ToString(@"\−mm\:ss");
                 StatusColor = Brushes.Orange;
-                //TODO: Добавить "Обратный" прогресс бар при начале события.
             }
             else
             {

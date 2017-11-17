@@ -28,16 +28,11 @@
                 <ControlTemplate TargetType="TabControl">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Border BorderThickness="0" Grid.Row="0">
-                            <Border BorderThickness="{TemplateBinding BorderThickness}" 
-                                    BorderBrush="{TemplateBinding BorderBrush}">
-                                <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter ContentSource="SelectedContent"/>
-                                </Border>
-                            </Border>
+                            <ContentPresenter ContentSource="SelectedContent"/>
                         </Border>
                         <TabPanel Grid.Row="1" Margin="2,0" IsItemsHost="true" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
                     </Grid>

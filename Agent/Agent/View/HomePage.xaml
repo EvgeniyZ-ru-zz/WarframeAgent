@@ -20,7 +20,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Opacity=".930">
+        <DockPanel Grid.Row="0" Opacity=".930" >
             <Border Margin="10,0" Padding="5,10" Background="{DynamicResource BackgroundColor}" CornerRadius="0,0,2,2">
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="10" Direction="-90" ShadowDepth="1" RenderingBias="Quality"/>
@@ -49,7 +49,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <!-- Верхняя сетка -->
-                <DockPanel Grid.Column="0" Opacity=".930">
+                <DockPanel Grid.Column="0" Opacity=".930" MaxHeight="260">
                     <Border Style="{StaticResource BoxPanel}">
                         <Grid>
                             <Grid.Resources>
@@ -61,7 +61,7 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Foreground="{DynamicResource TextColor}" Text="ТРЕВОГИ" FontSize="17" FontWeight="Medium"
+                            <TextBlock Foreground="{DynamicResource TextColor}" Text="ТРЕВОГИ" FontSize="16" FontWeight="Medium"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5"  />
                             <Border Grid.Row="0" BorderBrush="{DynamicResource AlertLineColor}"
                                     BorderThickness="0,0,0,2" />
@@ -74,7 +74,7 @@
                                      ItemContainerStyle="{StaticResource AlertListItem}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid MaxHeight="33" Margin="0,1,0,2">
+                                        <Grid MaxHeight="33" Margin="0,1,0,2" d:DataContext="{d:DesignInstance {x:Type viewModel:AlertViewModel }}" >
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="3*" />
@@ -84,12 +84,12 @@
                                                     BorderBrush="{Binding StatusColor}"
                                                     BorderThickness="0,0,1,0" Padding="0,0,3,0">
                                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                            Margin="0,0,2,0">
-                                                    <TextBlock Foreground="{DynamicResource TextColor}" FontSize="13"
+                                                            Margin="0,-3,2,0">
+                                                    <TextBlock Foreground="{DynamicResource TextColor}" FontSize="12"
                                                                TextTrimming="CharacterEllipsis"
                                                                HorizontalAlignment="Center"
-                                                               Text="{Binding MissionInfo.MinEnemyLevel, StringFormat={}{0:00}}" Margin="0,0,0,-2" />
-                                                    <TextBlock Foreground="{DynamicResource TextColor}" FontSize="13"
+                                                               Text="{Binding MissionInfo.MinEnemyLevel, StringFormat={}{0:00}}" Margin="0,0,0,0" />
+                                                    <TextBlock Foreground="{DynamicResource TextColor}" FontSize="12"
                                                                TextTrimming="CharacterEllipsis"
                                                                HorizontalAlignment="Center" Margin="0"
                                                                Text="{Binding MissionInfo.MaxEnemyLevel, StringFormat={}{0:00}}" />
@@ -99,8 +99,8 @@
                                                 <StackPanel.Resources>
                                                     <converters:NullToStringConverter x:Key="MiddleConverter" OnNonNull=" – " />
                                                 </StackPanel.Resources>
-                                                <TextBlock Margin="3,1,3,0" FontWeight="SemiBold"
-                                                           Foreground="{DynamicResource TextColor}" FontSize="13"
+                                                <TextBlock Margin="3,1,3,0" FontWeight="Medium"
+                                                           Foreground="{DynamicResource TextColor}" FontSize="12"
                                                            TextTrimming="CharacterEllipsis">
                                                     <Run Text="{Binding MissionInfo.Sector.Planet, Mode=OneWay, Converter={StaticResource AllCaps}}"
                                                          ToolTip="{Binding MissionInfo.Sector.Planet, Mode=OneWay}" /><!-- положение комментариев важно!
@@ -109,13 +109,13 @@
                                                          ToolTip="{Binding MissionInfo.Sector.Location, Mode=OneWay}" />
                                                 </TextBlock>
                                                 <TextBlock Margin="3,0" Foreground="{DynamicResource TextColor}"
-                                                           FontSize="12"
+                                                           FontSize="11"
                                                            TextTrimming="CharacterEllipsis"
                                                            VerticalAlignment="Center">
                                                     <Run Text="{Binding MissionInfo.Faction.Name, Mode=OneWay, Converter={StaticResource AllCaps}}"
                                                          ToolTip="{Binding MissionInfo.Faction.Name, Mode=OneWay}" />
                                                     <fa:FontAwesome Foreground="{Binding StatusColor}"
-                                                                    Icon="CaretRight" VerticalAlignment="Center" FontSize="14"  />
+                                                                    Icon="CaretRight" VerticalAlignment="Center" FontSize="14" Margin="0,1,0,0"  />
                                                     <Run Text="{Binding MissionInfo.MissionType, Mode=OneWay, Converter={StaticResource AllCaps}}"
                                                          ToolTip="{Binding MissionInfo.MissionType, Mode=OneWay}" />
                                                 </TextBlock>
@@ -125,7 +125,7 @@
                                                 <StackPanel Margin="0,2,0,0" DockPanel.Dock="Top"
                                                             Orientation="Horizontal" HorizontalAlignment="Right">
                                                     <TextBlock
-                                                        Foreground="{DynamicResource TextColor}" FontSize="13"
+                                                        Foreground="{DynamicResource TextColor}" FontSize="13" FontWeight="Medium"
                                                         TextTrimming="CharacterEllipsis" Text="{Binding Status}"
                                                         VerticalAlignment="Top" />
                                                 </StackPanel>
@@ -184,7 +184,7 @@
                     </Border>
                 </DockPanel>
 
-                <DockPanel Grid.Column="1" Opacity=".930">
+                <DockPanel Grid.Column="1" Opacity=".930" MaxHeight="260">
                     <Border Style="{StaticResource BoxPanel}">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -193,7 +193,7 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Foreground="{DynamicResource TextColor}" Text="ВТОРЖЕНИЯ" FontSize="17" FontWeight="Medium"
+                            <TextBlock Foreground="{DynamicResource TextColor}" Text="ВТОРЖЕНИЯ" FontSize="16" FontWeight="Medium"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5"  />
                             <Border Grid.Row="0" BorderBrush="{DynamicResource InvasionsLineColor}"
                                     BorderThickness="0,0,0,2" />
@@ -227,7 +227,7 @@
                                     </ListBox.GroupStyle>-->
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Grid Height="33" Margin="0,1,0,2">
+                                                    <Grid Height="33" Margin="0,1,0,2"  d:DataContext="{d:DesignInstance {x:Type viewModel:InvasionViewModel }}">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto" />
                                                             <ColumnDefinition Width="*" />
@@ -260,7 +260,7 @@
 
                                                                 <TextBlock Grid.Column="1"
                                                                    Foreground="{DynamicResource TextColor}"
-                                                                   FontSize="13" FontWeight="SemiBold"
+                                                                   FontSize="12" FontWeight="Medium"
                                                                    TextTrimming="CharacterEllipsis"
                                                                    Margin="0"
                                                                    Text="{Binding Sector.Location, TargetNullValue='(неизвестное место)', Converter={StaticResource AllCaps}}"
@@ -288,27 +288,26 @@
                                                                 </Grid.ColumnDefinitions>
 
 
-                                                                <Grid Grid.Column="0" VerticalAlignment="Center" Margin="0,-2,0,3"  >
+                                                                <Grid Grid.Column="0" VerticalAlignment="Center" Margin="0,-2,0,3" ToolTip="{Binding AttackerReward}" Background="Transparent" HorizontalAlignment="Left" >
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="Auto"/>
                                                                         <ColumnDefinition Width="*"/>
                                                                     </Grid.ColumnDefinitions>
                                                                     <TextBlock Grid.Column="0" Foreground="{DynamicResource TextColor}"
-                                                                       FontSize="13"
+                                                                       FontSize="12"
                                                                        TextTrimming="CharacterEllipsis"
                                                                        Text="{Binding AttackerRewardCount}" 
-                                                                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-2,0,-2,0" />
+                                                                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-2,0,0,0" />
 
                                                                     <TextBlock Grid.Column="1" Foreground="{DynamicResource TextColor}"
                                                                        FontSize="12"
                                                                        TextTrimming="CharacterEllipsis"
-                                                                       ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
                                                                        Text="{Binding AttackerReward, Converter={StaticResource AllCaps}}"
                                                                        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,0,0,0" />
                                                                 </Grid>
 
 
-                                                                <Grid Grid.Column="1" VerticalAlignment="Center" Margin="0,-2,0,3"  >
+                                                                <Grid Grid.Column="1" VerticalAlignment="Center" Margin="0,-2,0,3" ToolTip="{Binding DefenderReward}" Background="Transparent" HorizontalAlignment="Right" >
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="*"/>
                                                                         <ColumnDefinition Width="Auto"/>
@@ -316,12 +315,11 @@
                                                                     <TextBlock Grid.Column="0" Foreground="{DynamicResource TextColor}"
                                                                        FontSize="12"
                                                                        TextTrimming="CharacterEllipsis"
-                                                                       ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
                                                                        Text="{Binding DefenderReward, Converter={StaticResource AllCaps}}"
                                                                        HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,2,0" />
 
                                                                     <TextBlock Grid.Column="1" Foreground="{DynamicResource TextColor}"
-                                                                       FontSize="13"
+                                                                       FontSize="12"
                                                                        TextTrimming="CharacterEllipsis"
                                                                        Text="{Binding DefenderRewardCount}" 
                                                                        HorizontalAlignment="Right" VerticalAlignment="Center" Margin="-2,0,1,0" />
@@ -335,7 +333,7 @@
                                                         Grid.Column="0" Width="30" Margin="0,0,0,3"
                                                         Background="Transparent"
                                                         ToolTip="{Binding DefenderFaction.Name}">
-                                                            <Path MaxHeight="23" MaxWidth="23"
+                                                            <Path MaxHeight="24" MaxWidth="24"
                                                           Fill="{Binding DefenderFaction.Color}"
                                                           HorizontalAlignment="Center"
                                                           VerticalAlignment="Center" StrokeThickness="0"
@@ -347,7 +345,7 @@
                                                         Grid.Column="2" Width="30" Margin="0,0,0,3"
                                                         Background="Transparent"
                                                         ToolTip="{Binding AttackerFaction.Name}">
-                                                            <Path MaxHeight="23" MaxWidth="23"
+                                                            <Path MaxHeight="24" MaxWidth="24"
                                                           Fill="{Binding AttackerFaction.Color}"
                                                           HorizontalAlignment="Center"
                                                           VerticalAlignment="Center" StrokeThickness="0"
@@ -382,7 +380,7 @@
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <Border BorderBrush="{StaticResource InvasionsLineColor}" BorderThickness="0,0,0,1">
-                                                        <Grid Height="33" Margin="0,1,0,2">
+                                                        <Grid Height="33" Margin="0,1,0,2"  d:DataContext="{d:DesignInstance {x:Type viewModel:BuildViewModel }}">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="Auto"/>
                                                                 <ColumnDefinition Width="*"/>
@@ -392,7 +390,7 @@
                                                         Grid.Column="0" Width="25" Margin="0,0,0,3"
                                                         Background="Transparent"
                                                         ToolTip="{Binding Faction.Name}">
-                                                                <Path MaxHeight="23" MaxWidth="23"
+                                                                <Path MaxHeight="24" MaxWidth="24"
                                                           Fill="{Binding Faction.Color}"
                                                           HorizontalAlignment="Center"
                                                           VerticalAlignment="Center" StrokeThickness="0"
@@ -404,11 +402,11 @@
                                                                     <RowDefinition Height="Auto"/>
                                                                     <RowDefinition Height="*"/>
                                                                 </Grid.RowDefinitions>
-                                                                <TextBlock Grid.Row="0" Foreground="{DynamicResource TextColor}" FontSize="12" FontWeight="SemiBold" Margin="1,2,0,0"
+                                                                <TextBlock Grid.Row="0" Foreground="{DynamicResource TextColor}" FontSize="12" FontWeight="Medium" Margin="1,2,0,0"
                                                                TextTrimming="CharacterEllipsis" Text="{Binding Name, Converter={StaticResource AllCaps}}" />
                                                                 <ProgressBar Grid.Row="1"
                                                                  Foreground="{Binding Faction.Color}"
-                                                                 BorderThickness="0" Height="10"
+                                                                 BorderThickness="0" Height="8"
                                                                  Value="{Binding Value}"
                                                                  Background="#4C555555"
                                                                  BorderBrush="{x:Null}" >
@@ -430,7 +428,7 @@
                     </Border>
                 </DockPanel>
                 
-                <DockPanel Grid.Column="2" Opacity=".930" DataContext="{Binding GameView}">
+                <DockPanel Grid.Column="2" Opacity=".930" MaxHeight="260" >
                     <Border Style="{StaticResource BoxPanel}">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -439,7 +437,7 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Foreground="{DynamicResource TextColor}" Text="ТОРГОВЦЫ" FontSize="17" FontWeight="Medium"
+                            <TextBlock Foreground="{DynamicResource TextColor}" Text="ТОРГОВЦЫ" FontSize="16" FontWeight="Medium"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" />
                             <Border Grid.Row="0" BorderBrush="{DynamicResource TradeLineColor}"
                                     BorderThickness="0,0,0,2" />
@@ -456,7 +454,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <!-- Нижняя сетка -->
-                <DockPanel x:Name="NewsPanel" Opacity=".930" DataContext="{Binding NewsData}">
+                <DockPanel x:Name="NewsPanel" Opacity=".930" MaxHeight="260" >
                     <Border Style="{StaticResource BoxPanel}">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -465,13 +463,13 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Foreground="{DynamicResource TextColor}" Text="НОВОСТИ" FontSize="17" FontWeight="Medium"
+                            <TextBlock Foreground="{DynamicResource TextColor}" Text="НОВОСТИ" FontSize="16" FontWeight="Medium"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" />
                             <Border Grid.Row="0" BorderBrush="{DynamicResource NewsLineColor}"
                                     BorderThickness="0,0,0,2" />
 
                             <ListBox Grid.Row="1" ScrollViewer.CanContentScroll="False"
-                                     ItemsSource="{Binding Data.Posts}" Background="{x:Null}" BorderBrush="{x:Null}"
+                                     ItemsSource="{Binding News}" Background="{x:Null}" BorderBrush="{x:Null}"
                                      VerticalContentAlignment="Top"
                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                      ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -479,7 +477,7 @@
                                     <DataTemplate>
                                         <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource NewsLineColor}"
                                                 Margin="0,0,0,-1">
-                                            <Grid MaxHeight="35">
+                                            <Grid MaxHeight="35" d:DataContext="{d:DesignInstance {x:Type viewModel:PostViewModel}}">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition Width="*" />
@@ -496,9 +494,9 @@
                                                         <RowDefinition Height="Auto" />
                                                     </Grid.RowDefinitions>
                                                     <TextBlock Foreground="{DynamicResource TextColor}" Grid.Row="0"
-                                                               FontSize="13" FontWeight="SemiBold"
+                                                               FontSize="12" FontWeight="Medium"
                                                                Text="{Binding Title, Converter={StaticResource AllCaps}}" TextTrimming="CharacterEllipsis"
-                                                               ToolTip="{Binding Title}" Margin="5,2,3,0" />
+                                                               ToolTip="{Binding Title}" Margin="5,3,3,0" />
                                                     <DockPanel Grid.Row="1" Margin="5,0,5,2" HorizontalAlignment="Left" VerticalAlignment="Top" >
                                                         <fa:FontAwesome Foreground="{DynamicResource TextColor}"
                                                                         Icon="Bars" Margin="0,1,2,0" FontSize="12" VerticalAlignment="Center" />
@@ -523,7 +521,7 @@
                     </Border>
                 </DockPanel>
 
-                <DockPanel Grid.Column="1" Opacity=".930" DataContext="{Binding GameView}">
+                <DockPanel Grid.Column="1" Opacity=".930" MaxHeight="260" DataContext="{Binding GameView}">
                     <Border Style="{StaticResource BoxPanel}">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -532,7 +530,7 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Foreground="{DynamicResource TextColor}" Text="ВЫЛАЗКИ" FontSize="17" FontWeight="Medium"
+                            <TextBlock Foreground="{DynamicResource TextColor}" Text="ВЫЛАЗКИ" FontSize="16" FontWeight="Medium"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" />
                             <Border Grid.Row="0" BorderBrush="{DynamicResource SortiesLineColor}"
                                     BorderThickness="0,0,0,2" />

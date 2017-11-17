@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Windows.Controls;
-using System.Windows.Input;
-using Core.Model;
+﻿using System.Windows.Controls;
 
 namespace Agent.View
 {

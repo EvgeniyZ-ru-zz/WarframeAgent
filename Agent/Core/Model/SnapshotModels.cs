@@ -10,6 +10,30 @@ using Newtonsoft.Json;
 
 namespace Core.Model
 {
+    #region News
+
+    public class NewsSnapshotModel
+    {
+        public bool HasMore { get; set; }
+        public NewsPost[] Posts { get; set; }
+    }
+
+    public class NewsPost
+    {
+        public DateTime Date { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public Uri Url { get; set; }
+        private string _image;
+        public string Image
+        {
+            get => _image;
+            set => _image = "http:" + value;
+        }
+    }
+
+    #endregion
+
     #region Main
 
     public class GameSnapshotModel

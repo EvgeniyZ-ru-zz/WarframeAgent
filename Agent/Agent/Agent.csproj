@@ -120,7 +120,7 @@
     </ApplicationDefinition>
     <Compile Include="Animation.cs" />
     <Compile Include="AsyncHelpers.cs" />
-    <Compile Include="DwmDropShadow.cs" />
+    <Compile Include="ViewModel\NewsViewModel.cs" />
     <Compile Include="ViewModel\BuildsEngine.cs" />
     <Compile Include="ViewModel\AlertsEngine.cs" />
     <Compile Include="ViewModel\GameViewModel.cs" />
@@ -128,6 +128,7 @@
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\InvasionsEngine.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\NewsEngine.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\SplashViewModel.cs" />
     <Compile Include="View\Converters\AllCapsConverter.cs" />

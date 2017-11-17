@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Threading;
-
 using Core.Model;
 using Core.ViewModel;
 using Core.Events;
@@ -18,6 +17,7 @@ namespace Agent.ViewModel
             reloadTimer.Start();
 
             Model = model;
+            NewsEngine = new NewsEngine(this);
             AlertsEngine = new AlertsEngine(this, filtersEvent);
             InvasionsEngine = new InvasionsEngine(this, filtersEvent);
             BuildsEngine = new BuildsEngine(this);
@@ -25,19 +25,33 @@ namespace Agent.ViewModel
 
         public void Run()
         {
+            NewsEngine.Run(Model);
             AlertsEngine.Run(Model);
             InvasionsEngine.Run(Model);
             BuildsEngine.Run(Model);
         }
 
+        private NewsEngine NewsEngine;
         private AlertsEngine AlertsEngine;
         private InvasionsEngine InvasionsEngine;
         private BuildsEngine BuildsEngine;
         private GameModel Model;
 
+        public ObservableCollection<PostViewModel> News { get; } = new ObservableCollection<PostViewModel>();
         public ObservableCollection<AlertViewModel> Alerts { get; } = new ObservableCollection<AlertViewModel>();
         public ObservableCollection<InvasionViewModel> Invasions { get; } = new ObservableCollection<InvasionViewModel>();
         public ObservableCollection<BuildViewModel> Builds { get; } = new ObservableCollection<BuildViewModel>();
+
+
+        public void AddNews(PostViewModel post) => News.Add(post);
+        public PostViewModel TryGetNewsByTitle(string title) => News.FirstOrDefault(a => a.Title == title);
+        public void RemoveNewsByTitle(string title)
+        {
+            PostViewModel post = TryGetNewsByTitle(title);
+            if (post != null)
+                News.Remove(post);
+        }
+
 
         public void AddAlert(AlertViewModel alert) => Alerts.Add(alert);
         public AlertViewModel TryGetAlertById(Id id) => Alerts.FirstOrDefault(a => a.Id == id);

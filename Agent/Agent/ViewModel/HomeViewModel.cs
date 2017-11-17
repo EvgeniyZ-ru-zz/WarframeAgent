@@ -15,15 +15,14 @@ namespace Agent.ViewModel
     {
         private GameViewModel GameView;
 
+        public ObservableCollection<PostViewModel> News => GameView.News;
         public ObservableCollection<AlertViewModel> Alerts => GameView.Alerts;
         public ObservableCollection<InvasionViewModel> Invasions => GameView.Invasions;
         public ObservableCollection<BuildViewModel> Builds => GameView.Builds;
-        public News NewsData { get; }
 
-        public HomeViewModel(GameViewModel gameView, News newsData)
+        public HomeViewModel(GameViewModel gameView)
         {
             GameView = gameView;
-            NewsData = newsData;
         }
     }
 }
