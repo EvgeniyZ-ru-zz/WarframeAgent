@@ -8,6 +8,7 @@
              xmlns:converters="clr-namespace:Agent.View.Converters"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:viewModel="clr-namespace:Core.ViewModel;assembly=Core"
+             xmlns:cachedImage="clr-namespace:Agent.CachedImage"
              mc:Ignorable="d" FontFamily="/Agent;component/Resources/Fonts/Lato/#Lato"
              d:DesignHeight="540" d:DesignWidth="930">
     <UserControl.Resources>
@@ -482,12 +483,13 @@
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
-                                                <Image Grid.Column="0" Stretch="UniformToFill" Margin="0">
+                                                <cachedImage:Image ImageUrl="{Binding Image}" Grid.Column="0" Stretch="UniformToFill" Margin="0"></cachedImage:Image>
+                                                <!--<Image Grid.Column="0" Stretch="UniformToFill" Margin="0">
                                                     <Image.Source>
                                                         <BitmapImage UriCachePolicy="Revalidate"
                                                                      UriSource="{Binding Image}" />
                                                     </Image.Source>
-                                                </Image>
+                                                </Image>-->
                                                 <Grid Grid.Column="1">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition />

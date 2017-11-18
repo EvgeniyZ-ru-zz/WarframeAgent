@@ -5,8 +5,13 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:fa="http://schemas.fontawesome.io/icons/"
       xmlns:viewModel="clr-namespace:Core.ViewModel;assembly=Core"
+      xmlns:converters="clr-namespace:Agent.View.Converters"
+      xmlns:cachedImage="clr-namespace:Agent.CachedImage"
       mc:Ignorable="d" 
       d:DesignHeight="540" d:DesignWidth="930">
+    <UserControl.Resources>
+        <converters:AllCapsConverter x:Key="AllCaps"/>
+    </UserControl.Resources>
     <Grid>
         <DockPanel x:Name="NewsPanel" Opacity=".930">
             <Border Style="{StaticResource BoxPanel}">
@@ -17,7 +22,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Foreground="{DynamicResource TextColor}" Text="Новости" FontSize="17"
+                    <TextBlock Foreground="{DynamicResource TextColor}" Text="НОВОСТИ" FontSize="16" FontWeight="Medium"
                                HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" />
                     <Border Grid.Row="0" BorderBrush="{DynamicResource NewsLineColor}" BorderThickness="0,0,0,2" />
 
@@ -33,36 +38,36 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Image Grid.Column="0" Stretch="UniformToFill" Margin="0">
-                                        <Image.Source>
-                                            <BitmapImage UriCachePolicy="Revalidate" UriSource="{Binding Image}" />
-                                        </Image.Source>
-                                    </Image>
+                                    <cachedImage:Image ImageUrl="{Binding Image}" Grid.Column="0" Stretch="UniformToFill" Margin="0"/>
                                     <Grid Grid.Column="1">
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
-                                        <TextBlock Foreground="{DynamicResource TextColor}" Grid.Row="0" FontSize="16"
-                                                   TextTrimming="CharacterEllipsis" Typography.Capitals="AllSmallCaps"
-                                                   Text="{Binding Title}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Margin="5,5,3,0" />
-                                        <DockPanel Grid.Row="1">
-                                            <DockPanel Margin="5,0,5,4" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="{DynamicResource TextColor}" Grid.Row="0" FontSize="13"
+                                                   TextTrimming="CharacterEllipsis" FontWeight="Medium"
+                                                   Text="{Binding Title, Converter={StaticResource AllCaps}}" ToolTip="{Binding Title}" Margin="5,5,3,0" />
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <DockPanel Grid.Column="0" Margin="5,0,5,4" HorizontalAlignment="Left">
                                                 <fa:FontAwesome Foreground="{DynamicResource TextColor}" Icon="Bars"
-                                                                Margin="0,0,2,0" FontSize="13" />
+                                                                Margin="0,1,2,0" FontSize="14" />
                                                 <TextBlock Foreground="{DynamicResource TextColor}" FontSize="13"
                                                            TextTrimming="CharacterEllipsis"
-                                                           Text="{Binding Description}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
+                                                           Text="{Binding Description, Converter={StaticResource AllCaps}}" ToolTip="{Binding Description}"
                                                            />
                                             </DockPanel>
-                                            <DockPanel Margin="5,0,5,2" HorizontalAlignment="Right">
+                                            <DockPanel Grid.Column="1" Margin="5,0,5,2" HorizontalAlignment="Right">
                                                 <fa:FontAwesome Foreground="{DynamicResource TextColor}"
-                                                                Icon="ClockOutline" Margin="0,0,2,0" FontSize="12" />
-                                                <TextBlock Foreground="{DynamicResource TextColor}" FontSize="12"
+                                                                Icon="ClockOutline" Margin="0,0,2,0" FontSize="13" />
+                                                <TextBlock Foreground="{DynamicResource TextColor}" FontSize="12" FontWeight="Medium"
                                                            TextTrimming="CharacterEllipsis" Text="{Binding Date}"
                                                            />
                                             </DockPanel>
-                                        </DockPanel>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
                                 </Border>
