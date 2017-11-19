@@ -1,6 +1,6 @@
 {
-  "Date": "04.11.2017",
-  "Version": 9,
+  "Date": "19.11.2017",
+  "Version": 10,
   "Items": [
     {
       "type": "Ресурсы",
@@ -242,6 +242,7 @@
       "/Lotus/StoreItems/Types/Restoratives/Consumable/BaroFireWorksCrate": "Ки'Тиир фейерверк",
       "/Lotus/StoreItems/Types/Sentinels/SentinelPowersuits/PrismaShadePowerSuit": "Шейд призма",
       "/Lotus/StoreItems/Types/Sentinels/SentinelPrecepts/PrimedRegen": "Регенерация прайм",
+      "/Lotus/StoreItems/Types/StoreItems/AvatarImages/AvatarImageBaroIcon": "Изображение профиля Дань Ки'Тиира",
       "/Lotus/StoreItems/Types/StoreItems/AvatarImages/ImageBaroKiteer": "Изображение профиля Баро Ки'Тиир",
       "/Lotus/StoreItems/Types/StoreItems/SuitCustomizations/ColourPickerKiteerItemA": "Палитра Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Mods/Archwing/Expert/ArchwingSuitAbilityStrengthModExpert": "Морф-трансформер прайм",
@@ -250,6 +251,7 @@
       "/Lotus/StoreItems/Upgrades/Mods/Melee/Expert/WeaponImpactDamageModExpert": "Тяжелая травма прайм",
       "/Lotus/StoreItems/Upgrades/Mods/Melee/Expert/WeaponMeleeDamageModExpert": "Болевая точка прайм",
       "/Lotus/StoreItems/Upgrades/Mods/Melee/Expert/WeaponMeleeRangeIncModExpert": "Размах прайм",
+      "/Lotus/StoreItems/Upgrades/Mods/Melee/Expert/WeaponToxinDamageModExpert": "Лихорадочный удар прайм",
       "/Lotus/StoreItems/Upgrades/Mods/Melee/WeaponEventMeleeImpactDamageMod": "Сбивающий удар",
       "/Lotus/StoreItems/Upgrades/Mods/Melee/WeaponEventSlashDamageMod": "Убивающий гул",
       "/Lotus/StoreItems/Upgrades/Mods/Pistol/DualStat/ElectEventPistolMod": "Тряска",
