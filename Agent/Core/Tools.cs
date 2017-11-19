@@ -244,6 +244,9 @@ namespace Core
 
                 Debug.WriteLine($"[{DateTime.Now}] {message}{errorMsg}");
                 Logger.Log(level, exception, message, param);
+
+                if (level >= LogLevel.Warn)
+                    Microsoft.HockeyApp.HockeyClient.Current.TrackEvent($"{message}{errorMsg}");
             }
         }
 

@@ -154,7 +154,7 @@
                                                 </StackPanel>
 
                                             </DockPanel>
-                                            <ProgressBar Name="Bar" Foreground="{DynamicResource AlertLineColor}"
+                                            <ProgressBar Name="Bar" Foreground="{Binding StatusColor}"
                                                          BorderThickness="0"
                                                          Minimum="{Binding Activation.Ticks}"
                                                          Maximum="{Binding Expiry.Ticks}"
@@ -163,7 +163,7 @@
                                                          BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="1"
                                                          Margin="0,0,-4,-3" Grid.ColumnSpan="3"
                                                          Grid.Column="0" />
-                                            <ProgressBar Name="CountdownBar" Foreground="Orange"
+                                            <ProgressBar Name="CountdownBar" Foreground="{Binding StatusColor}"
                                                          BorderThickness="0"
                                                          Minimum="{Binding Activation.Ticks, Converter={StaticResource Negator}}"
                                                          Maximum="{Binding PreActivation.Ticks, Converter={StaticResource Negator}}"
