@@ -41,6 +41,13 @@ namespace Agent
             CheckWindow();
         }
 
+        //Get the Main Window
+        public Window getMainWindow(Application app)
+        {
+            Window mainWindow = app.MainWindow;
+            return mainWindow;
+        }
+
         private void CheckWindow()
         {
 
@@ -60,7 +67,7 @@ namespace Agent
                         while (eventWaitHandle.WaitOne())
                         {
                             Current.Dispatcher.BeginInvoke(
-                                (Action)(() => ((MainWindow)Current.MainWindow).BringToForeground()));
+                                (Action)(() => mainWindow.BringToForeground()));
                         }
                     })
                 {
