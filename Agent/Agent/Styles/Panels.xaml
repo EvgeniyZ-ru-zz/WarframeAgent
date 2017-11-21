@@ -8,7 +8,7 @@
     <Style x:Key="BoxPanel" TargetType="Border">
         <Setter Property="Effect" Value="{StaticResource BoxShadow}" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor}" />
-        <Setter Property="Margin" Value="10" />
+        <Setter Property="Margin" Value="7" />
         <Setter Property="CornerRadius" Value="2" />
     </Style>
 

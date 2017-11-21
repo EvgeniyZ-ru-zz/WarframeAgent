@@ -16,7 +16,7 @@
     Icon="/Agent;component/Resources/Icon.ico"
     Initialized="MainWindow_OnInitialized">
 
-    <Border Margin="15" Style="{DynamicResource MainBorder}" CornerRadius="15">
+    <Border Margin="15" Style="{DynamicResource MainBorder}" CornerRadius="0" BorderBrush="{DynamicResource BackgroundColor}" BorderThickness="0,0,2,2">
         <Border.Effect>
             <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" ShadowDepth="2" />
         </Border.Effect>
@@ -32,7 +32,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Шапка приложения -->
-            <Grid Grid.Row="0" VerticalAlignment="Top" MinHeight="40" Height="40" Panel.ZIndex="1"
+            <Grid Grid.Row="0" VerticalAlignment="Top" MinHeight="40" Height="40" Panel.ZIndex="1" Margin="0,0,-2,0"
                   Style="{DynamicResource HeaderColor}" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -54,7 +54,7 @@
                             Click="CloseBtn_Click" />
                 </DockPanel>
             </Grid>
-            <Image x:Name="BgImg" Stretch="UniformToFill" Opacity="0.50"
+            <Image x:Name="BgImg" Stretch="UniformToFill" Opacity="0.64"
                    Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0"
                    Source="/Agent;component/Resources/Images/Background/1.jpg" />
 
@@ -65,7 +65,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Border Style="{DynamicResource LeftPanelBorder}" Margin="0,-1,0,0" Grid.RowSpan="4" />
+                <Border Style="{DynamicResource LeftPanelBorder}" Margin="0,-1,0,-2" Grid.RowSpan="4" />
                 <StackPanel Grid.Row="0" Name="LeftPanelTheme" Orientation="Horizontal" HorizontalAlignment="Center"
                             VerticalAlignment="Top" Margin="0,5">
                     <Button Name="ThemeBtn" 
