@@ -122,6 +122,7 @@
     <Compile Include="AsyncHelpers.cs" />
     <Compile Include="CachedImage\FileCache.cs" />
     <Compile Include="CachedImage\Image.cs" />
+    <Compile Include="ViewModel\DailyDealsEngine.cs" />
     <Compile Include="ViewModel\VoidsEngine.cs" />
     <Compile Include="ViewModel\NewsViewModel.cs" />
     <Compile Include="ViewModel\BuildsEngine.cs" />

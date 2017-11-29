@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Model
 {
-    static public class StorageModel
+    public static class StorageModel
     {
         static string applicationFolder = AppDomain.CurrentDomain.BaseDirectory;
 

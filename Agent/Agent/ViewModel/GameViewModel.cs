@@ -21,6 +21,7 @@ namespace Agent.ViewModel
             AlertsEngine = new AlertsEngine(this, filtersEvent);
             InvasionsEngine = new InvasionsEngine(this, filtersEvent);
             VoidsEngine = new VoidsEngine(this);
+            DailyDealsEngine = new DailyDealsEngine(this, filtersEvent);
             BuildsEngine = new BuildsEngine(this);
         }
 
@@ -30,6 +31,7 @@ namespace Agent.ViewModel
             AlertsEngine.Run(Model);
             InvasionsEngine.Run(Model);
             VoidsEngine.Run(Model);
+            DailyDealsEngine.Run(Model);
             BuildsEngine.Run(Model);
         }
 
@@ -37,6 +39,7 @@ namespace Agent.ViewModel
         private AlertsEngine AlertsEngine;
         private InvasionsEngine InvasionsEngine;
         private VoidsEngine VoidsEngine;
+        private DailyDealsEngine DailyDealsEngine;
         private BuildsEngine BuildsEngine;
         private GameModel Model;
 
@@ -44,6 +47,7 @@ namespace Agent.ViewModel
         public ObservableCollection<AlertViewModel> Alerts { get; } = new ObservableCollection<AlertViewModel>();
         public ObservableCollection<InvasionViewModel> Invasions { get; } = new ObservableCollection<InvasionViewModel>();
         public ObservableCollection<VoidTradeViewModel> VoidTrades { get; } = new ObservableCollection<VoidTradeViewModel>();
+        public ObservableCollection<DailyDealViewModel> DailyDeals { get; } = new ObservableCollection<DailyDealViewModel>();
         public ObservableCollection<BuildViewModel> Builds { get; } = new ObservableCollection<BuildViewModel>();
 
 
@@ -84,6 +88,15 @@ namespace Agent.ViewModel
                 VoidTrades.Remove(trader);
         }
 
+        public void AddDailyDeal(DailyDealViewModel deal) => DailyDeals.Add(deal);
+        public DailyDealViewModel TryGetDailyDealByName(string name) => DailyDeals.FirstOrDefault(i => i.StoreItemOriginal == name);
+        public void RemoveDailyDealByName(string name)
+        {
+            DailyDealViewModel deal = TryGetDailyDealByName(name);
+            if (deal != null)
+                DailyDeals.Remove(deal);
+        }
+
         public void AddBuild(BuildViewModel build) => Builds.Add(build);
         public BuildViewModel TryGetBuildById(int id) => Builds.FirstOrDefault(i => i.Id == id);
         public void RemoveBuildById(int id)
@@ -104,7 +117,13 @@ namespace Agent.ViewModel
             for (var index = 0; index < (VoidTrades).Count; index++)
             {
                 var item = (VoidTrades)[index];
-                item.UpdateStatus(); // TODO: make it inside the alert
+                item.UpdateStatus(); // TODO: make it inside the trade
+            }
+
+            for (var index = 0; index < (DailyDeals).Count; index++)
+            {
+                var item = (DailyDeals)[index];
+                item.UpdateStatus(); // TODO: make it inside the dailyDeals
             }
         }
     }

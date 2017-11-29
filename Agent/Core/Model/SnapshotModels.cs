@@ -192,6 +192,17 @@ namespace Core.Model
         public int SalePrice { get; set; }
         public int AmountTotal { get; set; }
         public int AmountSold { get; set; }
+
+        internal bool Update(DailyDeal ntf)
+        {
+            bool hasChanges = false;
+            if (AmountSold != ntf.AmountSold)
+            {
+                hasChanges = true;
+                AmountSold = ntf.AmountSold;
+            }
+            return hasChanges;
+        }
     }
 
     #endregion
