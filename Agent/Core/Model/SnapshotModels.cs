@@ -45,6 +45,8 @@ namespace Core.Model
         public int Date { get; set; }
         public Alert[] Alerts { get; set; }
         public Invasion[] Invasions { get; set; }
+        public VoidTrader[] VoidTraders { get; set; }
+        public DailyDeal[] DailyDeals { get; set; }
         public double[] ProjectPct { get; set; }
         public string WorldSeed { get; set; }
     }
@@ -57,7 +59,6 @@ namespace Core.Model
     {
         [JsonProperty("_id")]
         public Id Id { get; set; }
-
         public Activation Activation { get; set; }
         public Expiry Expiry { get; set; }
         public MissionInfo MissionInfo { get; set; }
@@ -155,12 +156,42 @@ namespace Core.Model
 
     #endregion
 
+    #region VoidTraders
+
+    public class VoidTrader
+    {
+        [JsonProperty("_id")]
+        public Id Id { get; set; }
+        public Activation Activation { get; set; }
+        public Expiry Expiry { get; set; }
+        public string Character { get; set; }
+        public string Node { get; set; }
+    }
+
+    #endregion
+
     #region Project
 
     public class Build
     {
         public int Number { get; set; }
         public double Value { get; set; }
+    }
+
+    #endregion
+
+    #region DailyDeals
+
+    public class DailyDeal
+    {
+        public string StoreItem { get; set; }
+        public Activation Activation { get; set; }
+        public Expiry Expiry { get; set; }
+        public int Discount { get; set; }
+        public int OriginalPrice { get; set; }
+        public int SalePrice { get; set; }
+        public int AmountTotal { get; set; }
+        public int AmountSold { get; set; }
     }
 
     #endregion

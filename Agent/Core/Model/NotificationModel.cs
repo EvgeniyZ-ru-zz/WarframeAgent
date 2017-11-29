@@ -37,6 +37,14 @@ namespace Core.Model
             Notification = ntf;
     }
 
+    // Добавление/удаление/изменение торговцев
+    public class VoidTraderNotificationEventArgs : EventArgs
+    {
+        public readonly VoidTrader Notification;
+        public VoidTraderNotificationEventArgs(VoidTrader ntf) =>
+            Notification = ntf;
+    }
+
     // Добавление/удаление/изменение строений
     public class BuildNotificationEventArgs : EventArgs
     {
@@ -57,6 +65,7 @@ namespace Core.Model
         private readonly Dictionary<string, NewsPost> _currentNewsNotifications = new Dictionary<string, NewsPost>();
         private readonly Dictionary<string, Alert> _currentAlertsNotifications = new Dictionary<string, Alert>();
         private readonly Dictionary<string, Invasion> _currentInvasionsNotifications = new Dictionary<string, Invasion>();
+        private readonly Dictionary<string, VoidTrader> _currentVoidsNotifications = new Dictionary<string, VoidTrader>();
         private readonly List<Build> _currentBuilds = new List<Build>();
 
         private GlobalEvents.ServerEvents _server;
@@ -105,6 +114,12 @@ namespace Core.Model
                 return _currentInvasionsNotifications.Values;
         }
 
+        public IEnumerable<VoidTrader> GetCurrentVoidTrades()
+        {
+            lock (mutex)
+                return _currentVoidsNotifications.Values;
+        }
+
         public IEnumerable<Build> GetCurrentBuilds()
         {
             lock (mutex)
@@ -128,6 +143,7 @@ namespace Core.Model
             NewsEvaluteList(newsSnapshot);
             AlertEvaluateList(gameSnapshot);
             InvasionEvaluateList(gameSnapshot);
+            VoidsEvaluateList(gameSnapshot);
             BuildEvaluateList(gameSnapshot);
         }
 
@@ -151,10 +167,10 @@ namespace Core.Model
             List<NewsPost> newNotifications, removedNotifications = new List<NewsPost>();
             lock (mutex)
             {
-                newNotifications = snapshot.Posts.Where(ntf => !_currentNewsNotifications.ContainsKey(ntf.Title)).ToList();
+                newNotifications = snapshot.Posts.Where(ntf => !_currentNewsNotifications.ContainsKey(ntf.Description)).ToList();
                 foreach (var ntf in newNotifications)
-                    _currentNewsNotifications.Add(ntf.Title, ntf);
-                var removedId = _currentNewsNotifications.Keys.Except(snapshot.Posts.Select(ntf => ntf.Title));
+                    _currentNewsNotifications.Add(ntf.Description, ntf);
+                var removedId = _currentNewsNotifications.Keys.Except(snapshot.Posts.Select(ntf => ntf.Description));
                 foreach (var id in removedId.ToList())
                 {
                     removedNotifications.Add(_currentNewsNotifications[id]);
@@ -214,6 +230,27 @@ namespace Core.Model
                 FireChangedInvasionNotification(ntf);
             foreach (var ntf in removedNotifications)
                 FireRemovedInvasionNotification(ntf);
+        }
+
+        private void VoidsEvaluateList(GameSnapshotModel snapshot)
+        {
+            List<VoidTrader> newNotifications, removedNotifications = new List<VoidTrader>();
+            lock (mutex)
+            {
+                newNotifications = snapshot.VoidTraders.Where(ntf => !_currentVoidsNotifications.ContainsKey(ntf.Id.Oid)).ToList();
+                foreach (var ntf in newNotifications)
+                    _currentVoidsNotifications.Add(ntf.Id.Oid, ntf);
+                var removedId = _currentVoidsNotifications.Keys.Except(snapshot.VoidTraders.Select(ntf => ntf.Id.Oid));
+                foreach (var id in removedId.ToList())
+                {
+                    removedNotifications.Add(_currentVoidsNotifications[id]);
+                    _currentVoidsNotifications.Remove(id);
+                }
+            }
+            foreach (var ntf in newNotifications)
+                FireNewVoidTraderNotification(ntf);
+            foreach (var ntf in removedNotifications)
+                FireRemovedVoidTraderNotification(ntf);
         }
 
         private void BuildEvaluateList(GameSnapshotModel snapshot)
@@ -321,6 +358,22 @@ namespace Core.Model
 
         private void FireRemovedInvasionNotification(Invasion ntf) =>
             InvasionNotificationDeparted?.Invoke(this, new InvasionNotificationEventArgs(ntf));
+
+        /// <summary>
+        ///     Эвент добавления новых торговцев.
+        /// </summary>
+        public event EventHandler<VoidTraderNotificationEventArgs> VoidTraderNotificationArrived;
+
+        private void FireNewVoidTraderNotification(VoidTrader ntf) =>
+            VoidTraderNotificationArrived?.Invoke(this, new VoidTraderNotificationEventArgs(ntf));
+
+        /// <summary>
+        ///     Эвент удаления старых торговцев.
+        /// </summary>
+        public event EventHandler<VoidTraderNotificationEventArgs> VoidTraderNotificationDeparted;
+
+        private void FireRemovedVoidTraderNotification(VoidTrader ntf) =>
+            VoidTraderNotificationDeparted?.Invoke(this, new VoidTraderNotificationEventArgs(ntf));
 
         /// <summary>
         ///     Эвент добавления новых строений.

@@ -18,6 +18,7 @@ namespace Agent.ViewModel
         public ObservableCollection<PostViewModel> News => GameView.News;
         public ObservableCollection<AlertViewModel> Alerts => GameView.Alerts;
         public ObservableCollection<InvasionViewModel> Invasions => GameView.Invasions;
+        public ObservableCollection<VoidTradeViewModel> VoidTrades => GameView.VoidTrades;
         public ObservableCollection<BuildViewModel> Builds => GameView.Builds;
 
         public HomeViewModel(GameViewModel gameView)

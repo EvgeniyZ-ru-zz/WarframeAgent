@@ -9,14 +9,16 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:viewModel="clr-namespace:Core.ViewModel;assembly=Core"
              xmlns:cachedImage="clr-namespace:Agent.CachedImage"
+             xmlns:gameModel="clr-namespace:Agent.ViewModel"
              mc:Ignorable="d" FontFamily="/Agent;component/Resources/Fonts/Lato/#Lato"
              d:DesignHeight="540" d:DesignWidth="930">
     <UserControl.Resources>
         <viewModel:TimeNowViewModel x:Key="TimeVM" />
         <converters:AllCapsConverter x:Key="AllCaps"/>
+        <converters:ConstantMultiplyingLongConverter Multiplier="-1" x:Key="Negator"/>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid d:DataContext="{d:DesignInstance {x:Type gameModel:GameViewModel}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
@@ -53,9 +55,6 @@
                 <DockPanel Grid.Column="0" Opacity=".930" MaxHeight="260">
                     <Border Style="{StaticResource BoxPanel}">
                         <Grid>
-                            <Grid.Resources>
-                                <converters:ConstantMultiplyingLongConverter Multiplier="-1" x:Key="Negator"/>
-                            </Grid.Resources>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -75,7 +74,7 @@
                                      ItemContainerStyle="{StaticResource AlertListItem}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid MaxHeight="33" Margin="0,1,0,2" d:DataContext="{d:DesignInstance {x:Type viewModel:AlertViewModel }}" >
+                                        <Grid MaxHeight="33" Margin="0,1,0,2" >
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="3*" />
@@ -228,7 +227,7 @@
                                     </ListBox.GroupStyle>-->
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Grid Height="33" Margin="0,1,0,2"  d:DataContext="{d:DesignInstance {x:Type viewModel:InvasionViewModel }}">
+                                                    <Grid Height="33" Margin="0,1,0,2" >
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto" />
                                                             <ColumnDefinition Width="*" />
@@ -381,7 +380,7 @@
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <Border BorderBrush="{StaticResource InvasionsLineColor}" BorderThickness="0,0,0,1">
-                                                        <Grid Height="33" Margin="0,1,0,2"  d:DataContext="{d:DesignInstance {x:Type viewModel:BuildViewModel }}">
+                                                        <Grid Height="33" Margin="0,1,0,2" >
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="Auto"/>
                                                                 <ColumnDefinition Width="*"/>
@@ -443,7 +442,101 @@
                             <Border Grid.Row="0" BorderBrush="{DynamicResource TradeLineColor}"
                                     BorderThickness="0,0,0,2" />
 
-                            <!-- Контент -->
+                            <TabControl Grid.Row="1" Style="{DynamicResource TabStyleInvisions}">
+                                <TabItem Style="{StaticResource TabItemStyleInvisions}" >
+                                    <TabItem.Header>
+                                        <fa:FontAwesome Icon="Users" FontSize="14" Foreground="{DynamicResource TextColor}"/>
+                                    </TabItem.Header>
+                                    <TabItem.Content>
+                                        <ListBox Grid.Row="1" ScrollViewer.CanContentScroll="False"
+                                     ItemsSource="{Binding VoidTrades}" Background="{x:Null}" BorderBrush="{x:Null}"
+                                     VerticalContentAlignment="Top"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                     ItemContainerStyle="{StaticResource AlertListItem}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid MaxHeight="33" Margin="0,1,0,2" >
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        
+                                                        <StackPanel Grid.Column="0" Grid.Row="0" Margin="0,0,0,2">
+                                                            <StackPanel.Resources>
+                                                                <converters:NullToStringConverter x:Key="MiddleConverter" OnNonNull=" – " />
+                                                            </StackPanel.Resources>
+                                                            <TextBlock Margin="3,3,3,0" FontWeight="Medium"
+                                                           Foreground="{DynamicResource TextColor}" FontSize="12"
+                                                           TextTrimming="CharacterEllipsis" Text="{Binding Character, Converter={StaticResource AllCaps}}" />
+                                                            <TextBlock Margin="3,0" Foreground="{DynamicResource TextColor}"
+                                                           FontSize="11"
+                                                           TextTrimming="CharacterEllipsis"
+                                                           VerticalAlignment="Center">
+                                                                <Run Text="{Binding Planet, Mode=OneWay, Converter={StaticResource AllCaps}}"
+                                                                     ToolTip="{Binding Planet, Mode=OneWay}" /><!-- положение комментариев важно!
+                                                                --><Run Text="{Binding Planet, Mode=OneWay, Converter={StaticResource MiddleConverter}}" /><!--
+                                                                --><Run Text="{Binding Location, Mode=OneWay, Converter={StaticResource AllCaps}}"
+                                                                                                                                                                                                                                                                                                                                                                                                                      ToolTip="{Binding MissionInfo.Sector.Location, Mode=OneWay}" />
+                                                            </TextBlock>
+                                                        </StackPanel>
+
+                                                        <DockPanel Grid.Column="1" Margin="0,0,0,2" HorizontalAlignment="Right">
+                                                            <StackPanel Margin="0,2,0,0" DockPanel.Dock="Top"
+                                                            Orientation="Horizontal" HorizontalAlignment="Right">
+                                                                <TextBlock
+                                                        Foreground="{DynamicResource TextColor}" FontSize="13" FontWeight="Medium"
+                                                        TextTrimming="CharacterEllipsis" Text="{Binding Status}"
+                                                        VerticalAlignment="Top" />
+                                                            </StackPanel>
+                                                            <StackPanel Margin="0,0,0,0" DockPanel.Dock="Bottom"
+                                                            Orientation="Horizontal" HorizontalAlignment="Right"
+                                                            VerticalAlignment="Bottom">
+                                                                <fa:FontAwesome Foreground="{Binding StatusColor}"
+                                                                                Icon="CaretRight" VerticalAlignment="Center" FontSize="14" Margin="0,3,2,0"  />
+                                                                <TextBlock Text="{Binding StatusText, TargetNullValue=---}" FontSize="12" Foreground="{DynamicResource TextColor}" Margin="0"/>
+                                                            </StackPanel>
+
+                                                        </DockPanel>
+                                                        <ProgressBar Name="Bar" Foreground="{Binding StatusColor}"
+                                                         BorderThickness="0"
+                                                         Minimum="{Binding Activation.Ticks}"
+                                                         Maximum="{Binding Expiry.Ticks}"
+                                                         Value="{Binding Now.Ticks, Source={StaticResource TimeVM}, Mode=OneWay}"
+                                                         Background="{DynamicResource AlertProgressColor}"
+                                                         BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="1"
+                                                         Margin="0,0,-4,-3" Grid.ColumnSpan="2"
+                                                         Grid.Column="0" />
+                                                        <ProgressBar Name="CountdownBar" Foreground="{Binding StatusColor}"
+                                                         BorderThickness="0"
+                                                         Minimum="{Binding Activation.Ticks, Converter={StaticResource Negator}}"
+                                                         Maximum="{Binding PreActivation.Ticks, Converter={StaticResource Negator}}"
+                                                         Value="{Binding Now.Ticks, Source={StaticResource TimeVM}, Mode=OneWay, Converter={StaticResource Negator}}"
+                                                         Background="Transparent"
+                                                         BorderBrush="{x:Null}" VerticalAlignment="Bottom" Height="1"
+                                                         Margin="0,0,-4,-3" Grid.ColumnSpan="2"
+                                                         Grid.Column="0"
+                                                         RenderTransformOrigin="0.5,0.5" >
+                                                            <ProgressBar.RenderTransform>
+                                                                <ScaleTransform ScaleX="-1"/>
+                                                            </ProgressBar.RenderTransform>
+                                                        </ProgressBar>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </TabItem.Content>
+                                </TabItem>
+                                <TabItem Style="{StaticResource TabItemStyleInvisions}">
+                                    <TabItem.Header>
+                                        <fa:FontAwesome Icon="ListOl" FontSize="14" Foreground="{DynamicResource TextColor}"/>
+                                    </TabItem.Header>
+                                    <TabItem.Content>
+                                        <TextBlock Text="{Binding VoidTrades.Count}"/>
+                                        <!-- -->
+                                    </TabItem.Content>
+                                </TabItem>
+                            </TabControl>
                         </Grid>
                     </Border>
                 </DockPanel>
@@ -478,7 +571,7 @@
                                     <DataTemplate>
                                         <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource NewsLineColor}"
                                                 Margin="0,0,0,-1">
-                                            <Grid MaxHeight="35" d:DataContext="{d:DesignInstance {x:Type viewModel:PostViewModel}}">
+                                            <Grid MaxHeight="35" >
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition Width="*" />
@@ -523,7 +616,7 @@
                     </Border>
                 </DockPanel>
 
-                <DockPanel Grid.Column="1" Opacity=".930" MaxHeight="260" DataContext="{Binding GameView}">
+                <DockPanel Grid.Column="1" Opacity=".930" MaxHeight="260" >
                     <Border Style="{StaticResource BoxPanel}">
                         <Grid>
                             <Grid.RowDefinitions>

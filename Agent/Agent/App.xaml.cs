@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
@@ -10,8 +9,6 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Agent.View;
 using Core;
-using Core.Events;
-
 using Agent.ViewModel;
 using Microsoft.HockeyApp;
 using NLog;
@@ -41,17 +38,8 @@ namespace Agent
             CheckWindow();
         }
 
-        //Get the Main Window
-        public Window getMainWindow(Application app)
-        {
-            Window mainWindow = app.MainWindow;
-            return mainWindow;
-        }
-
         private void CheckWindow()
         {
-
-
             mutex = new Mutex(true, UniqueMutexName, out bool isOwned);
             eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, UniqueEventName);
 

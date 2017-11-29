@@ -20,6 +20,7 @@ namespace Agent.ViewModel
             NewsEngine = new NewsEngine(this);
             AlertsEngine = new AlertsEngine(this, filtersEvent);
             InvasionsEngine = new InvasionsEngine(this, filtersEvent);
+            VoidsEngine = new VoidsEngine(this);
             BuildsEngine = new BuildsEngine(this);
         }
 
@@ -28,26 +29,29 @@ namespace Agent.ViewModel
             NewsEngine.Run(Model);
             AlertsEngine.Run(Model);
             InvasionsEngine.Run(Model);
+            VoidsEngine.Run(Model);
             BuildsEngine.Run(Model);
         }
 
         private NewsEngine NewsEngine;
         private AlertsEngine AlertsEngine;
         private InvasionsEngine InvasionsEngine;
+        private VoidsEngine VoidsEngine;
         private BuildsEngine BuildsEngine;
         private GameModel Model;
 
         public ObservableCollection<PostViewModel> News { get; } = new ObservableCollection<PostViewModel>();
         public ObservableCollection<AlertViewModel> Alerts { get; } = new ObservableCollection<AlertViewModel>();
         public ObservableCollection<InvasionViewModel> Invasions { get; } = new ObservableCollection<InvasionViewModel>();
+        public ObservableCollection<VoidTradeViewModel> VoidTrades { get; } = new ObservableCollection<VoidTradeViewModel>();
         public ObservableCollection<BuildViewModel> Builds { get; } = new ObservableCollection<BuildViewModel>();
 
 
         public void AddNews(PostViewModel post) => News.Add(post);
-        public PostViewModel TryGetNewsByTitle(string title) => News.FirstOrDefault(a => a.Title == title);
-        public void RemoveNewsByTitle(string title)
+        public PostViewModel TryGetNewsByDescription(string description) => News.FirstOrDefault(a => a.Description == description);
+        public void RemoveNewsByTitle(string description)
         {
-            PostViewModel post = TryGetNewsByTitle(title);
+            PostViewModel post = TryGetNewsByDescription(description);
             if (post != null)
                 News.Remove(post);
         }
@@ -71,6 +75,15 @@ namespace Agent.ViewModel
                 Invasions.Remove(invasion);
         }
 
+        public void AddVoidTrade(VoidTradeViewModel trader) => VoidTrades.Add(trader);
+        public VoidTradeViewModel TryGetVoidTradeById(Id id) => VoidTrades.FirstOrDefault(i => i.Id == id);
+        public void RemoveVoidTradeById(Id id)
+        {
+            VoidTradeViewModel trader = TryGetVoidTradeById(id);
+            if (trader != null)
+                VoidTrades.Remove(trader);
+        }
+
         public void AddBuild(BuildViewModel build) => Builds.Add(build);
         public BuildViewModel TryGetBuildById(int id) => Builds.FirstOrDefault(i => i.Id == id);
         public void RemoveBuildById(int id)
@@ -85,6 +98,12 @@ namespace Agent.ViewModel
             for (var index = 0; index < (Alerts).Count; index++)
             {
                 var item = (Alerts)[index];
+                item.UpdateStatus(); // TODO: make it inside the alert
+            }
+
+            for (var index = 0; index < (VoidTrades).Count; index++)
+            {
+                var item = (VoidTrades)[index];
                 item.UpdateStatus(); // TODO: make it inside the alert
             }
         }

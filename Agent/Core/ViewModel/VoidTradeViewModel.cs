@@ -1,32 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 using Core.Model;
-using Core.Events;
 
 namespace Core.ViewModel
 {
-    public class AlertViewModel : VM
+    public class VoidTradeViewModel : VM
     {
-        public AlertViewModel(Alert alert, FiltersEvent filtersEvent)
+        public VoidTradeViewModel(VoidTrader trader)
         {
-            Id = alert.Id;
-            Activation = Tools.Time.ToDateTime(alert.Activation.Date.NumberLong);
-            PreActivation = Activation.AddMinutes(-5);
-            Expiry = Tools.Time.ToDateTime(alert.Expiry.Date.NumberLong);
-            MissionInfo = new MissionViewModel(alert.MissionInfo, filtersEvent);
+            Id = trader.Id;
+            Activation = Tools.Time.ToDateTime(trader.Activation.Date.NumberLong);
+            PreActivation = Activation.AddDays(-12);
+            Expiry = Tools.Time.ToDateTime(trader.Expiry.Date.NumberLong);
+            Character = trader.Character == "Baro'Ki Teel" ? "Баро Ки'Тиир" : trader.Character; //TODO: Перевод
+            Location = Model.Filters.ExpandSector(trader.Node).Location;
+            Planet = Model.Filters.ExpandSector(trader.Node).Planet;
         }
 
         public Id Id { get; }
         public DateTime PreActivation { get; }
         public DateTime Activation { get; }
         public DateTime Expiry { get; }
-        public MissionViewModel MissionInfo { get; }
+        public string Character { get; }
+        public string Location { get; }
+        public string Planet { get; }
 
+        private string _statusText;
+
+        public string StatusText
+        {
+            get => _statusText;
+            set => Set(ref _statusText, value);
+        }
         private Brush _statusColor;
         public Brush StatusColor
         {
@@ -45,8 +51,10 @@ namespace Core.ViewModel
         {
             if (DateTime.Now <= Activation)
             {
-                Status = (Activation - DateTime.Now).ToString(@"mm\:ss");
-                StatusColor = Brushes.Orange;
+                var stat = Activation - DateTime.Now;
+                Status = stat.ToString(@"dd\:hh\:mm\:ss");
+                StatusText = "Отсутсвует".ToUpper();
+                StatusColor = new SolidColorBrush(Color.FromRgb(r: 0x37, g: 0x82, b: 0xCD));
             }
             else
             {
@@ -55,11 +63,13 @@ namespace Core.ViewModel
                     Status = (Expiry - DateTime.Now).ToString((Expiry - DateTime.Now.TimeOfDay).Hour == 0
                         ? @"mm\:ss"
                         : @"hh\:mm\:ss");
+                    StatusText = "Прилетел".ToUpper();
                     StatusColor = new SolidColorBrush(Color.FromRgb(r: 0x6E, g: 0xCD, b: 0x37));
                 }
                 else
                 {
                     Status = "00:00";
+                    StatusText = "Улетает".ToUpper();
                     StatusColor = Brushes.Red;
                 }
             }

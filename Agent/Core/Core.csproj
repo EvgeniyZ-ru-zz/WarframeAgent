@@ -79,6 +79,7 @@
     <Compile Include="Model\StorageModel.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Model\FiltersModel.cs" />
+    <Compile Include="ViewModel\VoidTradeViewModel.cs" />
     <Compile Include="ViewModel\AlertViewModel.cs" />
     <Compile Include="ViewModel\BuildViewModel.cs" />
     <Compile Include="ViewModel\FactionViewModel.cs" />
