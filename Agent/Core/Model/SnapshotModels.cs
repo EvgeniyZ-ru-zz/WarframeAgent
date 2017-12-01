@@ -166,6 +166,25 @@ namespace Core.Model
         public Expiry Expiry { get; set; }
         public string Character { get; set; }
         public string Node { get; set; }
+        public Manifest[] Manifest { get; set; }
+
+        internal bool Update(VoidTrader ntf)
+        {
+            bool hasChanges = false;
+            if (Manifest?.Length != ntf.Manifest?.Length)
+            {
+                hasChanges = true;
+                Manifest = ntf.Manifest;
+            }
+            return hasChanges;
+        }
+    }
+
+    public class Manifest
+    {
+        public string ItemType { get; set; }
+        public int PrimePrice { get; set; }
+        public int RegularPrice { get; set; }
     }
 
     #endregion

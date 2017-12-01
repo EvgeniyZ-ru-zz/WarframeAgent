@@ -80,6 +80,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Model\FiltersModel.cs" />
     <Compile Include="ViewModel\DailyDealViewModel.cs" />
+    <Compile Include="ViewModel\VoidItemViewModel.cs" />
     <Compile Include="ViewModel\VoidTradeViewModel.cs" />
     <Compile Include="ViewModel\AlertViewModel.cs" />
     <Compile Include="ViewModel\BuildViewModel.cs" />

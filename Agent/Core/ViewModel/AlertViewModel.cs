@@ -59,7 +59,7 @@ namespace Core.ViewModel
                 }
                 else
                 {
-                    Status = "00:00";
+                    Status = "--:--";
                     StatusColor = Brushes.Red;
                 }
             }

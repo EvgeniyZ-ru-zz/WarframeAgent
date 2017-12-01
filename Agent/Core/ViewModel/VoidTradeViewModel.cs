@@ -53,7 +53,7 @@ namespace Core.ViewModel
             {
                 var stat = Activation - DateTime.Now;
                 Status = stat.ToString(@"dd\:hh\:mm\:ss");
-                StatusText = "Отсутсвует".ToUpper();
+                StatusText = "Отсутствует".ToUpper();
                 StatusColor = new SolidColorBrush(Color.FromRgb(r: 0x37, g: 0x82, b: 0xCD));
             }
             else
@@ -68,7 +68,7 @@ namespace Core.ViewModel
                 }
                 else
                 {
-                    Status = "00:00";
+                    Status = "--:--";
                     StatusText = "Улетает".ToUpper();
                     StatusColor = Brushes.Red;
                 }

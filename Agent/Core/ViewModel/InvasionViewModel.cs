@@ -94,6 +94,8 @@ namespace Core.ViewModel
                     ? (Goal + Count) / Goal * 100
                     : (Goal + Count) / (Goal * 2) * 100;
 
+            if (val > 100) val = 100;
+
             Percent = val;
             PercentOut = 100 - val;
         }

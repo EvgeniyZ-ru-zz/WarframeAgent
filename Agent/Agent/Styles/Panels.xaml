@@ -55,7 +55,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource InvasionsLineColor}" />
-                            <Setter TargetName="ContentSite" Property="Opacity" Value="1"/>
+                            <Setter TargetName="ContentSite" Property="Opacity" Value=".85"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
                             <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />

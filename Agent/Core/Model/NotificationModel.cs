@@ -250,12 +250,19 @@ namespace Core.Model
 
         private void VoidEvaluateList(GameSnapshotModel snapshot)
         {
-            List<VoidTrader> newNotifications, removedNotifications = new List<VoidTrader>();
+            List<VoidTrader> newNotifications, removedNotifications = new List<VoidTrader>(), changedNotifications;
             lock (mutex)
             {
                 newNotifications = snapshot.VoidTraders.Where(ntf => !_currentVoidsNotifications.ContainsKey(ntf.Id.Oid)).ToList();
                 foreach (var ntf in newNotifications)
                     _currentVoidsNotifications.Add(ntf.Id.Oid, ntf);
+
+                changedNotifications = snapshot.VoidTraders
+                    .Select(ntf =>
+                        _currentVoidsNotifications.TryGetValue(ntf.Id.Oid, out var existingNtf) && existingNtf.Update(ntf) ? existingNtf : null)
+                    .Where(ntf => ntf != null)
+                    .ToList();
+
                 var removedId = _currentVoidsNotifications.Keys.Except(snapshot.VoidTraders.Select(ntf => ntf.Id.Oid));
                 foreach (var id in removedId.ToList())
                 {
@@ -265,6 +272,8 @@ namespace Core.Model
             }
             foreach (var ntf in newNotifications)
                 FireNewVoidTraderNotification(ntf);
+            foreach (var ntf in changedNotifications)
+                FireChangedVoidTraderNotification(ntf);
             foreach (var ntf in removedNotifications)
                 FireRemovedVoidTraderNotification(ntf);
         }
@@ -410,6 +419,14 @@ namespace Core.Model
 
         private void FireNewVoidTraderNotification(VoidTrader ntf) =>
             VoidTraderNotificationArrived?.Invoke(this, new VoidTraderNotificationEventArgs(ntf));
+
+        /// <summary>
+        ///     Эвент обновления известных торговцев (баро).
+        /// </summary>
+        public event EventHandler<VoidTraderNotificationEventArgs> VoidTraderNotificationChanged;
+
+        private void FireChangedVoidTraderNotification(VoidTrader ntf) =>
+            VoidTraderNotificationChanged?.Invoke(this, new VoidTraderNotificationEventArgs(ntf));
 
         /// <summary>
         ///     Эвент удаления старых торговцев (баро).

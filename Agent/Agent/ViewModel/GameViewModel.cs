@@ -47,6 +47,7 @@ namespace Agent.ViewModel
         public ObservableCollection<AlertViewModel> Alerts { get; } = new ObservableCollection<AlertViewModel>();
         public ObservableCollection<InvasionViewModel> Invasions { get; } = new ObservableCollection<InvasionViewModel>();
         public ObservableCollection<VoidTradeViewModel> VoidTrades { get; } = new ObservableCollection<VoidTradeViewModel>();
+        public ObservableCollection<VoidItemViewModel> VoidTradeItems { get; } = new ObservableCollection<VoidItemViewModel>();
         public ObservableCollection<DailyDealViewModel> DailyDeals { get; } = new ObservableCollection<DailyDealViewModel>();
         public ObservableCollection<BuildViewModel> Builds { get; } = new ObservableCollection<BuildViewModel>();
 
@@ -86,6 +87,24 @@ namespace Agent.ViewModel
             VoidTradeViewModel trader = TryGetVoidTradeById(id);
             if (trader != null)
                 VoidTrades.Remove(trader);
+        }
+
+        public void AddVoidTradeItem(VoidItemViewModel manifest) => VoidTradeItems.Add(manifest);
+        public VoidItemViewModel TryGetVoidTradeItemByName(string name) => VoidTradeItems.FirstOrDefault(i => i.ItemType == name);
+        public void RemoveVoidTradeItemByName(string name)
+        {
+            VoidItemViewModel item = TryGetVoidTradeItemByName(name);
+            if (item != null)
+                VoidTradeItems.Remove(item);
+        }
+
+        public void RemoveAllVoidTraderItems()
+        {
+            for (var i = VoidTradeItems.Count-1; i >= 0; i--)
+            {
+                var item = VoidTradeItems[i];
+                VoidTradeItems.Remove(item);
+            }
         }
 
         public void AddDailyDeal(DailyDealViewModel deal) => DailyDeals.Add(deal);
