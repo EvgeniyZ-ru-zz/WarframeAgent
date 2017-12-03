@@ -1,6 +1,6 @@
 {
-  "Date": "23.11.2017",
-  "Version": 11,
+  "Date": "01.12.2017",
+  "Version": 12,
   "Items": [
     {
       "type": "Ресурсы",
@@ -308,6 +308,7 @@
       "/Lotus/StoreItems/Upgrades/Skins/Armor/VTEos/VTEosLRArmor": "Правая шпора Эос прайм",
       "/Lotus/StoreItems/Upgrades/Skins/Catbrows/Armor/CatbrowArmorHalloweenA": "Броня кавата Вайсар (День мёртвых)",
       "/Lotus/StoreItems/Upgrades/Skins/Catbrows/Armor/CatbrowArmorVoidTraderA": "Броня кавата: Ки'Тиир",
+      "/Lotus/StoreItems/Upgrades/Skins/Sentinels/Masks/KavatPetMask": "Маска кавата: Страж",
       "/Lotus/StoreItems/Upgrades/Skins/Clan/BaroQuantumBadgeItem": "Секара: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Kubrows/Armor/KubrowArmorBaro": "Броня кубрау: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Liset/Gyroscope/LisetGyroscopeSkinPrimeTrader": "Скин Ксифоса: призма",
