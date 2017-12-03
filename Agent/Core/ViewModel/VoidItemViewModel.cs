@@ -1,5 +1,4 @@
-﻿using System;
-using Core.Model;
+﻿using Core.Model;
 
 namespace Core.ViewModel
 {

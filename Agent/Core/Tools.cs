@@ -7,8 +7,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NLog;
-using NLog.Config;
-using NLog.Targets;
 
 namespace Core
 {
@@ -60,8 +58,8 @@ namespace Core
             /// <summary>
             ///     Загружает файл в локальную директорию
             /// </summary>
-            /// <param name="url">Адрес файла</param>
-            /// <param name="patch">Куда сохранять</param>
+            /// <param name="uri">Адрес файла</param>
+            /// <param name="relativePath">Куда сохранять</param>
             public static void DownloadFile(Uri uri, string relativePath)
             {
                 using (var c = new WebClient())
@@ -113,7 +111,7 @@ namespace Core
             /// Отправляет Put запрос на указанный адрес
             /// </summary>
             /// <param name="data">Объект для сериализации в JSON</param>
-            /// <param name="url">Адрес для отправки</param>
+            /// <param name="uri">Адрес для отправки</param>
             public static Task<bool> SendPut(object data, Uri uri = null)
             {
                 return PutRequest(data, uri ?? new Uri("https://evgeniy-z.ru/api/v2/agent/filters"));
@@ -125,7 +123,7 @@ namespace Core
             /// <param name="name">Переменная для отрпавки</param>
             /// <param name="type">Тип (items, missions), соответсвует имени файла самого фильтра</param>
             /// <param name="version">Версия приложения</param>
-            /// <param name="url">Адрес для отправки</param>
+            /// <param name="uri">Адрес для отправки</param>
             public static Task<bool> SendPut(string name, string type, string version, Uri uri = null)
             {
                 var data = new { Name = name, Type = type, Version = version };

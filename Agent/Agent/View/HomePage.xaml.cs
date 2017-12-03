@@ -8,7 +8,7 @@ namespace Agent.View
     /// <summary>
     ///     Логика взаимодействия для HomePage.xaml
     /// </summary>
-    public partial class HomePage : UserControl
+    public partial class HomePage
     {
         public HomePage()
         {

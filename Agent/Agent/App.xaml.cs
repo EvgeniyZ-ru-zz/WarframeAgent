@@ -15,11 +15,11 @@ using NLog;
 
 namespace Agent
 {
-    public partial class App : Application
+    public partial class App
     {
         MainViewModel mainVM;
         View.SplashScreen splashScreen;
-        View.MainWindow mainWindow;
+        MainWindow mainWindow;
 
         /// <summary>The event mutex name.</summary>
         private const string UniqueEventName = "7330f03f-38d8-40bc-b123-fba47f61a7e1";
@@ -113,13 +113,14 @@ namespace Agent
         private void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             Tools.Logging.Send(LogLevel.Fatal, "An application error occurred.", e.Exception);
-#if DEBUG // In debug mode do not custom-handle the exception, let Visual Studio handle it
+#if DEBUG
             e.Handled = false;
 #else
                 ShowUnhandledException(e); 
 #endif
         }
 
+        // ReSharper disable once UnusedMember.Local
         private void ShowUnhandledException(DispatcherUnhandledExceptionEventArgs e)
         {
             e.Handled = true;

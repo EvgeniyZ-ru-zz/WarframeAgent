@@ -5,7 +5,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:fa="http://schemas.fontawesome.io/icons/"
     xmlns:vm="clr-namespace:Agent.ViewModel"
-    xmlns:corevm="clr-namespace:Core.ViewModel;assembly=Core"
     xmlns:view="clr-namespace:Agent.View"
     x:Class="Agent.View.MainWindow"
     mc:Ignorable="d"

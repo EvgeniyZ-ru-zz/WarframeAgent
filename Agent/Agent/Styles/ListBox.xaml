@@ -86,7 +86,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="DataGridColumnHeader">
-                    <Border BorderBrush="{StaticResource TradeLineColor}" BorderThickness="0,0,0,1" Background="Transparent">
+                    <Border Visibility="Collapsed" BorderBrush="{StaticResource TradeLineColor}" BorderThickness="0,0,0,1" Background="Transparent">
                         <StackPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Orientation="Horizontal" Margin="5">
                             <ContentPresenter/>
                             <Path x:Name="SortArrow"

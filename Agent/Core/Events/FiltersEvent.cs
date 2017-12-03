@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NLog;
 
 namespace Core.Events
@@ -92,7 +91,7 @@ namespace Core.Events
 
         static string GetFilterFilePath(Model.Filter.Type type) => $"Filters/{type}.json";
         static readonly IEnumerable<Model.Filter.Type> SupportedFilterTypes =
-            new Model.Filter.Type[]
+            new[]
             {
                 Model.Filter.Type.Items,
                 Model.Filter.Type.Planets,

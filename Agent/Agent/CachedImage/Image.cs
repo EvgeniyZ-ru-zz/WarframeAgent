@@ -19,14 +19,14 @@ namespace Agent.CachedImage
 
         public string ImageUrl
         {
-            get { return (string)GetValue(ImageUrlProperty); }
-            set { SetValue(ImageUrlProperty, value); }
+            get => (string)GetValue(ImageUrlProperty);
+            set => SetValue(ImageUrlProperty, value);
         }
 
         public BitmapCreateOptions CreateOptions
         {
-            get { return ((BitmapCreateOptions)(base.GetValue(Image.CreateOptionsProperty))); }
-            set { base.SetValue(Image.CreateOptionsProperty, value); }
+            get => (BitmapCreateOptions)GetValue(CreateOptionsProperty);
+            set => SetValue(CreateOptionsProperty, value);
         }
 
         private static async void ImageUrlPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
@@ -55,6 +55,7 @@ namespace Agent.CachedImage
                 case FileCache.CacheMode.Dedicated:
                     try
                     {
+                        //TODO: Чистка кэша
                         var memoryStream = await FileCache.HitAsync(url);
                         if (memoryStream.stream == null)
                             return;
