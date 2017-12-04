@@ -77,6 +77,7 @@ namespace Core.Model
         public List<string> CustomAdvancedSpawners { get; set; }
         public bool? ArchwingRequired { get; set; }
         public bool? IsSharkwingMission { get; set; }
+        public bool? Nightmare { get; set; }
     }
 
     public class MissionReward

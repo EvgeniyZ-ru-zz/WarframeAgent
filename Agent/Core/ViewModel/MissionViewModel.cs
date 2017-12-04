@@ -21,6 +21,7 @@ namespace Core.ViewModel
         public Brush RewardColor { get; }
         public Visibility ArchvingVisibility { get; }
         public Visibility SharkwingVisibility { get; }
+        public Visibility NightmareVisibility { get; }
         public Visibility RewardVisibility { get; }
         public Visibility CreditVisibility { get; }
         public MissionReward MissionReward { get; } //? exposing model class to UI?
@@ -37,6 +38,9 @@ namespace Core.ViewModel
                 ? Visibility.Collapsed
                 : Visibility.Visible;
             SharkwingVisibility = (missionInfo.IsSharkwingMission == true)
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+            NightmareVisibility = (missionInfo.Nightmare == true)
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             RewardVisibility = (missionInfo.MissionReward.CountedItems != null) || (missionInfo.MissionReward.Items != null)

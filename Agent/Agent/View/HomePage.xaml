@@ -140,6 +140,11 @@
                                                         ToolTip="Шарквинг миссия"
                                                         Foreground="{DynamicResource TextColor}"
                                                         Icon="SnowflakeOutline" FontSize="10" Margin="2,0,1,0" />
+                                                    <fa:FontAwesome
+                                                        Visibility="{Binding MissionInfo.NightmareVisibility}"
+                                                        ToolTip="Nightmare миссия"
+                                                        Foreground="{DynamicResource TextColor}"
+                                                        Icon="MoonOutline" FontSize="11" Margin="2,0,1,0" />
                                                     <fa:FontAwesome Visibility="{Binding MissionInfo.RewardVisibility}"
                                                                     ToolTip="{Binding MissionInfo.Reward}"
                                                                     Foreground="{Binding MissionInfo.RewardColor, TargetNullValue={StaticResource TextColor}}"
