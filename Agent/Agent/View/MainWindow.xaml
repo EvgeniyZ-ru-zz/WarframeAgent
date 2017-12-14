@@ -53,9 +53,13 @@
                             Click="CloseBtn_Click" />
                 </DockPanel>
             </Grid>
-            <Image x:Name="BgImg" Stretch="UniformToFill" Opacity="0.64"
+            <Image x:Name="BgImg" Stretch="UniformToFill" Opacity=".9"
                    Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0"
-                   Source="/Agent;component/Resources/Images/Background/1.jpg" />
+                   Source="/Agent;component/Resources/Images/Background/1.jpg" >
+                <Image.Effect>
+                    <BlurEffect Radius="5"/>
+                </Image.Effect>
+            </Image>
 
             <Grid x:Name="LeftPanelGrid" Grid.Row="1" Grid.Column="0" Width="40" HorizontalAlignment="Left">
                 <Grid.RowDefinitions>

@@ -55,11 +55,15 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource InvasionsLineColor}" />
-                            <Setter TargetName="ContentSite" Property="Opacity" Value=".85"/>
+                            <Setter TargetName="ContentSite" Property="Opacity" Value=".96"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
                             <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
-                            <Setter TargetName="ContentSite" Property="Opacity" Value=".6"/>
+                            <Setter TargetName="ContentSite" Property="Opacity" Value=".5"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="ContentSite" Property="Cursor" Value="Cross"/>
+                            <Setter TargetName="ContentSite" Property="Opacity" Value=".4"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

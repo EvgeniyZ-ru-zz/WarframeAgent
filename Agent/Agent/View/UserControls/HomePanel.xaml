@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="Agent.View.UserControls.HomePanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:Agent.View.Converters"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             x:Name="uc">
+    <UserControl.Resources>
+        <converters:AllCapsConverter x:Key="AllCaps" />
+    </UserControl.Resources>
+    <UserControl.Template>
+        <ControlTemplate TargetType="UserControl">
+            <DockPanel Opacity=".930" MaxHeight="260">
+                <Border Style="{StaticResource BoxPanel}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            Text="{Binding Text, ElementName=uc, Converter={StaticResource AllCaps}, FallbackValue=TEXT}"
+                            Foreground="{DynamicResource TextColor}"
+                            FontSize="16"
+                            FontWeight="Medium"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="0,5" />
+                        <Border Grid.Row="0" BorderBrush="{Binding Color, ElementName=uc, FallbackValue=Red}"
+                                BorderThickness="0,0,0,2" />
+                        <ContentPresenter Grid.Row="1" />
+                    </Grid>
+                </Border>
+            </DockPanel>
+        </ControlTemplate>
+    </UserControl.Template>
+</UserControl>
