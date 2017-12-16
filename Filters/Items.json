@@ -1,6 +1,6 @@
 {
   "Date": "16.12.2017",
-  "Version": 13,
+  "Version": 14,
   "Items": [
     {
       "type": "Ресурсы",
@@ -151,7 +151,7 @@
       "/Lotus/StoreItems/Upgrades/Mods/Shotgun/DualStat/AcceleratedBlastMod": "Взрывное ускорение",
       "/Lotus/StoreItems/Upgrades/Mods/Sentinel/SentinelLootRadarEnemyRadarMod": "Животный инстинкт",
       "/Lotus/StoreItems/Upgrades/Mods/Randomized/LotusRifleRandomModRare": "Мод разлома для винтовок",
-      "/Lotus/StoreItems/Upgrades/Mods/Randomized/PlayerMeleeWeaponRandomModRare": "Мод разлома для оружия ближего боя",
+      "/Lotus/StoreItems/Upgrades/Mods/Randomized/PlayerMeleeWeaponRandomModRare": "Мод разлома для оружия ближнего боя",
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/DualStat/ShredMod": "Кромсание",
       "/Lotus/StoreItems/Upgrades/Mods/Pistol/DualStat/IceStormMod": "Ледяная буря",
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/DualStat/HammerShotMod": "Мощный выстрел",
