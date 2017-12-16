@@ -1,6 +1,6 @@
 {
-  "Date": "01.12.2017",
-  "Version": 12,
+  "Date": "16.12.2017",
+  "Version": 13,
   "Items": [
     {
       "type": "Ресурсы",
@@ -150,7 +150,8 @@
       "/Lotus/StoreItems/Upgrades/Mods/Warframe/DualStat/RunSpeedArmorMod": "Бронированная ловкость",
       "/Lotus/StoreItems/Upgrades/Mods/Shotgun/DualStat/AcceleratedBlastMod": "Взрывное ускорение",
       "/Lotus/StoreItems/Upgrades/Mods/Sentinel/SentinelLootRadarEnemyRadarMod": "Животный инстинкт",
-      "/Lotus/StoreItems/Upgrades/Mods/Randomized/LotusRifleRandomModRare": "Мод разлома",
+      "/Lotus/StoreItems/Upgrades/Mods/Randomized/LotusRifleRandomModRare": "Мод разлома для винтовок",
+      "/Lotus/StoreItems/Upgrades/Mods/Randomized/PlayerMeleeWeaponRandomModRare": "Мод разлома для оружия ближего боя",
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/DualStat/ShredMod": "Кромсание",
       "/Lotus/StoreItems/Upgrades/Mods/Pistol/DualStat/IceStormMod": "Ледяная буря",
       "/Lotus/StoreItems/Upgrades/Mods/Rifle/DualStat/HammerShotMod": "Мощный выстрел",
@@ -308,7 +309,8 @@
       "/Lotus/StoreItems/Upgrades/Skins/Armor/VTEos/VTEosLRArmor": "Правая шпора Эос прайм",
       "/Lotus/StoreItems/Upgrades/Skins/Catbrows/Armor/CatbrowArmorHalloweenA": "Броня кавата Вайсар (День мёртвых)",
       "/Lotus/StoreItems/Upgrades/Skins/Catbrows/Armor/CatbrowArmorVoidTraderA": "Броня кавата: Ки'Тиир",
-      "/Lotus/StoreItems/Upgrades/Skins/Sentinels/Masks/KavatPetMask": "Маска кавата: Страж",
+      "/Lotus/StoreItems/Upgrades/Skins/Sentinels/Masks/KavatPetMask": "Маска стража: Кават",
+      "/Lotus/StoreItems/Upgrades/Skins/Sentinels/Wings/KavatPetWings": "Крылья стража: Кават",
       "/Lotus/StoreItems/Upgrades/Skins/Clan/BaroQuantumBadgeItem": "Секара: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Kubrows/Armor/KubrowArmorBaro": "Броня кубрау: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Liset/Gyroscope/LisetGyroscopeSkinPrimeTrader": "Скин Ксифоса: призма",
