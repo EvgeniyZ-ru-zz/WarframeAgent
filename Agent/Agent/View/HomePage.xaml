@@ -17,6 +17,7 @@
         <converters:AllCapsConverter x:Key="AllCaps"/>
         <converters:ConstantMultiplyingLongConverter Multiplier="-1" x:Key="Negator"/>
         <converters:CountToBoolConverter x:Key="CountToBool"/>
+        <converters:CountToInvisibleConverter x:Key="InvisibleConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -61,13 +62,21 @@
 
                 <!-- +Тревоги -->
                 <panels:HomePanel Grid.Column="0" Text="Тревоги" Color="{DynamicResource AlertLineColor}">
-                    <ListBox ItemsSource="{Binding Alerts}" Style="{StaticResource MainList}" ItemContainerStyle="{StaticResource AlertListItem}" >
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <uc:AlertListItem/>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                    <Grid>
+                        <TextBlock Text="Все спокойно..." 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" 
+                                   Foreground="{DynamicResource TextColor}" 
+                                   Visibility="{Binding Alerts.Count, Converter={StaticResource InvisibleConverter}}"
+                                   FontSize="14"/>
+                        <ListBox ItemsSource="{Binding Alerts}" Style="{StaticResource MainList}" ItemContainerStyle="{StaticResource AlertListItem}" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <uc:AlertListItem/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
                 </panels:HomePanel>
                 <!-- -Тревоги -->
 
@@ -81,8 +90,15 @@
                                 <fa:FontAwesome Icon="List" FontSize="14" Foreground="{DynamicResource TextColor}"/>
                             </TabItem.Header>
                             <TabItem.Content>
-                                <ListBox ItemsSource="{Binding Invasions}" Style="{StaticResource MainList}" ItemContainerStyle="{StaticResource AlertListItem}" >
-                                    <!--<ListBox.GroupStyle>
+                                <Grid>
+                                    <TextBlock Text="Все спокойно..." 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center" 
+                                           Foreground="{DynamicResource TextColor}" 
+                                           Visibility="{Binding Invasions.Count, Converter={StaticResource InvisibleConverter}}"
+                                           FontSize="14"/>
+                                    <ListBox ItemsSource="{Binding Invasions}" Style="{StaticResource MainList}" ItemContainerStyle="{StaticResource AlertListItem}" >
+                                        <!--<ListBox.GroupStyle>
                                         <GroupStyle>
                                             <GroupStyle.HeaderTemplate>
                                                 <DataTemplate>
@@ -96,12 +112,13 @@
                                             </GroupStyle.HeaderTemplate>
                                         </GroupStyle>
                                     </ListBox.GroupStyle>-->
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <uc:InvasionListItem/>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <uc:InvasionListItem/>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </Grid>
                             </TabItem.Content>
                         </TabItem>
                         <!-- -Миссии -->
@@ -112,13 +129,21 @@
                                 <fa:FontAwesome Icon="Building" FontSize="14" Foreground="{DynamicResource TextColor}"/>
                             </TabItem.Header>
                             <TabItem.Content>
-                                <ListBox ItemsSource="{Binding Builds}" Style="{StaticResource MainList}" ItemContainerStyle="{StaticResource AlertListItem}" >
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <uc:BuildListItem/>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
+                                <Grid>
+                                    <TextBlock Text="Все спокойно..." 
+                                               HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center" 
+                                               Foreground="{DynamicResource TextColor}" 
+                                               Visibility="{Binding Builds.Count, Converter={StaticResource InvisibleConverter}}"
+                                               FontSize="14"/>
+                                    <ListBox ItemsSource="{Binding Builds}" Style="{StaticResource MainList}" ItemContainerStyle="{StaticResource AlertListItem}" >
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <uc:BuildListItem/>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </Grid>
                             </TabItem.Content>
                         </TabItem>
                         <!-- -Строения -->
