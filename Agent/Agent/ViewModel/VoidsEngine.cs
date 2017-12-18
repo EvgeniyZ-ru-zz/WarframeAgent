@@ -59,7 +59,7 @@ namespace Agent.ViewModel
         private async void ChangeEvent(object sender, VoidTraderNotificationEventArgs e)
         {
             await AsyncHelpers.RedirectToMainThread();
-            Tools.Logging.Send(LogLevel.Info, $"Изменяю торговца [{e.Notification.Character}] {e.Notification.Id.Oid}!", param: e.Notification);
+            Tools.Logging.Send(LogLevel.Debug, $"Изменяю торговца [{e.Notification.Character}] {e.Notification.Id.Oid}!", param: e.Notification);
 
             if (e.Notification.Manifest == null)
             {

@@ -45,7 +45,7 @@ namespace Agent.ViewModel
         {
             await AsyncHelpers.RedirectToMainThread();
 
-            Tools.Logging.Send(LogLevel.Info, $"Изменённое предложения Дарво {e.Notification.StoreItem}!");
+            Tools.Logging.Send(LogLevel.Debug, $"Изменённое предложения Дарво {e.Notification.StoreItem}!");
 
             var dailyDealVM = GameView.TryGetDailyDealByName(e.Notification.StoreItem);
             dailyDealVM?.Update();

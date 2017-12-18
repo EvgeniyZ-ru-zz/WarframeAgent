@@ -41,7 +41,7 @@ namespace Agent.ViewModel
         {
             await AsyncHelpers.RedirectToMainThread();
 
-            Tools.Logging.Send(LogLevel.Info, $"Изменённое строение {e.Notification.Number}");
+            Tools.Logging.Send(LogLevel.Debug, $"Изменённое строение {e.Notification.Number}");
 
             var buildVM = GameView.TryGetBuildById(e.Notification.Number);
             buildVM?.Update();

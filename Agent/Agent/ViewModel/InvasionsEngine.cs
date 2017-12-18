@@ -44,7 +44,7 @@ namespace Agent.ViewModel
             }
             else
             {
-                Tools.Logging.Send(LogLevel.Info, $"Вторжение {e.Notification.Id.Oid} завершено, пропускаю");
+                Tools.Logging.Send(LogLevel.Debug, $"Вторжение {e.Notification.Id.Oid} завершено, пропускаю");
             }
         }
 
