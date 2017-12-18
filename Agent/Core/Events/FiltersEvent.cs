@@ -10,6 +10,7 @@ using NLog;
 
 namespace Core.Events
 {
+    // TODO: rename to FilterManager
     public class FiltersEvent
     {
         private CancellationTokenSource _cts;
@@ -99,7 +100,8 @@ namespace Core.Events
                 Model.Filter.Type.Planets,
                 Model.Filter.Type.Missions,
                 Model.Filter.Type.Factions,
-                Model.Filter.Type.Builds
+                Model.Filter.Type.Builds,
+                Model.Filter.Type.Planets_new
             };
 
         Dictionary<Model.Filter.Type, int> versions = SupportedFilterTypes.ToDictionary(k => k, k => -1);
@@ -234,6 +236,8 @@ namespace Core.Events
                     return (await RunUpdate(Model.FiltersModel.ParseFactions, data => Model.FiltersModel.AllFactions = data)).version;
                 case Model.Filter.Type.Builds:
                     return (await RunUpdate(Model.FiltersModel.ParseBuilds, data => Model.FiltersModel.AllBuilds = data)).version;
+                case Model.Filter.Type.Planets_new:
+                    return (await RunUpdate(Model.FiltersModel.ParsePlanets, data => Model.FiltersModel.AllPlanets = data)).version;
                 }
             }
             catch (OperationCanceledException) when (ct.IsCancellationRequested)

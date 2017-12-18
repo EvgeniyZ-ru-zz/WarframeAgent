@@ -21,6 +21,7 @@ namespace Core.Model
             Items,
             Missions,
             Planets,
+            Planets_new, // TODO: переименовать
             Race,
             Sorties,
             Void
@@ -61,6 +62,12 @@ namespace Core.Model
             public Mission(string name) { Name = name; }
             public string Name { get; }
         }
+
+        public class Planet
+        {
+            public Planet(string name) { Name = name; }
+            public string Name { get; }
+        }
     }
 
     public static class Filters
@@ -91,6 +98,7 @@ namespace Core.Model
         internal static Dictionary<string, Mission> AllMissions;
         internal static Dictionary<string, Faction> AllFactions;
         internal static Dictionary<int, Filter.Build> AllBuilds;
+        internal static Dictionary<int, Planet> AllPlanets;
 
         internal static (Dictionary<string, Item> data, int version) ParseItems(int oldVersion, string text) =>
             ParseText(oldVersion, text, cat: "Items", selector: (value, type, enabled) => new Item(value: value, type: type, enabled: enabled));
@@ -171,7 +179,6 @@ namespace Core.Model
             public Dictionary<string, Faction> Items { get; set; }
         }
 
-
         public class SectorsModel
         {
             public int Version { get; set; }
@@ -198,6 +205,21 @@ namespace Core.Model
             public DateTime Date { get; set; }
             public int Version { get; set; }
             public Dictionary<int, Filter.Build> Items { get; set; }
+        }
+
+        internal static (Dictionary<int, Planet> data, int version) ParsePlanets(int oldVersion, string text)
+        {
+            var model = JsonConvert.DeserializeObject<PlanetsModel>(text);
+            if (model.Version > oldVersion)
+                return (model.Items.ToDictionary(kvp => kvp.Key, kvp => new Planet(kvp.Value)), model.Version);
+            else
+                return (null, model.Version);
+        }
+
+        public class PlanetsModel
+        {
+            public int Version { get; set; }
+            public Dictionary<int, string> Items { get; set; }
         }
     }
 }
