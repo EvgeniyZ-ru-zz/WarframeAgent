@@ -28,16 +28,17 @@ namespace Core.Events
         public async Task Start()
         {
             _cts = new CancellationTokenSource();
+            var ct = _cts.Token;
             try
             {
-                await RunInitialPopulation(_cts.Token);
+                await RunInitialPopulation(ct);
             }
-            catch (OperationCanceledException ex) when (_cts.IsCancellationRequested)
+            catch (OperationCanceledException ex) when (ct.IsCancellationRequested)
             {
                 Tools.Logging.Send(LogLevel.Debug, $"Управление фильтрами: начальная загрузка отменена", ex);
                 return;
             }
-            _mainTask = RunFilterUpdateLoop(_cts.Token);
+            _mainTask = RunFilterUpdateLoop(ct);
         }
 
         public async Task StopAsync()
