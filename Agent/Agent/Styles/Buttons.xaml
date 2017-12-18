@@ -71,6 +71,7 @@
     <Style TargetType="ToggleButton" x:Key="MenuButton"
            BasedOn="{StaticResource {x:Type ToggleButton}}">
         <Setter Property="Foreground" Value="{DynamicResource LeftPanelBtnText}" />
+        <Setter Property="Background" Value="{DynamicResource LeftPanelBtnLineColorDef}"/>
         <Setter Property="Height" Value="30" />
         <Setter Property="Margin" Value="0,0,0,5" />
         <Setter Property="FontFamily" Value="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
@@ -86,7 +87,7 @@
                                        Margin="0" FontSize="14">
                                 <ContentPresenter />
                             </TextBlock>
-                            <Border x:Name="border2" Background="{DynamicResource LeftPanelBtnLineColorDef}" Width="2"
+                            <Border x:Name="border2" Background="{TemplateBinding Background}" Width="2"
                                     HorizontalAlignment="Left" />
                         </Grid>
                     </Border>

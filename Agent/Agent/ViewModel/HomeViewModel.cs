@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Core;
-using Core.Model;
+﻿using System.Collections.ObjectModel;
 using Core.ViewModel;
 
 namespace Agent.ViewModel
@@ -15,15 +7,17 @@ namespace Agent.ViewModel
     {
         private GameViewModel GameView;
 
+        public ObservableCollection<PostViewModel> News => GameView.News;
         public ObservableCollection<AlertViewModel> Alerts => GameView.Alerts;
         public ObservableCollection<InvasionViewModel> Invasions => GameView.Invasions;
+        public ObservableCollection<VoidTradeViewModel> VoidTrades => GameView.VoidTrades;
+        public ObservableCollection<VoidItemViewModel> VoidTradeItems => GameView.VoidTradeItems;
+        public ObservableCollection<DailyDealViewModel> DailyDeals => GameView.DailyDeals;
         public ObservableCollection<BuildViewModel> Builds => GameView.Builds;
-        public News NewsData { get; }
 
-        public HomeViewModel(GameViewModel gameView, News newsData)
+        public HomeViewModel(GameViewModel gameView)
         {
             GameView = gameView;
-            NewsData = newsData;
         }
     }
 }

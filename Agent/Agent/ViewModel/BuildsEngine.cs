@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
-
-using Core;
+﻿using Core;
 using Core.Model;
 using Core.ViewModel;
-using Core.Events;
-
 using NLog;
 
 namespace Agent.ViewModel
@@ -53,7 +41,7 @@ namespace Agent.ViewModel
         {
             await AsyncHelpers.RedirectToMainThread();
 
-            Tools.Logging.Send(LogLevel.Info, $"Изменённое строение {e.Notification.Number}");
+            Tools.Logging.Send(LogLevel.Debug, $"Изменённое строение {e.Notification.Number}");
 
             var buildVM = GameView.TryGetBuildById(e.Notification.Number);
             buildVM?.Update();

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 using Core.Events;
 using Core.Model;
 
@@ -83,7 +79,7 @@ namespace Core.ViewModel
             var expandedReward = Model.Filters.ExpandItem(item0Type)?.Value ?? item0Type;
             var count = item0?.ItemCount;
             if (count > 1)
-                itemCount = $" [{count}]";
+                itemCount = $"[{count}]";
 
             return (value: string.IsNullOrEmpty(expandedReward) ? "Недоступно" : expandedReward, count: itemCount);
         }
@@ -93,6 +89,9 @@ namespace Core.ViewModel
             var val = isDefenderFactionInfestation
                     ? (Goal + Count) / Goal * 100
                     : (Goal + Count) / (Goal * 2) * 100;
+
+            if (val > 100) val = 100;
+            if (val < 0) val = 0;
 
             Percent = val;
             PercentOut = 100 - val;

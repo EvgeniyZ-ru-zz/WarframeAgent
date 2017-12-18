@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
-using Agent.ViewModel;
 using Core;
 using Core.Events;
-using Core.Model;
-using Core.ViewModel;
 using FontAwesome.WPF;
 
 namespace Agent.View

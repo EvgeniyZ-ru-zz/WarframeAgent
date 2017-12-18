@@ -5,18 +5,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:fa="http://schemas.fontawesome.io/icons/"
     xmlns:vm="clr-namespace:Agent.ViewModel"
-    xmlns:corevm="clr-namespace:Core.ViewModel;assembly=Core"
     xmlns:view="clr-namespace:Agent.View"
     x:Class="Agent.View.MainWindow"
     mc:Ignorable="d"
     Style="{DynamicResource WindowStyle}" SizeChanged="Window_SizeChanged" Closed="MainWindow_OnClosed"
-    Height="610" MaxHeight="610" MaxWidth="1000" MinHeight="460" MinWidth="740" Title="Warframe Agent"
+    Height="630" MaxHeight="630" MaxWidth="1000" MinHeight="460" MinWidth="740" Title="Warframe Agent"
     Width="1000" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanMinimize"
     WindowStartupLocation="CenterScreen" ShowInTaskbar="True" SnapsToDevicePixels="True" UseLayoutRounding="True"
     Icon="/Agent;component/Resources/Icon.ico"
     Initialized="MainWindow_OnInitialized">
 
-    <Border Margin="15" Style="{DynamicResource MainBorder}" CornerRadius="15">
+    <Border Margin="15" Style="{DynamicResource MainBorder}" CornerRadius="0" BorderBrush="{DynamicResource BackgroundColor}" BorderThickness="0,0,2,2">
         <Border.Effect>
             <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" ShadowDepth="2" />
         </Border.Effect>
@@ -32,7 +31,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Шапка приложения -->
-            <Grid Grid.Row="0" VerticalAlignment="Top" MinHeight="40" Height="40" Panel.ZIndex="1"
+            <Grid Grid.Row="0" VerticalAlignment="Top" MinHeight="40" Height="40" Panel.ZIndex="1" Margin="0,0,-2,0"
                   Style="{DynamicResource HeaderColor}" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -54,9 +53,13 @@
                             Click="CloseBtn_Click" />
                 </DockPanel>
             </Grid>
-            <Image x:Name="BgImg" Stretch="UniformToFill" Opacity="0.50"
+            <Image x:Name="BgImg" Stretch="UniformToFill" Opacity=".9"
                    Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0"
-                   Source="/Agent;component/Resources/Images/Background/1.jpg" />
+                   Source="/Agent;component/Resources/Images/Background/1.jpg" >
+                <Image.Effect>
+                    <BlurEffect Radius="5"/>
+                </Image.Effect>
+            </Image>
 
             <Grid x:Name="LeftPanelGrid" Grid.Row="1" Grid.Column="0" Width="40" HorizontalAlignment="Left">
                 <Grid.RowDefinitions>
@@ -65,7 +68,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Border Style="{DynamicResource LeftPanelBorder}" Margin="0,-1,0,0" Grid.RowSpan="4" />
+                <Border Style="{DynamicResource LeftPanelBorder}" Margin="0,-1,0,-2" Grid.RowSpan="4" />
                 <StackPanel Grid.Row="0" Name="LeftPanelTheme" Orientation="Horizontal" HorizontalAlignment="Center"
                             VerticalAlignment="Top" Margin="0,5">
                     <Button Name="ThemeBtn" 
@@ -92,20 +95,20 @@
                                  GroupName="LeftMenu"
                                  Style="{StaticResource MenuButton}"
                                  Command="{Binding ActivateNewsCommand}" />
-                    <RadioButton x:Name="AlertsBtn" IsEnabled="True"
+                    <RadioButton x:Name="AlertsBtn" IsEnabled="False"
                                  fa:Awesome.Content="ExclamationTriangle"
                                  GroupName="LeftMenu"
                                  Style="{StaticResource MenuButton}"
                                  Command="{Binding ActivateAlertsCommand}"/>
-                    <RadioButton x:Name="InvasionsBtn" IsEnabled="True"
+                    <RadioButton x:Name="InvasionsBtn" IsEnabled="False"
                                  fa:Awesome.Content="Bullseye"
                                  GroupName="LeftMenu"
                                  Style="{StaticResource MenuButton}" />
-                    <RadioButton x:Name="TradeBtn" IsEnabled="True"
+                    <RadioButton x:Name="TradeBtn" IsEnabled="False"
                                  fa:Awesome.Content="BalanceScale"
                                  GroupName="LeftMenu"
                                  Style="{StaticResource MenuButton}" />
-                    <RadioButton Visibility="Visible" x:Name="ActMissionsBtn" IsEnabled="True"
+                    <RadioButton Visibility="Visible" x:Name="ActMissionsBtn" IsEnabled="False"
                                  fa:Awesome.Content="FreeCodeCamp"
                                  GroupName="LeftMenu"
                                  Style="{StaticResource MenuButton}" />
@@ -123,11 +126,11 @@
                         Spin="False"
                         SpinDuration="20"
                         Foreground="{DynamicResource TextColor}" />
-                    <RadioButton x:Name="SettingsBtn" IsEnabled="True"
+                    <RadioButton x:Name="SettingsBtn" IsEnabled="False"
                                  fa:Awesome.Content="Cog"
                                  GroupName="LeftMenu"
                                  Style="{StaticResource MenuButton}" />
-                    <RadioButton IsEnabled="True" x:Name="InfoBtn"
+                    <RadioButton IsEnabled="False" x:Name="InfoBtn"
                                  Style="{StaticResource MenuButton}"
                                  fa:Awesome.Content="Info"
                                  GroupName="LeftMenu" />
@@ -140,7 +143,7 @@
                     <DataTemplate DataType="{x:Type vm:HomeViewModel}">
                         <view:HomePage />
                     </DataTemplate>
-                    <DataTemplate DataType="{x:Type corevm:News}">
+                    <DataTemplate DataType="{x:Type vm:NewsViewModel}">
                         <view:NewsPage />
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type vm:AlertsViewModel}">

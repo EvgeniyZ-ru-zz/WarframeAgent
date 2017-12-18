@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Input;
 
 using Core;
@@ -22,8 +17,8 @@ namespace Agent.ViewModel
         public GlobalEvents.ServerEvents ServerEvents = new GlobalEvents.ServerEvents();
         public GameModel GameModel = new GameModel();
 
+        public NewsViewModel NewsViewModel { get; }
         public HomeViewModel HomeViewModel { get; }
-        public News NewsData { get; }
         public AlertsViewModel AlertsViewModel { get; }
 
         Task finishInit;
@@ -34,13 +29,13 @@ namespace Agent.ViewModel
             ServerModel = new ServerModel(ServerEvents);
             ServerModel.Start();
             GameView = new GameViewModel(GameModel, FiltersEvent);
-
-            NewsData = new News();
-            HomeViewModel = new HomeViewModel(GameView, NewsData);
+            
+            NewsViewModel = new NewsViewModel(GameView);
+            HomeViewModel = new HomeViewModel(GameView);
             AlertsViewModel = new AlertsViewModel(GameView);
 
             ActivateHomeCommand = new RelayCommand(() => CurrentContent = HomeViewModel);
-            ActivateNewsCommand = new RelayCommand(() => CurrentContent = NewsData);
+            ActivateNewsCommand = new RelayCommand(() => CurrentContent = NewsViewModel);
             ActivateAlertsCommand = new RelayCommand(() => CurrentContent = AlertsViewModel);
             CurrentContent = HomeViewModel;
         }
@@ -50,12 +45,14 @@ namespace Agent.ViewModel
         public void Run()
         {
             //GameData.Load($"{Settings.Program.Directories.Temp}/GameData.json");
-            NewsData.Load($"{Settings.Program.Directories.Temp}/NewsData.json");
+            //NewsData.Load($"{Settings.Program.Directories.Temp}/NewsData.json");
 
             ServerEvents.Connected += GameDataEvent_Connected;
             ServerEvents.Disconnected += GameDataEvent_Disconnected;
             GameView.Run();
-            GameModel.Start(ServerEvents, $"{Settings.Program.Directories.Temp}/GameData.json");
+            GameModel.Start(ServerEvents, 
+                $"{Settings.Program.Directories.Temp}/GameData.json",
+                $"{Settings.Program.Directories.Temp}/NewsData.json");
             BackgroundEvent.Start();
         }
 
