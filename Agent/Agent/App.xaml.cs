@@ -9,18 +9,17 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Agent.View;
 using Core;
-using Core.Events;
-
 using Agent.ViewModel;
+using Microsoft.HockeyApp;
 using NLog;
 
 namespace Agent
 {
-    public partial class App : Application
+    public partial class App
     {
         MainViewModel mainVM;
         View.SplashScreen splashScreen;
-        View.MainWindow mainWindow;
+        MainWindow mainWindow;
 
         /// <summary>The event mutex name.</summary>
         private const string UniqueEventName = "7330f03f-38d8-40bc-b123-fba47f61a7e1";
@@ -41,8 +40,6 @@ namespace Agent
 
         private void CheckWindow()
         {
-
-
             mutex = new Mutex(true, UniqueMutexName, out bool isOwned);
             eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, UniqueEventName);
 
@@ -58,7 +55,7 @@ namespace Agent
                         while (eventWaitHandle.WaitOne())
                         {
                             Current.Dispatcher.BeginInvoke(
-                                (Action)(() => ((MainWindow)Current.MainWindow).BringToForeground()));
+                                (Action)(() => mainWindow.BringToForeground()));
                         }
                     })
                 {
@@ -86,12 +83,15 @@ namespace Agent
             }
         }
 
-        private void Application_Startup(object sender, StartupEventArgs e)
+        private async void Application_Startup(object sender, StartupEventArgs e)
         {
             DispatcherUnhandledException += AppDispatcherUnhandledException;
 
             Tools.Logging.Send(LogLevel.Trace, $"Version: {Assembly.GetExecutingAssembly().GetName().Version}");
             Tools.Logging.Send(LogLevel.Trace, $"OS: {Environment.OSVersion}");
+
+            HockeyClient.Current.Configure("847a769d61234e969e7d4b321877e67c").SetExceptionDescriptionLoader(ex => "Exception HResult: " + ex.HResult);
+            await HockeyClient.Current.SendCrashesAsync();
 
             Settings.Load(); //Подгружаем настройки
             Settings.Program.Data.Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -108,18 +108,19 @@ namespace Agent
             splashVM.Run();
         }
 
-        #region Exception
+#region Exception
 
         private void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             Tools.Logging.Send(LogLevel.Fatal, "An application error occurred.", e.Exception);
-#if DEBUG // In debug mode do not custom-handle the exception, let Visual Studio handle it
+#if DEBUG
             e.Handled = false;
 #else
                 ShowUnhandledException(e); 
-            #endif
+#endif
         }
 
+        // ReSharper disable once UnusedMember.Local
         private void ShowUnhandledException(DispatcherUnhandledExceptionEventArgs e)
         {
             e.Handled = true;
@@ -131,7 +132,7 @@ namespace Agent
             Current.Shutdown();
         }
 
-        #endregion
+#endregion
 
         void OnSplashExited(object sender, SplashExitedEventArgs e)
         {
@@ -159,7 +160,7 @@ namespace Agent
             Shutdown(1);
         }
 
-        #region ResizeWindows
+#region ResizeWindows
 
         private bool _resizeInProcess;
 
@@ -222,6 +223,6 @@ namespace Agent
             }
         }
 
-        #endregion
+#endregion
     }
 }

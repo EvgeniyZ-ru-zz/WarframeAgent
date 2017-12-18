@@ -6,19 +6,20 @@
       xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:converters="clr-namespace:Agent.View.Converters"
              xmlns:viewModel="clr-namespace:Core.ViewModel;assembly=Core"
+             xmlns:gameModel="clr-namespace:Agent.ViewModel"
              mc:Ignorable="d" 
       d:DesignHeight="540" d:DesignWidth="930">
     <UserControl.Resources>
         <viewModel:TimeNowViewModel x:Key="TimeVM" />
         <converters:NullToStringConverter x:Key="MiddleConverter" OnNonNull=" – " />
     </UserControl.Resources>
-    <Grid>
+    <Grid d:DataContext="{d:DesignInstance {x:Type gameModel:GameViewModel}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <DockPanel x:Name="NewsPanel" Opacity=".930" Width="200" HorizontalAlignment="Left">
+        <DockPanel Opacity=".930" Width="200" HorizontalAlignment="Left">
             <Border Style="{StaticResource BoxPanel}">
                 <Grid>
                     <Grid.RowDefinitions>

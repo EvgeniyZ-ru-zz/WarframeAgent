@@ -41,6 +41,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.HockeyApp.Core45, Version=4.1.6.1005, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HockeySDK.Core.4.1.6\lib\portable-net45+win8+wp8+wpa81+win81+uap10.0\Microsoft.HockeyApp.Core45.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -71,17 +74,19 @@
     <Compile Include="Events\GlobalEvents.cs" />
     <Compile Include="Model\BadFilterReportModel.cs" />
     <Compile Include="Model\SnapshotModels.cs" />
-    <Compile Include="Model\NewsModel.cs" />
     <Compile Include="Model\NotificationModel.cs" />
     <Compile Include="Model\ServerModel.cs" />
     <Compile Include="Model\StorageModel.cs" />
-    <Compile Include="News.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Model\FiltersModel.cs" />
+    <Compile Include="ViewModel\DailyDealViewModel.cs" />
+    <Compile Include="ViewModel\VoidItemViewModel.cs" />
+    <Compile Include="ViewModel\VoidTradeViewModel.cs" />
     <Compile Include="ViewModel\AlertViewModel.cs" />
     <Compile Include="ViewModel\BuildViewModel.cs" />
     <Compile Include="ViewModel\FactionViewModel.cs" />
     <Compile Include="ViewModel\InvasionViewModel.cs" />
+    <Compile Include="ViewModel\PostViewModel.cs" />
     <Compile Include="ViewModel\SectorViewModel.cs" />
     <Compile Include="ViewModel\MissionViewModel.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />

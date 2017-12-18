@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
 using Newtonsoft.Json;
 
 using Core.Events;
@@ -12,6 +9,14 @@ using Core.Events;
 namespace Core.Model
 {
     #region EventArgs
+
+    // Добавление/удаление новостей
+    public class NewsNotificationEventArgs : EventArgs
+    {
+        public readonly NewsPost Notification;
+        public NewsNotificationEventArgs(NewsPost ntf) =>
+            Notification = ntf;
+    }
 
     // Добавление/удаление тревог
     public class AlertNotificationEventArgs : EventArgs
@@ -26,6 +31,22 @@ namespace Core.Model
     {
         public readonly Invasion Notification;
         public InvasionNotificationEventArgs(Invasion ntf) =>
+            Notification = ntf;
+    }
+
+    // Добавление/удаление/изменение торговцев (баро)
+    public class VoidTraderNotificationEventArgs : EventArgs
+    {
+        public readonly VoidTrader Notification;
+        public VoidTraderNotificationEventArgs(VoidTrader ntf) =>
+            Notification = ntf;
+    }
+
+    // Добавление/удаление/изменение скидки дня (дарво)
+    public class DailyDealNotificationEventArgs : EventArgs
+    {
+        public readonly DailyDeal Notification;
+        public DailyDealNotificationEventArgs(DailyDeal ntf) =>
             Notification = ntf;
     }
 
@@ -46,20 +67,25 @@ namespace Core.Model
     /// </summary>
     public class GameModel
     {
+        private readonly Dictionary<string, NewsPost> _currentNewsNotifications = new Dictionary<string, NewsPost>();
         private readonly Dictionary<string, Alert> _currentAlertsNotifications = new Dictionary<string, Alert>();
         private readonly Dictionary<string, Invasion> _currentInvasionsNotifications = new Dictionary<string, Invasion>();
+        private readonly Dictionary<string, VoidTrader> _currentVoidsNotifications = new Dictionary<string, VoidTrader>();
+        private readonly Dictionary<string, DailyDeal> _currentDailyDealsNotifications = new Dictionary<string, DailyDeal>();
         private readonly List<Build> _currentBuilds = new List<Build>();
 
         private GlobalEvents.ServerEvents _server;
         private string _gameDataPath;
+        private string _newsDataPath;
         private object mutex = new object();
 
-        public void Start(GlobalEvents.ServerEvents server, string gameDataPath)
+        public void Start(GlobalEvents.ServerEvents server, string gameDataPath, string newsDataPath)
         {
             lock (mutex)
             {
                 _server = server;
                 _gameDataPath = gameDataPath;
+                _newsDataPath = newsDataPath;
                 _server.Updated += UpdateSnapshot;
             }
             UpdateSnapshot();
@@ -70,9 +96,16 @@ namespace Core.Model
             lock (mutex)
             {
                 _server.Updated -= UpdateSnapshot;
+                _newsDataPath = null;
                 _gameDataPath = null;
                 _server = null;
             }
+        }
+
+        public IEnumerable<NewsPost> GetCurrentNews()
+        {
+            lock (mutex)
+                return _currentNewsNotifications.Values;
         }
 
         public IEnumerable<Alert> GetCurrentAlerts()
@@ -87,6 +120,18 @@ namespace Core.Model
                 return _currentInvasionsNotifications.Values;
         }
 
+        public IEnumerable<VoidTrader> GetCurrentVoidTrades()
+        {
+            lock (mutex)
+                return _currentVoidsNotifications.Values;
+        }
+
+        public IEnumerable<DailyDeal> GetCurrentDailyDeals()
+        {
+            lock (mutex)
+                return _currentDailyDealsNotifications.Values;
+        }
+
         public IEnumerable<Build> GetCurrentBuilds()
         {
             lock (mutex)
@@ -95,30 +140,60 @@ namespace Core.Model
 
         void UpdateSnapshot()
         {
-            string path;
+            string gamePath;
+            string newsPath;
             lock (mutex)
-                path = _gameDataPath;
-            if (path == null)
+            {
+                gamePath = _gameDataPath;
+                newsPath = _newsDataPath;
+            }
+
+            if (gamePath == null || newsPath == null)
                 return;
-            var snapshot = Load(path);
-            AlertEvaluateList(snapshot);
-            InvasionEvaluateList(snapshot);
-            BuildEvaluateList(snapshot);
+            var gameSnapshot = Load<GameSnapshotModel>(gamePath);
+            var newsSnapshot = Load<NewsSnapshotModel>(newsPath);
+            NewsEvaluteList(newsSnapshot);
+            AlertEvaluateList(gameSnapshot);
+            InvasionEvaluateList(gameSnapshot);
+            VoidEvaluateList(gameSnapshot);
+            DailyDealEvaluateList(gameSnapshot);
+            BuildEvaluateList(gameSnapshot);
         }
 
         /// <summary>
         ///     Загружаем JSON файл с игровыми данными.
         /// </summary>
         /// <param name="fileName">Путь до JSON файла</param>
-        private GameSnapshotModel Load(string fileName)
+        private T Load<T>(string fileName)
         {
-            GameSnapshotModel data;
+            T data;
             using (var file = File.OpenText(fileName))
             {
                 var serializer = new JsonSerializer();
-                data = (GameSnapshotModel)serializer.Deserialize(file, typeof(GameSnapshotModel));
+                data = (T)serializer.Deserialize(file, typeof(T));
             }
             return data;
+        }
+
+        private void NewsEvaluteList(NewsSnapshotModel snapshot)
+        {
+            List<NewsPost> newNotifications, removedNotifications = new List<NewsPost>();
+            lock (mutex)
+            {
+                newNotifications = snapshot.Posts.Where(ntf => !_currentNewsNotifications.ContainsKey(ntf.Description)).ToList();
+                foreach (var ntf in newNotifications)
+                    _currentNewsNotifications.Add(ntf.Description, ntf);
+                var removedId = _currentNewsNotifications.Keys.Except(snapshot.Posts.Select(ntf => ntf.Description));
+                foreach (var id in removedId.ToList())
+                {
+                    removedNotifications.Add(_currentNewsNotifications[id]);
+                    _currentNewsNotifications.Remove(id);
+                }
+            }
+            foreach (var ntf in newNotifications)
+                FireNewNewsNotification(ntf);
+            foreach (var ntf in removedNotifications)
+                FireRemovedNewsNotification(ntf);
         }
 
         private void AlertEvaluateList(GameSnapshotModel snapshot)
@@ -168,6 +243,64 @@ namespace Core.Model
                 FireChangedInvasionNotification(ntf);
             foreach (var ntf in removedNotifications)
                 FireRemovedInvasionNotification(ntf);
+        }
+
+        private void VoidEvaluateList(GameSnapshotModel snapshot)
+        {
+            List<VoidTrader> newNotifications, removedNotifications = new List<VoidTrader>(), changedNotifications;
+            lock (mutex)
+            {
+                newNotifications = snapshot.VoidTraders.Where(ntf => !_currentVoidsNotifications.ContainsKey(ntf.Id.Oid)).ToList();
+                foreach (var ntf in newNotifications)
+                    _currentVoidsNotifications.Add(ntf.Id.Oid, ntf);
+
+                changedNotifications = snapshot.VoidTraders
+                    .Select(ntf =>
+                        _currentVoidsNotifications.TryGetValue(ntf.Id.Oid, out var existingNtf) && existingNtf.Update(ntf) ? existingNtf : null)
+                    .Where(ntf => ntf != null)
+                    .ToList();
+
+                var removedId = _currentVoidsNotifications.Keys.Except(snapshot.VoidTraders.Select(ntf => ntf.Id.Oid));
+                foreach (var id in removedId.ToList())
+                {
+                    removedNotifications.Add(_currentVoidsNotifications[id]);
+                    _currentVoidsNotifications.Remove(id);
+                }
+            }
+            foreach (var ntf in newNotifications)
+                FireNewVoidTraderNotification(ntf);
+            foreach (var ntf in changedNotifications)
+                FireChangedVoidTraderNotification(ntf);
+            foreach (var ntf in removedNotifications)
+                FireRemovedVoidTraderNotification(ntf);
+        }
+
+        private void DailyDealEvaluateList(GameSnapshotModel snapshot)
+        {
+            List<DailyDeal> newNotifications, removedNotifications = new List<DailyDeal>(), changedNotifications;
+            lock (mutex)
+            {
+                newNotifications = snapshot.DailyDeals.Where(ntf => !_currentDailyDealsNotifications.ContainsKey(ntf.StoreItem)).ToList();
+                foreach (var ntf in newNotifications)
+                    _currentDailyDealsNotifications.Add(ntf.StoreItem, ntf);
+                changedNotifications = snapshot.DailyDeals
+                    .Select(ntf =>
+                        _currentDailyDealsNotifications.TryGetValue(ntf.StoreItem, out var existingNtf) && existingNtf.Update(ntf) ? existingNtf : null)
+                    .Where(ntf => ntf != null)
+                    .ToList();
+                var removedId = _currentDailyDealsNotifications.Keys.Except(snapshot.DailyDeals.Select(ntf => ntf.StoreItem));
+                foreach (var id in removedId.ToList())
+                {
+                    removedNotifications.Add(_currentDailyDealsNotifications[id]);
+                    _currentDailyDealsNotifications.Remove(id);
+                }
+            }
+            foreach (var ntf in newNotifications)
+                FireNewDailyDealNotification(ntf);
+            foreach (var ntf in changedNotifications)
+                FireChangedDailyDealNotification(ntf);
+            foreach (var ntf in removedNotifications)
+                FireRemovedDailyDealNotification(ntf);
         }
 
         private void BuildEvaluateList(GameSnapshotModel snapshot)
@@ -221,6 +354,22 @@ namespace Core.Model
         #region Эвенты
 
         /// <summary>
+        ///     Эвент добавления новых новостей.
+        /// </summary>
+        public event EventHandler<NewsNotificationEventArgs> NewsNotificationArrived;
+
+        private void FireNewNewsNotification(NewsPost ntf) =>
+            NewsNotificationArrived?.Invoke(this, new NewsNotificationEventArgs(ntf));
+
+        /// <summary>
+        ///     Эвент удаления старых новостей.
+        /// </summary>
+        public event EventHandler<NewsNotificationEventArgs> NewsNotificationDeparted;
+
+        private void FireRemovedNewsNotification(NewsPost ntf) =>
+            NewsNotificationDeparted?.Invoke(this, new NewsNotificationEventArgs(ntf));
+
+        /// <summary>
         ///     Эвент добавления новых тревог.
         /// </summary>
         public event EventHandler<AlertNotificationEventArgs> AlertNotificationArrived;
@@ -259,6 +408,54 @@ namespace Core.Model
 
         private void FireRemovedInvasionNotification(Invasion ntf) =>
             InvasionNotificationDeparted?.Invoke(this, new InvasionNotificationEventArgs(ntf));
+
+        /// <summary>
+        ///     Эвент добавления новых торговцев (баро).
+        /// </summary>
+        public event EventHandler<VoidTraderNotificationEventArgs> VoidTraderNotificationArrived;
+
+        private void FireNewVoidTraderNotification(VoidTrader ntf) =>
+            VoidTraderNotificationArrived?.Invoke(this, new VoidTraderNotificationEventArgs(ntf));
+
+        /// <summary>
+        ///     Эвент обновления известных торговцев (баро).
+        /// </summary>
+        public event EventHandler<VoidTraderNotificationEventArgs> VoidTraderNotificationChanged;
+
+        private void FireChangedVoidTraderNotification(VoidTrader ntf) =>
+            VoidTraderNotificationChanged?.Invoke(this, new VoidTraderNotificationEventArgs(ntf));
+
+        /// <summary>
+        ///     Эвент удаления старых торговцев (баро).
+        /// </summary>
+        public event EventHandler<VoidTraderNotificationEventArgs> VoidTraderNotificationDeparted;
+
+        private void FireRemovedVoidTraderNotification(VoidTrader ntf) =>
+            VoidTraderNotificationDeparted?.Invoke(this, new VoidTraderNotificationEventArgs(ntf));
+
+        /// <summary>
+        ///     Эвент добавления новых скидок дня (дарво).
+        /// </summary>
+        public event EventHandler<DailyDealNotificationEventArgs> DailyDealNotificationArrived;
+
+        private void FireNewDailyDealNotification(DailyDeal ntf) =>
+            DailyDealNotificationArrived?.Invoke(this, new DailyDealNotificationEventArgs(ntf));
+
+        /// <summary>
+        ///     Эвент обновления известных скидок дня (дарво).
+        /// </summary>
+        public event EventHandler<DailyDealNotificationEventArgs> DailyDealNotificationChanged;
+
+        private void FireChangedDailyDealNotification(DailyDeal ntf) =>
+            DailyDealNotificationChanged?.Invoke(this, new DailyDealNotificationEventArgs(ntf));
+
+        /// <summary>
+        ///     Эвент удаления старых скидок дня (дарво).
+        /// </summary>
+        public event EventHandler<DailyDealNotificationEventArgs> DailyDealNotificationDeparted;
+
+        private void FireRemovedDailyDealNotification(DailyDeal ntf) =>
+            DailyDealNotificationDeparted?.Invoke(this, new DailyDealNotificationEventArgs(ntf));
 
         /// <summary>
         ///     Эвент добавления новых строений.

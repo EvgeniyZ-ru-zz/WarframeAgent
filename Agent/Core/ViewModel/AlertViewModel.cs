@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 using Core.Model;
@@ -45,9 +41,8 @@ namespace Core.ViewModel
         {
             if (DateTime.Now <= Activation)
             {
-                Status = (Activation - DateTime.Now).ToString(@"\−mm\:ss");
+                Status = (Activation - DateTime.Now).ToString(@"mm\:ss");
                 StatusColor = Brushes.Orange;
-                //TODO: Добавить "Обратный" прогресс бар при начале события.
             }
             else
             {
@@ -60,7 +55,7 @@ namespace Core.ViewModel
                 }
                 else
                 {
-                    Status = "00:00";
+                    Status = "--:--";
                     StatusColor = Brushes.Red;
                 }
             }

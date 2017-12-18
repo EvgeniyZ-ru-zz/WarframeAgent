@@ -1,15 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Media;
 using Core.Converters;
-using Core.ViewModel;
 using Newtonsoft.Json;
 
 namespace Core.Model
 {
+    #region News
+
+    public class NewsSnapshotModel
+    {
+        public bool HasMore { get; set; }
+        public NewsPost[] Posts { get; set; }
+    }
+
+    public class NewsPost
+    {
+        public DateTime Date { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public Uri Url { get; set; }
+        private string _image;
+        public string Image
+        {
+            get => _image;
+            set => _image = "http:" + value;
+        }
+    }
+
+    #endregion
+
     #region Main
 
     public class GameSnapshotModel
@@ -21,6 +40,8 @@ namespace Core.Model
         public int Date { get; set; }
         public Alert[] Alerts { get; set; }
         public Invasion[] Invasions { get; set; }
+        public VoidTrader[] VoidTraders { get; set; }
+        public DailyDeal[] DailyDeals { get; set; }
         public double[] ProjectPct { get; set; }
         public string WorldSeed { get; set; }
     }
@@ -33,7 +54,6 @@ namespace Core.Model
     {
         [JsonProperty("_id")]
         public Id Id { get; set; }
-
         public Activation Activation { get; set; }
         public Expiry Expiry { get; set; }
         public MissionInfo MissionInfo { get; set; }
@@ -57,6 +77,7 @@ namespace Core.Model
         public List<string> CustomAdvancedSpawners { get; set; }
         public bool? ArchwingRequired { get; set; }
         public bool? IsSharkwingMission { get; set; }
+        public bool? Nightmare { get; set; }
     }
 
     public class MissionReward
@@ -131,12 +152,72 @@ namespace Core.Model
 
     #endregion
 
+    #region VoidTraders
+
+    public class VoidTrader
+    {
+        [JsonProperty("_id")]
+        public Id Id { get; set; }
+        public Activation Activation { get; set; }
+        public Expiry Expiry { get; set; }
+        public string Character { get; set; }
+        public string Node { get; set; }
+        public Manifest[] Manifest { get; set; }
+
+        internal bool Update(VoidTrader ntf)
+        {
+            bool hasChanges = false;
+            if (Manifest?.Length != ntf.Manifest?.Length)
+            {
+                hasChanges = true;
+                Manifest = ntf.Manifest;
+            }
+            return hasChanges;
+        }
+    }
+
+    public class Manifest
+    {
+        public string ItemType { get; set; }
+        public int PrimePrice { get; set; }
+        public int RegularPrice { get; set; }
+    }
+
+    #endregion
+
     #region Project
 
     public class Build
     {
         public int Number { get; set; }
         public double Value { get; set; }
+    }
+
+    #endregion
+
+    #region DailyDeals
+
+    public class DailyDeal
+    {
+        public string StoreItem { get; set; }
+        public Activation Activation { get; set; }
+        public Expiry Expiry { get; set; }
+        public int Discount { get; set; }
+        public int OriginalPrice { get; set; }
+        public int SalePrice { get; set; }
+        public int AmountTotal { get; set; }
+        public int AmountSold { get; set; }
+
+        internal bool Update(DailyDeal ntf)
+        {
+            bool hasChanges = false;
+            if (AmountSold != ntf.AmountSold)
+            {
+                hasChanges = true;
+                AmountSold = ntf.AmountSold;
+            }
+            return hasChanges;
+        }
     }
 
     #endregion

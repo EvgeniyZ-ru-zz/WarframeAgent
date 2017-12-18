@@ -35,6 +35,7 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <HockeyAppResourceId>847a769d61234e969e7d4b321877e67c</HockeyAppResourceId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -83,6 +84,12 @@
       <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.HockeyApp.Core45, Version=4.1.6.1005, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HockeySDK.WPF.4.1.6\lib\net45\Microsoft.HockeyApp.Core45.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.HockeyApp.Kit, Version=4.1.6.1005, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HockeySDK.WPF.4.1.6\lib\net45\Microsoft.HockeyApp.Kit.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -113,7 +120,11 @@
     </ApplicationDefinition>
     <Compile Include="Animation.cs" />
     <Compile Include="AsyncHelpers.cs" />
-    <Compile Include="DwmDropShadow.cs" />
+    <Compile Include="CachedImage\FileCache.cs" />
+    <Compile Include="CachedImage\Image.cs" />
+    <Compile Include="ViewModel\DailyDealsEngine.cs" />
+    <Compile Include="ViewModel\VoidsEngine.cs" />
+    <Compile Include="ViewModel\NewsViewModel.cs" />
     <Compile Include="ViewModel\BuildsEngine.cs" />
     <Compile Include="ViewModel\AlertsEngine.cs" />
     <Compile Include="ViewModel\GameViewModel.cs" />
@@ -121,12 +132,15 @@
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\InvasionsEngine.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\NewsEngine.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\SplashViewModel.cs" />
     <Compile Include="View\Converters\AllCapsConverter.cs" />
     <Compile Include="View\Converters\BooleanConverters.cs" />
+    <Compile Include="View\Converters\CountToBoolConverter.cs" />
     <Compile Include="View\Converters\InvasionGroupConverter.cs" />
     <Compile Include="View\Converters\NullConverters.cs" />
+    <Compile Include="View\Converters\CountToInvisibleConverter.cs" />
     <Compile Include="View\Converters\NumericConverters.cs" />
     <Compile Include="View\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
@@ -139,6 +153,27 @@
     </Compile>
     <Compile Include="View\SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\Items\AlertListItem.xaml.cs">
+      <DependentUpon>AlertListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\HomePanel.xaml.cs">
+      <DependentUpon>HomePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\Items\BuildListItem.xaml.cs">
+      <DependentUpon>BuildListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\Items\DailyDealItemList.xaml.cs">
+      <DependentUpon>DailyDealItemList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\Items\InvasionListItem.xaml.cs">
+      <DependentUpon>InvasionListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\Items\NewsListItem.xaml.cs">
+      <DependentUpon>NewsListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\Items\VoidTradeListItem.xaml.cs">
+      <DependentUpon>VoidTradeListItem.xaml</DependentUpon>
     </Compile>
     <Page Include="View\HomePage.xaml">
       <SubType>Designer</SubType>
@@ -196,6 +231,34 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\UserControls\Items\AlertListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\HomePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\Items\BuildListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\Items\DailyDealItemList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\Items\InvasionListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\Items\NewsListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\Items\VoidTradeListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

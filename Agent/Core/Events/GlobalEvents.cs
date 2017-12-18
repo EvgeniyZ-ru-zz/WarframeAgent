@@ -1,10 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Core.Events
+﻿namespace Core.Events
 {
     public class GlobalEvents
     {

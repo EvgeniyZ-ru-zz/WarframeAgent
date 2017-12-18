@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
-
 using Core;
 
 namespace Agent.ViewModel
@@ -15,7 +8,7 @@ namespace Agent.ViewModel
     class SplashViewModel
     {
         readonly MainViewModel mainVM;
-        bool isFinished = false;
+        bool isFinished;
 
         public SplashViewModel(MainViewModel mainVM)
         {

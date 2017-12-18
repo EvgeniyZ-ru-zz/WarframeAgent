@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -23,8 +19,10 @@ namespace Core.ViewModel
         public SectorViewModel Sector { get; }
         public string MissionType { get; }
         public Brush RewardColor { get; }
-        public Visibility ArchvingVisibility { get; }
-        public Visibility SharkwingVisibility { get; }
+        public Visibility ModeVisibility { get; }
+        public Visibility NightmareVisibility { get; }
+        public string ModeIcon { get; }
+        public string ModeToolTip { get; }
         public Visibility RewardVisibility { get; }
         public Visibility CreditVisibility { get; }
         public MissionReward MissionReward { get; } //? exposing model class to UI?
@@ -37,12 +35,24 @@ namespace Core.ViewModel
             Faction = FactionViewModel.ById(missionInfo.Faction);
             Sector = SectorViewModel.FromSector(missionInfo.Location);
             MissionType = Model.Filters.ExpandMission(missionInfo.MissionType)?.Name ?? missionInfo.MissionType;
-            ArchvingVisibility = (missionInfo.ArchwingRequired != true) || (missionInfo.IsSharkwingMission == true)
-                ? Visibility.Collapsed
-                : Visibility.Visible;
-            SharkwingVisibility = (missionInfo.IsSharkwingMission == true)
+
+            if (missionInfo.ArchwingRequired == true || missionInfo.IsSharkwingMission == false)
+            {
+                ModeIcon = "PaperPlaneOutline";
+                ModeToolTip = "Арчвинг миссия";
+                ModeVisibility = Visibility.Visible;
+            }
+            else if (missionInfo.IsSharkwingMission == true)
+            {
+                ModeIcon = "SnowflakeOutline";
+                ModeToolTip = "Шарквинг миссия";
+                ModeVisibility = Visibility.Visible;
+            }
+
+            NightmareVisibility = missionInfo.Nightmare == true
                 ? Visibility.Visible
                 : Visibility.Collapsed;
+
             RewardVisibility = (missionInfo.MissionReward.CountedItems != null) || (missionInfo.MissionReward.Items != null)
                 ? Visibility.Visible
                 : Visibility.Collapsed;
@@ -88,7 +98,7 @@ namespace Core.ViewModel
             switch (rewardType) //TODO: Переделать на универсальный тип (если будет смена языка, то названия не будут на русском).
             {
             case "Шлема":
-                return Brushes.BlueViolet;
+                return Brushes.YellowGreen;
             case "Чертежи":
                 return Brushes.BlueViolet;
             case "Ауры":
