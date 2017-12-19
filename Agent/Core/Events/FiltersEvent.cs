@@ -9,6 +9,7 @@ using NLog;
 
 namespace Core.Events
 {
+    // TODO: rename to FilterManager
     public class FiltersEvent
     {
         private CancellationTokenSource _cts;
@@ -27,16 +28,17 @@ namespace Core.Events
         public async Task Start()
         {
             _cts = new CancellationTokenSource();
+            var ct = _cts.Token;
             try
             {
-                await RunInitialPopulation(_cts.Token);
+                await RunInitialPopulation(ct);
             }
-            catch (OperationCanceledException ex) when (_cts.IsCancellationRequested)
+            catch (OperationCanceledException ex) when (ct.IsCancellationRequested)
             {
                 Tools.Logging.Send(LogLevel.Debug, $"Управление фильтрами: начальная загрузка отменена", ex);
                 return;
             }
-            _mainTask = RunFilterUpdateLoop(_cts.Token);
+            _mainTask = RunFilterUpdateLoop(ct);
         }
 
         public async Task StopAsync()
@@ -97,7 +99,8 @@ namespace Core.Events
                 Model.Filter.Type.Planets,
                 Model.Filter.Type.Missions,
                 Model.Filter.Type.Factions,
-                Model.Filter.Type.Builds
+                Model.Filter.Type.Builds,
+                Model.Filter.Type.Planets_new
             };
 
         Dictionary<Model.Filter.Type, int> versions = SupportedFilterTypes.ToDictionary(k => k, k => -1);
@@ -232,6 +235,8 @@ namespace Core.Events
                     return (await RunUpdate(Model.FiltersModel.ParseFactions, data => Model.FiltersModel.AllFactions = data)).version;
                 case Model.Filter.Type.Builds:
                     return (await RunUpdate(Model.FiltersModel.ParseBuilds, data => Model.FiltersModel.AllBuilds = data)).version;
+                case Model.Filter.Type.Planets_new:
+                    return (await RunUpdate(Model.FiltersModel.ParsePlanets, data => Model.FiltersModel.AllPlanets = data)).version;
                 }
             }
             catch (OperationCanceledException) when (ct.IsCancellationRequested)
