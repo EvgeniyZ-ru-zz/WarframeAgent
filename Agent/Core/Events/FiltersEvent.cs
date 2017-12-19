@@ -148,7 +148,7 @@ namespace Core.Events
                 foreach (var type in SupportedFilterTypes)
                 {
                     if (!uris.ContainsKey(type))
-                        Tools.Logging.Send(LogLevel.Error, $"Управление фильтрами: нету адреса фильтра для {type}");
+                        Tools.Logging.Send(LogLevel.Warn, $"Управление фильтрами: нету адреса фильтра для {type}");
                 }
                 Tools.Logging.Send(LogLevel.Trace, "Управление фильтрами: адреса фильтров получены");
                 while (!ct.IsCancellationRequested)
