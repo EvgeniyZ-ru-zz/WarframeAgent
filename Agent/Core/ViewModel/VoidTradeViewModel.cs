@@ -14,7 +14,7 @@ namespace Core.ViewModel
             PreActivation = Activation.AddDays(-12);
             Expiry = Tools.Time.ToDateTime(trader.Expiry.Date.NumberLong);
             Character = trader.Character == "Baro'Ki Teel" ? "Баро Ки'Тиир" : trader.Character; //TODO: Перевод
-            Location = Model.Filters.ExpandSector(trader.Node).Location;
+            Location = Model.Filters.ExpandSector(trader.Node).Location; //GH #69
             Planet = Model.Filters.ExpandSector(trader.Node).Planet;
         }
 
