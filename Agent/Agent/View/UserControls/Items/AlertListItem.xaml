@@ -105,7 +105,7 @@
                 <fa:FontAwesome
                     Visibility="{Binding MissionInfo.ModeVisibility}"
                     Foreground="{DynamicResource TextColor}"
-                    Icon="{Binding MissionInfo.ModeIcon}"
+                    Icon="{Binding MissionInfo.ModeIcon, TargetNullValue=None}"
                     ToolTip="{Binding MissionInfo.ModeToolTip}"
                     FontSize="10" />
                 <fa:FontAwesome
