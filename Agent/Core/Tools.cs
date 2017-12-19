@@ -240,7 +240,7 @@ namespace Core
                 if (exception != null)
                     errorMsg = $"\n{exception}";
 
-                Debug.WriteLine($"[{DateTime.Now}] {message}{errorMsg}");
+                Debug.WriteLine($"{DateTime.Now} | {level.Name.ToUpper()} | {message}{errorMsg}");
                 Logger.Log(level, exception, message, param);
 
                 if (level >= LogLevel.Warn)
