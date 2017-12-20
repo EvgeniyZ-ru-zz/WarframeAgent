@@ -50,7 +50,7 @@ namespace Core.Events
         }
 
         #pragma warning disable CS0649
-        struct NameUriPair { public string name; public Uri url; }
+        struct NameUriPair { public string name; public string url; }
         #pragma warning restore CS0649
         async Task<Dictionary<Model.Filter.Type, Uri>> FetchFilterAddresses(CancellationToken ct)
         {
@@ -63,9 +63,27 @@ namespace Core.Events
                 var uris = await Task.Run(() => // parse in the background
                 {
                     var values = JsonConvert.DeserializeObject<NameUriPair[]>(fetchedJson);
-                    return values.ToDictionary(
-                        p => (Model.Filter.Type)Enum.Parse(typeof(Model.Filter.Type), p.name, ignoreCase: true),
-                        p => p.url);
+                    var result = new Dictionary<Model.Filter.Type, Uri>();
+                    foreach (var p in values)
+                    {
+                        if (!Enum.TryParse<Model.Filter.Type>(p.name, ignoreCase: true, result: out var type))
+                        {
+                            Tools.Logging.Send(LogLevel.Error, $"Управление фильтрами: в новых адресах фильтров не распознан тип {p.name}");
+                            continue;
+                        }
+                        if (!Uri.TryCreate(p.url, UriKind.Absolute, out var uri))
+                        {
+                            Tools.Logging.Send(LogLevel.Info, $"Управление фильтрами: в новых адресах фильтров не распознан адрес для типа {p.name}");
+                            continue;
+                        }
+                        if (result.TryGetValue(type, out _))
+                        {
+                            Tools.Logging.Send(LogLevel.Info, $"Управление фильтрами: в новых адресах фильтров дубликат значения для типа {p.name}");
+                            continue;
+                        }
+                        result.Add(type, uri);
+                    }
+                    return result;
                 }, ct);
                 Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: разбор адресов фильтров окончен");
 
