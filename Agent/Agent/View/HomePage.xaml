@@ -38,9 +38,18 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" FontSize="14" Foreground="{StaticResource TextColor}" Text="{}{TIME}" HorizontalAlignment="Center" />
-                    <TextBlock Grid.Column="1" FontSize="14" Foreground="{StaticResource TextColor}" Text="{}{TIME}" HorizontalAlignment="Center" />
-                    <TextBlock Grid.Column="2" FontSize="14" Foreground="{StaticResource TextColor}" Text="{}{TIME}" HorizontalAlignment="Center" />
+                    <Grid.Resources>
+                        <DataTemplate DataType="{x:Type viewModel:LocationTimeViewModel}">
+                            <TextBlock Grid.Column="0" FontSize="14">
+                                 <Run Text="{Binding LocationName}" Foreground="{StaticResource TextColor}" />
+                                 <Run Text="{Binding Time}" Foreground="{StaticResource TextColor}" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </Grid.Resources>
+
+                    <ContentPresenter Content="{Binding LocationWithTime1}" Grid.Column="0" HorizontalAlignment="Center" />
+                    <ContentPresenter Content="{Binding LocationWithTime1}" Grid.Column="1" HorizontalAlignment="Center" />
+                    <ContentPresenter Content="{Binding LocationWithTime1}" Grid.Column="2" HorizontalAlignment="Center" />
                 </Grid>
             </Border>
         </DockPanel>
