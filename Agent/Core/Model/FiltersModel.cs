@@ -18,6 +18,7 @@ namespace Core.Model
             Missions,
             Planets,
             Planets_new, // TODO: переименовать
+            Locations,
             Race,
             Sorties,
             Void
