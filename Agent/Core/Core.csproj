@@ -81,6 +81,7 @@
     <Compile Include="Model\FiltersModel.cs" />
     <Compile Include="ViewModel\DailyDealViewModel.cs" />
     <Compile Include="ViewModel\LocationTimeViewModel.cs" />
+    <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\VoidItemViewModel.cs" />
     <Compile Include="ViewModel\VoidTradeViewModel.cs" />
     <Compile Include="ViewModel\AlertViewModel.cs" />

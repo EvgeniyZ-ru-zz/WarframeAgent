@@ -256,17 +256,12 @@
 
                 <!-- +Новости -->
                 <panels:HomePanel Grid.Column="0" Text="Новости" Color="{DynamicResource NewsLineColor}">
-                    <ListBox ItemsSource="{Binding News}" Style="{StaticResource MainList}" >
+                    <ListBox ItemsSource="{Binding News}" Style="{StaticResource MainList}" ItemContainerStyle="{StaticResource NewsListItem}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <uc:NewsListItem/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource NewsListItem}">
-                                <EventSetter Event="MouseDoubleClick" Handler="EventSetter_OnHandler" />
-                            </Style>
-                        </ListBox.ItemContainerStyle>
                     </ListBox>
                 </panels:HomePanel>
                 <!-- -Новости -->

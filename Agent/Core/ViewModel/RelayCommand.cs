@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Agent.ViewModel
+namespace Core.ViewModel
 {
-    class RelayCommand<T> : ICommand
+    public class RelayCommand<T> : ICommand
     {
         private Action<T> action;
         public RelayCommand(Action<T> action) => this.action = action;
@@ -14,7 +14,7 @@ namespace Agent.ViewModel
         public void Execute(object parameter) => action((T)parameter);
     }
 
-    class RelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
         private Action action;
         public RelayCommand(Action action) => this.action = action;
