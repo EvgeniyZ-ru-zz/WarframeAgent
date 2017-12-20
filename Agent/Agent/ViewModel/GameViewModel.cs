@@ -51,6 +51,9 @@ namespace Agent.ViewModel
         public ObservableCollection<DailyDealViewModel> DailyDeals { get; } = new ObservableCollection<DailyDealViewModel>();
         public ObservableCollection<BuildViewModel> Builds { get; } = new ObservableCollection<BuildViewModel>();
 
+        public LocationTimeViewModel EarthTime { get; } = new LocationTimeViewModel();
+        public LocationTimeViewModel CetusTime { get; } = new LocationTimeViewModel();
+        public LocationTimeViewModel EidolonTime { get; } = new LocationTimeViewModel();
 
         public void AddNews(PostViewModel post) => News.Add(post);
         public PostViewModel TryGetNewsByDescription(string description) => News.FirstOrDefault(a => a.Description == description);

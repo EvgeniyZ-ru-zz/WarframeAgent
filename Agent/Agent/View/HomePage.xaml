@@ -41,15 +41,15 @@
                     <Grid.Resources>
                         <DataTemplate DataType="{x:Type viewModel:LocationTimeViewModel}">
                             <TextBlock Grid.Column="0" FontSize="14">
-                                 <Run Text="{Binding LocationName}" Foreground="{StaticResource TextColor}" />
-                                 <Run Text="{Binding Time}" Foreground="{StaticResource TextColor}" />
+                                 <Run Text="{Binding LocationName, Mode=OneWay}" Foreground="{StaticResource TextColor}" />
+                                 <Run Text="{Binding Time, Mode=OneWay}" Foreground="{StaticResource TextColor}" />
                             </TextBlock>
                         </DataTemplate>
                     </Grid.Resources>
 
-                    <ContentPresenter Content="{Binding LocationWithTime1}" Grid.Column="0" HorizontalAlignment="Center" />
-                    <ContentPresenter Content="{Binding LocationWithTime1}" Grid.Column="1" HorizontalAlignment="Center" />
-                    <ContentPresenter Content="{Binding LocationWithTime1}" Grid.Column="2" HorizontalAlignment="Center" />
+                    <ContentPresenter Content="{Binding EarthTime}" Grid.Column="0" HorizontalAlignment="Center" />
+                    <ContentPresenter Content="{Binding CetusTime}" Grid.Column="1" HorizontalAlignment="Center" />
+                    <ContentPresenter Content="{Binding EidolonTime}" Grid.Column="2" HorizontalAlignment="Center" />
                 </Grid>
             </Border>
         </DockPanel>
