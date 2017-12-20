@@ -25,6 +25,31 @@ namespace Core.Events
         /// </summary>
         public event EventHandler<EventArgs> ItemsUpdated;
 
+        /// <summary>
+        ///     Фильтр "Sectors" успешно обновлен.
+        /// </summary>
+        public event EventHandler<EventArgs> SectorsUpdated;
+
+        /// <summary>
+        ///     Фильтр "Missions" успешно обновлен.
+        /// </summary>
+        public event EventHandler<EventArgs> MissionsUpdated;
+
+        /// <summary>
+        ///     Фильтр "Factions" успешно обновлен.
+        /// </summary>
+        public event EventHandler<EventArgs> FactionsUpdated;
+
+        /// <summary>
+        ///     Фильтр "Builds" успешно обновлен.
+        /// </summary>
+        public event EventHandler<EventArgs> BuildsUpdated;
+
+        /// <summary>
+        ///     Фильтр "Planets" успешно обновлен.
+        /// </summary>
+        public event EventHandler<EventArgs> PlanetsUpdated;
+
         public async Task Start()
         {
             _cts = new CancellationTokenSource();
@@ -221,40 +246,36 @@ namespace Core.Events
             {
                 Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: разбираю фильтр {type}");
 
-                async Task<(bool ok, int version)> RunUpdate<T>(Func<int, string, (T, int)> parser, Action<T> setter)
+                async Task<int> RunUpdate<T>(Func<int, string, (T, int)> parser, Action<T> setter, EventHandler<EventArgs> filterUpdated)
                 {
                     (var data, var version) = await Task.Run(() => parser(oldVersion, filterText), ct);
                     ct.ThrowIfCancellationRequested();
                     if (data == null || version <= oldVersion)
                     {
                         Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: версия фильтра {type} не обновилась");
-                        return (false, oldVersion);
+                        return oldVersion;
                     }
                     Tools.Logging.Send(LogLevel.Info, $"Управление фильтрами: заменяю фильтр {type} на версию {version}");
                     setter(data);
                     Updated?.Invoke();
-                    return (true, version);
+                    filterUpdated?.Invoke(this, EventArgs.Empty);
+                    return version;
                 }
 
                 switch (type)
                 {
                 case Model.Filter.Type.Items:
-                    {
-                        (bool ok, int version) = await RunUpdate(Model.FiltersModel.ParseItems, data => Model.FiltersModel.AllItems = data);
-                        if (ok)
-                            ItemsUpdated?.Invoke(this, EventArgs.Empty);
-                        return version;
-                    }
+                    return await RunUpdate(Model.FiltersModel.ParseItems, data => Model.FiltersModel.AllItems = data, ItemsUpdated);
                 case Model.Filter.Type.Planets:
-                    return (await RunUpdate(Model.FiltersModel.ParseSectors, data => Model.FiltersModel.AllSectors = data)).version;
+                    return await RunUpdate(Model.FiltersModel.ParseSectors, data => Model.FiltersModel.AllSectors = data, SectorsUpdated);
                 case Model.Filter.Type.Missions:
-                    return (await RunUpdate(Model.FiltersModel.ParseMissions, data => Model.FiltersModel.AllMissions = data)).version;
+                    return await RunUpdate(Model.FiltersModel.ParseMissions, data => Model.FiltersModel.AllMissions = data, MissionsUpdated);
                 case Model.Filter.Type.Factions:
-                    return (await RunUpdate(Model.FiltersModel.ParseFactions, data => Model.FiltersModel.AllFactions = data)).version;
+                    return await RunUpdate(Model.FiltersModel.ParseFactions, data => Model.FiltersModel.AllFactions = data, FactionsUpdated);
                 case Model.Filter.Type.Builds:
-                    return (await RunUpdate(Model.FiltersModel.ParseBuilds, data => Model.FiltersModel.AllBuilds = data)).version;
+                    return await RunUpdate(Model.FiltersModel.ParseBuilds, data => Model.FiltersModel.AllBuilds = data, BuildsUpdated);
                 case Model.Filter.Type.Planets_new:
-                    return (await RunUpdate(Model.FiltersModel.ParsePlanets, data => Model.FiltersModel.AllPlanets = data)).version;
+                    return await RunUpdate(Model.FiltersModel.ParsePlanets, data => Model.FiltersModel.AllPlanets = data, PlanetsUpdated);
                 }
             }
             catch (OperationCanceledException) when (ct.IsCancellationRequested)
