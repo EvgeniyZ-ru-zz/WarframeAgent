@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Core.Model;
 
 namespace Core.ViewModel
@@ -12,7 +15,17 @@ namespace Core.ViewModel
             Description = post.Description;
             Image = post.Image;
             Url = post.Url;
+            DisplayInBrowserCommand = new RelayCommand(DisplayInBrowser);
         }
+
+        void DisplayInBrowser()
+        {
+            // запуск просесса длительный, поэтому выносим в фон
+            var uri = Url.AbsoluteUri;
+            Task.Run(() => Process.Start(uri));
+        }
+
+        public ICommand DisplayInBrowserCommand { get; }
 
         public string Title { get; }
         public DateTime Date { get; }

@@ -14,12 +14,5 @@ namespace Agent.View
         {
             InitializeComponent();
         }
-
-        private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
-        {
-            var item = sender as ListBoxItem;
-            if (item?.Content is PostViewModel obj)
-                Process.Start(obj.Url.AbsoluteUri);
-        }
     }
 }

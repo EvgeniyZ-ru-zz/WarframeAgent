@@ -133,7 +133,6 @@
     <Compile Include="ViewModel\InvasionsEngine.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\NewsEngine.cs" />
-    <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\SplashViewModel.cs" />
     <Compile Include="View\Converters\AllCapsConverter.cs" />
     <Compile Include="View\Converters\BooleanConverters.cs" />
