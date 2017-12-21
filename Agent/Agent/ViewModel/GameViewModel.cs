@@ -51,9 +51,9 @@ namespace Agent.ViewModel
         public ObservableCollection<DailyDealViewModel> DailyDeals { get; } = new ObservableCollection<DailyDealViewModel>();
         public ObservableCollection<BuildViewModel> Builds { get; } = new ObservableCollection<BuildViewModel>();
 
-        public LocationTimeViewModel EarthTime { get; } = new LocationTimeViewModel();
-        public LocationTimeViewModel CetusTime { get; } = new LocationTimeViewModel();
-        public LocationTimeViewModel EidolonTime { get; } = new LocationTimeViewModel();
+        public EarthTimeViewModel EarthTime { get; } = new EarthTimeViewModel();
+        public EarthTimeViewModel CetusTime { get; } = new EarthTimeViewModel();
+        public EarthTimeViewModel EidolonTime { get; } = new EarthTimeViewModel();
 
         public void AddNews(PostViewModel post) => News.Add(post);
         public PostViewModel TryGetNewsByDescription(string description) => News.FirstOrDefault(a => a.Description == description);
@@ -147,6 +147,8 @@ namespace Agent.ViewModel
                 var item = (DailyDeals)[index];
                 item.UpdateStatus(); // TODO: make it inside the dailyDeals
             }
+
+            EarthTime.UpdateTime();
         }
     }
 }

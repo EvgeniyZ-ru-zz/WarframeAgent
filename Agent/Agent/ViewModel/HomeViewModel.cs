@@ -14,9 +14,9 @@ namespace Agent.ViewModel
         public ObservableCollection<VoidItemViewModel> VoidTradeItems => GameView.VoidTradeItems;
         public ObservableCollection<DailyDealViewModel> DailyDeals => GameView.DailyDeals;
         public ObservableCollection<BuildViewModel> Builds => GameView.Builds;
-        public LocationTimeViewModel EarthTime => GameView.EarthTime;
-        public LocationTimeViewModel CetusTime => GameView.CetusTime;
-        public LocationTimeViewModel EidolonTime => GameView.EidolonTime;
+        public EarthTimeViewModel EarthTime => GameView.EarthTime;
+        public EarthTimeViewModel CetusTime => GameView.CetusTime;
+        public EarthTimeViewModel EidolonTime => GameView.EidolonTime;
 
         public HomeViewModel(GameViewModel gameView)
         {

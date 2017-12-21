@@ -171,6 +171,9 @@
     <Compile Include="View\UserControls\Items\NewsListItem.xaml.cs">
       <DependentUpon>NewsListItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\Items\PlanetTimeItem.xaml.cs">
+      <DependentUpon>PlanetTimeItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\Items\VoidTradeListItem.xaml.cs">
       <DependentUpon>VoidTradeListItem.xaml</DependentUpon>
     </Compile>
@@ -251,6 +254,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserControls\Items\NewsListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\Items\PlanetTimeItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
