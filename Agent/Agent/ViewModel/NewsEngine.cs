@@ -1,46 +1,32 @@
-﻿using Core;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using Core;
+using Core.Events;
 using Core.Model;
 using Core.ViewModel;
 using NLog;
 
 namespace Agent.ViewModel
 {
-    class NewsEngine
+    class NewsEngine : GenericSimpleEngine<PostViewModel, NewsPost>
     {
-        private GameViewModel GameView;
+        public NewsEngine() : base(null) { }
 
-        public NewsEngine(GameViewModel gameView)
-        {
-            GameView = gameView;
-        }
+        protected override PostViewModel CreateItem(NewsPost item, FiltersEvent evt) => new PostViewModel(item);
+        protected override IEnumerable<NewsPost> GetItemsFromModel(GameModel model) => model.GetCurrentNews();
 
-        public void Run(GameModel model)
+        protected override void Subscribe(GameModel model)
         {
             model.NewsNotificationArrived += AddEvent;
             model.NewsNotificationDeparted += RemoveEvent;
-
-            foreach (var news in model.GetCurrentNews())
-            {
-                var newsVM = new PostViewModel(news);
-                GameView.AddNews(newsVM);
-            }
         }
 
-        private async void AddEvent(object sender, NewsNotificationEventArgs e)
-        {
-            await AsyncHelpers.RedirectToMainThread();
-            Tools.Logging.Send(LogLevel.Info, $"Новая новость {e.Notification.Title}!", param: e.Notification);
+        protected override void LogAdded(NewsPost item) =>
+            Tools.Logging.Send(LogLevel.Info, $"Новая новость {item.Title}!", param: item);
+        protected override void LogRemoved(NewsPost item) =>
+            Tools.Logging.Send(LogLevel.Info, $"Удаляю новость {item.Title}!", param: item);
 
-            var newsVM = new PostViewModel(e.Notification);
-            GameView.AddNews(newsVM);
-        }
-
-        private async void RemoveEvent(object sender, NewsNotificationEventArgs e)
-        {
-            await AsyncHelpers.RedirectToMainThread();
-            Tools.Logging.Send(LogLevel.Info, $"Удаляю новость {e.Notification.Title}!", param: e.Notification);
-
-            GameView.RemoveNewsByTitle(e.Notification.Title);
-        }
+        protected override PostViewModel TryGetItemByModel(NewsPost item) => Items.FirstOrDefault(a => a.Description == item.Title);
     }
 }

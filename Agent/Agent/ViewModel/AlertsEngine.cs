@@ -1,51 +1,34 @@
-﻿using Core;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+
+using Core;
 using Core.Model;
 using Core.ViewModel;
 using Core.Events;
 
 using NLog;
+using System.Collections.Generic;
 
 namespace Agent.ViewModel
 {
-    class AlertsEngine
+    class AlertsEngine : GenericSimpleEngine<AlertViewModel, Alert>
     {
-        private GameViewModel GameView;
-        private FiltersEvent FiltersEvent;
+        public AlertsEngine(FiltersEvent filtersEvent) : base(filtersEvent) { }
 
-        public AlertsEngine(GameViewModel gameView, FiltersEvent filtersEvent)
-        {
-            GameView = gameView;
-            FiltersEvent = filtersEvent;
-        }
-
-        public void Run(GameModel model)
+        protected override void Subscribe(GameModel model)
         {
             model.AlertNotificationArrived += AddEvent;
             model.AlertNotificationDeparted += RemoveEvent;
-            // TODO: race condition with arriving events; check if event is already there
-            foreach (var alert in model.GetCurrentAlerts())
-            {
-                var alertVM = new AlertViewModel(alert, FiltersEvent);
-                GameView.AddAlert(alertVM);
-            }
         }
 
-        private async void AddEvent(object sender, AlertNotificationEventArgs e)
-        {
-            await AsyncHelpers.RedirectToMainThread();
+        protected override IEnumerable<Alert> GetItemsFromModel(GameModel model) => model.GetCurrentAlerts();
+        protected override AlertViewModel CreateItem(Alert item, FiltersEvent evt) => new AlertViewModel(item, evt);
 
-            Tools.Logging.Send(LogLevel.Info, $"Новая тревога {e.Notification.Id.Oid}!", param: e.Notification);
-            
-            var alertVM = new AlertViewModel(e.Notification, FiltersEvent);
-            GameView.AddAlert(alertVM);
-        }
+        protected override void LogAdded(Alert item) =>
+            Tools.Logging.Send(LogLevel.Info, $"Новая тревога {item.Id.Oid}!", param: item);
+        protected override void LogRemoved(Alert item) =>
+            Tools.Logging.Send(LogLevel.Info, $"Удаляю тревогу {item.Id.Oid}!", param: item);
 
-        private async void RemoveEvent(object sender, AlertNotificationEventArgs e)
-        {
-            await AsyncHelpers.RedirectToMainThread();
-            Tools.Logging.Send(LogLevel.Info, $"Удаляю тревогу {e.Notification.Id.Oid}!", param: e.Notification);
-
-            GameView.RemoveAlertById(e.Notification.Id);
-        }
+        protected override AlertViewModel TryGetItemByModel(Alert item) => Items.FirstOrDefault(i => i.Id == item.Id);
     }
 }

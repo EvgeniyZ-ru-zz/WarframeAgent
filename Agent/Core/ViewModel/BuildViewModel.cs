@@ -2,7 +2,7 @@
 
 namespace Core.ViewModel
 {
-    public class BuildViewModel : VM
+    public class BuildViewModel : VM, IUpdatable
     {
         string name;
         double val;

@@ -1,18 +1,18 @@
-﻿using Core;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+
+using Core;
 using Core.Model;
 using Core.ViewModel;
+
 using NLog;
 
 namespace Agent.ViewModel
 {
     class VoidsEngine
     {
-        private GameViewModel GameView;
-
-        public VoidsEngine(GameViewModel gameView)
-        {
-            GameView = gameView;
-        }
+        public ObservableCollection<VoidItemViewModel> Items { get; } = new ObservableCollection<VoidItemViewModel>();
+        public ObservableCollection<VoidTradeViewModel> Traders { get; } = new ObservableCollection<VoidTradeViewModel>();
 
         public void Run(GameModel model)
         {
@@ -29,11 +29,11 @@ namespace Agent.ViewModel
                     foreach (var manifest in trader.Manifest)
                     {
                         var manifestVM = new VoidItemViewModel(manifest);
-                        GameView.AddVoidTradeItem(manifestVM);
+                        Items.Add(manifestVM);
                     }
                 }
 
-                GameView.AddVoidTrade(traderVM);
+                Traders.Add(traderVM);
             }
         }
 
@@ -48,14 +48,15 @@ namespace Agent.ViewModel
                 foreach (var manifest in e.Notification.Manifest)
                 {
                     var manifestVM = new VoidItemViewModel(manifest);
-                    GameView.AddVoidTradeItem(manifestVM);
+                    Items.Add(manifestVM);
                 }
             }
 
             var traderVM = new VoidTradeViewModel(e.Notification);
-            GameView.AddVoidTrade(traderVM);
+            Traders.Add(traderVM);
         }
 
+        // TODO: пересмотреть всю эту логику. необходима зависимость между item и trader
         private async void ChangeEvent(object sender, VoidTraderNotificationEventArgs e)
         {
             await AsyncHelpers.RedirectToMainThread();
@@ -63,24 +64,29 @@ namespace Agent.ViewModel
 
             if (e.Notification.Manifest == null)
             {
-                GameView.RemoveAllVoidTraderItems();
+                //GameView.RemoveAllVoidTraderItems();
+                Items.Clear(); // ??? Выглядит подозрительно!
             }
             else
             {
                 foreach (var manifest in e.Notification.Manifest)
                 {
                     var manifestVM = new VoidItemViewModel(manifest);
-                    GameView.AddVoidTradeItem(manifestVM);
+                    Items.Add(manifestVM);
                 }
             }
         }
+
+        private VoidTradeViewModel TryGetTraderById(Id id) => Traders.FirstOrDefault(i => i.Id == id);
 
         private async void RemoveEvent(object sender, VoidTraderNotificationEventArgs e)
         {
             await AsyncHelpers.RedirectToMainThread();
             Tools.Logging.Send(LogLevel.Info, $"Удаляю торговца [{e.Notification.Character}] {e.Notification.Id.Oid}!", param: e.Notification);
 
-            GameView.RemoveVoidTradeById(e.Notification.Id);
+            var traderVM = TryGetTraderById(e.Notification.Id);
+            if (traderVM != null)
+                Traders.Remove(traderVM);
         }
     }
 }

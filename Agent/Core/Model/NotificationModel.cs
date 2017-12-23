@@ -10,52 +10,46 @@ namespace Core.Model
 {
     #region EventArgs
 
-    // Добавление/удаление новостей
-    public class NewsNotificationEventArgs : EventArgs
+    public class NotificationEventArgs<T> : EventArgs
     {
-        public readonly NewsPost Notification;
-        public NewsNotificationEventArgs(NewsPost ntf) =>
-            Notification = ntf;
+        public readonly T Notification;
+        public NotificationEventArgs(T ntf) => Notification = ntf;
+    }
+
+    // Добавление/удаление новостей
+    public class NewsNotificationEventArgs : NotificationEventArgs<NewsPost>
+    {
+        public NewsNotificationEventArgs(NewsPost ntf) : base(ntf) { }
     }
 
     // Добавление/удаление тревог
-    public class AlertNotificationEventArgs : EventArgs
+    public class AlertNotificationEventArgs : NotificationEventArgs<Alert>
     {
-        public readonly Alert Notification;
-        public AlertNotificationEventArgs(Alert ntf) =>
-            Notification = ntf;
+        public AlertNotificationEventArgs(Alert ntf) : base(ntf) { }
     }
 
     // Добавление/удаление/изменение вторжений
-    public class InvasionNotificationEventArgs : EventArgs
+    public class InvasionNotificationEventArgs : NotificationEventArgs<Invasion>
     {
-        public readonly Invasion Notification;
-        public InvasionNotificationEventArgs(Invasion ntf) =>
-            Notification = ntf;
+        public InvasionNotificationEventArgs(Invasion ntf) : base(ntf) { }
     }
 
     // Добавление/удаление/изменение торговцев (баро)
-    public class VoidTraderNotificationEventArgs : EventArgs
+    public class VoidTraderNotificationEventArgs : NotificationEventArgs<VoidTrader>
     {
-        public readonly VoidTrader Notification;
-        public VoidTraderNotificationEventArgs(VoidTrader ntf) =>
-            Notification = ntf;
+        public VoidTraderNotificationEventArgs(VoidTrader ntf) : base(ntf) { }
     }
 
     // Добавление/удаление/изменение скидки дня (дарво)
-    public class DailyDealNotificationEventArgs : EventArgs
+    public class DailyDealNotificationEventArgs : NotificationEventArgs<DailyDeal>
     {
-        public readonly DailyDeal Notification;
-        public DailyDealNotificationEventArgs(DailyDeal ntf) =>
-            Notification = ntf;
+        public DailyDealNotificationEventArgs(DailyDeal ntf) : base(ntf) { }
     }
 
     // Добавление/удаление/изменение строений
-    public class BuildNotificationEventArgs : EventArgs
+    public class BuildNotificationEventArgs : NotificationEventArgs<Build>
     {
-        public readonly Build Notification;
-        public BuildNotificationEventArgs(Build ntf) =>
-            Notification = ntf;
+        public BuildNotificationEventArgs(Build ntf) : base(ntf) { }
     }
 
     #endregion
