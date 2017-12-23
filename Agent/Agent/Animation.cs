@@ -84,17 +84,6 @@ namespace Agent
         }
 
         #endregion
-
-        #region PopUp панель
-
-        public void PopUpAnimation()
-        {
-            var popup = main.PopUpPanel;
-            var storyboard = (Storyboard)popup.Resources["ShowPopupStoryboard"];
-            popup.BeginStoryboard(storyboard);
-        }
-
-        #endregion
         #endregion
     }
 }

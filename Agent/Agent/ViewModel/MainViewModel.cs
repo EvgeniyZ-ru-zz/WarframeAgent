@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 using Core;
@@ -20,6 +21,8 @@ namespace Agent.ViewModel
         public NewsViewModel NewsViewModel { get; }
         public HomeViewModel HomeViewModel { get; }
         public AlertsViewModel AlertsViewModel { get; }
+
+        public ObservableCollection<UserNotification> UserNotifications => GameView.UserNotifications;
 
         Task finishInit;
         public MainViewModel()
@@ -44,9 +47,6 @@ namespace Agent.ViewModel
 
         public void Run()
         {
-            //GameData.Load($"{Settings.Program.Directories.Temp}/GameData.json");
-            //NewsData.Load($"{Settings.Program.Directories.Temp}/NewsData.json");
-
             ServerEvents.Connected += GameDataEvent_Connected;
             ServerEvents.Disconnected += GameDataEvent_Disconnected;
             GameView.Run();
