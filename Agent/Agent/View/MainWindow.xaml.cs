@@ -49,15 +49,6 @@ namespace Agent.View
             Focus();
         }
 
-        public void ShowPopUp(string text, FontAwesomeIcon icon, string color)
-        {
-            var convertFromString = ColorConverter.ConvertFromString(color);
-            if (convertFromString != null) PopUpPanel.BorderBrush = new SolidColorBrush((Color)convertFromString);
-            PopUpIcon.Icon = icon;
-            PopUpText.Text = text;
-            animation.PopUpAnimation();
-        }
-
         private async void BackgroundEvent_Changed(int newBackgroundId)
         {
             await AsyncHelpers.RedirectToMainThread();

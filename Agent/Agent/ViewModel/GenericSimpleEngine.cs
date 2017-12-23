@@ -30,8 +30,8 @@ namespace Agent.ViewModel
             // TODO: race condition with arriving events; check if event is already there
             foreach (var item in GetItemsFromModel(model))
             {
-                var alertVM = CreateItem(item, FiltersEvent);
-                Items.Add(alertVM);
+                var itemVM = CreateItem(item, FiltersEvent);
+                Items.Add(itemVM);
             }
         }
 

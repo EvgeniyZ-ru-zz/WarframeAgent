@@ -125,6 +125,8 @@
     <Compile Include="ViewModel\GenericEngineWithUpdates.cs" />
     <Compile Include="ViewModel\GenericSimpleEngine.cs" />
     <Compile Include="ViewModel\DailyDealsEngine.cs" />
+    <Compile Include="ViewModel\UserNotification.cs" />
+    <Compile Include="ViewModel\UserNotificationsEngine.cs" />
     <Compile Include="ViewModel\VoidsEngine.cs" />
     <Compile Include="ViewModel\NewsViewModel.cs" />
     <Compile Include="ViewModel\BuildsEngine.cs" />
@@ -178,6 +180,9 @@
     </Compile>
     <Compile Include="View\UserControls\Items\VoidTradeListItem.xaml.cs">
       <DependentUpon>VoidTradeListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserNotifications.xaml.cs">
+      <DependentUpon>UserNotifications.xaml</DependentUpon>
     </Compile>
     <Page Include="View\HomePage.xaml">
       <SubType>Designer</SubType>
@@ -264,6 +269,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserControls\Items\VoidTradeListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserNotifications.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

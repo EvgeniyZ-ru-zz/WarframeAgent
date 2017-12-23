@@ -17,12 +17,15 @@ namespace Agent.ViewModel
             reloadTimer.Start();
 
             Model = model;
+
             NewsEngine = new NewsEngine();
             AlertsEngine = new AlertsEngine(filtersEvent);
             InvasionsEngine = new InvasionsEngine(filtersEvent);
             VoidsEngine = new VoidsEngine();
             DailyDealsEngine = new DailyDealsEngine(filtersEvent);
             BuildsEngine = new BuildsEngine();
+
+            UserNotificationsEngine = new UserNotificationsEngine(this);
         }
 
         public void Run()
@@ -41,6 +44,7 @@ namespace Agent.ViewModel
         private VoidsEngine VoidsEngine;
         private DailyDealsEngine DailyDealsEngine;
         private BuildsEngine BuildsEngine;
+        private UserNotificationsEngine UserNotificationsEngine;
         private GameModel Model;
 
         public ObservableCollection<PostViewModel> News => NewsEngine.Items;
@@ -50,6 +54,7 @@ namespace Agent.ViewModel
         public ObservableCollection<VoidItemViewModel> VoidTradeItems => VoidsEngine.Items;
         public ObservableCollection<DailyDealViewModel> DailyDeals => DailyDealsEngine.Items;
         public ObservableCollection<BuildViewModel> Builds => BuildsEngine.Items;
+        public ObservableCollection<UserNotification> UserNotifications => UserNotificationsEngine.Notifications;
 
         public EarthTimeViewModel EarthTime { get; } = new EarthTimeViewModel();
         public EarthTimeViewModel CetusTime { get; } = new EarthTimeViewModel();
