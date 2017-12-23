@@ -6,7 +6,7 @@ using Core.Model;
 
 namespace Core.ViewModel
 {
-    public class PostViewModel
+    public class PostViewModel : VM
     {
         public PostViewModel(NewsPost post)
         {

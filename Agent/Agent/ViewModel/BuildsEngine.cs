@@ -1,58 +1,37 @@
-﻿using Core;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+
+using Core;
+using Core.Events;
 using Core.Model;
 using Core.ViewModel;
+
 using NLog;
 
 namespace Agent.ViewModel
 {
-    class BuildsEngine
+    class BuildsEngine : GenericEngineWithUpdates<BuildViewModel, Build>
     {
-        private GameViewModel GameView;
+        public BuildsEngine() : base(null) { }
 
-        public BuildsEngine(GameViewModel gameView)
-        {
-            GameView = gameView;
-        }
+        protected override BuildViewModel CreateItem(Build item, FiltersEvent evt) => new BuildViewModel(item);
+        protected override IEnumerable<Build> GetItemsFromModel(GameModel model) => model.GetCurrentBuilds();
 
-        public void Run(GameModel model)
+        protected override void Subscribe(GameModel model)
         {
             model.BuildNotificationArrived += AddEvent;
             model.BuildNotificationChanged += ChangeEvent;
             model.BuildNotificationDeparted += RemoveEvent;
-            // TODO: race condition with arriving events; check if event is already there
-            foreach (var build in model.GetCurrentBuilds())
-            {
-                var buildVM = new BuildViewModel(build);
-                GameView.AddBuild(buildVM);
-            }
         }
 
-        private async void AddEvent(object sender, BuildNotificationEventArgs e)
-        {
-            await AsyncHelpers.RedirectToMainThread();
+        protected override void LogAdded(Build item) =>
+            Tools.Logging.Send(LogLevel.Info, $"Новое строение {item.Number}", param: item);
+        protected override void LogChanged(Build item) =>
+            Tools.Logging.Send(LogLevel.Debug, $"Изменённое строение {item.Number}");
+        protected override void LogRemoved(Build item) =>
+            Tools.Logging.Send(LogLevel.Info, $"Удаляю строение {item.Number}", param: item);
 
-            Tools.Logging.Send(LogLevel.Info, $"Новое строение {e.Notification.Number}", param: e.Notification);
-            
-            var buildVM = new BuildViewModel(e.Notification);
-            GameView.AddBuild(buildVM);
-        }
-
-        private async void ChangeEvent(object sender, BuildNotificationEventArgs e)
-        {
-            await AsyncHelpers.RedirectToMainThread();
-
-            Tools.Logging.Send(LogLevel.Debug, $"Изменённое строение {e.Notification.Number}");
-
-            var buildVM = GameView.TryGetBuildById(e.Notification.Number);
-            buildVM?.Update();
-        }
-
-        private async void RemoveEvent(object sender, BuildNotificationEventArgs e)
-        {
-            await AsyncHelpers.RedirectToMainThread();
-            Tools.Logging.Send(LogLevel.Info, $"Удаляю строение {e.Notification.Number}", param: e.Notification);
-
-            GameView.RemoveBuildById(e.Notification.Number);
-        }
+        protected override BuildViewModel TryGetItemByModel(Build item) => Items.FirstOrDefault(i => i.Id == item.Number);
     }
 }

@@ -17,12 +17,12 @@ namespace Agent.ViewModel
             reloadTimer.Start();
 
             Model = model;
-            NewsEngine = new NewsEngine(this);
-            AlertsEngine = new AlertsEngine(this, filtersEvent);
-            InvasionsEngine = new InvasionsEngine(this, filtersEvent);
-            VoidsEngine = new VoidsEngine(this);
-            DailyDealsEngine = new DailyDealsEngine(this, filtersEvent);
-            BuildsEngine = new BuildsEngine(this);
+            NewsEngine = new NewsEngine();
+            AlertsEngine = new AlertsEngine(filtersEvent);
+            InvasionsEngine = new InvasionsEngine(filtersEvent);
+            VoidsEngine = new VoidsEngine();
+            DailyDealsEngine = new DailyDealsEngine(filtersEvent);
+            BuildsEngine = new BuildsEngine();
         }
 
         public void Run()
@@ -43,90 +43,17 @@ namespace Agent.ViewModel
         private BuildsEngine BuildsEngine;
         private GameModel Model;
 
-        public ObservableCollection<PostViewModel> News { get; } = new ObservableCollection<PostViewModel>();
-        public ObservableCollection<AlertViewModel> Alerts { get; } = new ObservableCollection<AlertViewModel>();
-        public ObservableCollection<InvasionViewModel> Invasions { get; } = new ObservableCollection<InvasionViewModel>();
-        public ObservableCollection<VoidTradeViewModel> VoidTrades { get; } = new ObservableCollection<VoidTradeViewModel>();
-        public ObservableCollection<VoidItemViewModel> VoidTradeItems { get; } = new ObservableCollection<VoidItemViewModel>();
-        public ObservableCollection<DailyDealViewModel> DailyDeals { get; } = new ObservableCollection<DailyDealViewModel>();
-        public ObservableCollection<BuildViewModel> Builds { get; } = new ObservableCollection<BuildViewModel>();
+        public ObservableCollection<PostViewModel> News => NewsEngine.Items;
+        public ObservableCollection<AlertViewModel> Alerts => AlertsEngine.Items;
+        public ObservableCollection<InvasionViewModel> Invasions => InvasionsEngine.Items;
+        public ObservableCollection<VoidTradeViewModel> VoidTrades => VoidsEngine.Traders;
+        public ObservableCollection<VoidItemViewModel> VoidTradeItems => VoidsEngine.Items;
+        public ObservableCollection<DailyDealViewModel> DailyDeals => DailyDealsEngine.Items;
+        public ObservableCollection<BuildViewModel> Builds => BuildsEngine.Items;
 
         public EarthTimeViewModel EarthTime { get; } = new EarthTimeViewModel();
         public EarthTimeViewModel CetusTime { get; } = new EarthTimeViewModel();
         public EarthTimeViewModel EidolonTime { get; } = new EarthTimeViewModel();
-
-        public void AddNews(PostViewModel post) => News.Add(post);
-        public PostViewModel TryGetNewsByDescription(string description) => News.FirstOrDefault(a => a.Description == description);
-        public void RemoveNewsByTitle(string description)
-        {
-            PostViewModel post = TryGetNewsByDescription(description);
-            if (post != null)
-                News.Remove(post);
-        }
-
-
-        public void AddAlert(AlertViewModel alert) => Alerts.Add(alert);
-        public AlertViewModel TryGetAlertById(Id id) => Alerts.FirstOrDefault(a => a.Id == id);
-        public void RemoveAlertById(Id id)
-        {
-            AlertViewModel alert = TryGetAlertById(id);
-            if (alert != null)
-                Alerts.Remove(alert);
-        }
-
-        public void AddInvasion(InvasionViewModel invasion) => Invasions.Add(invasion);
-        public InvasionViewModel TryGetInvasionById(Id id) => Invasions.FirstOrDefault(i => i.Id == id);
-        public void RemoveInvasionById(Id id)
-        {
-            InvasionViewModel invasion = TryGetInvasionById(id);
-            if (invasion != null)
-                Invasions.Remove(invasion);
-        }
-
-        public void AddVoidTrade(VoidTradeViewModel trader) => VoidTrades.Add(trader);
-        public VoidTradeViewModel TryGetVoidTradeById(Id id) => VoidTrades.FirstOrDefault(i => i.Id == id);
-        public void RemoveVoidTradeById(Id id)
-        {
-            VoidTradeViewModel trader = TryGetVoidTradeById(id);
-            if (trader != null)
-                VoidTrades.Remove(trader);
-        }
-
-        public void AddVoidTradeItem(VoidItemViewModel manifest) => VoidTradeItems.Add(manifest);
-        public VoidItemViewModel TryGetVoidTradeItemByName(string name) => VoidTradeItems.FirstOrDefault(i => i.ItemType == name);
-        public void RemoveVoidTradeItemByName(string name)
-        {
-            VoidItemViewModel item = TryGetVoidTradeItemByName(name);
-            if (item != null)
-                VoidTradeItems.Remove(item);
-        }
-
-        public void RemoveAllVoidTraderItems()
-        {
-            for (var i = VoidTradeItems.Count-1; i >= 0; i--)
-            {
-                var item = VoidTradeItems[i];
-                VoidTradeItems.Remove(item);
-            }
-        }
-
-        public void AddDailyDeal(DailyDealViewModel deal) => DailyDeals.Add(deal);
-        public DailyDealViewModel TryGetDailyDealByName(string name) => DailyDeals.FirstOrDefault(i => i.StoreItemOriginal == name);
-        public void RemoveDailyDealByName(string name)
-        {
-            DailyDealViewModel deal = TryGetDailyDealByName(name);
-            if (deal != null)
-                DailyDeals.Remove(deal);
-        }
-
-        public void AddBuild(BuildViewModel build) => Builds.Add(build);
-        public BuildViewModel TryGetBuildById(int id) => Builds.FirstOrDefault(i => i.Id == id);
-        public void RemoveBuildById(int id)
-        {
-            BuildViewModel build = TryGetBuildById(id);
-            if (build != null)
-                Builds.Remove(build);
-        }
 
         private void reloadTimer_Elapsed(object sender, EventArgs e)
         {

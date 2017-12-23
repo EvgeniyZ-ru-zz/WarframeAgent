@@ -5,7 +5,7 @@ using Core.Model;
 
 namespace Core.ViewModel
 {
-    public class DailyDealViewModel : VM
+    public class DailyDealViewModel : VM, IUpdatable
     {
         private DailyDeal dailyDeal;
 
@@ -27,7 +27,6 @@ namespace Core.ViewModel
         }
 
         void OnItemsFilterUpdated(object sender, EventArgs args) => Update();
-
 
         public void Update()
         {

@@ -4,7 +4,7 @@ using Core.Model;
 
 namespace Core.ViewModel
 {
-    public class InvasionViewModel : VM
+    public class InvasionViewModel : VM, IUpdatable
     {
         private Invasion invasion;
 
@@ -27,12 +27,8 @@ namespace Core.ViewModel
 
         void ConvertAndSetReward()
         {
-            var defRew = GetRewardString(invasion.DefenderReward);
-            var atkRew = GetRewardString(invasion.AttackerReward);
-            DefenderReward = defRew.value;
-            AttackerReward = atkRew.value;
-            AttackerRewardCount = atkRew.count;
-            DefenderRewardCount = defRew.count;
+            (DefenderReward, DefenderRewardCount) = GetRewardString(invasion.DefenderReward);
+            (AttackerReward, AttackerRewardCount) = GetRewardString(invasion.AttackerReward);
         }
 
         public void Update()

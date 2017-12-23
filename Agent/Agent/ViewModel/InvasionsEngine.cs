@@ -1,77 +1,53 @@
-﻿using Core;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+
+using Core;
 using Core.Model;
 using Core.ViewModel;
 using Core.Events;
 
 using NLog;
+using System.Collections.Generic;
 
 namespace Agent.ViewModel
 {
-    class InvasionsEngine
+    class InvasionsEngine : GenericEngineWithUpdates<InvasionViewModel, Invasion>
     {
-        private GameViewModel GameView;
-        private FiltersEvent FiltersEvent;
+        public InvasionsEngine(FiltersEvent filtersEvent) : base(filtersEvent) { }
 
-        public InvasionsEngine(GameViewModel gameView, FiltersEvent filtersEvent)
-        {
-            GameView = gameView;
-            FiltersEvent = filtersEvent;
-        }
+        protected override InvasionViewModel CreateItem(Invasion item, FiltersEvent evt) => new InvasionViewModel(item, evt);
+        protected override IEnumerable<Invasion> GetItemsFromModel(GameModel model) => model.GetCurrentInvasions();
 
-        public void Run(GameModel model)
+        protected override void Subscribe(GameModel model)
         {
             model.InvasionNotificationArrived += AddEvent;
             model.InvasionNotificationChanged += ChangeEvent;
             model.InvasionNotificationDeparted += RemoveEvent;
-            // TODO: race condition with arriving events; check if event is already there
-            foreach (var invasion in model.GetCurrentInvasions())
-            {
-                var invasionVM = new InvasionViewModel(invasion, FiltersEvent);
-                GameView.AddInvasion(invasionVM);
-            }
         }
 
-        private async void AddEvent(object sender, InvasionNotificationEventArgs e)
+        protected override void LogAdded(Invasion item) =>
+            Tools.Logging.Send(LogLevel.Info, $"Новое вторжение {item.Id.Oid}!");
+        protected override void LogChanged(Invasion item) =>
+            Tools.Logging.Send(LogLevel.Info, $"Изменённое вторжение {item.Id.Oid}!");
+        protected override void LogRemoved(Invasion item) =>
+            Tools.Logging.Send(LogLevel.Info, $"Удаляю вторжение {item.Id.Oid}!");
+
+        protected override InvasionViewModel TryGetItemByModel(Invasion item) => Items.FirstOrDefault(i => i.Id == item.Id);
+
+        protected override void AddEventImpl(Invasion item)
         {
-            await AsyncHelpers.RedirectToMainThread();
-
-            if (!e.Notification.Completed)
-            {
-                Tools.Logging.Send(LogLevel.Info, $"Новое вторжение {e.Notification.Id.Oid}!");
-
-                var invasionVM = new InvasionViewModel(e.Notification, FiltersEvent);
-                GameView.AddInvasion(invasionVM);
-            }
+            if (!item.Completed)
+                base.AddEventImpl(item);
             else
-            {
-                Tools.Logging.Send(LogLevel.Debug, $"Вторжение {e.Notification.Id.Oid} завершено, пропускаю");
-            }
+                Tools.Logging.Send(LogLevel.Debug, $"Вторжение {item.Id.Oid} завершено, пропускаю");
         }
 
-        private async void ChangeEvent(object sender, InvasionNotificationEventArgs e)
+        protected override void ChangeEventImpl(Invasion item)
         {
-            await AsyncHelpers.RedirectToMainThread();
-            
-            if (e.Notification.Completed)
-            {
-                RemoveEvent(sender, e);
-            }
+            if (item.Completed)
+                base.RemoveEventImpl(item);
             else
-            {
-                Tools.Logging.Send(LogLevel.Info, $"Изменённое вторжение {e.Notification.Id.Oid}!");
-
-                var invasionVM = GameView.TryGetInvasionById(e.Notification.Id);
-                invasionVM?.Update();
-            }
-        }
-
-        private async void RemoveEvent(object sender, InvasionNotificationEventArgs e)
-        {
-            await AsyncHelpers.RedirectToMainThread();
-
-            Tools.Logging.Send(LogLevel.Info, $"Удаляю вторжение {e.Notification.Id.Oid}!");
-
-            GameView.RemoveInvasionById(e.Notification.Id);
+                base.ChangeEventImpl(item);
         }
     }
 }
