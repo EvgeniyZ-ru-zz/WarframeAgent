@@ -174,7 +174,7 @@ namespace Core.Events
                 }
 
                 ct.ThrowIfCancellationRequested();
-                var currentVersion = versions[type];
+                var currentVersion = versions[type]; //TODO: Вечно -1 при обновление фильтров.
                 var newVersion = await TryUpdateFilter(currentVersion, type, filterText, ct);
                 versions[type] = newVersion;
             }

@@ -57,7 +57,7 @@ namespace Agent.ViewModel
         public ObservableCollection<UserNotification> UserNotifications => UserNotificationsEngine.Notifications;
 
         public EarthTimeViewModel EarthTime { get; } = new EarthTimeViewModel();
-        public EarthTimeViewModel CetusTime { get; } = new EarthTimeViewModel();
+        public CetusTimeViewModel CetusTime { get; } = new CetusTimeViewModel();
         public EarthTimeViewModel EidolonTime { get; } = new EarthTimeViewModel();
 
         private void reloadTimer_Elapsed(object sender, EventArgs e)

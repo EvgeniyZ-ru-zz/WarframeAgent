@@ -80,6 +80,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Model\FiltersModel.cs" />
     <Compile Include="ViewModel\DailyDealViewModel.cs" />
+    <Compile Include="ViewModel\CetusTimeViewModel.cs" />
     <Compile Include="ViewModel\EarthTimeViewModel.cs" />
     <Compile Include="ViewModel\IUpdatable.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />

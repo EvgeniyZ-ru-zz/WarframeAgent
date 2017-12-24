@@ -27,30 +27,47 @@
         </Grid.RowDefinitions>
 
         <!-- +Панель времени -->
-        <DockPanel Grid.Row="0" Opacity=".930" >
-            <Border Margin="7,0" Padding="0,6" Background="{DynamicResource BackgroundColor}" CornerRadius="0,0,2,2">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="-90" ShadowDepth="1" RenderingBias="Quality"/>
-                </Border.Effect>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.Resources>
-                        <DataTemplate DataType="{x:Type viewModel:EarthTimeViewModel}">
-                            <uc:PlanetTimeItem/>
-                        </DataTemplate>
-                    </Grid.Resources>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-                    
-                    <ContentPresenter Content="{Binding EarthTime}" Grid.Column="0" HorizontalAlignment="Center" />
-                    <ContentPresenter Content="{Binding CetusTime}" Grid.Column="1" HorizontalAlignment="Center" />
-                    <ContentPresenter Content="{Binding EidolonTime}" Grid.Column="2" HorizontalAlignment="Center" />
-                </Grid>
-            </Border>
-        </DockPanel>
+            <!-- +Земля -->
+            <DockPanel Grid.Column="0" Opacity=".930" >
+                <Border Margin="7,0" BorderBrush="{Binding EarthTime.ColorOne}" BorderThickness="0,0,0,2" Padding="0,3" Background="{DynamicResource BackgroundColor}" CornerRadius="0,0,2,2">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" Direction="-90" ShadowDepth="1" RenderingBias="Quality"/>
+                    </Border.Effect>
+                    <uc:PlanetTimeItem DataContext="{Binding EarthTime}" HorizontalAlignment="Center" />
+                </Border>
+            </DockPanel>
+            <!-- +Земля -->
+
+            <!-- +Земля -->
+            <DockPanel Grid.Column="1" Opacity=".930" >
+                <Border Margin="7,0" BorderBrush="{Binding CetusTime.ColorOne, FallbackValue=#993782CD, TargetNullValue=#993782CD}" BorderThickness="0,0,0,2" Padding="0,3" Background="{DynamicResource BackgroundColor}" CornerRadius="0,0,2,2">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" Direction="-90" ShadowDepth="1" RenderingBias="Quality"/>
+                    </Border.Effect>
+                    <uc:PlanetTimeItem DataContext="{Binding CetusTime}" HorizontalAlignment="Center" />
+                </Border>
+            </DockPanel>
+            <!-- +Земля -->
+
+            <!-- +Земля -->
+            <DockPanel Grid.Column="2" Opacity=".930" >
+                <Border Margin="7,0" BorderBrush="{Binding CetusTime.ColorOne, FallbackValue=#993782CD, TargetNullValue=#993782CD}" BorderThickness="0,0,0,2" Padding="0,3" Background="{DynamicResource BackgroundColor}" CornerRadius="0,0,2,2">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" Direction="-90" ShadowDepth="1" RenderingBias="Quality"/>
+                    </Border.Effect>
+                    <uc:PlanetTimeItem DataContext="{Binding CetusTime}" HorizontalAlignment="Center" />
+                </Border>
+            </DockPanel>
+            <!-- +Земля -->
+        </Grid>
+
         <!-- -Панель времени -->
 
         <Grid Grid.Row="1">
