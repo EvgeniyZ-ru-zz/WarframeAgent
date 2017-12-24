@@ -47,7 +47,8 @@ namespace Core.ViewModel
 
         public void UpdateTime()
         {
-            var hour = DateTime.Now.Hour;
+            var now = DateTime.Now;
+            var hour = now.Hour;
 
             if ((hour >= 0 && hour < 4) || (hour >= 8 && hour < 12) || (hour >= 16 && hour < 20))
             {
@@ -65,10 +66,10 @@ namespace Core.ViewModel
             }
 
             var hourleft = 3 - (hour % 4);
-            var minutes = 59 - DateTime.Now.Minute;
-            var seconds = 59 - DateTime.Now.Second;
+            var minutes = 59 - now.Minute;
+            var seconds = 59 - now.Second;
 
-            Time = DateTime.Today + new TimeSpan(hourleft, minutes, seconds);
+            Time = now.Date + new TimeSpan(hourleft, minutes, seconds);
         }
     }
 }
