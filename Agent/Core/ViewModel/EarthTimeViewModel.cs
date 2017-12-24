@@ -6,6 +6,8 @@ namespace Core.ViewModel
 {
     public class EarthTimeViewModel : VM
     {
+        public EarthTimeViewModel() => UpdateTime();
+
         DateTime time = new DateTime(2017, 12, 20);
         public DateTime Time
         {
@@ -45,8 +47,8 @@ namespace Core.ViewModel
 
         public void UpdateTime()
         {
-            var unixTime = Tools.Time.ToUnixTime(DateTime.Now) / 3600000;
-            var hour = unixTime % 24;
+            var now = DateTime.Now;
+            var hour = now.Hour;
 
             if ((hour >= 0 && hour < 4) || (hour >= 8 && hour < 12) || (hour >= 16 && hour < 20))
             {
@@ -64,10 +66,10 @@ namespace Core.ViewModel
             }
 
             var hourleft = 3 - (hour % 4);
-            var minutes = 59 - DateTime.Now.Minute;
-            var seconds = 59 - DateTime.Now.Second;
+            var minutes = 59 - now.Minute;
+            var seconds = 59 - now.Second;
 
-            Time = DateTime.Parse($"{hourleft}:{minutes}:{seconds}");
+            Time = now.Date + new TimeSpan(hourleft, minutes, seconds);
         }
     }
 }
