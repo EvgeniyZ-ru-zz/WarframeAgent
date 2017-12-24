@@ -47,7 +47,7 @@ namespace Agent.ViewModel
                     if (!mapping.TryGetValue(i, out var notification))
                         continue;
                     mapping.Remove(i);
-                    Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: удаляю нотификацию \"{notification.Text}\"!");
+                    Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: удаляю нотификацию \"{notification}\"!");
                     Notifications.Remove(notification);
                 }
 
@@ -66,7 +66,7 @@ namespace Agent.ViewModel
                     actuallyAdded.Add(i);
                     var notification = createNotification(i);
                     mapping.Add(i, notification);
-                    Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: добавляю нотификацию \"{notification.Text}\"!");
+                    Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: добавляю нотификацию \"{notification}\"!");
                     Notifications.Add(notification);
                 }
 
@@ -82,21 +82,14 @@ namespace Agent.ViewModel
                 if (!mapping.TryGetValue(i, out var notification))
                     continue;
                 mapping.Remove(i);
-                Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: удаляю нотификацию \"{notification.Text}\"!");
+                Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: удаляю нотификацию \"{notification}\"!");
                 Notifications.Remove(notification);
             }
         }
 
         UserNotification CreateNotification(AlertViewModel i)
         {
-            // TODO: локализация?
-            return new UserNotification($"Новая тревога: {i.Id.Oid}");
-        }
-
-        UserNotification CreateNotification(InvasionViewModel i)
-        {
-            // TODO: локализация?
-            return new UserNotification($"Новое вторжение: {i.Id.Oid}");
+            return new AlertUserNotification(i);
         }
     }
 }
