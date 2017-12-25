@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Agent.ViewModel.Util;
 using Core;
 using Core.ViewModel;
 using NLog;
@@ -13,7 +14,8 @@ namespace Agent.ViewModel
 {
     class UserNotificationsEngine
     {
-        public ObservableCollection<UserNotification> Notifications { get; } = new ObservableCollection<UserNotification>();
+        BatchedObservableCollection<UserNotification> notifications = new BatchedObservableCollection<UserNotification>();
+        public ObservableCollection<UserNotification> Notifications => notifications;
 
         private GameViewModel gameVM;
 
@@ -42,14 +44,7 @@ namespace Agent.ViewModel
                 removedItems = e.OldItems?.Cast<ItemVM>();
 
             if (removedItems != null)
-                foreach (var i in removedItems)
-                {
-                    if (!mapping.TryGetValue(i, out var notification))
-                        continue;
-                    mapping.Remove(i);
-                    Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: удаляю нотификацию \"{notification}\"!");
-                    Notifications.Remove(notification);
-                }
+                RemoveAllItems(removedItems);
 
             IEnumerable<ItemVM> addedItems;
             if (e.Action == NotifyCollectionChangedAction.Reset)
@@ -59,6 +54,9 @@ namespace Agent.ViewModel
 
             List<ItemVM> actuallyAdded = new List<ItemVM>();
             if (addedItems != null)
+            {
+                List<UserNotification> notificationsToAdd = new List<UserNotification>();
+                Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: добавляю группу");
                 foreach (var i in addedItems)
                 {
                     if (mapping.ContainsKey(i))
@@ -67,24 +65,36 @@ namespace Agent.ViewModel
                     var notification = createNotification(i);
                     mapping.Add(i, notification);
                     Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: добавляю нотификацию \"{notification}\"!");
-                    Notifications.Add(notification);
+                    notificationsToAdd.Add(notification);
                 }
+                Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: группа добавлена");
+                notifications.AddRange(notificationsToAdd);
+            }
 
             if (actuallyAdded.Count > 0)
                 RemoveLater(actuallyAdded);
         }
 
-        async void RemoveLater<ItemVM>(List<ItemVM> items)
+        void RemoveAllItems<ItemVM>(IEnumerable<ItemVM> items)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5));
+            List<UserNotification> notificationsToRemove = new List<UserNotification>();
+            Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: удаляю группу");
             foreach (var i in items)
             {
                 if (!mapping.TryGetValue(i, out var notification))
                     continue;
                 mapping.Remove(i);
+                notificationsToRemove.Add(notification);
                 Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: удаляю нотификацию \"{notification}\"!");
-                Notifications.Remove(notification);
             }
+            Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: группа удалена");
+            notifications.RemoveAll(notificationsToRemove);
+        }
+
+        async void RemoveLater<ItemVM>(List<ItemVM> items)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(5));
+            RemoveAllItems(items);
         }
 
         UserNotification CreateNotification(AlertViewModel i)
