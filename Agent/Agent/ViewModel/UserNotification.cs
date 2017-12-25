@@ -1,8 +1,13 @@
-﻿namespace Agent.ViewModel
+﻿using Core.ViewModel;
+
+namespace Agent.ViewModel
 {
-    public class UserNotification
+    public abstract class UserNotification { }
+
+    public class AlertUserNotification : UserNotification
     {
-        public string Text { get; }
-        public UserNotification(string text) => Text = text;
+        public AlertViewModel Alert { get; }
+        public AlertUserNotification(AlertViewModel alert) => Alert = alert;
+        public override string ToString() => $"Нотификация о тревоге: {Alert}";
     }
 }

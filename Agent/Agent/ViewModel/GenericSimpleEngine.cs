@@ -6,12 +6,14 @@ using Core;
 using Core.Model;
 using Core.ViewModel;
 using Core.Events;
+using Agent.ViewModel.Util;
 
 namespace Agent.ViewModel
 {
     abstract class GenericSimpleEngine<ItemVM, ItemModel> where ItemVM : VM
     {
-        public ObservableCollection<ItemVM> Items { get; } = new ObservableCollection<ItemVM>();
+        BatchedObservableCollection<ItemVM> items = new BatchedObservableCollection<ItemVM>();
+        public ObservableCollection<ItemVM> Items => items;
 
         private FiltersEvent FiltersEvent;
 
@@ -28,11 +30,8 @@ namespace Agent.ViewModel
         {
             Subscribe(model);
             // TODO: race condition with arriving events; check if event is already there
-            foreach (var item in GetItemsFromModel(model))
-            {
-                var itemVM = CreateItem(item, FiltersEvent);
-                Items.Add(itemVM);
-            }
+            var vms = GetItemsFromModel(model).Select(item => CreateItem(item, FiltersEvent)).ToList();
+            items.AddRange(vms);
         }
 
         protected abstract void LogAdded(ItemModel item);
