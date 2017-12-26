@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+
 using Newtonsoft.Json;
 
 using Core.Events;
@@ -12,44 +14,51 @@ namespace Core.Model
 
     public class NotificationEventArgs<T> : EventArgs
     {
-        public readonly T Notification;
-        public NotificationEventArgs(T ntf) => Notification = ntf;
+        public readonly IReadOnlyCollection<T> Notifications;
+        public NotificationEventArgs(IEnumerable<T> ntf) => Notifications = ntf.ToList().AsReadOnly();
+        public NotificationEventArgs(IList<T> ntf) => Notifications = new ReadOnlyCollection<T>(ntf);
     }
 
     // Добавление/удаление новостей
     public class NewsNotificationEventArgs : NotificationEventArgs<NewsPost>
     {
-        public NewsNotificationEventArgs(NewsPost ntf) : base(ntf) { }
+        public NewsNotificationEventArgs(IEnumerable<NewsPost> ntf) : base(ntf) { }
+        public NewsNotificationEventArgs(IList<NewsPost> ntf) : base(ntf) { }
     }
 
     // Добавление/удаление тревог
     public class AlertNotificationEventArgs : NotificationEventArgs<Alert>
     {
-        public AlertNotificationEventArgs(Alert ntf) : base(ntf) { }
+        public AlertNotificationEventArgs(IEnumerable<Alert> ntf) : base(ntf) { }
+        public AlertNotificationEventArgs(IList<Alert> ntf) : base(ntf) { }
     }
 
     // Добавление/удаление/изменение вторжений
     public class InvasionNotificationEventArgs : NotificationEventArgs<Invasion>
     {
-        public InvasionNotificationEventArgs(Invasion ntf) : base(ntf) { }
+        public InvasionNotificationEventArgs(IEnumerable<Invasion> ntf) : base(ntf) { }
+        public InvasionNotificationEventArgs(IList<Invasion> ntf) : base(ntf) { }
     }
 
     // Добавление/удаление/изменение торговцев (баро)
     public class VoidTraderNotificationEventArgs : NotificationEventArgs<VoidTrader>
     {
-        public VoidTraderNotificationEventArgs(VoidTrader ntf) : base(ntf) { }
+        public VoidTraderNotificationEventArgs(IEnumerable<VoidTrader> ntf) : base(ntf) { }
+        public VoidTraderNotificationEventArgs(IList<VoidTrader> ntf) : base(ntf) { }
     }
 
     // Добавление/удаление/изменение скидки дня (дарво)
     public class DailyDealNotificationEventArgs : NotificationEventArgs<DailyDeal>
     {
-        public DailyDealNotificationEventArgs(DailyDeal ntf) : base(ntf) { }
+        public DailyDealNotificationEventArgs(IEnumerable<DailyDeal> ntf) : base(ntf) { }
+        public DailyDealNotificationEventArgs(IList<DailyDeal> ntf) : base(ntf) { }
     }
 
     // Добавление/удаление/изменение строений
     public class BuildNotificationEventArgs : NotificationEventArgs<Build>
     {
-        public BuildNotificationEventArgs(Build ntf) : base(ntf) { }
+        public BuildNotificationEventArgs(IEnumerable<Build> ntf) : base(ntf) { }
+        public BuildNotificationEventArgs(IList<Build> ntf) : base(ntf) { }
     }
 
     #endregion
@@ -184,10 +193,8 @@ namespace Core.Model
                     _currentNewsNotifications.Remove(id);
                 }
             }
-            foreach (var ntf in newNotifications)
-                FireNewNewsNotification(ntf);
-            foreach (var ntf in removedNotifications)
-                FireRemovedNewsNotification(ntf);
+            FireNewNewsNotification(newNotifications);
+            FireRemovedNewsNotification(removedNotifications);
         }
 
         private void AlertEvaluateList(GameSnapshotModel snapshot)
@@ -205,10 +212,8 @@ namespace Core.Model
                     _currentAlertsNotifications.Remove(id);
                 }
             }
-            foreach (var ntf in newNotifications)
-                FireNewAlertNotification(ntf);
-            foreach (var ntf in removedNotifications)
-                FireRemovedAlertNotification(ntf);
+            FireNewAlertNotification(newNotifications);
+            FireRemovedAlertNotification(removedNotifications);
         }
 
         private void InvasionEvaluateList(GameSnapshotModel snapshot)
@@ -231,12 +236,9 @@ namespace Core.Model
                     _currentInvasionsNotifications.Remove(id);
                 }
             }
-            foreach (var ntf in newNotifications)
-                FireNewInvasionNotification(ntf);
-            foreach (var ntf in changedNotifications)
-                FireChangedInvasionNotification(ntf);
-            foreach (var ntf in removedNotifications)
-                FireRemovedInvasionNotification(ntf);
+            FireNewInvasionNotification(newNotifications);
+            FireChangedInvasionNotification(changedNotifications);
+            FireRemovedInvasionNotification(removedNotifications);
         }
 
         private void VoidEvaluateList(GameSnapshotModel snapshot)
@@ -261,12 +263,9 @@ namespace Core.Model
                     _currentVoidsNotifications.Remove(id);
                 }
             }
-            foreach (var ntf in newNotifications)
-                FireNewVoidTraderNotification(ntf);
-            foreach (var ntf in changedNotifications)
-                FireChangedVoidTraderNotification(ntf);
-            foreach (var ntf in removedNotifications)
-                FireRemovedVoidTraderNotification(ntf);
+            FireNewVoidTraderNotification(newNotifications);
+            FireChangedVoidTraderNotification(changedNotifications);
+            FireRemovedVoidTraderNotification(removedNotifications);
         }
 
         private void DailyDealEvaluateList(GameSnapshotModel snapshot)
@@ -289,12 +288,9 @@ namespace Core.Model
                     _currentDailyDealsNotifications.Remove(id);
                 }
             }
-            foreach (var ntf in newNotifications)
-                FireNewDailyDealNotification(ntf);
-            foreach (var ntf in changedNotifications)
-                FireChangedDailyDealNotification(ntf);
-            foreach (var ntf in removedNotifications)
-                FireRemovedDailyDealNotification(ntf);
+            FireNewDailyDealNotification(newNotifications);
+            FireChangedDailyDealNotification(changedNotifications);
+            FireRemovedDailyDealNotification(removedNotifications);
         }
 
         private void BuildEvaluateList(GameSnapshotModel snapshot)
@@ -323,7 +319,7 @@ namespace Core.Model
                 for (int i = oldNumber; i < newNumber; i++)
                 {
                     var newValue = snapshot.ProjectPct[i];
-                    Build notification = new Build() { Number = i, Value = newValue };
+                    var notification = new Build() { Number = i, Value = newValue };
                     if (newValue > 0)
                         newNotifications.Add(notification);
                     _currentBuilds.Add(notification);
@@ -337,12 +333,9 @@ namespace Core.Model
                 if (newNumber < oldNumber)
                     _currentBuilds.RemoveRange(newNumber, newNumber - oldNumber);
             }
-            foreach (var ntf in newNotifications)
-                FireNewBuildNotification(ntf);
-            foreach (var ntf in changedNotifications)
-                FireChangedBuildNotification(ntf);
-            foreach (var ntf in removedNotifications)
-                FireRemovedBuildNotification(ntf);
+            FireNewBuildNotification(newNotifications);
+            FireChangedBuildNotification(changedNotifications);
+            FireRemovedBuildNotification(removedNotifications);
         }
 
         #region Эвенты
@@ -352,7 +345,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<NewsNotificationEventArgs> NewsNotificationArrived;
 
-        private void FireNewNewsNotification(NewsPost ntf) =>
+        private void FireNewNewsNotification(IList<NewsPost> ntf) =>
             NewsNotificationArrived?.Invoke(this, new NewsNotificationEventArgs(ntf));
 
         /// <summary>
@@ -360,7 +353,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<NewsNotificationEventArgs> NewsNotificationDeparted;
 
-        private void FireRemovedNewsNotification(NewsPost ntf) =>
+        private void FireRemovedNewsNotification(IList<NewsPost> ntf) =>
             NewsNotificationDeparted?.Invoke(this, new NewsNotificationEventArgs(ntf));
 
         /// <summary>
@@ -368,7 +361,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<AlertNotificationEventArgs> AlertNotificationArrived;
 
-        private void FireNewAlertNotification(Alert ntf) =>
+        private void FireNewAlertNotification(IList<Alert> ntf) =>
             AlertNotificationArrived?.Invoke(this, new AlertNotificationEventArgs(ntf));
 
         /// <summary>
@@ -376,7 +369,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<AlertNotificationEventArgs> AlertNotificationDeparted;
 
-        private void FireRemovedAlertNotification(Alert ntf) =>
+        private void FireRemovedAlertNotification(IList<Alert> ntf) =>
             AlertNotificationDeparted?.Invoke(this, new AlertNotificationEventArgs(ntf));
 
         /// <summary>
@@ -384,7 +377,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<InvasionNotificationEventArgs> InvasionNotificationArrived;
 
-        private void FireNewInvasionNotification(Invasion ntf) =>
+        private void FireNewInvasionNotification(IList<Invasion> ntf) =>
             InvasionNotificationArrived?.Invoke(this, new InvasionNotificationEventArgs(ntf));
 
         /// <summary>
@@ -392,7 +385,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<InvasionNotificationEventArgs> InvasionNotificationChanged;
 
-        private void FireChangedInvasionNotification(Invasion ntf) =>
+        private void FireChangedInvasionNotification(IList<Invasion> ntf) =>
             InvasionNotificationChanged?.Invoke(this, new InvasionNotificationEventArgs(ntf));
 
         /// <summary>
@@ -400,7 +393,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<InvasionNotificationEventArgs> InvasionNotificationDeparted;
 
-        private void FireRemovedInvasionNotification(Invasion ntf) =>
+        private void FireRemovedInvasionNotification(IList<Invasion> ntf) =>
             InvasionNotificationDeparted?.Invoke(this, new InvasionNotificationEventArgs(ntf));
 
         /// <summary>
@@ -408,7 +401,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<VoidTraderNotificationEventArgs> VoidTraderNotificationArrived;
 
-        private void FireNewVoidTraderNotification(VoidTrader ntf) =>
+        private void FireNewVoidTraderNotification(IList<VoidTrader> ntf) =>
             VoidTraderNotificationArrived?.Invoke(this, new VoidTraderNotificationEventArgs(ntf));
 
         /// <summary>
@@ -416,7 +409,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<VoidTraderNotificationEventArgs> VoidTraderNotificationChanged;
 
-        private void FireChangedVoidTraderNotification(VoidTrader ntf) =>
+        private void FireChangedVoidTraderNotification(IList<VoidTrader> ntf) =>
             VoidTraderNotificationChanged?.Invoke(this, new VoidTraderNotificationEventArgs(ntf));
 
         /// <summary>
@@ -424,7 +417,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<VoidTraderNotificationEventArgs> VoidTraderNotificationDeparted;
 
-        private void FireRemovedVoidTraderNotification(VoidTrader ntf) =>
+        private void FireRemovedVoidTraderNotification(IList<VoidTrader> ntf) =>
             VoidTraderNotificationDeparted?.Invoke(this, new VoidTraderNotificationEventArgs(ntf));
 
         /// <summary>
@@ -432,7 +425,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<DailyDealNotificationEventArgs> DailyDealNotificationArrived;
 
-        private void FireNewDailyDealNotification(DailyDeal ntf) =>
+        private void FireNewDailyDealNotification(IList<DailyDeal> ntf) =>
             DailyDealNotificationArrived?.Invoke(this, new DailyDealNotificationEventArgs(ntf));
 
         /// <summary>
@@ -440,7 +433,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<DailyDealNotificationEventArgs> DailyDealNotificationChanged;
 
-        private void FireChangedDailyDealNotification(DailyDeal ntf) =>
+        private void FireChangedDailyDealNotification(IList<DailyDeal> ntf) =>
             DailyDealNotificationChanged?.Invoke(this, new DailyDealNotificationEventArgs(ntf));
 
         /// <summary>
@@ -448,7 +441,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<DailyDealNotificationEventArgs> DailyDealNotificationDeparted;
 
-        private void FireRemovedDailyDealNotification(DailyDeal ntf) =>
+        private void FireRemovedDailyDealNotification(IList<DailyDeal> ntf) =>
             DailyDealNotificationDeparted?.Invoke(this, new DailyDealNotificationEventArgs(ntf));
 
         /// <summary>
@@ -456,7 +449,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<BuildNotificationEventArgs> BuildNotificationArrived;
 
-        private void FireNewBuildNotification(Build ntf) =>
+        private void FireNewBuildNotification(IList<Build> ntf) =>
             BuildNotificationArrived?.Invoke(this, new BuildNotificationEventArgs(ntf));
 
         /// <summary>
@@ -464,7 +457,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<BuildNotificationEventArgs> BuildNotificationChanged;
 
-        private void FireChangedBuildNotification(Build ntf) =>
+        private void FireChangedBuildNotification(IList<Build> ntf) =>
             BuildNotificationChanged?.Invoke(this, new BuildNotificationEventArgs(ntf));
 
         /// <summary>
@@ -472,7 +465,7 @@ namespace Core.Model
         /// </summary>
         public event EventHandler<BuildNotificationEventArgs> BuildNotificationDeparted;
 
-        private void FireRemovedBuildNotification(Build ntf) =>
+        private void FireRemovedBuildNotification(IList<Build> ntf) =>
             BuildNotificationDeparted?.Invoke(this, new BuildNotificationEventArgs(ntf));
 
         #endregion
