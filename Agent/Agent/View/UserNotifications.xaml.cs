@@ -27,13 +27,10 @@ namespace Agent.View
 
         void SubscribeListChanges(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var oldCollection = e.OldValue as INotifyCollectionChanged;
-            var newCollection = e.NewValue as INotifyCollectionChanged;
-
-            if (oldCollection != null)
+            if (e.OldValue is INotifyCollectionChanged oldCollection)
                 oldCollection.CollectionChanged -= OnNotificationsChanged;
             Update();
-            if (newCollection != null)
+            if (e.NewValue is INotifyCollectionChanged newCollection)
                 newCollection.CollectionChanged += OnNotificationsChanged;
         }
 
