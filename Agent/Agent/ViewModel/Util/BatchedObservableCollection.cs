@@ -55,6 +55,29 @@ namespace Agent.ViewModel.Util
                     removedItems));
         }
 
+        // это грязный хак, который подсмотрен здесь:
+        // http://geekswithblogs.net/NewThingsILearned/archive/2008/01/16/listcollectionviewcollectionview-doesnt-support-notifycollectionchanged-with-multiple-items.aspx
+        // он обходит проблему с контролом CollectionView, который не умеет обрабатывать
+        // неодноэлементные изменения
+        public override event NotifyCollectionChangedEventHandler CollectionChanged;
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            var handlers = CollectionChanged;
+            if (handlers != null)
+            {
+                using (BlockReentrancy())
+                {
+                    foreach (NotifyCollectionChangedEventHandler handler in handlers.GetInvocationList())
+                    {
+                        if (handler.Target is System.Windows.Data.CollectionView cv)
+                            cv.Refresh();
+                        else
+                            handler(this, e);
+                    }
+                }
+            }
+        }
+
         private const string CountString = "Count";
         private const string IndexerName = "Item[]";
     }

@@ -40,15 +40,15 @@ namespace Agent.ViewModel
         protected async void AddEvent(object sender, NotificationEventArgs<ItemModel> e)
         {
             await AsyncHelpers.RedirectToMainThread();
-            AddEventImpl(e.Notification);
+            AddEventImpl(e.Notifications);
         }
 
-        protected virtual void AddEventImpl(ItemModel item)
+        protected virtual void AddEventImpl(IReadOnlyCollection<ItemModel> newItems)
         {
-            LogAdded(item);
+            foreach (var item in newItems)
+                LogAdded(item);
             
-            var itemVM = CreateItem(item, FiltersEvent);
-            Items.Add(itemVM);
+            items.AddRange(newItems.Select(item => CreateItem(item, FiltersEvent)));
         }
 
         protected abstract ItemVM TryGetItemByModel(ItemModel item);
@@ -56,15 +56,15 @@ namespace Agent.ViewModel
         protected async void RemoveEvent(object sender, NotificationEventArgs<ItemModel> e)
         {
             await AsyncHelpers.RedirectToMainThread();
-            RemoveEventImpl(e.Notification);
+            RemoveEventImpl(e.Notifications);
         }
 
-        protected virtual void RemoveEventImpl(ItemModel item)
+        protected virtual void RemoveEventImpl(IReadOnlyCollection<ItemModel> removedItems)
         {
-            LogRemoved(item);
-            var itemVM = TryGetItemByModel(item);
-            if (itemVM != null)
-                Items.Remove(itemVM);
+            var itemsToRemove = new List<ItemVM>();
+            foreach (var item in removedItems)
+                LogRemoved(item);
+            items.RemoveAll(removedItems.Select(TryGetItemByModel).Where(item => items != null));
         }
     }
 }

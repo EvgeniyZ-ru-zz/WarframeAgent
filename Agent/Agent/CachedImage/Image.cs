@@ -56,14 +56,14 @@ namespace Agent.CachedImage
                     try
                     {
                         //TODO: Чистка кэша
-                        var memoryStream = await FileCache.HitAsync(url);
-                        if (memoryStream.stream == null)
+                        var (file, stream) = await FileCache.HitAsync(url);
+                        if (stream == null)
                             return;
 
-                        path = memoryStream.file;
+                        path = file;
                         bitmapImage.BeginInit();
                         bitmapImage.CreateOptions = cachedImage.CreateOptions;
-                        bitmapImage.StreamSource = memoryStream.stream;
+                        bitmapImage.StreamSource = stream;
                         bitmapImage.EndInit();
                         cachedImage.Source = bitmapImage;
                     }
@@ -74,13 +74,13 @@ namespace Agent.CachedImage
 
                         bitmapImage = new BitmapImage();
 
-                        var memoryStream = await FileCache.HitAsync(url);
-                        if (memoryStream.stream == null)
+                        var (_, stream) = await FileCache.HitAsync(url);
+                        if (stream == null)
                             return;
 
                         bitmapImage.BeginInit();
                         bitmapImage.CreateOptions = cachedImage.CreateOptions;
-                        bitmapImage.StreamSource = memoryStream.stream;
+                        bitmapImage.StreamSource = stream;
                         bitmapImage.EndInit();
                         cachedImage.Source = bitmapImage;
                     }

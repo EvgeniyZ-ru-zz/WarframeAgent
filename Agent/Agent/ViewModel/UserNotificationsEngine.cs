@@ -52,11 +52,11 @@ namespace Agent.ViewModel
             else
                 addedItems = e.NewItems?.Cast<ItemVM>();
 
-            List<ItemVM> actuallyAdded = new List<ItemVM>();
+            var actuallyAdded = new List<ItemVM>();
             if (addedItems != null)
             {
-                List<UserNotification> notificationsToAdd = new List<UserNotification>();
                 Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: добавляю группу");
+                var notificationsToAdd = new List<UserNotification>();
                 foreach (var i in addedItems)
                 {
                     if (mapping.ContainsKey(i))
@@ -77,8 +77,8 @@ namespace Agent.ViewModel
 
         void RemoveAllItems<ItemVM>(IEnumerable<ItemVM> items)
         {
-            List<UserNotification> notificationsToRemove = new List<UserNotification>();
             Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: удаляю группу");
+            var notificationsToRemove = new List<UserNotification>();
             foreach (var i in items)
             {
                 if (!mapping.TryGetValue(i, out var notification))
