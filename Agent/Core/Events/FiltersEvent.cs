@@ -255,7 +255,10 @@ namespace Core.Events
                         Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: версия фильтра {type} не обновилась");
                         return oldVersion;
                     }
-                    Tools.Logging.Send(LogLevel.Info, $"Управление фильтрами: заменяю фильтр {type} на версию {version}");
+                    if (oldVersion < 0)
+                        Tools.Logging.Send(LogLevel.Info, $"Управление фильтрами: загрузил фильтр {type} версии {version}");
+                    else
+                        Tools.Logging.Send(LogLevel.Info, $"Управление фильтрами: заменяю фильтр {type} на версию {version}");
                     setter(data);
                     Updated?.Invoke();
                     filterUpdated?.Invoke(this, EventArgs.Empty);

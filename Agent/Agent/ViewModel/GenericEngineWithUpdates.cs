@@ -18,15 +18,18 @@ namespace Agent.ViewModel
         protected async void ChangeEvent(object sender, NotificationEventArgs<ItemModel> e)
         {
             await AsyncHelpers.RedirectToMainThread();
-            ChangeEventImpl(e.Notification);
+            ChangeEventImpl(e.Notifications);
         }
 
-        protected virtual void ChangeEventImpl(ItemModel item)
+        protected virtual void ChangeEventImpl(IReadOnlyCollection<ItemModel> changedItems)
         {
-            LogChanged(item);
+            foreach (var item in changedItems)
+            {
+                LogChanged(item);
 
-            var buildVM = TryGetItemByModel(item);
-            buildVM?.Update();
+                var buildVM = TryGetItemByModel(item);
+                buildVM?.Update();
+            }
         }
     }
 }

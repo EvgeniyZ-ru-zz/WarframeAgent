@@ -27,13 +27,10 @@ namespace Agent.View
 
         void SubscribeListChanges(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var oldCollection = e.OldValue as INotifyCollectionChanged;
-            var newCollection = e.NewValue as INotifyCollectionChanged;
-
-            if (oldCollection != null)
+            if (e.OldValue is INotifyCollectionChanged oldCollection)
                 oldCollection.CollectionChanged -= OnNotificationsChanged;
             Update();
-            if (newCollection != null)
+            if (e.NewValue is INotifyCollectionChanged newCollection)
                 newCollection.CollectionChanged += OnNotificationsChanged;
         }
 
@@ -47,26 +44,27 @@ namespace Agent.View
                 itemCount = ie.Count();
                 if (itemCount == 1)
                 {
-                    CommonText = ie.First().Text;
+                    ActiveNotification = ie.Single();
                 }
                 else if (itemCount > 1)
                 {
+                    string text = null;
                     switch (GetNumCase(itemCount))
                     {
                     case 1:
-                        CommonText = $"Произошло {itemCount} событие";
+                        text = $"Произошло {itemCount} событие";
                         break;
                     case 2:
-                        CommonText = $"Произошло {itemCount} события";
+                        text = $"Произошло {itemCount} события";
                         break;
                     case 3:
-                        CommonText = $"Произошло {itemCount} событий";
+                        text = $"Произошло {itemCount} событий";
                         break;
                     }
+                    ActiveNotification = new CollectedNotification(text);
                 }
             }
             CollectionHasItems = itemCount > 0;
-            Core.Tools.Logging.Send(NLog.LogLevel.Trace, $"Представление: CollectionHasItems = {CollectionHasItems}, текст = {CommonText}");
         }
 
         int GetNumCase(int n) // TODO: это общелингвистическая функция, вынести в общее место
@@ -94,15 +92,21 @@ namespace Agent.View
             DependencyProperty.Register("CollectionHasItems", typeof(bool), typeof(UserNotifications), new PropertyMetadata(false));
         #endregion
 
-        #region dp string CommonText
-        public string CommonText
+        #region dp ViewModel.UserNotification ActiveNotification
+        public ViewModel.UserNotification ActiveNotification
         {
-            get { return (string)GetValue(CommonTextProperty); }
-            set { SetValue(CommonTextProperty, value); }
+            get { return (ViewModel.UserNotification)GetValue(ActiveNotificationProperty); }
+            set { SetValue(ActiveNotificationProperty, value); }
         }
 
-        public static readonly DependencyProperty CommonTextProperty =
-            DependencyProperty.Register("CommonText", typeof(string), typeof(UserNotifications), new PropertyMetadata(null));
+        public static readonly DependencyProperty ActiveNotificationProperty =
+            DependencyProperty.Register("ActiveNotification", typeof(ViewModel.UserNotification), typeof(UserNotifications));
         #endregion
+    }
+
+    class CollectedNotification : ViewModel.UserNotification
+    {
+        public string Text { get; }
+        public CollectedNotification(string text) => Text = text;
     }
 }

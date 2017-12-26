@@ -125,6 +125,7 @@
     <Compile Include="ViewModel\GenericEngineWithUpdates.cs" />
     <Compile Include="ViewModel\GenericSimpleEngine.cs" />
     <Compile Include="ViewModel\DailyDealsEngine.cs" />
+    <Compile Include="ViewModel\Util\BatchedObservableCollection.cs" />
     <Compile Include="ViewModel\UserNotification.cs" />
     <Compile Include="ViewModel\UserNotificationsEngine.cs" />
     <Compile Include="ViewModel\VoidsEngine.cs" />

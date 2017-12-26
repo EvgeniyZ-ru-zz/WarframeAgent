@@ -33,20 +33,23 @@ namespace Agent.ViewModel
 
         protected override InvasionViewModel TryGetItemByModel(Invasion item) => Items.FirstOrDefault(i => i.Id == item.Id);
 
-        protected override void AddEventImpl(Invasion item)
+        protected override void AddEventImpl(IReadOnlyCollection<Invasion> newItems)
         {
-            if (!item.Completed)
-                base.AddEventImpl(item);
-            else
+            var notCompletedInvasions = newItems.Where(item => !item.Completed).ToList();
+            if (notCompletedInvasions.Count > 0)
+                base.AddEventImpl(notCompletedInvasions);
+            foreach (var item in newItems.Where(item => item.Completed))
                 Tools.Logging.Send(LogLevel.Debug, $"Вторжение {item.Id.Oid} завершено, пропускаю");
         }
 
-        protected override void ChangeEventImpl(Invasion item)
+        protected override void ChangeEventImpl(IReadOnlyCollection<Invasion> changedItems)
         {
-            if (item.Completed)
-                base.RemoveEventImpl(item);
-            else
-                base.ChangeEventImpl(item);
+            var nonCompletedInvasions = changedItems.Where(item => !item.Completed).ToList();
+            if (nonCompletedInvasions.Count > 0)
+                base.ChangeEventImpl(nonCompletedInvasions);
+            var completedInvasions = changedItems.Where(item => item.Completed).ToList();
+            if (completedInvasions.Count > 0)
+                base.RemoveEventImpl(completedInvasions);
         }
     }
 }
