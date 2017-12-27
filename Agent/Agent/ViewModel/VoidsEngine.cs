@@ -4,6 +4,7 @@ using System.Linq;
 
 using Agent.ViewModel.Util;
 using Core;
+using Core.Events;
 using Core.Model;
 using Core.ViewModel;
 
@@ -18,6 +19,13 @@ namespace Agent.ViewModel
 
         BatchedObservableCollection<VoidTradeViewModel> traders = new BatchedObservableCollection<VoidTradeViewModel>();
         public ObservableCollection<VoidTradeViewModel> Traders => traders;
+
+        private FiltersEvent FiltersEvent;
+
+        public VoidsEngine(FiltersEvent filtersEvent)
+        {
+            FiltersEvent = filtersEvent;
+        }
 
         public void Run(GameModel model)
         {
@@ -41,9 +49,9 @@ namespace Agent.ViewModel
 
         void AddEventimpl(IReadOnlyCollection<VoidTrader> newItems)
         {
-            var traderVMs = newItems.Select(trader => new VoidTradeViewModel(trader));
+            var traderVMs = newItems.Select(trader => new VoidTradeViewModel(trader, FiltersEvent));
             var itemVMs = newItems.Where(trader => trader.Manifest != null)
-                                  .SelectMany(trader => trader.Manifest.Select(m => new VoidItemViewModel(m)));
+                                  .SelectMany(trader => trader.Manifest.Select(m => new VoidItemViewModel(m, FiltersEvent)));
             items.AddRange(itemVMs);
             traders.AddRange(traderVMs);
         }
@@ -67,7 +75,7 @@ namespace Agent.ViewModel
                     // TODO: почему добавляются все? логика не ясна
                     foreach (var manifest in trader.Manifest)
                     {
-                        var manifestVM = new VoidItemViewModel(manifest);
+                        var manifestVM = new VoidItemViewModel(manifest, FiltersEvent);
                         Items.Add(manifestVM);
                     }
                 }

@@ -1,19 +1,31 @@
 ﻿using System;
 using System.Windows.Media;
-
+using Core.Events;
 using Core.Model;
 
 namespace Core.ViewModel
 {
     public class VoidTradeViewModel : VM
     {
-        public VoidTradeViewModel(VoidTrader trader)
+        private VoidTrader trader;
+
+        public VoidTradeViewModel(VoidTrader trader, FiltersEvent filtersEvent)
         {
             Id = trader.Id;
             Activation = Tools.Time.ToDateTime(trader.Activation.Date.NumberLong);
             PreActivation = Activation.AddDays(-12);
             Expiry = Tools.Time.ToDateTime(trader.Expiry.Date.NumberLong);
             Character = trader.Character == "Baro'Ki Teel" ? "Баро Ки'Тиир" : trader.Character; //TODO: Перевод
+            Location = Model.Filters.ExpandSector(trader.Node)?.Location ?? trader.Node;
+            Planet = Model.Filters.ExpandSector(trader.Node)?.Planet ?? trader.Node;
+
+            this.trader = trader;
+
+            PlanetsUpdatedWeakEventManager.AddHandler(filtersEvent, OnPlanetsFilterUpdated);
+        }
+
+        private void OnPlanetsFilterUpdated(object sender, EventArgs eventArgs)
+        {
             Location = Model.Filters.ExpandSector(trader.Node)?.Location ?? trader.Node;
             Planet = Model.Filters.ExpandSector(trader.Node)?.Planet ?? trader.Node;
         }
@@ -23,11 +35,14 @@ namespace Core.ViewModel
         public DateTime Activation { get; }
         public DateTime Expiry { get; }
         public string Character { get; }
-        public string Location { get; }
-        public string Planet { get; }
+
+        private string location;
+        public string Location { get => location; set=> Set(ref location, value); }
+
+        private string planet;
+        public string Planet { get => planet; set => Set(ref planet, value); }
 
         private string _statusText;
-
         public string StatusText
         {
             get => _statusText;

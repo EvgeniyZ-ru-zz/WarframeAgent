@@ -26,7 +26,10 @@ namespace Core.ViewModel
             ItemsUpdatedWeakEventManager.AddHandler(filtersEvent, OnItemsFilterUpdated);
         }
 
-        void OnItemsFilterUpdated(object sender, EventArgs args) => Update();
+        void OnItemsFilterUpdated(object sender, EventArgs args)
+        {
+            StoreItem = Model.Filters.ExpandItem(dailyDeal.StoreItem)?.Value ?? dailyDeal.StoreItem;
+        }
 
         public void Update()
         {
@@ -34,7 +37,9 @@ namespace Core.ViewModel
         }
 
         public string StoreItemOriginal { get; set; }
-        public string StoreItem { get; set; }
+
+        private string storeItem;
+        public string StoreItem { get => storeItem; set => Set(ref storeItem, value); }
         public DateTime Activation { get; }
         public DateTime Expiry { get; }
         public int Discount { get; }
