@@ -9,15 +9,17 @@ namespace Core.ViewModel
 {
     public class MissionViewModel : VM
     {
-        string reward;
+        private string reward;
+        private string missionType;
+        private SectorViewModel sector;
         MissionInfo missionInfo;
 
         public int MinEnemyLevel { get; }
         public int MaxEnemyLevel { get; }
-        public string Reward { get => reward; private set => Set(ref reward, value); } // может поменяться при обновлении фильтров
+        public string Reward { get => reward; private set => Set(ref reward, value); }
         public FactionViewModel Faction { get; }
-        public SectorViewModel Sector { get; }
-        public string MissionType { get; }
+        public SectorViewModel Sector { get => sector; private set => Set(ref sector, value);}
+        public string MissionType { get => missionType; private set => Set(ref missionType, value); }
         public Brush RewardColor { get; }
         public Visibility ModeVisibility { get; }
         public Visibility NightmareVisibility { get; }
@@ -63,12 +65,24 @@ namespace Core.ViewModel
 
             this.missionInfo = missionInfo;
             ItemsUpdatedWeakEventManager.AddHandler(filtersEvent, OnItemsFilterUpdated);
+            MissionsUpdatedWeakEventManager.AddHandler(filtersEvent, OnMissionsFilterUpdated);
+            SectorsUpdatedWeakEventManager.AddHandler(filtersEvent, OnSectorsFilterUpdated);
         }
 
         void OnItemsFilterUpdated(object sender, EventArgs args)
         {
             var (rewardType, rewardValue) = GetRewardProperties(missionInfo);
             Reward = rewardValue;
+        }
+
+        private void OnMissionsFilterUpdated(object sender, EventArgs eventArgs)
+        {
+            MissionType = Model.Filters.ExpandMission(missionInfo.MissionType)?.Name ?? missionInfo.MissionType;
+        }
+
+        private void OnSectorsFilterUpdated(object sender, EventArgs eventArgs)
+        {
+            Sector = SectorViewModel.FromSector(missionInfo.Location);
         }
 
         static (string rewardType, string rewardValue) GetRewardProperties(MissionInfo missionInfo)
