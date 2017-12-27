@@ -134,7 +134,7 @@ namespace Core.Events
             }
         }
 
-        static string GetFilterFilePath(Model.Filter.Type type) => $"Filters/{type}.json";
+        static string GetFilterFilePath(Model.Filter.Type type) => $"{Settings.Program.Directories.Data}/Filters/{type}.json";
         static readonly IEnumerable<Model.Filter.Type> SupportedFilterTypes =
             new[]
             {
