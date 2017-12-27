@@ -82,6 +82,7 @@
     <Compile Include="ViewModel\DailyDealViewModel.cs" />
     <Compile Include="ViewModel\CetusTimeViewModel.cs" />
     <Compile Include="ViewModel\EarthTimeViewModel.cs" />
+    <Compile Include="ViewModel\FactionsEngine.cs" />
     <Compile Include="ViewModel\IUpdatable.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\VoidItemViewModel.cs" />

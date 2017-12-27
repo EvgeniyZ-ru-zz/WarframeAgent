@@ -54,4 +54,15 @@ namespace Core.Events
         protected override void StopListening(object source) =>
             ((FiltersEvent)source).ItemsUpdated -= OnItemsUpdated;
     }
+
+    class FactionsUpdatedWeakEventManager : CustomWeakEventManager<FactionsUpdatedWeakEventManager, EventArgs>
+    {
+        private FactionsUpdatedWeakEventManager() { }
+
+        protected override void StartListening(object source) =>
+            ((FiltersEvent)source).FactionsUpdated += OnItemsUpdated;
+
+        protected override void StopListening(object source) =>
+            ((FiltersEvent)source).FactionsUpdated -= OnItemsUpdated;
+    }
 }
