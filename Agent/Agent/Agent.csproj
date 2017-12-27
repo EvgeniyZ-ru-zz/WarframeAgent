@@ -411,6 +411,7 @@
 del /q "$(TargetDir)*.dll"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>del /S /q "$(TargetDir)Data\Libs"</PreBuildEvent>
+    <PreBuildEvent>SET LIBDIR="$(TargetDir)Data\Libs"
+IF EXIST %25LIBDIR%25 DEL /S /q %25LIBDIR%25</PreBuildEvent>
   </PropertyGroup>
 </Project>
