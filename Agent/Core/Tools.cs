@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -295,6 +296,15 @@ namespace Core
                     throw new TimeoutException("Read operation didn't finish within allotted time");
                 }
             }
+        }
+    }
+
+    public static class KeyValuePairExtensions
+    {
+        public static void Deconstruct<K, V>(this KeyValuePair<K, V> self, out K key, out V value)
+        {
+            key = self.Key;
+            value = self.Value;
         }
     }
 }

@@ -28,6 +28,7 @@ namespace Agent.ViewModel
         public MainViewModel()
         {
             BadFilterReportModel.Start();
+            FactionsEngine.Start(FiltersEvent);
             finishInit = FiltersEvent.Start(); // добавляйте ещё через Task.WhenAll
             ServerModel = new ServerModel(ServerEvents);
             ServerModel.Start();
