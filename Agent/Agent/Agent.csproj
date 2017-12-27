@@ -408,10 +408,24 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /y /d /i  "$(TargetDir)*.dll" "$(TargetDir)Data\Libs"
-del /q "$(TargetDir)*.dll"</PostBuildEvent>
+del /q "$(TargetDir)*.dll"
+
+if $(ConfigurationName) == Release (
+  del /q "$(TargetDir)*.pdb"
+  del /q "$(TargetDir)*.xml"
+  del /q "$(TargetDir)*.json"
+  del /q "$(TargetDir)NLog.config"
+)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>SET LIBDIR="$(TargetDir)Data\Libs"
-IF EXIST %25LIBDIR%25 DEL /S /q %25LIBDIR%25</PreBuildEvent>
+SET DATADIR="$(TargetDir)Data"
+SET LOGDIR="$(TargetDir)Logs"
+if $(ConfigurationName) == Release (
+IF EXIST %25DATADIR%25 RMDIR /S /q %25DATADIR%25
+IF EXIST %25LOGDIR%25 RMDIR /S /q %25LOGDIR%25
+) ELSE (
+IF EXIST %25LIBDIR%25 RMDIR /S /q %25LIBDIR%25
+)</PreBuildEvent>
   </PropertyGroup>
 </Project>
