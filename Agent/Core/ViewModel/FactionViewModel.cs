@@ -1,44 +1,31 @@
-﻿using System.Collections.Generic;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 
 namespace Core.ViewModel
 {
     public class FactionViewModel : VM
     {
-        public string Name { get; }
-        public Brush Color { get; }
-        public Geometry Logo { get; }
+        string name;
+        Brush color;
+        Geometry logo;
+        public string Name { get => name; private set => Set(ref name, value); }
+        public Brush Color { get => color; private set => Set(ref color, value); }
+        public Geometry Logo { get => logo; private set => Set(ref logo, value); }
 
-        static Dictionary<string, FactionViewModel> _knownFactions = new Dictionary<string, FactionViewModel>();
+        public static FactionViewModel ById(string factionId) => FactionsEngine.ById(factionId);
 
-        static FactionViewModel TryCreateNew(string factionId)
+        internal void UpdateTo(string name, Brush color, Geometry logo)
         {
-            var fi = Model.Filters.ExpandFaction(factionId);
-            if (fi == null)
-                return null;
-            var brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(fi.Color));
-            var geometry = Geometry.Parse(fi.Logo);
-            return new FactionViewModel(fi.Name, brush, geometry);
-        }
-
-        static FactionViewModel CreateUnknown(string name) =>
-            new FactionViewModel(name, Brushes.Black, new EllipseGeometry(new System.Windows.Point(), 1, 1));
-
-        public static FactionViewModel ById(string factionId)
-        {
-            if (factionId == null) return null;
-            if (_knownFactions.TryGetValue(factionId, out var knownFaction))
-                return knownFaction;
-            var newFaction = TryCreateNew(factionId) ?? CreateUnknown(factionId);
-            _knownFactions.Add(factionId, newFaction);
-            return newFaction;
-        }
-
-        private FactionViewModel(string name, Brush color, Geometry logo)
-        {
+            // присвоение свойствам, чтобы сработала нотификация об изменениях
             Name = name;
             Color = color;
             Logo = logo;
+        }
+
+        internal FactionViewModel(string name, Brush color, Geometry logo)
+        {
+            this.name = name;
+            this.color = color;
+            this.logo = logo;
         }
     }
 }
