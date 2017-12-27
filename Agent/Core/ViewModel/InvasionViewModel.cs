@@ -21,9 +21,22 @@ namespace Core.ViewModel
             ConvertAndSetReward();
             Update();
             ItemsUpdatedWeakEventManager.AddHandler(filtersEvent, OnItemsFilterUpdated);
+            SectorsUpdatedWeakEventManager.AddHandler(filtersEvent, OnSectorsFilterUpdated);
+            MissionsUpdatedWeakEventManager.AddHandler(filtersEvent, OnMissionsFilterUpdated);
         }
 
         void OnItemsFilterUpdated(object sender, EventArgs args) => ConvertAndSetReward();
+
+
+        private void OnSectorsFilterUpdated(object sender, EventArgs eventArgs)
+        {
+            Sector = SectorViewModel.FromSector(invasion.Node);
+        }
+
+        private void OnMissionsFilterUpdated(object sender, EventArgs eventArgs)
+        {
+            LocTag = Model.Filters.ExpandMission(invasion.LocTag)?.Name ?? invasion.LocTag;
+        }
 
         void ConvertAndSetReward()
         {
@@ -39,9 +52,13 @@ namespace Core.ViewModel
         }
 
         public Id Id { get; }
-        public string LocTag { get; }
+        private string locTag;
+        public string LocTag { get => locTag; private set => Set(ref locTag, value); }
+
         public FactionViewModel Faction { get; }
-        public SectorViewModel Sector { get; }
+
+        private SectorViewModel sector;
+        public SectorViewModel Sector { get => sector; set => Set(ref sector, value); }
         public FactionViewModel DefenderFaction { get; }
         public FactionViewModel AttackerFaction { get; }
 
