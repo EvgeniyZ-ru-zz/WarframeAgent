@@ -5,6 +5,9 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Agent.Properties;
+using Settings = Core.Settings;
 
 namespace Agent.CachedImage
 {
@@ -24,8 +27,11 @@ namespace Agent.CachedImage
             // default cache directory - can be changed if needed from App.xaml
 
             string applicationFolder = AppDomain.CurrentDomain.BaseDirectory;
-            AppCacheDirectory = Path.Combine(applicationFolder, "Data", "Cache");
+            AppCacheDirectory = Path.Combine(applicationFolder, Settings.Program.Directories.Temp, "Cache");
             AppCacheMode = CacheMode.Dedicated;
+
+            if (!Directory.Exists(AppCacheDirectory))
+                Directory.CreateDirectory(AppCacheDirectory);
         }
 
         /// <summary>
@@ -44,10 +50,6 @@ namespace Agent.CachedImage
         {
             try
             {
-                if (!Directory.Exists(AppCacheDirectory))
-                {
-                    Directory.CreateDirectory(AppCacheDirectory);
-                }
                 var uri = new Uri(url);
                 var fileNameBuilder = new StringBuilder();
                 using (var sha1 = new SHA1Managed())

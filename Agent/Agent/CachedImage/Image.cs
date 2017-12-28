@@ -15,6 +15,14 @@ namespace Agent.CachedImage
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Image),
                 new FrameworkPropertyMetadata(typeof(Image)));
+
+            var files = Directory.GetFiles(FileCache.AppCacheDirectory);
+            foreach (var file in files)
+            {
+                FileInfo fi = new FileInfo(file);
+                if (fi.LastAccessTime < DateTime.Now.AddDays(-5))
+                    fi.Delete();
+            }
         }
 
         public string ImageUrl
@@ -55,7 +63,6 @@ namespace Agent.CachedImage
                 case FileCache.CacheMode.Dedicated:
                     try
                     {
-                        //TODO: Чистка кэша
                         var (file, stream) = await FileCache.HitAsync(url);
                         if (stream == null)
                             return;
