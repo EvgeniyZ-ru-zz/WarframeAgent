@@ -23,6 +23,7 @@ namespace Agent.ViewModel
             InvasionsEngine = new InvasionsEngine(filtersEvent);
             VoidsEngine = new VoidsEngine(filtersEvent);
             DailyDealsEngine = new DailyDealsEngine(filtersEvent);
+            ItemsEngine = new ItemsEngine(filtersEvent);
             BuildsEngine = new BuildsEngine();
 
             UserNotificationsEngine = new UserNotificationsEngine(this);
@@ -35,6 +36,7 @@ namespace Agent.ViewModel
             InvasionsEngine.Run(Model);
             VoidsEngine.Run(Model);
             DailyDealsEngine.Run(Model);
+            ItemsEngine.Run(Model);
             BuildsEngine.Run(Model);
         }
 
@@ -43,6 +45,7 @@ namespace Agent.ViewModel
         private InvasionsEngine InvasionsEngine;
         private VoidsEngine VoidsEngine;
         private DailyDealsEngine DailyDealsEngine;
+        private ItemsEngine ItemsEngine;
         private BuildsEngine BuildsEngine;
         private UserNotificationsEngine UserNotificationsEngine;
         private GameModel Model;
@@ -53,6 +56,7 @@ namespace Agent.ViewModel
         public ObservableCollection<VoidTradeViewModel> VoidTrades => VoidsEngine.Traders;
         public ObservableCollection<VoidItemViewModel> VoidTradeItems => VoidsEngine.Items;
         public ObservableCollection<DailyDealViewModel> DailyDeals => DailyDealsEngine.Items;
+        public ObservableCollection<ItemViewModel> Items => ItemsEngine.Items;
         public ObservableCollection<BuildViewModel> Builds => BuildsEngine.Items;
         public ObservableCollection<UserNotification> UserNotifications => UserNotificationsEngine.Notifications;
 
