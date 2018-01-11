@@ -149,6 +149,12 @@ namespace Core.Model
                 return _currentDailyDealsNotifications.Values;
         }
 
+        public IEnumerable<Filter.Item> GetCurrentItems()
+        {
+            lock (mutex)
+                return _currentItemsNotifications.Values;
+        }
+
         public IEnumerable<Build> GetCurrentBuilds()
         {
             lock (mutex)
