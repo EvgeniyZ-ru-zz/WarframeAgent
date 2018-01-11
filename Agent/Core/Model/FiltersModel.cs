@@ -42,9 +42,18 @@ namespace Core.Model
         public class Item
         {
             public Item(string value, string type, bool enabled) { Value = value; Type = type; Enabled = enabled; }
-            public string Value { get; }
-            public string Type { get; }
-            public bool Enabled { get; }
+            public string Value { get; private set; }
+            public string Type { get; private set; }
+            public bool Enabled { get; private set; }
+
+            internal bool Update(Item it)
+            {
+                bool hasChanges = false;
+                if (Value != it.Value) { hasChanges = true; Value = it.Value; }
+                if (Type != it.Type) { hasChanges = true; Type = it.Type; }
+                if (Enabled != it.Enabled) { hasChanges = true; Enabled = it.Enabled; }
+                return hasChanges;
+            }
         }
 
         public class Sector
@@ -106,8 +115,6 @@ namespace Core.Model
         //            var parts = value.Split('|');
         //            return new Sector(planet: parts[0], location: parts[1]);
         //        });
-
-
 
         internal static (Dictionary<string, Sector> data, int version) ParseSectors(int oldVersion, string text)
         {

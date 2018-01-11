@@ -61,6 +61,13 @@ namespace Core.Model
         public BuildNotificationEventArgs(IList<Build> ntf) : base(ntf) { }
     }
 
+    // Добавление/удаление/изменение предметов
+    public class ItemNotificationEventArgs : NotificationEventArgs<Filter.Item>
+    {
+        public ItemNotificationEventArgs(IEnumerable<Filter.Item> ntf) : base(ntf) { }
+        public ItemNotificationEventArgs(IList<Filter.Item> ntf) : base(ntf) { }
+    }
+
     #endregion
 
     #region Watcher Class
@@ -75,23 +82,28 @@ namespace Core.Model
         private readonly Dictionary<string, Invasion> _currentInvasionsNotifications = new Dictionary<string, Invasion>();
         private readonly Dictionary<string, VoidTrader> _currentVoidsNotifications = new Dictionary<string, VoidTrader>();
         private readonly Dictionary<string, DailyDeal> _currentDailyDealsNotifications = new Dictionary<string, DailyDeal>();
+        private readonly Dictionary<string, Filter.Item> _currentItemsNotifications = new Dictionary<string, Filter.Item>();
         private readonly List<Build> _currentBuilds = new List<Build>();
 
         private GlobalEvents.ServerEvents _server;
+        private FiltersEvent _filters;
         private string _gameDataPath;
         private string _newsDataPath;
         private object mutex = new object();
 
-        public void Start(GlobalEvents.ServerEvents server, string gameDataPath, string newsDataPath)
+        public void Start(GlobalEvents.ServerEvents server, FiltersEvent filters, string gameDataPath, string newsDataPath)
         {
             lock (mutex)
             {
                 _server = server;
+                _filters = filters;
                 _gameDataPath = gameDataPath;
                 _newsDataPath = newsDataPath;
                 _server.Updated += UpdateSnapshot;
+                _filters.ItemsUpdated += UpdateItems;
             }
             UpdateSnapshot();
+            UpdateItems(null, null);
         }
 
         public void Stop()
@@ -99,8 +111,10 @@ namespace Core.Model
             lock (mutex)
             {
                 _server.Updated -= UpdateSnapshot;
+                _filters.ItemsUpdated -= UpdateItems;
                 _newsDataPath = null;
                 _gameDataPath = null;
+                _filters = null;
                 _server = null;
             }
         }
@@ -161,6 +175,33 @@ namespace Core.Model
             VoidEvaluateList(gameSnapshot);
             DailyDealEvaluateList(gameSnapshot);
             BuildEvaluateList(gameSnapshot);
+        }
+
+        void UpdateItems(object _1, EventArgs _2)
+        {
+            var items = FiltersModel.AllItems;
+            List<Filter.Item> newNotifications, removedNotifications = new List<Filter.Item>(), changedNotifications;
+            lock (mutex)
+            {
+                var newKvp = items.Where(ntf => !_currentItemsNotifications.ContainsKey(ntf.Key)).ToList();
+                newNotifications = newKvp.Select(kvp => kvp.Value).ToList();
+                foreach (var kvp in newKvp)
+                    _currentItemsNotifications.Add(kvp.Key, kvp.Value);
+                changedNotifications = items
+                    .Select(kvp =>
+                        _currentItemsNotifications.TryGetValue(kvp.Key, out var existingNtf) && existingNtf.Update(kvp.Value) ? existingNtf : null)
+                    .Where(ntf => ntf != null)
+                    .ToList();
+                var removedId = _currentItemsNotifications.Keys.Except(items.Keys);
+                foreach (var id in removedId.ToList())
+                {
+                    removedNotifications.Add(_currentItemsNotifications[id]);
+                    _currentItemsNotifications.Remove(id);
+                }
+            }
+            FireNewItemNotification(newNotifications);
+            FireChangedItemNotification(changedNotifications);
+            FireRemovedItemNotification(removedNotifications);
         }
 
         /// <summary>
@@ -403,6 +444,31 @@ namespace Core.Model
 
         private void FireRemovedBuildNotification(IList<Build> ntf) =>
             BuildNotificationDeparted?.Invoke(this, new BuildNotificationEventArgs(ntf));
+
+
+        /// <summary>
+        ///     Эвент добавления новых предметов.
+        /// </summary>
+        public event EventHandler<ItemNotificationEventArgs> ItemNotificationArrived;
+
+        private void FireNewItemNotification(IList<Filter.Item> ntf) =>
+            ItemNotificationArrived?.Invoke(this, new ItemNotificationEventArgs(ntf));
+
+        /// <summary>
+        ///     Эвент обновления известных предметов.
+        /// </summary>
+        public event EventHandler<ItemNotificationEventArgs> ItemNotificationChanged;
+
+        private void FireChangedItemNotification(IList<Filter.Item> ntf) =>
+            ItemNotificationChanged?.Invoke(this, new ItemNotificationEventArgs(ntf));
+
+        /// <summary>
+        ///     Эвент удаления старых предметов.
+        /// </summary>
+        public event EventHandler<ItemNotificationEventArgs> ItemNotificationDeparted;
+
+        private void FireRemovedItemNotification(IList<Filter.Item> ntf) =>
+            ItemNotificationDeparted?.Invoke(this, new ItemNotificationEventArgs(ntf));
 
         #endregion
     }
