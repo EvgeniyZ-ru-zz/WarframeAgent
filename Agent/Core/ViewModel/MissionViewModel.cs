@@ -71,8 +71,7 @@ namespace Core.ViewModel
 
         void OnItemsFilterUpdated(object sender, EventArgs args)
         {
-            var (rewardType, rewardValue) = GetRewardProperties(missionInfo);
-            Reward = rewardValue;
+            (_, Reward) = GetRewardProperties(missionInfo);
         }
 
         private void OnMissionsFilterUpdated(object sender, EventArgs eventArgs)

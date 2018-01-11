@@ -27,16 +27,11 @@ namespace Core.ViewModel
 
         void OnItemsFilterUpdated(object sender, EventArgs args) => ConvertAndSetReward();
 
-
-        private void OnSectorsFilterUpdated(object sender, EventArgs eventArgs)
-        {
+        private void OnSectorsFilterUpdated(object sender, EventArgs eventArgs) =>
             Sector = SectorViewModel.FromSector(invasion.Node);
-        }
 
-        private void OnMissionsFilterUpdated(object sender, EventArgs eventArgs)
-        {
+        private void OnMissionsFilterUpdated(object sender, EventArgs eventArgs) =>
             LocTag = Model.Filters.ExpandMission(invasion.LocTag)?.Name ?? invasion.LocTag;
-        }
 
         void ConvertAndSetReward()
         {
