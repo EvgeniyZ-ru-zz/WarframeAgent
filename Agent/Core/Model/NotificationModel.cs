@@ -178,120 +178,56 @@ namespace Core.Model
             return data;
         }
 
-        private void NewsEvaluteList(NewsSnapshotModel snapshot)
+        private void GenericEvaluteList<Item>(
+            Item[] snapshotItems, Func<Item, string> keySelector, Func<Item, Item, bool> update,
+            Dictionary<string, Item> currentList,
+            Action<List<Item>> fireNew, Action<List<Item>> fireChanged, Action<List<Item>> fireRemoved) where Item : class
         {
-            List<NewsPost> newNotifications, removedNotifications = new List<NewsPost>();
+            List<Item> newNotifications, removedNotifications = new List<Item>(), changedNotifications = null;
             lock (mutex)
             {
-                newNotifications = snapshot.Posts.Where(ntf => !_currentNewsNotifications.ContainsKey(ntf.Description)).ToList();
+                newNotifications = snapshotItems.Where(ntf => !currentList.ContainsKey(keySelector(ntf))).ToList();
                 foreach (var ntf in newNotifications)
-                    _currentNewsNotifications.Add(ntf.Description, ntf);
-                var removedId = _currentNewsNotifications.Keys.Except(snapshot.Posts.Select(ntf => ntf.Description));
+                    currentList.Add(keySelector(ntf), ntf);
+                if (update != null)
+                {
+                    changedNotifications = snapshotItems
+                        .Select(ntf =>
+                            currentList.TryGetValue(keySelector(ntf), out var existingNtf) && update(existingNtf, ntf) ? existingNtf : null)
+                        .Where(ntf => ntf != null)
+                        .ToList();
+                }
+                var removedId = currentList.Keys.Except(snapshotItems.Select(keySelector));
                 foreach (var id in removedId.ToList())
                 {
-                    removedNotifications.Add(_currentNewsNotifications[id]);
-                    _currentNewsNotifications.Remove(id);
+                    removedNotifications.Add(currentList[id]);
+                    currentList.Remove(id);
                 }
             }
-            FireNewNewsNotification(newNotifications);
-            FireRemovedNewsNotification(removedNotifications);
+            fireNew(newNotifications);
+            fireChanged?.Invoke(changedNotifications);
+            fireRemoved(removedNotifications);
         }
 
-        private void AlertEvaluateList(GameSnapshotModel snapshot)
-        {
-            List<Alert> newNotifications, removedNotifications = new List<Alert>();
-            lock (mutex)
-            {
-                newNotifications = snapshot.Alerts.Where(ntf => !_currentAlertsNotifications.ContainsKey(ntf.Id.Oid)).ToList();
-                foreach (var ntf in newNotifications)
-                    _currentAlertsNotifications.Add(ntf.Id.Oid, ntf);
-                var removedId = _currentAlertsNotifications.Keys.Except(snapshot.Alerts.Select(ntf => ntf.Id.Oid));
-                foreach (var id in removedId.ToList())
-                {
-                    removedNotifications.Add(_currentAlertsNotifications[id]);
-                    _currentAlertsNotifications.Remove(id);
-                }
-            }
-            FireNewAlertNotification(newNotifications);
-            FireRemovedAlertNotification(removedNotifications);
-        }
+        private void NewsEvaluteList(NewsSnapshotModel snapshot) =>
+            GenericEvaluteList(snapshot.Posts, ntf => ntf.Description, null, _currentNewsNotifications,
+                               FireNewNewsNotification, null, FireRemovedNewsNotification);
 
-        private void InvasionEvaluateList(GameSnapshotModel snapshot)
-        {
-            List<Invasion> newNotifications, removedNotifications = new List<Invasion>(), changedNotifications;
-            lock (mutex)
-            {
-                newNotifications = snapshot.Invasions.Where(ntf => !_currentInvasionsNotifications.ContainsKey(ntf.Id.Oid)).ToList();
-                foreach (var ntf in newNotifications)
-                    _currentInvasionsNotifications.Add(ntf.Id.Oid, ntf);
-                changedNotifications = snapshot.Invasions
-                    .Select(ntf =>
-                        _currentInvasionsNotifications.TryGetValue(ntf.Id.Oid, out var existingNtf) && existingNtf.Update(ntf) ? existingNtf : null)
-                    .Where(ntf => ntf != null)
-                    .ToList();
-                var removedId = _currentInvasionsNotifications.Keys.Except(snapshot.Invasions.Select(ntf => ntf.Id.Oid));
-                foreach (var id in removedId.ToList())
-                {
-                    removedNotifications.Add(_currentInvasionsNotifications[id]);
-                    _currentInvasionsNotifications.Remove(id);
-                }
-            }
-            FireNewInvasionNotification(newNotifications);
-            FireChangedInvasionNotification(changedNotifications);
-            FireRemovedInvasionNotification(removedNotifications);
-        }
+        private void AlertEvaluateList(GameSnapshotModel snapshot) =>
+            GenericEvaluteList(snapshot.Alerts, ntf => ntf.Id.Oid, null, _currentAlertsNotifications,
+                               FireNewAlertNotification, null, FireRemovedAlertNotification);
 
-        private void VoidEvaluateList(GameSnapshotModel snapshot)
-        {
-            List<VoidTrader> newNotifications, removedNotifications = new List<VoidTrader>(), changedNotifications;
-            lock (mutex)
-            {
-                newNotifications = snapshot.VoidTraders.Where(ntf => !_currentVoidsNotifications.ContainsKey(ntf.Id.Oid)).ToList();
-                foreach (var ntf in newNotifications)
-                    _currentVoidsNotifications.Add(ntf.Id.Oid, ntf);
+        private void InvasionEvaluateList(GameSnapshotModel snapshot) =>
+            GenericEvaluteList(snapshot.Invasions, ntf => ntf.Id.Oid, (oldn, newn) => oldn.Update(newn), _currentInvasionsNotifications,
+                               FireNewInvasionNotification, FireChangedInvasionNotification, FireRemovedInvasionNotification);
 
-                changedNotifications = snapshot.VoidTraders
-                    .Select(ntf =>
-                        _currentVoidsNotifications.TryGetValue(ntf.Id.Oid, out var existingNtf) && existingNtf.Update(ntf) ? existingNtf : null)
-                    .Where(ntf => ntf != null)
-                    .ToList();
+        private void VoidEvaluateList(GameSnapshotModel snapshot) =>
+            GenericEvaluteList(snapshot.VoidTraders, ntf => ntf.Id.Oid, (oldn, newn) => oldn.Update(newn), _currentVoidsNotifications,
+                               FireNewVoidTraderNotification, FireChangedVoidTraderNotification, FireRemovedVoidTraderNotification);
 
-                var removedId = _currentVoidsNotifications.Keys.Except(snapshot.VoidTraders.Select(ntf => ntf.Id.Oid));
-                foreach (var id in removedId.ToList())
-                {
-                    removedNotifications.Add(_currentVoidsNotifications[id]);
-                    _currentVoidsNotifications.Remove(id);
-                }
-            }
-            FireNewVoidTraderNotification(newNotifications);
-            FireChangedVoidTraderNotification(changedNotifications);
-            FireRemovedVoidTraderNotification(removedNotifications);
-        }
-
-        private void DailyDealEvaluateList(GameSnapshotModel snapshot)
-        {
-            List<DailyDeal> newNotifications, removedNotifications = new List<DailyDeal>(), changedNotifications;
-            lock (mutex)
-            {
-                newNotifications = snapshot.DailyDeals.Where(ntf => !_currentDailyDealsNotifications.ContainsKey(ntf.StoreItem)).ToList();
-                foreach (var ntf in newNotifications)
-                    _currentDailyDealsNotifications.Add(ntf.StoreItem, ntf);
-                changedNotifications = snapshot.DailyDeals
-                    .Select(ntf =>
-                        _currentDailyDealsNotifications.TryGetValue(ntf.StoreItem, out var existingNtf) && existingNtf.Update(ntf) ? existingNtf : null)
-                    .Where(ntf => ntf != null)
-                    .ToList();
-                var removedId = _currentDailyDealsNotifications.Keys.Except(snapshot.DailyDeals.Select(ntf => ntf.StoreItem));
-                foreach (var id in removedId.ToList())
-                {
-                    removedNotifications.Add(_currentDailyDealsNotifications[id]);
-                    _currentDailyDealsNotifications.Remove(id);
-                }
-            }
-            FireNewDailyDealNotification(newNotifications);
-            FireChangedDailyDealNotification(changedNotifications);
-            FireRemovedDailyDealNotification(removedNotifications);
-        }
+        private void DailyDealEvaluateList(GameSnapshotModel snapshot) =>
+            GenericEvaluteList(snapshot.DailyDeals, ntf => ntf.StoreItem, (oldn, newn) => oldn.Update(newn), _currentDailyDealsNotifications,
+                               FireNewDailyDealNotification, FireChangedDailyDealNotification, FireRemovedDailyDealNotification);
 
         private void BuildEvaluateList(GameSnapshotModel snapshot)
         {
