@@ -75,8 +75,8 @@ namespace Core.Model
                 return null;
             if (dict == null)
                 return null;
-            bool isFilterFood = dict.TryGetValue(item, out var result);
-            if (!isFilterFood)
+            bool isFilterGood = dict.TryGetValue(item, out var result);
+            if (!isFilterGood)
                 BadFilterReportModel.ReportBadFilter(item.ToString(), type);
             return result;
         }
