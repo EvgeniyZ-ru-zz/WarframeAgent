@@ -20,6 +20,7 @@ namespace Agent.ViewModel
 
         public NewsViewModel NewsViewModel { get; }
         public HomeViewModel HomeViewModel { get; }
+        public ItemsViewModel ItemsViewModel { get; }
         public AlertsViewModel AlertsViewModel { get; }
 
         public ObservableCollection<UserNotification> UserNotifications => GameView.UserNotifications;
@@ -36,10 +37,12 @@ namespace Agent.ViewModel
             
             NewsViewModel = new NewsViewModel(GameView);
             HomeViewModel = new HomeViewModel(GameView);
+            ItemsViewModel = new ItemsViewModel(GameView);
             AlertsViewModel = new AlertsViewModel(GameView);
 
             ActivateHomeCommand = new RelayCommand(() => CurrentContent = HomeViewModel);
             ActivateNewsCommand = new RelayCommand(() => CurrentContent = NewsViewModel);
+            ActivateItemsCommand = new RelayCommand(() => CurrentContent = ItemsViewModel);
             ActivateAlertsCommand = new RelayCommand(() => CurrentContent = AlertsViewModel);
             CurrentContent = HomeViewModel;
         }
@@ -51,7 +54,7 @@ namespace Agent.ViewModel
             ServerEvents.Connected += GameDataEvent_Connected;
             ServerEvents.Disconnected += GameDataEvent_Disconnected;
             GameView.Run();
-            GameModel.Start(ServerEvents, 
+            GameModel.Start(ServerEvents, FiltersEvent,
                 $"{Settings.Program.Directories.Temp}/GameData.json",
                 $"{Settings.Program.Directories.Temp}/NewsData.json");
             BackgroundEvent.Start();
@@ -93,6 +96,7 @@ namespace Agent.ViewModel
 
         public ICommand ActivateHomeCommand { get; }
         public ICommand ActivateNewsCommand { get; }
+        public ICommand ActivateItemsCommand { get; }
         public ICommand ActivateAlertsCommand { get; }
     }
 }

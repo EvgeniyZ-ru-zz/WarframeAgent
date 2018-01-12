@@ -41,10 +41,21 @@ namespace Core.Model
 
         public class Item
         {
-            public Item(string value, string type, bool enabled) { Value = value; Type = type; Enabled = enabled; }
-            public string Value { get; }
-            public string Type { get; }
-            public bool Enabled { get; }
+            public Item(string id, string value, string type, bool enabled) { Value = value; Type = type; Enabled = enabled; }
+            public string Id { get; }
+            public string Value { get; private set; }
+            public string Type { get; private set; }
+            public bool Enabled { get; private set; }
+
+            internal bool Update(Item it)
+            {
+                System.Diagnostics.Debug.Assert(Id == it.Id);
+                bool hasChanges = false;
+                if (Value != it.Value) { hasChanges = true; Value = it.Value; }
+                if (Type != it.Type) { hasChanges = true; Type = it.Type; }
+                if (Enabled != it.Enabled) { hasChanges = true; Enabled = it.Enabled; }
+                return hasChanges;
+            }
         }
 
         public class Sector
@@ -75,8 +86,8 @@ namespace Core.Model
                 return null;
             if (dict == null)
                 return null;
-            bool isFilterFood = dict.TryGetValue(item, out var result);
-            if (!isFilterFood)
+            bool isFilterGood = dict.TryGetValue(item, out var result);
+            if (!isFilterGood)
                 BadFilterReportModel.ReportBadFilter(item.ToString(), type);
             return result;
         }
@@ -98,7 +109,7 @@ namespace Core.Model
         internal static Dictionary<int, Planet> AllPlanets;
 
         internal static (Dictionary<string, Item> data, int version) ParseItems(int oldVersion, string text) =>
-            ParseText(oldVersion, text, cat: "Items", selector: (value, type, enabled) => new Item(value: value, type: type, enabled: enabled));
+            ParseText(oldVersion, text, cat: "Items", selector: (key, value, type, enabled) => new Item(id: key, value: value, type: type, enabled: enabled));
 
         //internal static (Dictionary<string, Sector> data, int version) ParseSectors(int oldVersion, string text) =>
         //    ParseText(oldVersion, text, cat: "Items", selector: (value, type, enabled) =>
@@ -106,8 +117,6 @@ namespace Core.Model
         //            var parts = value.Split('|');
         //            return new Sector(planet: parts[0], location: parts[1]);
         //        });
-
-
 
         internal static (Dictionary<string, Sector> data, int version) ParseSectors(int oldVersion, string text)
         {
@@ -135,11 +144,10 @@ namespace Core.Model
                 return (null, model.Version);
         }
 
-
         //internal static (Dictionary<string, Mission> data, int version) ParseMissions(int oldVersion, string text) =>
         //    ParseText(oldVersion, text, cat: "Missions", selector: (value, type, enabled) => new Mission(value));
 
-        private static (Dictionary<string, T> data, int version) ParseText<T>(int oldVersion, string text, string cat, Func<string, string, bool, T> selector)
+        private static (Dictionary<string, T> data, int version) ParseText<T>(int oldVersion, string text, string cat, Func<string, string, string, bool, T> selector)
         {
             var json = JObject.Parse(text);
             var version = (int)json["Version"];
@@ -153,7 +161,7 @@ namespace Core.Model
                     var enabled = ((int?)s["enable"] ?? 1) != 0;
                     return ((JObject)s).Properties()
                                             .Where(p => p.Name != "type" && p.Name != "enable")
-                                            .Select(p => (key: p.Name, v: selector((string)p.Value, type, enabled)));
+                                            .Select(p => (key: p.Name, v: selector(p.Name, (string)p.Value, type, enabled)));
                 })
                 .ToDictionary(t => t.key, t => t.v);
 

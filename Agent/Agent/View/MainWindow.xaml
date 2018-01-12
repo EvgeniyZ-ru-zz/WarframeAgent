@@ -95,6 +95,11 @@
                                  GroupName="LeftMenu"
                                  Style="{StaticResource MenuButton}"
                                  Command="{Binding ActivateNewsCommand}" />
+                    <RadioButton x:Name="ItemsBtn"
+                                 fa:Awesome.Content="ExclamationTriangle"
+                                 GroupName="LeftMenu"
+                                 Style="{StaticResource MenuButton}"
+                                 Command="{Binding ActivateItemsCommand}"/>
                     <RadioButton x:Name="AlertsBtn" IsEnabled="False"
                                  fa:Awesome.Content="ExclamationTriangle"
                                  GroupName="LeftMenu"
@@ -148,6 +153,9 @@
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type vm:AlertsViewModel}">
                         <view:AlertsPage />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:ItemsViewModel}">
+                        <view:ItemsPage />
                     </DataTemplate>
                 </Grid.Resources>
                 <ContentPresenter Content="{Binding CurrentContent}" />

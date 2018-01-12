@@ -56,7 +56,7 @@ namespace Agent.ViewModel
             traders.AddRange(traderVMs);
         }
 
-        // TODO: пересмотреть всю эту логику. необходима зависимость между item и trader
+        // TODO: этот код исходит из наличия только одного торговца, нужно переделать
         private async void ChangeEvent(object sender, VoidTraderNotificationEventArgs e)
         {
             await AsyncHelpers.RedirectToMainThread();
@@ -67,12 +67,11 @@ namespace Agent.ViewModel
 
                 if (trader.Manifest == null)
                 {
-                    //GameView.RemoveAllVoidTraderItems();
-                    Items.Clear(); // TODO: ??? Выглядит подозрительно!
+                    Items.Clear();
                 }
                 else
                 {
-                    // TODO: почему добавляются все? логика не ясна
+                    // TODO: почему добавляются все? нужно по идее только изменённые
                     foreach (var manifest in trader.Manifest)
                     {
                         var manifestVM = new VoidItemViewModel(manifest, FiltersEvent);
