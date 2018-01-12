@@ -1,6 +1,6 @@
 {
-  "Date": "16.12.2017",
-  "Version": 14,
+  "Date": "13.01.2018",
+  "Version": 15,
   "Items": [
     {
       "type": "Ресурсы",
@@ -368,7 +368,8 @@
       "/Lotus/Types/StoreItems/Boosters/ResourceAmount3DayStoreItem": "Умножитель ресурсов (3 дня)",
       "/Lotus/Types/StoreItems/Packages/KavatColorPackNexus": "Генно-маскирующий набор Нексус",
       "/Lotus/Types/StoreItems/Packages/ThreeDayCreditPack": "Умножитель кредитов (3 дня)",
-      "/Lotus/Types/StoreItems/Packages/VTEosArmourBundle": "Комплект брони Эос прайм"
+      "/Lotus/Types/StoreItems/Packages/VTEosArmourBundle": "Комплект брони Эос прайм",
+      "/Lotus/StoreItems/Weapons/Grineer/Pistols/WraithSingleViper/WraithSingleViper": "Гадюка Призрак"
     },
     {
       "type": "Дарво",
