@@ -154,6 +154,9 @@
     <Compile Include="View\AlertsPage.xaml.cs">
       <DependentUpon>AlertsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ItemsPage.xaml.cs">
+      <DependentUpon>ItemsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\NewsPage.xaml.cs">
       <DependentUpon>NewsPage.xaml</DependentUpon>
     </Compile>
@@ -194,6 +197,10 @@
     <Page Include="View\AlertsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ItemsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\NewsPage.xaml">
       <SubType>Designer</SubType>
