@@ -11,7 +11,7 @@ using Core.ViewModel;
 
 namespace Agent.ViewModel
 {
-    class ItemsViewModel : VM
+    public class ItemsViewModel : VM
     {
         private GameViewModel GameView;
 
@@ -67,7 +67,7 @@ namespace Agent.ViewModel
         }
     }
 
-    class ExtendedItemViewModel : VM
+    public class ExtendedItemViewModel : VM
     {
         internal ExtendedItemViewModel(
             ItemViewModel item, bool isNotificationEnabled, Action<ExtendedItemViewModel> notificationEnabledCallback)
