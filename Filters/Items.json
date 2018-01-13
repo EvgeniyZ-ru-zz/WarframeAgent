@@ -1,6 +1,6 @@
 {
   "Date": "13.01.2018",
-  "Version": 15,
+  "Version": 16,
   "Items": [
     {
       "type": "Ресурсы",
@@ -232,9 +232,9 @@
       "/Lotus/StoreItems/Types/Game/KubrowPet/Patterns/KubrowPetPatternPrimeTraderA": "Фокусный шаблон меха",
       "/Lotus/StoreItems/Types/Game/Projections/T4VoidProjectionPBronze": "Реликвия акси A2",
       "/Lotus/StoreItems/Types/Items/Emotes/BaroEmote": "Жест: Харизма Ки'Тиир",
-      "/Lotus/StoreItems/Types/Items/ShipDecos/BaroKiTeerBobbleHead": "Статуэтка - Баро Ки'Тиир",
+      "/Lotus/StoreItems/Types/Items/ShipDecos/BaroKiTeerBobbleHead": "Статуэтка-Баро Ки'Тиир",
       "/Lotus/StoreItems/Types/Items/ShipDecos/PedistalPrime": "Пьедистал прайм",
-      "/Lotus/StoreItems/Types/Items/ShipDecos/OrbiterPictureFrameBaro": "Дисплей Ромбовидный",
+      "/Lotus/StoreItems/Types/Items/ShipDecos/OrbiterPictureFrameBaro": "Дисплей-Аргайл",
       "/Lotus/StoreItems/Types/Items/MiscItems/PhotoboothTileInarosTomb": "Сцена каптуры: Гробница Инароса",
       "/Lotus/StoreItems/Types/Keys/MummyQuestKeyBlueprint": "Пески Инароса (квест)",
       "/Lotus/StoreItems/Types/Recipes/Components/CorruptedBombardBallBlueprint": "Спектр: порабощенный бомбардир (чертеж)",
@@ -311,6 +311,7 @@
       "/Lotus/StoreItems/Upgrades/Skins/Catbrows/Armor/CatbrowArmorVoidTraderA": "Броня кавата: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Sentinels/Masks/KavatPetMask": "Маска стража: Кават",
       "/Lotus/StoreItems/Upgrades/Skins/Sentinels/Wings/KavatPetWings": "Крылья стража: Кават",
+      "/Lotus/StoreItems/Upgrades/Skins/Sentinels/Tails/KavatPetTail": "Хвост стража: Кават",
       "/Lotus/StoreItems/Upgrades/Skins/Clan/BaroQuantumBadgeItem": "Секара: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Kubrows/Armor/KubrowArmorBaro": "Броня кубрау: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Liset/Gyroscope/LisetGyroscopeSkinPrimeTrader": "Скин Ксифоса: призма",
