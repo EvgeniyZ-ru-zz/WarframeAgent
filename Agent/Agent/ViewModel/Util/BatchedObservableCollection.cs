@@ -12,17 +12,22 @@ namespace Agent.ViewModel.Util
     class BatchedObservableCollection<T> : ObservableCollection<T>
     {
         public void AddRange(IEnumerable<T> seq) =>
-            InsertRange(seq, Count);
+            InsertRange(seq, -1);
 
         public void InsertRange(IEnumerable<T> seq, int index)
         {
+            if (seq == null)
+                throw new ArgumentNullException(nameof(seq));
             CheckReentrancy();
             var items = Items;
             var newItems = seq.ToList();
             if (newItems.Count == 0)
                 return;
+            if (index == -1)
+                index = Count;
+            var curr = index;
             foreach (var el in newItems)
-                items.Add(el);
+                items.Insert(curr++, el);
 
             OnPropertyChanged(new PropertyChangedEventArgs(CountString));
             OnPropertyChanged(new PropertyChangedEventArgs(IndexerName));
@@ -35,6 +40,9 @@ namespace Agent.ViewModel.Util
 
         public void RemoveAll(IEnumerable<T> seq)
         {
+            if (seq == null)
+                throw new ArgumentNullException(nameof(seq));
+            CheckReentrancy();
             var items = Items;
             var removedItems = new List<T>();
             foreach (var el in seq)
@@ -53,6 +61,96 @@ namespace Agent.ViewModel.Util
                 new NotifyCollectionChangedEventArgs(
                     NotifyCollectionChangedAction.Remove,
                     removedItems));
+        }
+
+        public void ReplaceRange(List<T> remSeq, IEnumerable<T> addSeq)
+        {
+            if (remSeq == null)
+                throw new ArgumentNullException(nameof(remSeq));
+            if (addSeq == null)
+                throw new ArgumentNullException(nameof(addSeq));
+            CheckReentrancy();
+            int idxToAdd = -1;
+            var items = Items;
+            var removedItems = new List<T>();
+            foreach (var el in remSeq)
+            {
+                int index = items.IndexOf(el);
+                if (index < 0) continue;
+                if (idxToAdd < 0) idxToAdd = index;
+                removedItems.Add(el);
+                items.RemoveAt(index);
+            }
+
+            if (idxToAdd < 0) idxToAdd = Count;
+            var indexSave = idxToAdd;
+
+            var newItems = addSeq.ToList();
+            foreach (var el in newItems)
+                items.Insert(idxToAdd++, el);
+
+            if (removedItems.Count == 0 && newItems.Count == 0)
+                return;
+
+            if (removedItems.Count != newItems.Count)
+                OnPropertyChanged(new PropertyChangedEventArgs(CountString));
+            OnPropertyChanged(new PropertyChangedEventArgs(IndexerName));
+            OnCollectionChanged(
+                new NotifyCollectionChangedEventArgs(
+                    NotifyCollectionChangedAction.Replace,
+                    newItems,
+                    removedItems,
+                    indexSave));
+        }
+
+        public void MoveRange(List<T> itemsToMove, int newIndex)
+        {
+            if (itemsToMove == null)
+                throw new ArgumentNullException(nameof(itemsToMove));
+            CheckReentrancy();
+            var items = Items;
+            var temporaryItems = new List<T>();
+            foreach (var el in itemsToMove)
+            {
+                int index = items.IndexOf(el);
+                if (index < 0) continue;
+                temporaryItems.Add(el);
+                items.RemoveAt(index);
+            }
+
+            if (temporaryItems.Count == 0)
+                return;
+            if (newIndex == -1)
+                newIndex = Count;
+            var currentIndex = newIndex;
+            foreach (var el in temporaryItems)
+                items.Insert(currentIndex++, el);
+
+            OnPropertyChanged(new PropertyChangedEventArgs(IndexerName));
+            OnCollectionChanged(
+                new NotifyCollectionChangedEventArgs(
+                    NotifyCollectionChangedAction.Move,
+                    temporaryItems,
+                    newIndex));
+        }
+
+        public void Reset(IEnumerable<T> seq)
+        {
+            if (seq == null)
+                throw new ArgumentNullException(nameof(seq));
+            CheckReentrancy();
+            var items = Items;
+            var oldCount = items.Count;
+            items.Clear();
+            foreach (var el in seq)
+                items.Add(el);
+
+            if (oldCount != items.Count)
+                OnPropertyChanged(new PropertyChangedEventArgs(CountString));
+            OnPropertyChanged(new PropertyChangedEventArgs(IndexerName));
+            OnCollectionChanged(
+                new NotifyCollectionChangedEventArgs(
+                    NotifyCollectionChangedAction.Reset));
         }
 
         // это грязный хак, который подсмотрен здесь:
