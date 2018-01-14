@@ -23,7 +23,7 @@ namespace Core.Model
         public string Image
         {
             get => _image;
-            set => _image = "http:" + value;
+            set => _image = "https://www.warframe.com" + value;
         }
     }
 
