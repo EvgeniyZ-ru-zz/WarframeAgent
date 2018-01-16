@@ -101,12 +101,12 @@ namespace Core.Model
 
     class FiltersModel
     {
-        internal static Dictionary<string, Item> AllItems;
-        internal static Dictionary<string, Sector> AllSectors;
-        internal static Dictionary<string, Mission> AllMissions;
-        internal static Dictionary<string, Faction> AllFactions;
-        internal static Dictionary<int, Filter.Build> AllBuilds;
-        internal static Dictionary<int, Planet> AllPlanets;
+        internal static Dictionary<string, Item> AllItems = new Dictionary<string, Item>();
+        internal static Dictionary<string, Sector> AllSectors = new Dictionary<string, Sector>();
+        internal static Dictionary<string, Mission> AllMissions = new Dictionary<string, Mission>();
+        internal static Dictionary<string, Faction> AllFactions = new Dictionary<string, Faction>();
+        internal static Dictionary<int, Filter.Build> AllBuilds = new Dictionary<int, Filter.Build>();
+        internal static Dictionary<int, Planet> AllPlanets = new Dictionary<int, Planet>();
 
         internal static (Dictionary<string, Item> data, int version) ParseItems(int oldVersion, string text) =>
             ParseText(oldVersion, text, cat: "Items", selector: (key, value, type, enabled) => new Item(id: key, value: value, type: type, enabled: enabled));
