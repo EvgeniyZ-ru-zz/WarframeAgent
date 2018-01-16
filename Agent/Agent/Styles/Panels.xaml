@@ -45,7 +45,7 @@
 
     <Style x:Key="TabItemStyleInvisions" TargetType="{x:Type TabItem}">
         <Setter Property="Cursor" Value="Hand"/>
-         <Setter Property="Template">
+        <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
                     <Border Name="Border" BorderThickness="0,0,0,0" Margin="3" >
@@ -72,6 +72,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
-    
+
 </ResourceDictionary>
