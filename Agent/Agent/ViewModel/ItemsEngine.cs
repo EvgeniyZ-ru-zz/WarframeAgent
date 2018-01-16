@@ -33,8 +33,7 @@ namespace Agent.ViewModel
 
         protected override void AddEventImpl(IReadOnlyCollection<Core.Model.Filter.Item> newItems)
         {
-            foreach (var item in newItems)
-                LogAdded(item);
+            LogAdded(newItems);
 
             foreach (var group in newItems.Select(CreateItemExt).GroupBy(it => it.Original.Type))
             {
@@ -58,10 +57,9 @@ namespace Agent.ViewModel
 
         protected override void ChangeEventImpl(IReadOnlyCollection<Item> changedItems)
         {
+            LogChanged(changedItems);
             foreach (var item in changedItems)
             {
-                LogChanged(item);
-
                 var itemVM = TryGetItemByModelExt(item);
                 if (itemVM != null)
                 {
@@ -76,8 +74,7 @@ namespace Agent.ViewModel
 
         protected override void RemoveEventImpl(IReadOnlyCollection<Item> removedItems)
         {
-            foreach (var item in removedItems)
-                LogRemoved(item);
+            LogRemoved(removedItems);
             foreach (var group in removedItems.GroupBy(i => i.Type))
             {
                 if (groupVMs.TryGetValue(group.Key, out var itemGroup))
@@ -94,13 +91,13 @@ namespace Agent.ViewModel
             }
         }
 
-        protected override void LogAdded(Core.Model.Filter.Item item) =>
-            Tools.Logging.Send(LogLevel.Info, $"Новый предмет {item.Id}!");
-        protected override void LogChanged(Core.Model.Filter.Item item) =>
-            Tools.Logging.Send(LogLevel.Info, $"Изменённый предмет {item.Id}!");
-        protected override void LogRemoved(Core.Model.Filter.Item item) =>
-            Tools.Logging.Send(LogLevel.Info, $"Удаляю предмет {item.Id}!");
-    
+        protected override string LogAddedOne(Core.Model.Filter.Item item) => $"Новый предмет {item.Id}!";
+        protected override string LogChangedOne(Core.Model.Filter.Item item) => $"Изменённый предмет {item.Id}!";
+        protected override string LogRemovedOne(Core.Model.Filter.Item item) => $"Удаляю предмет {item.Id}!";
+        protected override string LogAddedMany(int n) => $"Новые предметы ({n} шт.)";
+        protected override string LogChangedMany(int n) => $"Изменённые предметы ({n} шт.)";
+        protected override string LogRemovedMany(int n) => $"Удаляю предметы ({n} шт.)";
+
         protected override ItemGroupViewModel TryGetItemByModel(Core.Model.Filter.Item item) =>
             throw new NotSupportedException();
 

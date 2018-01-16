@@ -24,10 +24,10 @@ namespace Agent.ViewModel
         protected override IEnumerable<Alert> GetItemsFromModel(GameModel model) => model.GetCurrentAlerts();
         protected override AlertViewModel CreateItem(Alert item, FiltersEvent evt) => new AlertViewModel(item, evt);
 
-        protected override void LogAdded(Alert item) =>
-            Tools.Logging.Send(LogLevel.Info, $"Новая тревога {item.Id.Oid}!", param: item);
-        protected override void LogRemoved(Alert item) =>
-            Tools.Logging.Send(LogLevel.Info, $"Удаляю тревогу {item.Id.Oid}!", param: item);
+        protected override string LogAddedOne(Alert item) => $"Новая тревога {item.Id.Oid}";
+        protected override string LogRemovedOne(Alert item) => $"Удаляю тревогу {item.Id.Oid}";
+        protected override string LogAddedMany(int n) => $"Новые тревоги ({n} шт.)";
+        protected override string LogRemovedMany(int n) => $"Удаляю тревоги ({n} шт.)";
 
         protected override AlertViewModel TryGetItemByModel(Alert item) => Items.FirstOrDefault(i => i.Id == item.Id);
     }
