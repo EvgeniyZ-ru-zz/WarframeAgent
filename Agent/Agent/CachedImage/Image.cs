@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Net.Cache;
 using System.Windows;
@@ -11,11 +12,14 @@ namespace Agent.CachedImage
 
     public class Image : System.Windows.Controls.Image
     {
+        static bool isInDesignMode = DesignerProperties.GetIsInDesignMode(new DependencyObject());
         static Image()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Image),
                 new FrameworkPropertyMetadata(typeof(Image)));
 
+            if (isInDesignMode) // не выполнять в дизайнере
+                return;
             var files = Directory.GetFiles(FileCache.AppCacheDirectory);
             foreach (var file in files)
             {
@@ -41,7 +45,7 @@ namespace Agent.CachedImage
         {
             var url = e.NewValue as string;
 
-            if (string.IsNullOrEmpty(url))
+            if (string.IsNullOrEmpty(url) || isInDesignMode)
                 return;
 
             var cachedImage = (Image)obj;
