@@ -122,9 +122,11 @@
     <Compile Include="AsyncHelpers.cs" />
     <Compile Include="CachedImage\FileCache.cs" />
     <Compile Include="CachedImage\Image.cs" />
+    <Compile Include="ViewModel\ExtendedItemViewModel.cs" />
     <Compile Include="ViewModel\GenericEngineWithUpdates.cs" />
     <Compile Include="ViewModel\GenericSimpleEngine.cs" />
     <Compile Include="ViewModel\DailyDealsEngine.cs" />
+    <Compile Include="ViewModel\ItemGroupViewModel.cs" />
     <Compile Include="ViewModel\ItemsEngine.cs" />
     <Compile Include="ViewModel\ItemsViewModel.cs" />
     <Compile Include="ViewModel\Util\BatchedObservableCollection.cs" />
@@ -162,6 +164,9 @@
     </Compile>
     <Compile Include="View\SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\ItemGroup.xaml.cs">
+      <DependentUpon>ItemGroup.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\Items\AlertListItem.xaml.cs">
       <DependentUpon>AlertListItem.xaml</DependentUpon>
@@ -250,6 +255,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\UserControls\ItemGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\UserControls\Items\AlertListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

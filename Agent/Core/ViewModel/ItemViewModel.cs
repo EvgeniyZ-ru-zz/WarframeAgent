@@ -16,7 +16,6 @@ namespace Core.ViewModel
 
         public Model.Filter.Item Item { get; }
 
-
         private string _value;
         public string Value
         {
