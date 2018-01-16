@@ -7,6 +7,7 @@ using Core.Model;
 using Core.ViewModel;
 using Core.Events;
 using Agent.ViewModel.Util;
+using NLog;
 
 namespace Agent.ViewModel
 {
@@ -31,11 +32,26 @@ namespace Agent.ViewModel
             Subscribe(model);
             // TODO: race condition with arriving events; check if event is already there
             var vms = GetItemsFromModel(model).ToList();
-            AddEventImpl(vms);
+            if (vms.Count > 0)
+                AddEventImpl(vms);
         }
 
-        protected abstract void LogAdded(ItemModel item);
-        protected abstract void LogRemoved(ItemModel item);
+        protected abstract string LogAddedOne(ItemModel item);
+        protected abstract string LogRemovedOne(ItemModel item);
+        protected abstract string LogAddedMany(int n);
+        protected abstract string LogRemovedMany(int n);
+
+        protected virtual void LogAdded(IReadOnlyCollection<ItemModel> newItems)
+        {
+            var message = (newItems.Count == 1) ? LogAddedOne(newItems.First()) : LogAddedMany(newItems.Count);
+            Tools.Logging.Send(LogLevel.Info, message);
+        }
+
+        protected virtual void LogRemoved(IReadOnlyCollection<ItemModel> removedItems)
+        {
+            var message = (removedItems.Count == 1) ? LogRemovedOne(removedItems.First()) : LogRemovedMany(removedItems.Count);
+            Tools.Logging.Send(LogLevel.Info, message);
+        }
 
         protected async void AddEvent(object sender, NotificationEventArgs<ItemModel> e)
         {
@@ -45,8 +61,7 @@ namespace Agent.ViewModel
 
         protected virtual void AddEventImpl(IReadOnlyCollection<ItemModel> newItems)
         {
-            foreach (var item in newItems)
-                LogAdded(item);            
+            LogAdded(newItems);            
             items.AddRange(newItems.Select(item => CreateItem(item, FiltersEvent)));
         }
 
@@ -60,8 +75,7 @@ namespace Agent.ViewModel
 
         protected virtual void RemoveEventImpl(IReadOnlyCollection<ItemModel> removedItems)
         {
-            foreach (var item in removedItems)
-                LogRemoved(item);
+            LogRemoved(removedItems);
             items.RemoveAll(removedItems.Select(TryGetItemByModel).Where(item => items != null));
         }
     }

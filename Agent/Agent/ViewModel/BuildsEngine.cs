@@ -25,12 +25,12 @@ namespace Agent.ViewModel
             model.BuildNotificationDeparted += RemoveEvent;
         }
 
-        protected override void LogAdded(Build item) =>
-            Tools.Logging.Send(LogLevel.Info, $"Новое строение {item.Number}", param: item);
-        protected override void LogChanged(Build item) =>
-            Tools.Logging.Send(LogLevel.Debug, $"Изменённое строение {item.Number}");
-        protected override void LogRemoved(Build item) =>
-            Tools.Logging.Send(LogLevel.Info, $"Удаляю строение {item.Number}", param: item);
+        protected override string LogAddedOne(Build item) => $"Новое строение {item.Number}";
+        protected override string LogChangedOne(Build item) => $"Изменённое строение {item.Number}";
+        protected override string LogRemovedOne(Build item) => $"Удаляю строение {item.Number}";
+        protected override string LogAddedMany(int n) => $"Новые строения ({n} шт.)";
+        protected override string LogChangedMany(int n) => $"Изменённые строения ({n} шт.)";
+        protected override string LogRemovedMany(int n) => $"Удаляю строения ({n} шт.)";
 
         protected override BuildViewModel TryGetItemByModel(Build item) => Items.FirstOrDefault(i => i.Id == item.Number);
     }

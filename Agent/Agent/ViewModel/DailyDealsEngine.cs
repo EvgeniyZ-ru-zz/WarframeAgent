@@ -25,12 +25,12 @@ namespace Agent.ViewModel
             model.DailyDealNotificationDeparted += RemoveEvent;
         }
 
-        protected override void LogAdded(DailyDeal item) =>
-            Tools.Logging.Send(LogLevel.Info, $"Новое предложение Дарво {item.StoreItem}!");
-        protected override void LogChanged(DailyDeal item) =>
-            Tools.Logging.Send(LogLevel.Debug, $"Изменённое предложение Дарво {item.StoreItem}!");
-        protected override void LogRemoved(DailyDeal item) =>
-            Tools.Logging.Send(LogLevel.Info, $"Удаляю предложение Дарво {item.StoreItem}!");
+        protected override string LogAddedOne(DailyDeal item) => $"Новое предложение Дарво {item.StoreItem}";
+        protected override string LogChangedOne(DailyDeal item) => $"Изменённое предложение Дарво {item.StoreItem}";
+        protected override string LogRemovedOne(DailyDeal item) => $"Удаляю предложение Дарво {item.StoreItem}";
+        protected override string LogAddedMany(int n) => $"Новые предложения Дарво ({n} шт.)";
+        protected override string LogChangedMany(int n) => $"Изменённые предложения Дарво ({n} шт.)";
+        protected override string LogRemovedMany(int n) => $"Удаляю предложения Дарво ({n} шт.)";
 
         protected override DailyDealViewModel TryGetItemByModel(DailyDeal item) => Items.FirstOrDefault(i => i.StoreItemOriginal == item.StoreItem);
     }

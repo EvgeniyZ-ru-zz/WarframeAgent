@@ -22,10 +22,10 @@ namespace Agent.ViewModel
             model.NewsNotificationDeparted += RemoveEvent;
         }
 
-        protected override void LogAdded(NewsPost item) =>
-            Tools.Logging.Send(LogLevel.Info, $"Новая новость {item.Title}!", param: item);
-        protected override void LogRemoved(NewsPost item) =>
-            Tools.Logging.Send(LogLevel.Info, $"Удаляю новость {item.Title}!", param: item);
+        protected override string LogAddedOne(NewsPost item) => $"Новая новость {item.Title}";
+        protected override string LogRemovedOne(NewsPost item) => $"Удаляю новость {item.Title}";
+        protected override string LogAddedMany(int n) => $"Новые новости ({n} шт.)";
+        protected override string LogRemovedMany(int n) => $"Удаляю новости ({n} шт.)";
 
         protected override PostViewModel TryGetItemByModel(NewsPost item) => Items.FirstOrDefault(a => a.Description == item.Title);
     }

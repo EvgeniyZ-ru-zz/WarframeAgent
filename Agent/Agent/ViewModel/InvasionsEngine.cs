@@ -24,12 +24,12 @@ namespace Agent.ViewModel
             model.InvasionNotificationDeparted += RemoveEvent;
         }
 
-        protected override void LogAdded(Invasion item) =>
-            Tools.Logging.Send(LogLevel.Info, $"Новое вторжение {item.Id.Oid}!");
-        protected override void LogChanged(Invasion item) =>
-            Tools.Logging.Send(LogLevel.Info, $"Изменённое вторжение {item.Id.Oid}!");
-        protected override void LogRemoved(Invasion item) =>
-            Tools.Logging.Send(LogLevel.Info, $"Удаляю вторжение {item.Id.Oid}!");
+        protected override string LogAddedOne(Invasion item) => $"Новое вторжение {item.Id.Oid}";
+        protected override string LogChangedOne(Invasion item) => $"Изменённое вторжение {item.Id.Oid}";
+        protected override string LogRemovedOne(Invasion item) => $"Удаляю вторжение {item.Id.Oid}";
+        protected override string LogAddedMany(int n) => $"Новые вторжения ({n} шт.)";
+        protected override string LogChangedMany(int n) => $"Изменённые вторжения ({n} шт.)";
+        protected override string LogRemovedMany(int n) => $"Удаляю вторжения ({n} шт.)";
 
         protected override InvasionViewModel TryGetItemByModel(Invasion item) => Items.FirstOrDefault(i => i.Id == item.Id);
 

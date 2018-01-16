@@ -34,7 +34,9 @@ namespace Agent.ViewModel
             model.VoidTraderNotificationDeparted += RemoveEvent;
             // TODO: race condition with arriving events; check if event is already there
 
-            AddEventimpl(model.GetCurrentVoidTrades().ToList());
+            var curr = model.GetCurrentVoidTrades().ToList();
+            if (curr.Count > 0)
+                AddEventimpl(curr);
         }
 
         private async void AddEvent(object sender, VoidTraderNotificationEventArgs e)
