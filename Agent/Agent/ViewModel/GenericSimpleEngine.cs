@@ -30,8 +30,8 @@ namespace Agent.ViewModel
         {
             Subscribe(model);
             // TODO: race condition with arriving events; check if event is already there
-            var vms = GetItemsFromModel(model).Select(item => CreateItem(item, FiltersEvent)).ToList();
-            items.AddRange(vms);
+            var vms = GetItemsFromModel(model).ToList();
+            AddEventImpl(vms);
         }
 
         protected abstract void LogAdded(ItemModel item);
@@ -46,8 +46,7 @@ namespace Agent.ViewModel
         protected virtual void AddEventImpl(IReadOnlyCollection<ItemModel> newItems)
         {
             foreach (var item in newItems)
-                LogAdded(item);
-            
+                LogAdded(item);            
             items.AddRange(newItems.Select(item => CreateItem(item, FiltersEvent)));
         }
 
@@ -61,7 +60,6 @@ namespace Agent.ViewModel
 
         protected virtual void RemoveEventImpl(IReadOnlyCollection<ItemModel> removedItems)
         {
-            var itemsToRemove = new List<ItemVM>();
             foreach (var item in removedItems)
                 LogRemoved(item);
             items.RemoveAll(removedItems.Select(TryGetItemByModel).Where(item => items != null));

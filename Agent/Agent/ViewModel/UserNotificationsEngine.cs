@@ -17,6 +17,17 @@ namespace Agent.ViewModel
         BatchedObservableCollection<UserNotification> notifications = new BatchedObservableCollection<UserNotification>();
         public ObservableCollection<UserNotification> Notifications => notifications;
 
+        HashSet<ExtendedItemViewModel> itemFilter = new HashSet<ExtendedItemViewModel>();
+
+        public void OnSubscriptionChanged(ExtendedItemViewModel item)
+        {
+            if (item.IsNotificationEnabled)
+                itemFilter.Add(item);
+            else
+                itemFilter.Remove(item);
+            // TODO: добавить саму нотификацию!
+        }
+
         private GameViewModel gameVM;
 
         Dictionary<object, UserNotification> mapping = new Dictionary<object, UserNotification>();

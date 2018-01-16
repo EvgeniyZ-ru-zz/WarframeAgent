@@ -27,8 +27,8 @@ namespace Agent.ViewModel
             {
                 LogChanged(item);
 
-                var buildVM = TryGetItemByModel(item);
-                buildVM?.Update();
+                var itemVM = TryGetItemByModel(item);
+                itemVM?.Update();
             }
         }
     }

@@ -13,11 +13,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Agent.View
+namespace Agent.View.UserControls
 {
-    public partial class ItemsPage : UserControl
+    public partial class ItemGroup : UserControl
     {
-        public ItemsPage()
+        public ItemGroup()
         {
             InitializeComponent();
         }
