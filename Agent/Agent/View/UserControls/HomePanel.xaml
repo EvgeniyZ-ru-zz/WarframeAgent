@@ -12,7 +12,7 @@
     </UserControl.Resources>
     <UserControl.Template>
         <ControlTemplate TargetType="UserControl">
-            <DockPanel Opacity=".930" MaxHeight="260">
+            <DockPanel Opacity=".930">
                 <Border Style="{StaticResource BoxPanel}">
                     <Grid>
                         <Grid.RowDefinitions>

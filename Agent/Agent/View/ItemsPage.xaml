@@ -5,17 +5,72 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewc="clr-namespace:Agent.View.UserControls"
              xmlns:vm="clr-namespace:Agent.ViewModel"
+             xmlns:viewModel="clr-namespace:Core.ViewModel;assembly=Core"
+             xmlns:converters="clr-namespace:Agent.View.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding Groups}" Margin="0,3.5">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type vm:ItemGroupViewModel}">
-                        <viewc:ItemGroup/>
+             d:DesignHeight="540" d:DesignWidth="930" d:DataContext="{d:DesignInstance {x:Type vm:ItemsViewModel}}" 
+             FontFamily="/Agent;component/Resources/Fonts/Lato/#Lato">
+    <UserControl.Resources>
+        <converters:AllCapsConverter x:Key="AllCaps"/>
+    </UserControl.Resources>
+
+    <viewc:HomePanel Text="Настройка уведомлений" Color="{DynamicResource SettingsLineColor}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0"
+                    Margin="0,5,0,-1"
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Center"
+                    CornerRadius="3,3,0,0"
+                    BorderThickness="0"
+                    Background="{DynamicResource SettingsLineColor}">
+                <ListBox Margin="2,1"
+                         ItemsSource="{Binding Groups}"
+                         Style="{StaticResource MainList}"
+                         ItemContainerStyle="{StaticResource UListItem}" 
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         IsSynchronizedWithCurrentItem="True" >
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name, Converter={StaticResource AllCaps}}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+
+
+            <ListBox Grid.Row="1"
+                     BorderBrush="{DynamicResource SettingsLineColor}"
+                     BorderThickness="0,1,0,0"
+                     ItemsSource="{Binding Groups/Items}"
+                     Style="{StaticResource MainList}"
+                     ItemContainerStyle="{StaticResource FilterListItem}" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Viewbox Opacity=".8" Width="24" Height="24">
+                                <Canvas Width="24" Height="24">
+                                    <Path Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" Fill="Black" />
+                                </Canvas>
+                            </Viewbox>
+                            <Border Margin="0,0,4,0" BorderThickness="1,0,0,0" BorderBrush="{DynamicResource SettingsLineColor}" />
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Original.Value, Converter={StaticResource AllCaps}}"/>
+                            <TextBlock VerticalAlignment="Center" Opacity=".8" Margin="5,0" Text="{Binding Original.Enabled, Converter={StaticResource AllCaps}}" FontSize="11"/>
+                        </StackPanel>
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-    </Grid>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </viewc:HomePanel>
+
 </UserControl>

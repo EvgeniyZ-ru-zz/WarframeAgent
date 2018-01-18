@@ -26,6 +26,7 @@
     <SolidColorBrush x:Key="InvasionsLineColor" Color="#FF7B37CD" />
     <SolidColorBrush x:Key="TradeLineColor" Color="#FF3782CD" />
     <SolidColorBrush x:Key="SortiesLineColor" Color="#FFCD37B2" />
+    <SolidColorBrush x:Key="SettingsLineColor" Color="#FF028781" />
 
     <!-- Выделение в ListBox -->
     <SolidColorBrush x:Key="NewsListBoxSelect" Color="#99000000" />
