@@ -57,12 +57,11 @@
                      ItemContainerStyle="{StaticResource FilterListItem}" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Viewbox Opacity=".8" Width="24" Height="24">
-                                <Canvas Width="24" Height="24">
-                                    <Path Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" Fill="Black" />
-                                </Canvas>
-                            </Viewbox>
+                        <StackPanel Orientation="Horizontal" Background="Transparent">
+                            <StackPanel.InputBindings>
+                                <MouseBinding Gesture="LeftClick" Command="{Binding ToggleNotification}"/>
+                            </StackPanel.InputBindings>
+                            <CheckBox IsChecked="{Binding IsNotificationEnabled}" Style="{StaticResource VShapeCheckbox}"/>
                             <Border Margin="0,0,4,0" BorderThickness="1,0,0,0" BorderBrush="{DynamicResource SettingsLineColor}" />
                             <TextBlock VerticalAlignment="Center" Text="{Binding Original.Value, Converter={StaticResource AllCaps}}"/>
                             <TextBlock VerticalAlignment="Center" Opacity=".8" Margin="5,0" Text="{Binding Original.Enabled, Converter={StaticResource AllCaps}}" FontSize="11"/>

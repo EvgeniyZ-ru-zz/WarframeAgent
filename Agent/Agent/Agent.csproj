@@ -195,6 +195,10 @@
     <Compile Include="View\UserNotifications.xaml.cs">
       <DependentUpon>UserNotifications.xaml</DependentUpon>
     </Compile>
+    <Page Include="Styles\CheckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
