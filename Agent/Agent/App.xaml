@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="Styles/Panels.xaml" />
                 <ResourceDictionary Source="Styles/ScrollBar.xaml" />
                 <ResourceDictionary Source="Styles/ListBox.xaml" />
+                <ResourceDictionary Source="Styles/CheckBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="RectBorderStyle" TargetType="Rectangle">
