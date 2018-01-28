@@ -1,6 +1,6 @@
 {
-  "Date": "23.01.2018",
-  "Version": 17,
+  "Date": "28.01.2018",
+  "Version": 18,
   "Items": [
     {
       "type": "Ресурсы",
@@ -326,6 +326,7 @@
       "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/EarpieceBaroB": "Серьга: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/EarpieceBaroC": "Серьги: Ки'Тиир Атмос",
       "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/BaroMouthPieceA": "Ки'Тиир Атмос маска",
+      "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/BaroTiara": "Ки'Тиир Атмос диадема",
       "/Lotus/StoreItems/Upgrades/Skins/Pirate/HydroidAlternateSkin": "Скин Гидройда: Бессмертный",
       "/Lotus/StoreItems/Upgrades/Skins/Tengu/ZephyrAlternateSkin": "Скин Зефир: Бессмертный",
       "/Lotus/StoreItems/Upgrades/Skins/Scarves/BaroCape": "Ки'Тиир сандана",
