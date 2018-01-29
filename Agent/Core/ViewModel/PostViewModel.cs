@@ -13,7 +13,8 @@ namespace Core.ViewModel
             Title = post.Title;
             Date = post.Date;
             Description = post.Description;
-            Image = post.Image;
+            var url = post.Image.StartsWith("//") ? "http:" : "https://www.warframe.com";
+            Image = url + post.Image;
             Url = post.Url;
             DisplayInBrowserCommand = new RelayCommand(DisplayInBrowser);
         }

@@ -19,12 +19,7 @@ namespace Core.Model
         public string Title { get; set; }
         public string Description { get; set; }
         public Uri Url { get; set; }
-        private string _image;
-        public string Image
-        {
-            get => _image;
-            set => _image = "https://www.warframe.com" + value;
-        }
+        public string Image { get; set; }
     }
 
     #endregion
