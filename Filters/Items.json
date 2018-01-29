@@ -1,12 +1,13 @@
 {
-  "Date": "13.01.2018",
-  "Version": 16,
+  "Date": "28.01.2018",
+  "Version": 18,
   "Items": [
     {
       "type": "Ресурсы",
       "enable": 1,
       "/Lotus/Types/Items/MiscItems/Salvage": "Вторсырье",
       "/Lotus/Types/Items/MiscItems/Gallium": "Галлий",
+      "/Lotus/Types/Items/MiscItems/Cryotic": "Криотик",
       "/Lotus/Types/Items/MiscItems/ArgonCrystal": "Кристалл аргона",
       "/Lotus/Types/Items/MiscItems/ControlModule": "Модуль контроля",
       "/Lotus/Types/Items/MiscItems/Morphic": "Морфиды",
@@ -18,13 +19,13 @@
       "/Lotus/Types/Items/MiscItems/Plastids": "Пластиды",
       "/Lotus/Types/Items/MiscItems/PolymerBundle": "Полимеры",
       "/Lotus/Types/Items/MiscItems/Rubedo": "Рубедо",
+      "/Lotus/Types/Items/MiscItems/Eventium": "Синтула",
       "/Lotus/Types/Items/MiscItems/AlloyPlate": "Сплавы",
       "/Lotus/Types/Items/MiscItems/Circuits": "Схемы",
       "/Lotus/Types/Items/MiscItems/Tellurium": "Теллуриум",
       "/Lotus/Types/Items/MiscItems/Ferrite": "Феррит",
       "/Lotus/Types/Items/MiscItems/Alertium": "Экстракт нитаина",
-      "/Lotus/Types/Items/MiscItems/OrokinCell": "Элемент питания орокин",
-      "/Lotus/Types/Items/MiscItems/Eventium": "Синтула"
+      "/Lotus/Types/Items/MiscItems/OrokinCell": "Элемент питания орокин"
     },
     {
       "type": "Шлема",
@@ -325,6 +326,7 @@
       "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/EarpieceBaroB": "Серьга: Ки'Тиир",
       "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/EarpieceBaroC": "Серьги: Ки'Тиир Атмос",
       "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/BaroMouthPieceA": "Ки'Тиир Атмос маска",
+      "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/BaroTiara": "Ки'Тиир Атмос диадема",
       "/Lotus/StoreItems/Upgrades/Skins/Pirate/HydroidAlternateSkin": "Скин Гидройда: Бессмертный",
       "/Lotus/StoreItems/Upgrades/Skins/Tengu/ZephyrAlternateSkin": "Скин Зефир: Бессмертный",
       "/Lotus/StoreItems/Upgrades/Skins/Scarves/BaroCape": "Ки'Тиир сандана",
