@@ -41,7 +41,7 @@ namespace Core.Model
 
         public class Item
         {
-            public Item(string id, string value, string type, bool enabled) { Value = value; Type = type; Enabled = enabled; }
+            public Item(string id, string value, string type, bool enabled) { Id = id; Value = value; Type = type; Enabled = enabled; }
             public string Id { get; }
             public string Value { get; private set; }
             public string Type { get; private set; }
