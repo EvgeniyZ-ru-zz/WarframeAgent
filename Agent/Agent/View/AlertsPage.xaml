@@ -66,12 +66,12 @@
                                                 ToolTip="Шарквинг миссия"
                                                 Foreground="{DynamicResource TextColor}"
                                                 Icon="SnowflakeOutline" FontSize="11" Margin="2,0,1,0" />
-                                            <fa:FontAwesome Visibility="{Binding MissionInfo.RewardVisibility}"
-                                                            ToolTip="{Binding MissionInfo.Reward}"
-                                                            Foreground="{Binding MissionInfo.RewardColor, TargetNullValue={StaticResource TextColor}}"
+                                            <fa:FontAwesome Visibility="{Binding MissionInfo.Reward.Visibility}"
+                                                            ToolTip="{Binding MissionInfo.Reward.FilteredName}"
+                                                            Foreground="{Binding MissionInfo.Reward.Color, TargetNullValue={StaticResource TextColor}}"
                                                             Icon="Diamond" FontSize="11" Margin="2,0,1,0" />
-                                            <fa:FontAwesome Visibility="{Binding MissionInfo.CreditVisibility}"
-                                                            ToolTip="{Binding MissionInfo.MissionReward.Credits}"
+                                            <fa:FontAwesome Visibility="{Binding MissionInfo.Reward.CreditVisibility}"
+                                                            ToolTip="{Binding MissionInfo.Reward.Credits}"
                                                             Foreground="{DynamicResource TextColor}"
                                                             Icon="CreditCard" FontSize="11" Margin="2,0,0,-1" />
                                         </StackPanel>
@@ -142,12 +142,12 @@
                                     ToolTip="Шарквинг миссия"
                                     Foreground="{DynamicResource TextColor}"
                                     Icon="SnowflakeOutline" FontSize="13" Margin="2,0,1,0" />
-                                <fa:FontAwesome Visibility="{Binding Alerts/MissionInfo.RewardVisibility}"
-                                                ToolTip="{Binding Alerts/MissionInfo.Reward}"
-                                                Foreground="{Binding Alerts/MissionInfo.RewardColor, TargetNullValue={StaticResource TextColor}}"
+                                <fa:FontAwesome Visibility="{Binding Alerts/MissionInfo.Reward.Visibility}"
+                                                ToolTip="{Binding Alerts/MissionInfo.Reward.FilteredName}"
+                                                Foreground="{Binding Alerts/MissionInfo.Reward.Color, TargetNullValue={StaticResource TextColor}}"
                                                 Icon="Diamond" FontSize="13" Margin="2,0,1,-1" />
-                                <fa:FontAwesome Visibility="{Binding Alerts/MissionInfo.CreditVisibility}"
-                                                ToolTip="{Binding Alerts/MissionInfo.MissionReward.Credits}"
+                                <fa:FontAwesome Visibility="{Binding Alerts/MissionInfo.Reward.CreditVisibility}"
+                                                ToolTip="{Binding Alerts/MissionInfo.Reward.Credits}"
                                                 Foreground="{DynamicResource TextColor}"
                                                 Icon="CreditCard" FontSize="13" Margin="2,0,0,-1" />
                             </StackPanel>

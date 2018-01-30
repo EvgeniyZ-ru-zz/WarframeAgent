@@ -251,9 +251,12 @@ namespace Core.Model
                     currentList.Remove(id);
                 }
             }
-            fireNew(newNotifications);
-            fireChanged?.Invoke(changedNotifications);
-            fireRemoved(removedNotifications);
+            if (newNotifications.Count > 0)
+                fireNew(newNotifications);
+            if (fireChanged != null && changedNotifications.Count > 0)
+                fireChanged(changedNotifications);
+            if (removedNotifications.Count > 0)
+                fireRemoved(removedNotifications);
         }
 
         private void NewsEvaluteList(NewsSnapshotModel snapshot) =>
@@ -316,9 +319,12 @@ namespace Core.Model
                 if (newNumber < oldNumber)
                     _currentBuilds.RemoveRange(newNumber, newNumber - oldNumber);
             }
-            FireNewBuildNotification(newNotifications);
-            FireChangedBuildNotification(changedNotifications);
-            FireRemovedBuildNotification(removedNotifications);
+            if (newNotifications.Count > 0)
+                FireNewBuildNotification(newNotifications);
+            if (changedNotifications.Count > 0)
+                FireChangedBuildNotification(changedNotifications);
+            if (removedNotifications.Count > 0)
+                FireRemovedBuildNotification(removedNotifications);
         }
 
         #region Эвенты

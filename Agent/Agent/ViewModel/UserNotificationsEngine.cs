@@ -18,31 +18,40 @@ namespace Agent.ViewModel
         public ObservableCollection<UserNotification> Notifications => notifications;
 
         HashSet<ExtendedItemViewModel> itemFilter = new HashSet<ExtendedItemViewModel>();
+        HashSet<string> itemKeys = new HashSet<string>(); // таких множеств нужно создать на каждый тип подписки
 
         public void OnSubscriptionChanged(ExtendedItemViewModel item)
         {
             if (item.IsNotificationEnabled)
+            {
                 itemFilter.Add(item);
+                itemKeys.Add(item.Original.Item.Id);
+            }
             else
+            {
                 itemFilter.Remove(item);
-            // TODO: добавить саму нотификацию!
+                itemKeys.Remove(item.Original.Item.Id);
+            }
         }
 
         private GameViewModel gameVM;
 
-        Dictionary<object, UserNotification> mapping = new Dictionary<object, UserNotification>();
+        Dictionary<object, UserNotification> sourceToNotificationMapping = new Dictionary<object, UserNotification>();
 
         public UserNotificationsEngine(GameViewModel gameVM)
         {
             this.gameVM = gameVM;
 
-            gameVM.Alerts.CollectionChanged += (o, e) => OnCollectionChanged(e, gameVM.Alerts, CreateNotification);
+            gameVM.Alerts.CollectionChanged += (o, e) => OnCollectionChanged(e, gameVM.Alerts, FilterAlert, CreateNotification);
             //gameVM.Invasions.CollectionChanged += (o, e) => OnCollectionChanged(e, gameVM.Invasions, CreateNotification);
         }
+
+        bool FilterAlert(AlertViewModel alertVM) => itemKeys.Contains(alertVM.MissionInfo.Reward.Key);
 
         void OnCollectionChanged<ItemVM>(
             NotifyCollectionChangedEventArgs e,
             ObservableCollection<ItemVM> allItems,
+            Func<ItemVM, bool> filter,
             Func<ItemVM, UserNotification> createNotification)
         {
             if (e.Action == NotifyCollectionChangedAction.Move)
@@ -50,7 +59,7 @@ namespace Agent.ViewModel
 
             IEnumerable<ItemVM> removedItems;
             if (e.Action == NotifyCollectionChangedAction.Reset)
-                removedItems = mapping.Keys.OfType<ItemVM>();
+                removedItems = sourceToNotificationMapping.Keys.OfType<ItemVM>();
             else
                 removedItems = e.OldItems?.Cast<ItemVM>();
 
@@ -70,16 +79,19 @@ namespace Agent.ViewModel
                 var notificationsToAdd = new List<UserNotification>();
                 foreach (var i in addedItems)
                 {
-                    if (mapping.ContainsKey(i))
+                    if (!filter(i))
+                        continue;
+                    if (sourceToNotificationMapping.ContainsKey(i))
                         continue;
                     actuallyAdded.Add(i);
                     var notification = createNotification(i);
-                    mapping.Add(i, notification);
+                    sourceToNotificationMapping.Add(i, notification);
                     Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: добавляю нотификацию \"{notification}\"!");
                     notificationsToAdd.Add(notification);
                 }
                 Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: группа добавлена");
-                notifications.AddRange(notificationsToAdd);
+                if (notificationsToAdd.Count > 0)
+                    notifications.AddRange(notificationsToAdd);
             }
 
             if (actuallyAdded.Count > 0)
@@ -92,9 +104,9 @@ namespace Agent.ViewModel
             var notificationsToRemove = new List<UserNotification>();
             foreach (var i in items)
             {
-                if (!mapping.TryGetValue(i, out var notification))
+                if (!sourceToNotificationMapping.TryGetValue(i, out var notification))
                     continue;
-                mapping.Remove(i);
+                sourceToNotificationMapping.Remove(i);
                 notificationsToRemove.Add(notification);
                 Tools.Logging.Send(LogLevel.Info, $"Управление нотификациями: удаляю нотификацию \"{notification}\"!");
             }
