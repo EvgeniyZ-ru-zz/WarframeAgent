@@ -12,14 +12,16 @@
              FontFamily="/Agent;component/Resources/Fonts/Lato/#Lato">
     <UserControl.Resources>
         <converters:AllCapsConverter x:Key="AllCaps"/>
+        <converters:DictionaryIndexerConverter x:Key="Indexer"/>
+        <CollectionViewSource x:Key="Targets" Source="{x:Static vm:NotificationTargetDescriptions.All}" />
     </UserControl.Resources>
 
     <viewc:HomePanel Text="Настройка уведомлений" Color="{DynamicResource SettingsLineColor}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
 
             <Border Grid.Row="0"
@@ -27,8 +29,36 @@
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Center"
                     CornerRadius="3,3,0,0"
+                    BorderThickness="0">
+                <ListBox Margin="2,1"
+                         ItemsSource="{Binding Source={StaticResource Targets}}"
+                         Style="{StaticResource MainList}"
+                         ItemContainerStyle="{StaticResource UListItem}" 
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         SelectedIndex="0"
+                         IsSynchronizedWithCurrentItem="True" >
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name, Converter={StaticResource AllCaps}}"
+                                       Background="{Binding Color}"
+                                       Padding="5,1"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+
+            <Border Grid.Row="1"
+                    Margin="0,5,0,-1"
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Center"
+                    CornerRadius="3,3,0,0"
                     BorderThickness="0"
-                    Background="{DynamicResource SettingsLineColor}">
+                    Background="{Binding /Color, Source={StaticResource Targets}, FallbackValue=Black}">
                 <ListBox Margin="2,1"
                          ItemsSource="{Binding Groups}"
                          Style="{StaticResource MainList}"
@@ -48,8 +78,7 @@
                 </ListBox>
             </Border>
 
-
-            <ListBox Grid.Row="1"
+            <ListBox Grid.Row="2"
                      BorderBrush="{DynamicResource SettingsLineColor}"
                      BorderThickness="0,1,0,0"
                      ItemsSource="{Binding Groups/Items}"
@@ -59,9 +88,16 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Background="Transparent">
                             <StackPanel.InputBindings>
-                                <MouseBinding Gesture="LeftClick" Command="{Binding ToggleNotification}"/>
+                                <MouseBinding Gesture="LeftClick" Command="{Binding ToggleNotification}" CommandParameter="{Binding /Target, Source={StaticResource Targets}}"/>
                             </StackPanel.InputBindings>
-                            <CheckBox IsChecked="{Binding IsNotificationEnabled}" Style="{StaticResource VShapeCheckbox}"/>
+                            <CheckBox Style="{StaticResource VShapeCheckbox}" IsChecked="{Binding Tag.NotificationEnabled, RelativeSource={RelativeSource Self}}">
+                                <CheckBox.Tag>
+                                    <MultiBinding Converter="{StaticResource Indexer}">
+                                        <Binding Path="NotificationState"/>
+                                        <Binding Source="{StaticResource Targets}" Path="/Target"/>
+                                    </MultiBinding>
+                                </CheckBox.Tag>
+                            </CheckBox>
                             <Border Margin="0,0,4,0" BorderThickness="1,0,0,0" BorderBrush="{DynamicResource SettingsLineColor}" />
                             <TextBlock VerticalAlignment="Center" Text="{Binding Original.Value, Converter={StaticResource AllCaps}}"/>
                             <TextBlock VerticalAlignment="Center" Opacity=".8" Margin="5,0" Text="{Binding Original.Enabled, Converter={StaticResource AllCaps}}" FontSize="11"/>

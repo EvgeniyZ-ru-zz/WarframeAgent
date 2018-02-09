@@ -129,6 +129,7 @@
     <Compile Include="ViewModel\ItemGroupViewModel.cs" />
     <Compile Include="ViewModel\ItemsEngine.cs" />
     <Compile Include="ViewModel\ItemsViewModel.cs" />
+    <Compile Include="ViewModel\NotificationTarget.cs" />
     <Compile Include="ViewModel\Util\BatchedObservableCollection.cs" />
     <Compile Include="ViewModel\UserNotification.cs" />
     <Compile Include="ViewModel\UserNotificationsEngine.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="View\Converters\NullConverters.cs" />
     <Compile Include="View\Converters\CountToInvisibleConverter.cs" />
     <Compile Include="View\Converters\NumericConverters.cs" />
+    <Compile Include="View\Converters\DictionaryIndexerConverter.cs" />
     <Compile Include="View\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>

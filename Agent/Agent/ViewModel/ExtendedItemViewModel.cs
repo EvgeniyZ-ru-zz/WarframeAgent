@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Input;
 using Core.ViewModel;
 
@@ -7,27 +9,30 @@ namespace Agent.ViewModel
     public class ExtendedItemViewModel : VM
     {
         internal ExtendedItemViewModel(
-            ItemViewModel item, bool isNotificationEnabled, Action<ExtendedItemViewModel> notificationEnabledCallback)
+            ItemViewModel item, IReadOnlyDictionary<NotificationTarget, SubscriptionState> notificationState)
         {
             Original = item;
-            this.isNotificationEnabled = isNotificationEnabled;
-            this.notificationEnabledCallback = notificationEnabledCallback;
-            ToggleNotification = new RelayCommand(() => IsNotificationEnabled = !IsNotificationEnabled);
+            NotificationState = notificationState;
+            ToggleNotification = new RelayCommand<NotificationTarget>(target =>
+                { var state = NotificationState[target]; state.NotificationEnabled = !state.NotificationEnabled; });
         }
 
         public ItemViewModel Original { get; }
 
-        readonly Action<ExtendedItemViewModel> notificationEnabledCallback;
-
-        bool isNotificationEnabled;
-        public bool IsNotificationEnabled
-        {
-            get => isNotificationEnabled;
-            set { if (Set(ref isNotificationEnabled, value)) notificationEnabledCallback(this); }
-        }
-
+        public IReadOnlyDictionary<NotificationTarget, SubscriptionState> NotificationState { get; }
         public ICommand ToggleNotification { get; }
 
         public void Update() => Original.Update();
+    }
+
+    // нам нужна обёртка на bool, чтобы не требовалось двустронней мультипривязки
+    public class SubscriptionState : VM
+    {
+        bool notificationEnabled;
+        public bool NotificationEnabled
+        {
+            get => notificationEnabled;
+            set => Set(ref notificationEnabled, value);
+        }
     }
 }

@@ -85,6 +85,7 @@
     <Compile Include="ViewModel\EarthTimeViewModel.cs" />
     <Compile Include="ViewModel\FactionsEngine.cs" />
     <Compile Include="ViewModel\IUpdatable.cs" />
+    <Compile Include="ViewModel\InvasionRewardViewModel.cs" />
     <Compile Include="ViewModel\MissionRewardViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\VoidItemViewModel.cs" />

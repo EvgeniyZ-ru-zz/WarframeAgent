@@ -17,7 +17,7 @@ namespace Agent.ViewModel
         public ItemsEngine(UserNotificationsEngine notificationEngine, FiltersEvent filtersEvent) : base(filtersEvent) =>
             OnSubscriptionChanged = notificationEngine.OnSubscriptionChanged;
 
-        private Action<ExtendedItemViewModel> OnSubscriptionChanged;
+        private Action<ExtendedItemViewModel, NotificationTarget> OnSubscriptionChanged;
 
         protected override ItemGroupViewModel CreateItem(Core.Model.Filter.Item item, FiltersEvent evt) => throw new NotSupportedException();
         protected override IEnumerable<Core.Model.Filter.Item> GetItemsFromModel(GameModel model) => model.GetCurrentItems();
@@ -50,8 +50,17 @@ namespace Agent.ViewModel
         ExtendedItemViewModel CreateItemExt(Core.Model.Filter.Item item)
         {
             var itemVM = new ItemViewModel(item);
-            var needNotification = false; // TODO: serialize it!
-            var extVM = new ExtendedItemViewModel(itemVM, needNotification, OnSubscriptionChanged);
+            var notificationState = new Dictionary<NotificationTarget, SubscriptionState>() // TODO: serialize it!
+            {
+                [NotificationTarget.Alert] = new SubscriptionState(),
+                [NotificationTarget.Invasion] = new SubscriptionState()
+            };
+
+            var extVM = new ExtendedItemViewModel(itemVM, notificationState);
+
+            foreach (var (target, state) in notificationState)
+                state.PropertyChanged += (o, args) => OnSubscriptionChanged(extVM, target);
+
             return extVM;
         }
 
