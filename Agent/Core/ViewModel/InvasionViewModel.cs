@@ -18,26 +18,18 @@ namespace Core.ViewModel
             Faction = FactionViewModel.ById(invasion.Faction);
             Sector = SectorViewModel.FromSector(invasion.Node);
             LocTag = Model.Filters.ExpandMission(invasion.LocTag)?.Name ?? invasion.LocTag;
-            ConvertAndSetReward();
+            DefenderReward = new InvasionRewardViewModel(invasion.DefenderReward, filtersEvent);
+            AttackerReward = new InvasionRewardViewModel(invasion.AttackerReward, filtersEvent);
             Update();
-            ItemsUpdatedWeakEventManager.AddHandler(filtersEvent, OnItemsFilterUpdated);
             SectorsUpdatedWeakEventManager.AddHandler(filtersEvent, OnSectorsFilterUpdated);
             MissionsUpdatedWeakEventManager.AddHandler(filtersEvent, OnMissionsFilterUpdated);
         }
-
-        void OnItemsFilterUpdated(object sender, EventArgs args) => ConvertAndSetReward();
 
         private void OnSectorsFilterUpdated(object sender, EventArgs eventArgs) =>
             Sector = SectorViewModel.FromSector(invasion.Node);
 
         private void OnMissionsFilterUpdated(object sender, EventArgs eventArgs) =>
             LocTag = Model.Filters.ExpandMission(invasion.LocTag)?.Name ?? invasion.LocTag;
-
-        void ConvertAndSetReward()
-        {
-            (DefenderReward, DefenderRewardCount) = GetRewardString(invasion.DefenderReward);
-            (AttackerReward, AttackerRewardCount) = GetRewardString(invasion.AttackerReward);
-        }
 
         public void Update()
         {
@@ -57,11 +49,8 @@ namespace Core.ViewModel
         public FactionViewModel DefenderFaction { get; }
         public FactionViewModel AttackerFaction { get; }
 
-        string defenderReward, attackerReward, attackerRewardCount, defenderRewardCount;
-        public string DefenderReward { get => defenderReward; private set => Set(ref defenderReward, value); }
-        public string DefenderRewardCount { get => defenderRewardCount; private set => Set(ref defenderRewardCount, value); }
-        public string AttackerReward { get => attackerReward; private set => Set(ref attackerReward, value); }
-        public string AttackerRewardCount { get => attackerRewardCount; private set => Set(ref attackerRewardCount, value); }
+        public InvasionRewardViewModel DefenderReward { get; }
+        public InvasionRewardViewModel AttackerReward { get; }
 
         private readonly bool isDefenderFactionInfestation;
 
@@ -77,19 +66,6 @@ namespace Core.ViewModel
         {
             get => _goal;
             private set => Set(ref _goal, value);
-        }
-
-        static (string value, string count) GetRewardString(InvasionReward reward)
-        {
-            var item0 = reward?.CountedItems[0];
-            var item0Type = item0?.ItemType;
-            var itemCount = "";
-            var expandedReward = Model.Filters.ExpandItem(item0Type)?.Value ?? item0Type;
-            var count = item0?.ItemCount;
-            if (count > 1)
-                itemCount = $"[{count}]";
-
-            return (value: string.IsNullOrEmpty(expandedReward) ? "Недоступно" : expandedReward, count: itemCount);
         }
 
         void UpdatePercent()

@@ -8,6 +8,7 @@
              d:DesignHeight="37" d:DesignWidth="300">
     <UserControl.Resources>
         <converters:AllCapsConverter x:Key="AllCaps" />
+        <converters:VisibleIfAtLeastConverter LowerBound="2" x:Key="VisibleIfAtLeast2"/>
     </UserControl.Resources>
     
     <Grid Height="33" Margin="0,2">
@@ -105,9 +106,9 @@
                     <ToolTipService.ToolTip>
                         <TextBlock>
                             <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0} {1}">
-                                    <Binding Path="AttackerReward" />
-                                    <Binding Path="AttackerRewardCount" />
+                                <MultiBinding StringFormat="{}{0} [{1}]">
+                                    <Binding Path="AttackerReward.FilteredName" />
+                                    <Binding Path="AttackerReward.Count" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
@@ -120,13 +121,14 @@
                     <TextBlock Grid.Column="0" Foreground="{DynamicResource TextColor}"
                                FontSize="12" Margin="0,0,1,0"
                                TextTrimming="CharacterEllipsis"
-                               Text="{Binding AttackerRewardCount, FallbackValue=[1]}"/>
+                               Text="{Binding AttackerReward.Count, StringFormat=[{0}]}"
+                               Visibility="{Binding AttackerReward.Count, Converter={StaticResource VisibleIfAtLeast2}}"/>
 
                     <TextBlock Grid.Column="1" Foreground="{DynamicResource TextColor}"
                                FontSize="11"
                                Margin="0,2,0,0"
                                TextTrimming="CharacterEllipsis"
-                               Text="{Binding AttackerReward, Converter={StaticResource AllCaps}, FallbackValue=ATK_REWARD}"/>
+                               Text="{Binding AttackerReward.FilteredName, Converter={StaticResource AllCaps}, FallbackValue=ATK_REWARD}"/>
                 </Grid>
                 <!-- -Левая награда -->
                 
@@ -137,9 +139,9 @@
                     <ToolTipService.ToolTip>
                         <TextBlock>
                             <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0} {1}">
-                                    <Binding Path="DefenderReward" />
-                                    <Binding Path="DefenderRewardCount" />
+                                <MultiBinding StringFormat="{}{0} [{1}]">
+                                    <Binding Path="DefenderReward.FilteredName" />
+                                    <Binding Path="DefenderReward.Count" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
@@ -152,13 +154,14 @@
                     <TextBlock Grid.Column="1" Foreground="{DynamicResource TextColor}"
                                FontSize="12" Margin="1,0,0,0"
                                TextTrimming="CharacterEllipsis"
-                               Text="{Binding DefenderRewardCount, FallbackValue=[1]}" />
+                               Text="{Binding DefenderReward.Count, StringFormat=[{0}]}"
+                               Visibility="{Binding DefenderReward.Count, Converter={StaticResource VisibleIfAtLeast2}}"/>
 
                     <TextBlock Grid.Column="0" Foreground="{DynamicResource TextColor}"
                                FontSize="11"
                                Margin="0,2,0,0"
                                TextTrimming="CharacterEllipsis"
-                               Text="{Binding DefenderReward, Converter={StaticResource AllCaps}, FallbackValue=DEF_REWARD}" />
+                               Text="{Binding DefenderReward.FilteredName, Converter={StaticResource AllCaps}, FallbackValue=DEF_REWARD}" />
                 </Grid>
                 <!-- -Правая награда -->
                 

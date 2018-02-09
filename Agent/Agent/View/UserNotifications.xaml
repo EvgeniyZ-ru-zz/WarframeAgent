@@ -68,6 +68,11 @@
                             <Run Text="Новая тревога на планете "/><Run Text="{Binding Alert.MissionInfo.Sector.Planet, Mode=OneWay}"/><Run Text=" ("/><Run Text="{Binding Alert.MissionInfo.Sector.Location, Mode=OneWay}"/><Run Text=")"/>
                         </TextBlock>
                     </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:InvasionUserNotification}">
+                        <TextBlock Style="{StaticResource MessageDisplayStyle}">
+                            <Run Text="Новое вторжение на планете "/><Run Text="{Binding Invasion.Sector.Planet, Mode=OneWay}"/><Run Text=" ("/><Run Text="{Binding Invasion.Sector.Location, Mode=OneWay}"/><Run Text=")"/>
+                        </TextBlock>
+                    </DataTemplate>
                     <DataTemplate DataType="{x:Type view:CollectedNotification}">
                         <TextBlock Style="{StaticResource MessageDisplayStyle}" Text="{Binding Text}"/>
                     </DataTemplate>

@@ -18,11 +18,28 @@ namespace Agent.ViewModel
         public ObservableCollection<UserNotification> Notifications => notifications;
 
         HashSet<ExtendedItemViewModel> itemFilter = new HashSet<ExtendedItemViewModel>();
-        HashSet<string> itemKeys = new HashSet<string>(); // таких множеств нужно создать на каждый тип подписки
+        HashSet<string> alertItemKeys = new HashSet<string>();
+        HashSet<string> invasionItemKeys = new HashSet<string>();
 
-        public void OnSubscriptionChanged(ExtendedItemViewModel item)
+        public void OnSubscriptionChanged(ExtendedItemViewModel item, NotificationTarget target)
         {
-            if (item.IsNotificationEnabled)
+            bool newState = item.NotificationState[target].NotificationEnabled;
+            switch (target)
+            {
+            case NotificationTarget.Alert:
+                OnGenericSubscriptionChanged(item, alertItemKeys, newState);
+                break;
+            case NotificationTarget.Invasion:
+                OnGenericSubscriptionChanged(item, invasionItemKeys, newState);
+                break;
+            default:
+                throw new NotImplementedException();
+            }
+        }
+
+        void OnGenericSubscriptionChanged(ExtendedItemViewModel item, HashSet<string> itemKeys, bool newState)
+        {
+            if (newState)
             {
                 itemFilter.Add(item);
                 itemKeys.Add(item.Original.Item.Id);
@@ -43,10 +60,12 @@ namespace Agent.ViewModel
             this.gameVM = gameVM;
 
             gameVM.Alerts.CollectionChanged += (o, e) => OnCollectionChanged(e, gameVM.Alerts, FilterAlert, CreateNotification);
-            //gameVM.Invasions.CollectionChanged += (o, e) => OnCollectionChanged(e, gameVM.Invasions, CreateNotification);
+            gameVM.Invasions.CollectionChanged += (o, e) => OnCollectionChanged(e, gameVM.Invasions, FilterInvasion, CreateNotification);
         }
 
-        bool FilterAlert(AlertViewModel alertVM) => itemKeys.Contains(alertVM.MissionInfo.Reward.Key);
+        bool FilterAlert(AlertViewModel alertVM) => alertItemKeys.Contains(alertVM.MissionInfo.Reward.Key);
+        bool FilterInvasion(InvasionViewModel invasionVM) => invasionItemKeys.Contains(invasionVM.DefenderReward.Key) ||
+                                                             invasionItemKeys.Contains(invasionVM.AttackerReward.Key);
 
         void OnCollectionChanged<ItemVM>(
             NotifyCollectionChangedEventArgs e,
@@ -120,9 +139,7 @@ namespace Agent.ViewModel
             RemoveAllItems(items);
         }
 
-        UserNotification CreateNotification(AlertViewModel i)
-        {
-            return new AlertUserNotification(i);
-        }
+        UserNotification CreateNotification(AlertViewModel i) => new AlertUserNotification(i);
+        UserNotification CreateNotification(InvasionViewModel i) => new InvasionUserNotification(i);
     }
 }
