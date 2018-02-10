@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Agent.ViewModel.Util;
 using Core;
+using Core.Model.Filter;
 using Core.ViewModel;
 using NLog;
 
@@ -34,6 +35,32 @@ namespace Agent.ViewModel
                 break;
             default:
                 throw new NotImplementedException();
+            }
+
+            UpdateSettings(item.Original.Item.Id, target, newState);
+        }
+
+        void UpdateSettings(string id, NotificationTarget target, bool state)
+        {
+            var settingsById = Settings.Program.UserNotifications.ById;
+            string targetString = target.ToString();
+            if (state)
+            {
+                if (!settingsById.TryGetValue(id, out var values))
+                {
+                    values = new HashSet<string>();
+                    settingsById[id] = values;
+                }
+                values.Add(targetString);
+            }
+            else
+            {
+                if (settingsById.TryGetValue(id, out var values))
+                {
+                    values.Remove(targetString);
+                    if (values.Count == 0)
+                        settingsById.Remove(id);
+                }
             }
         }
 
@@ -115,6 +142,25 @@ namespace Agent.ViewModel
 
             if (actuallyAdded.Count > 0)
                 RemoveLater(actuallyAdded);
+        }
+
+        public Dictionary<NotificationTarget, SubscriptionState> GetNotificationState(Item item)
+        {
+            var id = item.Id;
+            var notificationState = new Dictionary<NotificationTarget, SubscriptionState>()
+            {
+                [NotificationTarget.Alert] = new SubscriptionState(),
+                [NotificationTarget.Invasion] = new SubscriptionState()
+            };
+            if (Settings.Program.UserNotifications.ById.TryGetValue(id, out var watchedValues))
+            {
+                foreach (var value in watchedValues)
+                {
+                    if (Enum.TryParse<NotificationTarget>(value, out var target) && notificationState.ContainsKey(target))
+                        notificationState[target].NotificationEnabled = true;
+                }
+            }
+            return notificationState;
         }
 
         void RemoveAllItems<ItemVM>(IEnumerable<ItemVM> items)

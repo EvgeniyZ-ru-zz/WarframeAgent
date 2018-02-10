@@ -16,12 +16,12 @@ namespace Agent.ViewModel
     class ItemsEngine : GenericEngineWithUpdates<ItemGroupViewModel, Core.Model.Filter.Item>
     {
         public ItemsEngine(UserNotificationsEngine notificationEngine, FiltersEvent filtersEvent) : base(filtersEvent) =>
-            OnSubscriptionChanged = notificationEngine.OnSubscriptionChanged;
+            this.notificationEngine = notificationEngine;
 
         BatchedObservableCollection<ItemGroupViewModel> enabledItems = new BatchedObservableCollection<ItemGroupViewModel>();
         public ObservableCollection<ItemGroupViewModel> EnabledItems => enabledItems;
 
-        private Action<ExtendedItemViewModel, NotificationTarget> OnSubscriptionChanged;
+        UserNotificationsEngine notificationEngine;
 
         protected override ItemGroupViewModel CreateItem(Core.Model.Filter.Item item, FiltersEvent evt) => throw new NotSupportedException();
         protected override IEnumerable<Core.Model.Filter.Item> GetItemsFromModel(GameModel model) => model.GetCurrentItems();
@@ -68,16 +68,11 @@ namespace Agent.ViewModel
         ExtendedItemViewModel CreateItemExt(Core.Model.Filter.Item item)
         {
             var itemVM = new ItemViewModel(item);
-            var notificationState = new Dictionary<NotificationTarget, SubscriptionState>() // TODO: serialize it!
-            {
-                [NotificationTarget.Alert] = new SubscriptionState(),
-                [NotificationTarget.Invasion] = new SubscriptionState()
-            };
-
+            var notificationState = notificationEngine.GetNotificationState(item);
             var extVM = new ExtendedItemViewModel(itemVM, notificationState);
 
             foreach (var (target, state) in notificationState)
-                state.PropertyChanged += (o, args) => OnSubscriptionChanged(extVM, target);
+                state.PropertyChanged += (o, args) => notificationEngine.OnSubscriptionChanged(extVM, target);
 
             return extVM;
         }
