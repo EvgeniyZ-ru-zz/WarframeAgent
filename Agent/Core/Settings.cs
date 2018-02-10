@@ -21,6 +21,7 @@ namespace Core
         public Directories Directories = new Directories();
         public Urls Urls = new Urls();
         public Filters Filters = new Filters();
+        public UserNotifications UserNotifications = new UserNotifications();
     }
 
     public class Directories
@@ -65,6 +66,12 @@ namespace Core
                 [Model.Filter.Type.Void]     = new Uri("https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Void.json"),
                 [Model.Filter.Type.Builds]   = new Uri("https://raw.githubusercontent.com/arrer/WarframeAgent/master/Filters/Builds.json")
             };
+    }
+
+    public class UserNotifications
+    {
+        [Newtonsoft.Json.JsonProperty(NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public Dictionary<string, HashSet<string>> ById { get; set; } = new Dictionary<string, HashSet<string>>();
     }
 
     #endregion
