@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 using Core;
 using Core.Model;
+using Core.Model.Filter;
 using Core.ViewModel;
 using Core.Events;
 
-using NLog;
-using Core.Model.Filter;
+using Agent.ViewModel.Util;
 
 namespace Agent.ViewModel
 {
@@ -16,6 +17,9 @@ namespace Agent.ViewModel
     {
         public ItemsEngine(UserNotificationsEngine notificationEngine, FiltersEvent filtersEvent) : base(filtersEvent) =>
             OnSubscriptionChanged = notificationEngine.OnSubscriptionChanged;
+
+        BatchedObservableCollection<ItemGroupViewModel> enabledItems = new BatchedObservableCollection<ItemGroupViewModel>();
+        public ObservableCollection<ItemGroupViewModel> EnabledItems => enabledItems;
 
         private Action<ExtendedItemViewModel, NotificationTarget> OnSubscriptionChanged;
 
@@ -30,6 +34,9 @@ namespace Agent.ViewModel
         }
 
         Dictionary<string, ItemGroupViewModel> groupVMs = new Dictionary<string, ItemGroupViewModel>();
+        Dictionary<string, ItemGroupViewModel> enabledGroupVMs = new Dictionary<string, ItemGroupViewModel>();
+
+        static bool EnabledFilter(ExtendedItemViewModel itemVM) => itemVM.Original.Enabled;
 
         protected override void AddEventImpl(IReadOnlyCollection<Core.Model.Filter.Item> newItems)
         {
@@ -44,6 +51,17 @@ namespace Agent.ViewModel
                     groupVMs[group.Key] = itemGroup;
                 }
                 itemGroup.AddRange(group);
+                var enabledGroup = group.Where(EnabledFilter).ToList();
+                if (enabledGroup.Count > 0)
+                {
+                    if (!enabledGroupVMs.TryGetValue(group.Key, out var enabledItemGroup))
+                    {
+                        enabledItemGroup = new ItemGroupViewModel(group.Key);
+                        EnabledItems.Add(enabledItemGroup);
+                        enabledGroupVMs[group.Key] = enabledItemGroup;
+                    }
+                    enabledItemGroup.AddRange(enabledGroup);
+                }
             }
         }
 
@@ -73,10 +91,14 @@ namespace Agent.ViewModel
                 if (itemVM != null)
                 {
                     var oldGroupKey = itemVM.Original.Type;
+                    var oldEnabledState = itemVM.Original.Enabled;
                     itemVM.Update();
                     // при обновлении могла поменяться группа
                     if (oldGroupKey != itemVM.Original.Type)
                         throw new NotImplementedException("Не реализована миграция предметов между группами");
+                    // при обновлении элемент мог «включиться»
+                    if (oldEnabledState != itemVM.Original.Enabled)
+                        throw new NotImplementedException("Не реализована обновление состояния отключённости"); // TODO: не бросать исключение, а просто залогировать?
                 }
             }
         }
@@ -88,6 +110,8 @@ namespace Agent.ViewModel
             {
                 if (groupVMs.TryGetValue(group.Key, out var itemGroup))
                     itemGroup.RemoveRangeByModel(group);
+                if (enabledGroupVMs.TryGetValue(group.Key, out var enabledItemGroup))
+                    enabledItemGroup.RemoveRangeByModel(group);
             }
 
             // подчистка пустых групп
@@ -97,6 +121,14 @@ namespace Agent.ViewModel
                     continue;
                 Items.Remove(groupVM);
                 groupVMs.Remove(key);
+            }
+
+            foreach (var (key, enabledGroupVM) in enabledGroupVMs.ToList())
+            {
+                if (enabledGroupVM.Items.Count != 0)
+                    continue;
+                EnabledItems.Remove(enabledGroupVM);
+                enabledGroupVMs.Remove(key);
             }
         }
 

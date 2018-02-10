@@ -56,6 +56,7 @@ namespace Agent.ViewModel
         public ObservableCollection<VoidItemViewModel> VoidTradeItems => VoidsEngine.Items;
         public ObservableCollection<DailyDealViewModel> DailyDeals => DailyDealsEngine.Items;
         public ObservableCollection<ItemGroupViewModel> ItemGroups => ItemsEngine.Items;
+        public ObservableCollection<ItemGroupViewModel> EnabledItemGroups => ItemsEngine.EnabledItems;
         public ObservableCollection<BuildViewModel> Builds => BuildsEngine.Items;
         public ObservableCollection<UserNotification> UserNotifications => UserNotificationsEngine.Notifications;
 
