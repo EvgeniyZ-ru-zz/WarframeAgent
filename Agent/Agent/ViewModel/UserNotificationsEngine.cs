@@ -62,6 +62,9 @@ namespace Agent.ViewModel
                         settingsById.Remove(id);
                 }
             }
+            // TODO: сделать сохранение настроек асинхронным
+            // и писать не каждый раз, а время от времени
+            Settings.Program.Save();
         }
 
         void OnGenericSubscriptionChanged(ExtendedItemViewModel item, HashSet<string> itemKeys, bool newState)
