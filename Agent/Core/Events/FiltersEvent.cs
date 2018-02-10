@@ -71,7 +71,15 @@ namespace Core.Events
             _cts.Cancel();
             _cts = null;
             if (_mainTask != null)
-                await _mainTask;
+            {
+                try
+                {
+                    await _mainTask;
+                }
+                catch (OperationCanceledException ex)
+                {
+                }
+            }
         }
 
         #pragma warning disable CS0649
