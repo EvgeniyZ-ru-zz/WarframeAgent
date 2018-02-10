@@ -15,7 +15,7 @@ namespace Agent.ViewModel
     {
         private GameViewModel GameView;
 
-        public ObservableCollection<ItemGroupViewModel> Groups => GameView.ItemGroups;
+        public ObservableCollection<ItemGroupViewModel> Groups => GameView.EnabledItemGroups;
 
         public ItemsViewModel(GameViewModel gameView)
         {
