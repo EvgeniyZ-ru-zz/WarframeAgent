@@ -37,7 +37,7 @@ namespace Agent.ViewModel
                 throw new NotImplementedException();
             }
 
-            UpdateSettings(item.Original.Item.Id, target, newState);
+            UpdateSettings(item.Item.Id, target, newState);
         }
 
         void UpdateSettings(string id, NotificationTarget target, bool state)
@@ -72,12 +72,12 @@ namespace Agent.ViewModel
             if (newState)
             {
                 itemFilter.Add(item);
-                itemKeys.Add(item.Original.Item.Id);
+                itemKeys.Add(item.Item.Id);
             }
             else
             {
                 itemFilter.Remove(item);
-                itemKeys.Remove(item.Original.Item.Id);
+                itemKeys.Remove(item.Item.Id);
             }
         }
 
@@ -147,9 +147,8 @@ namespace Agent.ViewModel
                 RemoveLater(actuallyAdded);
         }
 
-        public Dictionary<NotificationTarget, SubscriptionState> GetNotificationState(Item item)
+        public Dictionary<NotificationTarget, SubscriptionState> GetNotificationState(string id)
         {
-            var id = item.Id;
             var notificationState = new Dictionary<NotificationTarget, SubscriptionState>()
             {
                 [NotificationTarget.Alert] = new SubscriptionState(),

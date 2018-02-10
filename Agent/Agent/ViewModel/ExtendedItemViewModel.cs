@@ -6,23 +6,18 @@ using Core.ViewModel;
 
 namespace Agent.ViewModel
 {
-    public class ExtendedItemViewModel : VM
+    public class ExtendedItemViewModel : ItemViewModel
     {
         internal ExtendedItemViewModel(
-            ItemViewModel item, IReadOnlyDictionary<NotificationTarget, SubscriptionState> notificationState)
+            Core.Model.Filter.Item item, IReadOnlyDictionary<NotificationTarget, SubscriptionState> notificationState) : base(item)
         {
-            Original = item;
             NotificationState = notificationState;
             ToggleNotification = new RelayCommand<NotificationTarget>(target =>
                 { var state = NotificationState[target]; state.NotificationEnabled = !state.NotificationEnabled; });
         }
 
-        public ItemViewModel Original { get; }
-
         public IReadOnlyDictionary<NotificationTarget, SubscriptionState> NotificationState { get; }
         public ICommand ToggleNotification { get; }
-
-        public void Update() => Original.Update();
     }
 
     // нам нужна обёртка на bool, чтобы не требовалось двустронней мультипривязки

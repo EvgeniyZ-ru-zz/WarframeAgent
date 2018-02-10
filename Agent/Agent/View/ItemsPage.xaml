@@ -99,8 +99,8 @@
                                 </CheckBox.Tag>
                             </CheckBox>
                             <Border Margin="0,0,4,0" BorderThickness="1,0,0,0" BorderBrush="{DynamicResource SettingsLineColor}" />
-                            <TextBlock VerticalAlignment="Center" Text="{Binding Original.Value, Converter={StaticResource AllCaps}}"/>
-                            <TextBlock VerticalAlignment="Center" Opacity=".8" Margin="5,0" Text="{Binding Original.Enabled, Converter={StaticResource AllCaps}}" FontSize="11"/>
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Value, Converter={StaticResource AllCaps}}"/>
+                            <TextBlock VerticalAlignment="Center" Opacity=".8" Margin="5,0" Text="{Binding Enabled, Converter={StaticResource AllCaps}}" FontSize="11"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

@@ -36,13 +36,13 @@ namespace Agent.ViewModel
         Dictionary<string, ItemGroupViewModel> groupVMs = new Dictionary<string, ItemGroupViewModel>();
         Dictionary<string, ItemGroupViewModel> enabledGroupVMs = new Dictionary<string, ItemGroupViewModel>();
 
-        static bool EnabledFilter(ExtendedItemViewModel itemVM) => itemVM.Original.Enabled;
+        static bool EnabledFilter(ExtendedItemViewModel itemVM) => itemVM.Enabled;
 
         protected override void AddEventImpl(IReadOnlyCollection<Core.Model.Filter.Item> newItems)
         {
             LogAdded(newItems);
 
-            foreach (var group in newItems.Select(CreateItemExt).GroupBy(it => it.Original.Type))
+            foreach (var group in newItems.Select(CreateItemExt).GroupBy(it => it.Type))
             {
                 if (!groupVMs.TryGetValue(group.Key, out var itemGroup))
                 {
@@ -67,14 +67,13 @@ namespace Agent.ViewModel
 
         ExtendedItemViewModel CreateItemExt(Core.Model.Filter.Item item)
         {
-            var itemVM = new ItemViewModel(item);
-            var notificationState = notificationEngine.GetNotificationState(item);
-            var extVM = new ExtendedItemViewModel(itemVM, notificationState);
+            var notificationState = notificationEngine.GetNotificationState(item.Id);
+            var itemVM = new ExtendedItemViewModel(item, notificationState);
 
             foreach (var (target, state) in notificationState)
-                state.PropertyChanged += (o, args) => notificationEngine.OnSubscriptionChanged(extVM, target);
+                state.PropertyChanged += (o, args) => notificationEngine.OnSubscriptionChanged(itemVM, target);
 
-            return extVM;
+            return itemVM;
         }
 
         protected override void ChangeEventImpl(IReadOnlyCollection<Item> changedItems)
@@ -85,14 +84,14 @@ namespace Agent.ViewModel
                 var itemVM = TryGetItemByModelExt(item);
                 if (itemVM != null)
                 {
-                    var oldGroupKey = itemVM.Original.Type;
-                    var oldEnabledState = itemVM.Original.Enabled;
+                    var oldGroupKey = itemVM.Type;
+                    var oldEnabledState = itemVM.Enabled;
                     itemVM.Update();
                     // при обновлении могла поменяться группа
-                    if (oldGroupKey != itemVM.Original.Type)
+                    if (oldGroupKey != itemVM.Type)
                         throw new NotImplementedException("Не реализована миграция предметов между группами");
                     // при обновлении элемент мог «включиться»
-                    if (oldEnabledState != itemVM.Original.Enabled)
+                    if (oldEnabledState != itemVM.Enabled)
                         throw new NotImplementedException("Не реализована обновление состояния отключённости"); // TODO: не бросать исключение, а просто залогировать?
                 }
             }

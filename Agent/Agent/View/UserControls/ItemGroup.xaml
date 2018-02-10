@@ -63,7 +63,7 @@
                         <DataTemplate DataType="{x:Type vm:ExtendedItemViewModel}">
                             <DockPanel>
                                 <CheckBox IsChecked="{Binding IsNotificationEnabled}" DockPanel.Dock="Right"/>
-                                <TextBlock Text="{Binding Original.Value}" DockPanel.Dock="Left"/>
+                                <TextBlock Text="{Binding Value}" DockPanel.Dock="Left"/>
                             </DockPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
