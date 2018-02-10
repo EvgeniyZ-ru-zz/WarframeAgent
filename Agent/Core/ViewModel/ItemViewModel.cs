@@ -30,6 +30,14 @@ namespace Core.ViewModel
             set => Set(ref _type, value);
         }
 
-        public void Update() => (Value, Type) = (Item.Value, Item.Type);
+        private bool _enabled;
+        public bool Enabled
+        {
+            get => _enabled;
+            set => Set(ref _enabled, value);
+        }
+
+        public void Update() =>
+            (Value, Type, Enabled) = (Item.Value, Item.Type, Item.Enabled);
     }
 }
