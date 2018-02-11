@@ -22,7 +22,7 @@ namespace Agent.ViewModel
 
             NewsEngine = new NewsEngine();
             AlertsEngine = new AlertsEngine(filtersEvent, ItemsEngine);
-            InvasionsEngine = new InvasionsEngine(filtersEvent);
+            InvasionsEngine = new InvasionsEngine(filtersEvent, ItemsEngine);
             VoidsEngine = new VoidsEngine(filtersEvent);
             DailyDealsEngine = new DailyDealsEngine(filtersEvent);
             BuildsEngine = new BuildsEngine();

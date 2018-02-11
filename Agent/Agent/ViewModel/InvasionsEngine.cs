@@ -12,9 +12,14 @@ namespace Agent.ViewModel
 {
     class InvasionsEngine : GenericEngineWithUpdates<InvasionViewModel, Invasion>
     {
-        public InvasionsEngine(FiltersEvent filtersEvent) : base(filtersEvent) { }
+        readonly IItemStore itemStore;
 
-        protected override InvasionViewModel CreateItem(Invasion item, FiltersEvent evt) => new InvasionViewModel(item, evt);
+        public InvasionsEngine(FiltersEvent filtersEvent, IItemStore itemStore) : base(filtersEvent)
+        {
+            this.itemStore = itemStore;
+        }
+
+        protected override InvasionViewModel CreateItem(Invasion item, FiltersEvent evt) => new InvasionViewModel(item, evt, itemStore);
         protected override IEnumerable<Invasion> GetItemsFromModel(GameModel model) => model.GetCurrentInvasions();
 
         protected override void Subscribe(GameModel model)

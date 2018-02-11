@@ -94,8 +94,8 @@ namespace Agent.ViewModel
         }
 
         bool FilterAlert(AlertViewModel alertVM) => alertItemKeys.Contains(alertVM.MissionInfo.Reward.Item?.Id);
-        bool FilterInvasion(InvasionViewModel invasionVM) => invasionItemKeys.Contains(invasionVM.DefenderReward.Key) ||
-                                                             invasionItemKeys.Contains(invasionVM.AttackerReward.Key);
+        bool FilterInvasion(InvasionViewModel invasionVM) => invasionItemKeys.Contains(invasionVM.DefenderReward.Item?.Id) ||
+                                                             invasionItemKeys.Contains(invasionVM.AttackerReward.Item?.Id);
 
         void OnCollectionChanged<ItemVM>(
             NotifyCollectionChangedEventArgs e,
