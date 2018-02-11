@@ -16,6 +16,14 @@ namespace Agent.ViewModel
                 { var state = NotificationState[target]; state.NotificationEnabled = !state.NotificationEnabled; });
         }
 
+        internal ExtendedItemViewModel(
+            string id, IReadOnlyDictionary<NotificationTarget, SubscriptionState> notificationState) : base(id)
+        {
+            NotificationState = notificationState;
+            ToggleNotification = new RelayCommand<NotificationTarget>(target =>
+                { var state = NotificationState[target]; state.NotificationEnabled = !state.NotificationEnabled; });
+        }
+
         public IReadOnlyDictionary<NotificationTarget, SubscriptionState> NotificationState { get; }
         public ICommand ToggleNotification { get; }
     }

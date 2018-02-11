@@ -23,9 +23,9 @@ namespace Core.ViewModel
         public string ModeToolTip { get; }
         public MissionRewardViewModel Reward { get; }
 
-        public MissionViewModel(MissionInfo missionInfo, FiltersEvent filtersEvent)
+        public MissionViewModel(MissionInfo missionInfo, FiltersEvent filtersEvent, IItemStore itemStore)
         {
-            Reward = new MissionRewardViewModel(missionInfo.MissionReward, filtersEvent);
+            Reward = new MissionRewardViewModel(missionInfo.MissionReward, itemStore);
             Faction = FactionViewModel.ById(missionInfo.Faction);
             Sector = SectorViewModel.FromSector(missionInfo.Location);
             MissionType = Model.Filters.ExpandMission(missionInfo.MissionType)?.Name ?? missionInfo.MissionType;

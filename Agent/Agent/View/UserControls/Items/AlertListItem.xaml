@@ -7,7 +7,8 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:viewModel="clr-namespace:Core.ViewModel;assembly=Core"
              mc:Ignorable="d" 
-             d:DesignHeight="37" d:DesignWidth="300" >
+             d:DesignHeight="37" d:DesignWidth="300" 
+             d:DataContext="{d:DesignInstance viewModel:AlertViewModel}">
     <UserControl.Resources>
         <viewModel:TimeNowViewModel x:Key="TimeVM" />
         <converters:AllCapsConverter x:Key="AllCaps" />
@@ -21,6 +22,18 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
+
+        <Border Grid.ColumnSpan="3" Tag="{Binding MissionInfo.Reward.Item.NotificationState[Alert].NotificationEnabled}">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MissionInfo.Reward.Item.NotificationState[Alert].NotificationEnabled}" Value="True">
+                            <Setter Property="Background" Value="Gray"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
 
         <!-- +Уровень -->
         <Border Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="{Binding StatusColor, FallbackValue=Red, TargetNullValue=Red}" Padding="4,0" Margin="0,2">
@@ -117,8 +130,8 @@
                     Margin="2,0,1,0" />
                 <fa:FontAwesome 
                     Visibility="{Binding MissionInfo.Reward.Visibility}"
-                    ToolTip="{Binding MissionInfo.Reward.FilteredName}"
-                    Foreground="{Binding MissionInfo.Reward.Color, TargetNullValue={StaticResource TextColor}}"
+                    ToolTip="{Binding MissionInfo.Reward.Item.Value}"
+                    Foreground="{Binding MissionInfo.Reward.Item.RewardColor, TargetNullValue={StaticResource TextColor}}"
                     Icon="Diamond" 
                     FontSize="10"
                     Margin="2,0,1,0" />

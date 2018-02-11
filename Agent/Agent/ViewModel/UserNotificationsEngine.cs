@@ -93,7 +93,7 @@ namespace Agent.ViewModel
             gameVM.Invasions.CollectionChanged += (o, e) => OnCollectionChanged(e, gameVM.Invasions, FilterInvasion, CreateNotification);
         }
 
-        bool FilterAlert(AlertViewModel alertVM) => alertItemKeys.Contains(alertVM.MissionInfo.Reward.Key);
+        bool FilterAlert(AlertViewModel alertVM) => alertItemKeys.Contains(alertVM.MissionInfo.Reward.Item?.Id);
         bool FilterInvasion(InvasionViewModel invasionVM) => invasionItemKeys.Contains(invasionVM.DefenderReward.Key) ||
                                                              invasionItemKeys.Contains(invasionVM.AttackerReward.Key);
 

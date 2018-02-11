@@ -8,13 +8,13 @@ namespace Core.ViewModel
 {
     public class AlertViewModel : VM
     {
-        public AlertViewModel(Alert alert, FiltersEvent filtersEvent)
+        public AlertViewModel(Alert alert, FiltersEvent filtersEvent, IItemStore itemStore)
         {
             Id = alert.Id;
             Activation = Tools.Time.ToDateTime(alert.Activation.Date.NumberLong);
             PreActivation = Activation.AddMinutes(-5);
             Expiry = Tools.Time.ToDateTime(alert.Expiry.Date.NumberLong);
-            MissionInfo = new MissionViewModel(alert.MissionInfo, filtersEvent);
+            MissionInfo = new MissionViewModel(alert.MissionInfo, filtersEvent, itemStore);
         }
 
         public Id Id { get; }
