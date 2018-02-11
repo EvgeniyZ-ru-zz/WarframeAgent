@@ -12,7 +12,7 @@ namespace Agent.ViewModel
 {
     class AlertsEngine : GenericSimpleEngine<AlertViewModel, Alert>
     {
-        IItemStore itemStore;
+        readonly IItemStore itemStore;
 
         public AlertsEngine(FiltersEvent filtersEvent, IItemStore itemStore) : base(filtersEvent)
         {

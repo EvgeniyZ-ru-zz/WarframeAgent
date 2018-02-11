@@ -23,7 +23,8 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Border Grid.ColumnSpan="3" Tag="{Binding MissionInfo.Reward.Item.NotificationState[Alert].NotificationEnabled}">
+        <!-- +Подсветка для наблюдаемых предметов -->
+        <Border Grid.ColumnSpan="3">
             <Border.Style>
                 <Style TargetType="Border">
                     <Style.Triggers>
@@ -34,6 +35,7 @@
                 </Style>
             </Border.Style>
         </Border>
+        <!-- -Подсветка для наблюдаемых предметов -->
 
         <!-- +Уровень -->
         <Border Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="{Binding StatusColor, FallbackValue=Red, TargetNullValue=Red}" Padding="4,0" Margin="0,2">
