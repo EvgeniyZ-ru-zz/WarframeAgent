@@ -1,6 +1,6 @@
 {
-  "Date": "28.01.2018",
-  "Version": 18,
+  "Date": "11.02.2018",
+  "Version": 19,
   "Items": [
     {
       "type": "Ресурсы",
@@ -346,6 +346,7 @@
       "/Lotus/StoreItems/Upgrades/Skins/SummerSolstice/SummerSolsticeTwinGrakatas": "Скин парных гракат: Тосун",
       "/Lotus/StoreItems/Upgrades/Skins/VoidTrader/BaroArrow": "Ки'Тиир стрелы",
       "/Lotus/StoreItems/Upgrades/Skins/VoidTrader/BaroInarosPolearmSkin": "Скин посоха: Анпу",
+      "/Lotus/StoreItems/Upgrades/Skins/VoidTrader/ElixisSonicor": "Скин соникора: Эликсис",
       "/Lotus/StoreItems/Upgrades/Skins/VoidTrader/PrismaArrow": "Стрелы призма",
       "/Lotus/StoreItems/Upgrades/Skins/VoidTrader/VTHalloweenDarkSword": "Скин тёмного меча: День мертвых",
       "/Lotus/StoreItems/Upgrades/Skins/VoidTrader/VTQuanta": "Скин кванты: Наледь",
