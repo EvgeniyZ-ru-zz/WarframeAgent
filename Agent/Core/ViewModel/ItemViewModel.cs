@@ -10,8 +10,8 @@ namespace Core.ViewModel
     {
         public ItemViewModel(Model.Filter.Item item)
         {
-            Id = item.Id;
             Item = item;
+            Id = item.Id;
             Update();
         }
 

@@ -183,7 +183,7 @@ namespace Core.Events
 
                 ct.ThrowIfCancellationRequested();
                 var currentVersion = versions[type]; //TODO: Вечно -1 при обновление фильтров.
-                var newVersion = await TryUpdateFilter(currentVersion, type, filterText, ct);
+                var newVersion = await TryUpdateFilter(currentVersion, type, filterText, false, ct);
                 versions[type] = newVersion;
             }
             Tools.Logging.Send(LogLevel.Trace, "Управление фильтрами: начальная загрузка сохранённых фильтров окончена");
@@ -214,7 +214,7 @@ namespace Core.Events
                         var filterText = await Tools.Network.ReadTextAsync(uri, TimeSpan.FromSeconds(10), ct);
                         Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: фильтр {type} загружен");
                         var currentVersion = versions[type];
-                        var newVersion = await TryUpdateFilter(currentVersion, type, filterText, ct);
+                        var newVersion = await TryUpdateFilter(currentVersion, type, filterText, true, ct);
                         if (newVersion > currentVersion)
                         {
                             string path = GetFilterFilePath(type);
@@ -248,7 +248,7 @@ namespace Core.Events
             Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: цикл обновления завершён");
         }
 
-        async Task<int> TryUpdateFilter(int oldVersion, Model.Filter.Type type, string filterText, CancellationToken ct)
+        async Task<int> TryUpdateFilter(int oldVersion, Model.Filter.Type type, string filterText, bool fresh, CancellationToken ct)
         {
             try
             {
@@ -276,17 +276,17 @@ namespace Core.Events
                 switch (type)
                 {
                 case Model.Filter.Type.Items:
-                    return await RunUpdate(Model.FiltersModel.ParseItems, data => Model.FiltersModel.AllItems = data, ItemsUpdated);
+                    return await RunUpdate(Model.FiltersModel.ParseItems, data => Model.FiltersModel.StoreItems(data, fresh), ItemsUpdated);
                 case Model.Filter.Type.Planets:
-                    return await RunUpdate(Model.FiltersModel.ParseSectors, data => Model.FiltersModel.AllSectors = data, SectorsUpdated);
+                    return await RunUpdate(Model.FiltersModel.ParseSectors, data => Model.FiltersModel.StoreSectors(data, fresh), SectorsUpdated);
                 case Model.Filter.Type.Missions:
-                    return await RunUpdate(Model.FiltersModel.ParseMissions, data => Model.FiltersModel.AllMissions = data, MissionsUpdated);
+                    return await RunUpdate(Model.FiltersModel.ParseMissions, data => Model.FiltersModel.StoreMissions(data, fresh), MissionsUpdated);
                 case Model.Filter.Type.Factions:
-                    return await RunUpdate(Model.FiltersModel.ParseFactions, data => Model.FiltersModel.AllFactions = data, FactionsUpdated);
+                    return await RunUpdate(Model.FiltersModel.ParseFactions, data => Model.FiltersModel.StoreFactions(data, fresh), FactionsUpdated);
                 case Model.Filter.Type.Builds:
-                    return await RunUpdate(Model.FiltersModel.ParseBuilds, data => Model.FiltersModel.AllBuilds = data, BuildsUpdated);
+                    return await RunUpdate(Model.FiltersModel.ParseBuilds, data => Model.FiltersModel.StoreBuilds(data, fresh), BuildsUpdated);
                 case Model.Filter.Type.Planets_new:
-                    return await RunUpdate(Model.FiltersModel.ParsePlanets, data => Model.FiltersModel.AllPlanets = data, PlanetsUpdated);
+                    return await RunUpdate(Model.FiltersModel.ParsePlanets, data => Model.FiltersModel.StorePlanets(data, fresh), PlanetsUpdated);
                 }
             }
             catch (OperationCanceledException) when (ct.IsCancellationRequested)

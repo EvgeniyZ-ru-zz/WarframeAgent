@@ -29,6 +29,8 @@ namespace Agent.ViewModel
             items.RemoveAll(seq);
         }
 
+        public void RemoveRange(IEnumerable<ExtendedItemViewModel> oldItems) => items.RemoveAll(oldItems);
+
         public void Update() { }
     }
 }

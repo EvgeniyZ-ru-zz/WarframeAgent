@@ -80,33 +80,50 @@ namespace Core.Model
 
     public static class Filters
     {
-        static T Expand<K, T>(K item, Dictionary<K, T> dict, Type type) where T : class
+        static T Expand<K, T>(K item, Dictionary<K, T> dict, bool fresh, Type type) where T : class
         {
             if (item == null)
                 return null;
             if (dict == null)
                 return null;
             bool isFilterGood = dict.TryGetValue(item, out var result);
-            if (!isFilterGood)
+            if (!isFilterGood && fresh)
                 BadFilterReportModel.ReportBadFilter(item.ToString(), type);
             return result;
         }
 
-        public static Item ExpandItem(string item) => Expand(item, FiltersModel.AllItems, Type.Items);
-        public static Sector ExpandSector(string item) => Expand(item, FiltersModel.AllSectors, Type.Planets);
-        public static Mission ExpandMission(string item) => Expand(item, FiltersModel.AllMissions, Type.Missions);
-        public static Faction ExpandFaction(string item) => Expand(item, FiltersModel.AllFactions, Type.Factions);
-        public static Filter.Build ExpandBuild(int item) => Expand(item, FiltersModel.AllBuilds, Type.Builds);
+        public static Item ExpandItem(string item) => Expand(item, FiltersModel.AllItems, FiltersModel.IsAllItemsFresh, Type.Items);
+        public static Sector ExpandSector(string item) => Expand(item, FiltersModel.AllSectors, FiltersModel.IsAllSectorsFresh, Type.Planets);
+        public static Mission ExpandMission(string item) => Expand(item, FiltersModel.AllMissions, FiltersModel.IsAllMissionsFresh, Type.Missions);
+        public static Faction ExpandFaction(string item) => Expand(item, FiltersModel.AllFactions, FiltersModel.IsAllFactionsFresh, Type.Factions);
+        public static Filter.Build ExpandBuild(int item) => Expand(item, FiltersModel.AllBuilds, FiltersModel.IsAllBuildsFresh, Type.Builds);
     }
 
     class FiltersModel
     {
-        internal static Dictionary<string, Item> AllItems = new Dictionary<string, Item>();
-        internal static Dictionary<string, Sector> AllSectors = new Dictionary<string, Sector>();
-        internal static Dictionary<string, Mission> AllMissions = new Dictionary<string, Mission>();
-        internal static Dictionary<string, Faction> AllFactions = new Dictionary<string, Faction>();
-        internal static Dictionary<int, Filter.Build> AllBuilds = new Dictionary<int, Filter.Build>();
-        internal static Dictionary<int, Planet> AllPlanets = new Dictionary<int, Planet>();
+        internal static void StoreItems(Dictionary<string, Item> newItems, bool fresh) { AllItems = newItems; IsAllItemsFresh = fresh; }
+        internal static Dictionary<string, Item> AllItems { get; private set; } = new Dictionary<string, Item>();
+        internal static bool IsAllItemsFresh = false;
+
+        internal static void StoreSectors(Dictionary<string, Sector> newSectors, bool fresh) { AllSectors = newSectors; IsAllSectorsFresh = fresh; }
+        internal static Dictionary<string, Sector> AllSectors { get; private set; } = new Dictionary<string, Sector>();
+        internal static bool IsAllSectorsFresh = false;
+
+        internal static void StoreMissions(Dictionary<string, Mission> newMissions, bool fresh) { AllMissions = newMissions; IsAllMissionsFresh = fresh; }
+        internal static Dictionary<string, Mission> AllMissions { get; private set; } = new Dictionary<string, Mission>();
+        internal static bool IsAllMissionsFresh = false;
+
+        internal static void StoreFactions(Dictionary<string, Faction> newFactions, bool fresh) { AllFactions = newFactions; IsAllFactionsFresh = fresh; }
+        internal static Dictionary<string, Faction> AllFactions { get; private set; } = new Dictionary<string, Faction>();
+        internal static bool IsAllFactionsFresh = false;
+
+        internal static void StoreBuilds(Dictionary<int, Filter.Build> newBuilds, bool fresh) { AllBuilds = newBuilds; IsAllBuildsFresh = fresh; }
+        internal static Dictionary<int, Filter.Build> AllBuilds { get; private set; } = new Dictionary<int, Filter.Build>();
+        internal static bool IsAllBuildsFresh = false;
+
+        internal static void StorePlanets(Dictionary<int, Planet> newPlanets, bool fresh) { AllPlanets = newPlanets; IsAllPlanetsFresh = fresh; }
+        internal static Dictionary<int, Planet> AllPlanets { get; private set; } = new Dictionary<int, Planet>();
+        internal static bool IsAllPlanetsFresh = false;
 
         internal static (Dictionary<string, Item> data, int version) ParseItems(int oldVersion, string text) =>
             ParseText(oldVersion, text, cat: "Items", selector: (key, value, type, enabled) => new Item(id: key, value: value, type: type, enabled: enabled));
