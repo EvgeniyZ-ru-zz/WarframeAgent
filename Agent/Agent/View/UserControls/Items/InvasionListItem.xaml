@@ -17,7 +17,24 @@
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        
+
+        <!-- +Подсветка для наблюдаемых предметов -->
+        <Border Grid.ColumnSpan="3">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding AttackerReward.Item.NotificationState[Invasion].NotificationEnabled}" Value="True">
+                            <Setter Property="Background" Value="Gray"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding DefenderReward.Item.NotificationState[Invasion].NotificationEnabled}" Value="True">
+                            <Setter Property="Background" Value="Gray"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+        <!-- -Подсветка для наблюдаемых предметов -->
+
         <!-- +Левый знак фракции -->
         <Border Grid.Column="0" Width="30"
                 BorderBrush="{Binding DefenderFaction.Color, FallbackValue=Red, TargetNullValue=Red}" 
@@ -106,9 +123,9 @@
                     <ToolTipService.ToolTip>
                         <TextBlock>
                             <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0} [{1}]">
-                                    <Binding Path="AttackerReward.FilteredName" />
-                                    <Binding Path="AttackerReward.Count" />
+                                <MultiBinding StringFormat="{}{0} [{1}]"  FallbackValue="Недоступно">
+                                    <Binding Path="AttackerReward.Item.Value" />
+                                    <Binding Path="AttackerReward.ItemCount" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
@@ -121,27 +138,27 @@
                     <TextBlock Grid.Column="0" Foreground="{DynamicResource TextColor}"
                                FontSize="12" Margin="0,0,1,0"
                                TextTrimming="CharacterEllipsis"
-                               Text="{Binding AttackerReward.Count, StringFormat=[{0}]}"
-                               Visibility="{Binding AttackerReward.Count, Converter={StaticResource VisibleIfAtLeast2}}"/>
+                               Text="{Binding AttackerReward.ItemCount, StringFormat=[{0}]}"
+                               Visibility="{Binding AttackerReward.ItemCount, Converter={StaticResource VisibleIfAtLeast2}}"/>
 
                     <TextBlock Grid.Column="1" Foreground="{DynamicResource TextColor}"
                                FontSize="11"
                                Margin="0,2,0,0"
                                TextTrimming="CharacterEllipsis"
-                               Text="{Binding AttackerReward.FilteredName, Converter={StaticResource AllCaps}, FallbackValue=ATK_REWARD}"/>
+                               Text="{Binding AttackerReward.Item.Value, Converter={StaticResource AllCaps}, FallbackValue=НЕДОСТУПНО}"/>
                 </Grid>
                 <!-- -Левая награда -->
                 
                 <!-- +Правая награда -->
                 <Grid Grid.Column="1" Margin="5,0,2,0"
                       Background="Transparent"
-                      HorizontalAlignment="Right" >
+                      HorizontalAlignment="Right">
                     <ToolTipService.ToolTip>
                         <TextBlock>
                             <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0} [{1}]">
-                                    <Binding Path="DefenderReward.FilteredName" />
-                                    <Binding Path="DefenderReward.Count" />
+                                <MultiBinding StringFormat="{}{0} [{1}]" FallbackValue="Недоступно">
+                                    <Binding Path="DefenderReward.Item.Value" />
+                                    <Binding Path="DefenderReward.ItemCount" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
@@ -154,14 +171,14 @@
                     <TextBlock Grid.Column="1" Foreground="{DynamicResource TextColor}"
                                FontSize="12" Margin="1,0,0,0"
                                TextTrimming="CharacterEllipsis"
-                               Text="{Binding DefenderReward.Count, StringFormat=[{0}]}"
-                               Visibility="{Binding DefenderReward.Count, Converter={StaticResource VisibleIfAtLeast2}}"/>
+                               Text="{Binding DefenderReward.ItemCount, StringFormat=[{0}]}"
+                               Visibility="{Binding DefenderReward.ItemCount, Converter={StaticResource VisibleIfAtLeast2}}"/>
 
                     <TextBlock Grid.Column="0" Foreground="{DynamicResource TextColor}"
                                FontSize="11"
                                Margin="0,2,0,0"
                                TextTrimming="CharacterEllipsis"
-                               Text="{Binding DefenderReward.FilteredName, Converter={StaticResource AllCaps}, FallbackValue=DEF_REWARD}" />
+                               Text="{Binding DefenderReward.Item.Value, Converter={StaticResource AllCaps}, FallbackValue=НЕДОСТУПНО}" />
                 </Grid>
                 <!-- -Правая награда -->
                 

@@ -18,14 +18,15 @@ namespace Agent.ViewModel
 
             Model = model;
 
+            ItemsEngine = new ItemsEngine(filtersEvent);
+
             NewsEngine = new NewsEngine();
-            AlertsEngine = new AlertsEngine(filtersEvent);
-            InvasionsEngine = new InvasionsEngine(filtersEvent);
+            AlertsEngine = new AlertsEngine(filtersEvent, ItemsEngine);
+            InvasionsEngine = new InvasionsEngine(filtersEvent, ItemsEngine);
             VoidsEngine = new VoidsEngine(filtersEvent);
             DailyDealsEngine = new DailyDealsEngine(filtersEvent);
             BuildsEngine = new BuildsEngine();
             UserNotificationsEngine = new UserNotificationsEngine(this);
-            ItemsEngine = new ItemsEngine(UserNotificationsEngine, filtersEvent);
         }
 
         public void Run()
@@ -35,7 +36,7 @@ namespace Agent.ViewModel
             InvasionsEngine.Run(Model);
             VoidsEngine.Run(Model);
             DailyDealsEngine.Run(Model);
-            ItemsEngine.Run(Model);
+            ItemsEngine.Run(Model, UserNotificationsEngine);
             BuildsEngine.Run(Model);
         }
 

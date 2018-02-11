@@ -21,11 +21,11 @@ namespace Agent.ViewModel
         public void AddRange(IEnumerable<ExtendedItemViewModel> newItems) =>
             items.AddRange(newItems);
 
-        public ExtendedItemViewModel TryGetItem(Item item) => items.SingleOrDefault(it => it.Original.Item == item);
+        public ExtendedItemViewModel TryGetItem(Item item) => items.SingleOrDefault(it => it.Item == item);
         public void RemoveRangeByModel(IEnumerable<Item> modelItems)
         {
             var hash = new HashSet<Item>(modelItems);
-            var seq = items.Where(it => hash.Contains(it.Original.Item));
+            var seq = items.Where(it => hash.Contains(it.Item));
             items.RemoveAll(seq);
         }
 

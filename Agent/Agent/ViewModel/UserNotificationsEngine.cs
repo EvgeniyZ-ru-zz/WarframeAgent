@@ -37,7 +37,7 @@ namespace Agent.ViewModel
                 throw new NotImplementedException();
             }
 
-            UpdateSettings(item.Original.Item.Id, target, newState);
+            UpdateSettings(item.Item.Id, target, newState);
         }
 
         void UpdateSettings(string id, NotificationTarget target, bool state)
@@ -62,6 +62,9 @@ namespace Agent.ViewModel
                         settingsById.Remove(id);
                 }
             }
+            // TODO: сделать сохранение настроек асинхронным
+            // и писать не каждый раз, а время от времени
+            Settings.Program.Save();
         }
 
         void OnGenericSubscriptionChanged(ExtendedItemViewModel item, HashSet<string> itemKeys, bool newState)
@@ -69,12 +72,12 @@ namespace Agent.ViewModel
             if (newState)
             {
                 itemFilter.Add(item);
-                itemKeys.Add(item.Original.Item.Id);
+                itemKeys.Add(item.Item.Id);
             }
             else
             {
                 itemFilter.Remove(item);
-                itemKeys.Remove(item.Original.Item.Id);
+                itemKeys.Remove(item.Item.Id);
             }
         }
 
@@ -90,9 +93,9 @@ namespace Agent.ViewModel
             gameVM.Invasions.CollectionChanged += (o, e) => OnCollectionChanged(e, gameVM.Invasions, FilterInvasion, CreateNotification);
         }
 
-        bool FilterAlert(AlertViewModel alertVM) => alertItemKeys.Contains(alertVM.MissionInfo.Reward.Key);
-        bool FilterInvasion(InvasionViewModel invasionVM) => invasionItemKeys.Contains(invasionVM.DefenderReward.Key) ||
-                                                             invasionItemKeys.Contains(invasionVM.AttackerReward.Key);
+        bool FilterAlert(AlertViewModel alertVM) => alertItemKeys.Contains(alertVM.MissionInfo.Reward.Item?.Id);
+        bool FilterInvasion(InvasionViewModel invasionVM) => invasionItemKeys.Contains(invasionVM.DefenderReward.Item?.Id) ||
+                                                             invasionItemKeys.Contains(invasionVM.AttackerReward.Item?.Id);
 
         void OnCollectionChanged<ItemVM>(
             NotifyCollectionChangedEventArgs e,
@@ -144,9 +147,8 @@ namespace Agent.ViewModel
                 RemoveLater(actuallyAdded);
         }
 
-        public Dictionary<NotificationTarget, SubscriptionState> GetNotificationState(Item item)
+        public Dictionary<NotificationTarget, SubscriptionState> GetNotificationState(string id)
         {
-            var id = item.Id;
             var notificationState = new Dictionary<NotificationTarget, SubscriptionState>()
             {
                 [NotificationTarget.Alert] = new SubscriptionState(),

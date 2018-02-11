@@ -76,7 +76,7 @@ namespace Core.Events
                 {
                     await _mainTask;
                 }
-                catch (OperationCanceledException ex)
+                catch (OperationCanceledException)
                 {
                 }
             }

@@ -13,10 +13,15 @@ using Agent.ViewModel.Util;
 
 namespace Agent.ViewModel
 {
-    class ItemsEngine : GenericEngineWithUpdates<ItemGroupViewModel, Core.Model.Filter.Item>
+    class ItemsEngine : GenericEngineWithUpdates<ItemGroupViewModel, Core.Model.Filter.Item>, IItemStore
     {
-        public ItemsEngine(UserNotificationsEngine notificationEngine, FiltersEvent filtersEvent) : base(filtersEvent) =>
+        public ItemsEngine(FiltersEvent filtersEvent) : base(filtersEvent) { }
+
+        public void Run(GameModel model, UserNotificationsEngine notificationEngine)
+        {
             this.notificationEngine = notificationEngine;
+            Run(model);
+        }
 
         BatchedObservableCollection<ItemGroupViewModel> enabledItems = new BatchedObservableCollection<ItemGroupViewModel>();
         public ObservableCollection<ItemGroupViewModel> EnabledItems => enabledItems;
@@ -35,14 +40,15 @@ namespace Agent.ViewModel
 
         Dictionary<string, ItemGroupViewModel> groupVMs = new Dictionary<string, ItemGroupViewModel>();
         Dictionary<string, ItemGroupViewModel> enabledGroupVMs = new Dictionary<string, ItemGroupViewModel>();
+        Dictionary<string, ExtendedItemViewModel> allItemsStore = new Dictionary<string, ExtendedItemViewModel>();
 
-        static bool EnabledFilter(ExtendedItemViewModel itemVM) => itemVM.Original.Enabled;
+        static bool EnabledFilter(ExtendedItemViewModel itemVM) => itemVM.Enabled;
 
         protected override void AddEventImpl(IReadOnlyCollection<Core.Model.Filter.Item> newItems)
         {
             LogAdded(newItems);
 
-            foreach (var group in newItems.Select(CreateItemExt).GroupBy(it => it.Original.Type))
+            foreach (var group in newItems.Select(ActivateItemExt).GroupBy(it => it.Type))
             {
                 if (!groupVMs.TryGetValue(group.Key, out var itemGroup))
                 {
@@ -65,16 +71,28 @@ namespace Agent.ViewModel
             }
         }
 
-        ExtendedItemViewModel CreateItemExt(Core.Model.Filter.Item item)
+        ExtendedItemViewModel ActivateItemExt(Core.Model.Filter.Item item)
         {
-            var itemVM = new ItemViewModel(item);
-            var notificationState = notificationEngine.GetNotificationState(item);
-            var extVM = new ExtendedItemViewModel(itemVM, notificationState);
+            var itemVM = FetchItemById(item, item.Id);
 
-            foreach (var (target, state) in notificationState)
-                state.PropertyChanged += (o, args) => notificationEngine.OnSubscriptionChanged(extVM, target);
+            foreach (var (target, state) in itemVM.NotificationState)
+                state.PropertyChanged += (o, args) => notificationEngine.OnSubscriptionChanged(itemVM, target);
 
-            return extVM;
+            return itemVM;
+        }
+
+        ExtendedItemViewModel FetchItemById(Core.Model.Filter.Item item, string id)
+        {
+            if (!allItemsStore.TryGetValue(id, out var itemVM))
+            {
+                var notificationState = notificationEngine.GetNotificationState(id);
+                if (item != null)
+                    itemVM = new ExtendedItemViewModel(item, notificationState);
+                else
+                    itemVM = new ExtendedItemViewModel(id, notificationState);
+                allItemsStore[id] = itemVM;
+            }
+            return itemVM;
         }
 
         protected override void ChangeEventImpl(IReadOnlyCollection<Item> changedItems)
@@ -85,14 +103,14 @@ namespace Agent.ViewModel
                 var itemVM = TryGetItemByModelExt(item);
                 if (itemVM != null)
                 {
-                    var oldGroupKey = itemVM.Original.Type;
-                    var oldEnabledState = itemVM.Original.Enabled;
+                    var oldGroupKey = itemVM.Type;
+                    var oldEnabledState = itemVM.Enabled;
                     itemVM.Update();
                     // при обновлении могла поменяться группа
-                    if (oldGroupKey != itemVM.Original.Type)
+                    if (oldGroupKey != itemVM.Type)
                         throw new NotImplementedException("Не реализована миграция предметов между группами");
                     // при обновлении элемент мог «включиться»
-                    if (oldEnabledState != itemVM.Original.Enabled)
+                    if (oldEnabledState != itemVM.Enabled)
                         throw new NotImplementedException("Не реализована обновление состояния отключённости"); // TODO: не бросать исключение, а просто залогировать?
                 }
             }
@@ -139,5 +157,7 @@ namespace Agent.ViewModel
 
         protected ExtendedItemViewModel TryGetItemByModelExt(Core.Model.Filter.Item item) =>
             groupVMs.TryGetValue(item.Type, out var itemGroup) ? itemGroup.TryGetItem(item) : null;
+
+        ItemViewModel IItemStore.GetItemById(string id) => FetchItemById(null, id);
     }
 }

@@ -8,7 +8,7 @@ namespace Core.ViewModel
     {
         private Invasion invasion;
 
-        public InvasionViewModel(Invasion invasion, FiltersEvent filtersEvent)
+        public InvasionViewModel(Invasion invasion, FiltersEvent filtersEvent, IItemStore itemStore)
         {
             this.invasion = invasion;
             Id = invasion.Id;
@@ -18,8 +18,8 @@ namespace Core.ViewModel
             Faction = FactionViewModel.ById(invasion.Faction);
             Sector = SectorViewModel.FromSector(invasion.Node);
             LocTag = Model.Filters.ExpandMission(invasion.LocTag)?.Name ?? invasion.LocTag;
-            DefenderReward = new InvasionRewardViewModel(invasion.DefenderReward, filtersEvent);
-            AttackerReward = new InvasionRewardViewModel(invasion.AttackerReward, filtersEvent);
+            DefenderReward = new InvasionRewardViewModel(invasion.DefenderReward, itemStore);
+            AttackerReward = new InvasionRewardViewModel(invasion.AttackerReward, itemStore);
             Update();
             SectorsUpdatedWeakEventManager.AddHandler(filtersEvent, OnSectorsFilterUpdated);
             MissionsUpdatedWeakEventManager.AddHandler(filtersEvent, OnMissionsFilterUpdated);
