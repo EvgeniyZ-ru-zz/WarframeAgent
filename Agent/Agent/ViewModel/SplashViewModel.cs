@@ -94,7 +94,7 @@ namespace Agent.ViewModel
 
         private void OnConnected()
         {
-            SplashExitedEventArgs exitArgs =  new SplashExitedEventArgs(allowRun: true, hasConnection: true);
+            var exitArgs = new SplashExitedEventArgs(allowRun: true, hasConnection: true);
             CleanupAndSignalExit(exitArgs);
         }
 

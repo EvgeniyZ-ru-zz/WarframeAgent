@@ -48,8 +48,18 @@ namespace Agent.ViewModel
         {
             LogAdded(newItems);
 
-            foreach (var group in newItems.Select(ActivateItemExt).GroupBy(it => it.Type))
+            var newItemVMs = newItems.Select(ActivateItemExt);
+            EmplaceItems(newItemVMs);
+        }
+
+        void EmplaceItems(IEnumerable<ExtendedItemViewModel> newItemVMs)
+        {
+            foreach (var group in newItemVMs.GroupBy(it => it.Type))
             {
+                foreach (var itemVM in group)
+                    itemVM.Update();
+                if (group.Key == null)
+                    continue;
                 if (!groupVMs.TryGetValue(group.Key, out var itemGroup))
                 {
                     itemGroup = new ItemGroupViewModel(group.Key);
@@ -98,22 +108,29 @@ namespace Agent.ViewModel
         protected override void ChangeEventImpl(IReadOnlyCollection<Item> changedItems)
         {
             LogChanged(changedItems);
+            var migrants = new List<ExtendedItemViewModel>();
             foreach (var item in changedItems)
             {
-                var itemVM = TryGetItemByModelExt(item);
+                var itemVM = FetchItemById(item, item.Id);
                 if (itemVM != null)
                 {
                     var oldGroupKey = itemVM.Type;
                     var oldEnabledState = itemVM.Enabled;
                     itemVM.Update();
-                    // при обновлении могла поменяться группа
-                    if (oldGroupKey != itemVM.Type)
-                        throw new NotImplementedException("Не реализована миграция предметов между группами");
-                    // при обновлении элемент мог «включиться»
-                    if (oldEnabledState != itemVM.Enabled)
-                        throw new NotImplementedException("Не реализована обновление состояния отключённости"); // TODO: не бросать исключение, а просто залогировать?
+                    if (oldGroupKey != itemVM.Type || oldEnabledState != itemVM.Enabled)
+                        migrants.Add(itemVM);
                 }
             }
+            // удалить мигрантов из старых групп
+            foreach (var itemGroup in groupVMs.Values)
+                itemGroup.RemoveRange(migrants);
+            foreach (var enabledItemGroup in enabledGroupVMs.Values)
+                enabledItemGroup.RemoveRange(migrants);
+
+            // поместить мигрантов в новые группы
+            EmplaceItems(migrants);
+
+            CleanupEmptyGroups();
         }
 
         protected override void RemoveEventImpl(IReadOnlyCollection<Item> removedItems)
@@ -127,7 +144,11 @@ namespace Agent.ViewModel
                     enabledItemGroup.RemoveRangeByModel(group);
             }
 
-            // подчистка пустых групп
+            CleanupEmptyGroups();
+        }
+
+        void CleanupEmptyGroups()
+        {
             foreach (var (key, groupVM) in groupVMs.ToList())
             {
                 if (groupVM.Items.Count != 0)
