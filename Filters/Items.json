@@ -1,6 +1,6 @@
 {
-  "Date": "11.02.2018",
-  "Version": 19,
+  "Date": "06.03.2018",
+  "Version": 20,
   "Items": [
     {
       "type": "Ресурсы",
@@ -379,6 +379,7 @@
       "type": "Дарво",
       "enable": 0,
       "/Lotus/StoreItems/Powersuits/AntiMatter/Anti": "Нова",
+      "/Lotus/StoreItems/Powersuits/Archwing/DemolitionJetPack/DemolitionJetPack": "Элитрон",
       "/Lotus/StoreItems/Powersuits/Banshee/Banshee": "Банши",
       "/Lotus/StoreItems/Powersuits/Berserker/Berserker": "Валькирия",
       "/Lotus/StoreItems/Powersuits/Ember/Ember": "Эмбер",
