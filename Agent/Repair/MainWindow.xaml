@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Repair"
         mc:Ignorable="d"
-        Title="MainWindow" Height="120" Width="330" AllowsTransparency="True"
+        Title="MainWindow" Height="120" Width="330" AllowsTransparency="True" Icon="icon.ico"
         WindowStyle="None" WindowStartupLocation="CenterScreen" Background="{x:Null}" Foreground="{DynamicResource TextColor}" MouseLeftButtonDown="MainWindow_OnMouseLeftButtonDown" Loaded="MainWindow_OnLoaded">
     <Border Style="{StaticResource BoxPanel}">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
