@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 
 namespace Repair
 {
@@ -19,6 +18,18 @@ namespace Repair
 
     public class RepairProcess : VM
     {
+        private static readonly string CurrentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        private static readonly Uri UpdateUri = new Uri("https://evgeniy-z.ru/wagent/download/release");
+        private static readonly Uri FileListUri = new Uri("https://evgeniy-z.ru/files.txt?=5");
+        private const string TempFile = "tempFile";
+        private const string TempDir = "tempDir";
+        private const string StartFile = "Agent.exe";
+        private readonly List<string> Md5BlockFiles = new List<string>
+        {
+            "Repair.exe"
+        };
+
+
         private string status;
         public string Status
         {
@@ -50,8 +61,9 @@ namespace Repair
 
         private async Task StartRepair()
         {
+            //TODO: Ping test
             List<string> coruptFiles = new List<string>();
-            var webList = await Tools.Network.ReadTextAsync(new Uri("https://evgeniy-z.ru/files.txt?=5"));
+            var webList = await Tools.Network.ReadTextAsync(new Uri(FileListUri.AbsoluteUri));
             var ss = webList.Split(';');
             var serverFiles = (from webFile in ss
                 where !string.IsNullOrWhiteSpace(webFile)
@@ -59,7 +71,7 @@ namespace Repair
                 into array
                 select new FileList
                 {
-                    Path = PathCombine(Directory.GetCurrentDirectory(), array[0].Replace("\r\n", null)),
+                    Path = PathCombine(CurrentDir, array[0].Replace("\r\n", null)),
                     Md5 = array[1],
                     Size = Convert.ToInt64(array[2])
                 }).ToList();
@@ -69,36 +81,35 @@ namespace Repair
             {
                 if (CheckFile(serverFile))
                 {
-                    coruptFiles.Add(serverFile.Path.Replace(Directory.GetCurrentDirectory(), ""));
+                    coruptFiles.Add(serverFile.Path.Replace(CurrentDir, ""));
                 }
             }
 
             if (coruptFiles.Any())
             {
-                if (Directory.Exists("tempDir")) Directory.Delete("tempDir", true);
-                if (File.Exists("tempFiles")) File.Delete("tempFiles");
-                Tools.Network.DownloadFile(new Uri("https://evgeniy-z.ru/wagent/download/release"), "tempFiles" );
-                System.IO.Compression.ZipFile.ExtractToDirectory("tempFiles", "tempDir");
+                if (Directory.Exists(TempDir)) Directory.Delete(TempDir, true);
+                if (File.Exists(TempFile)) File.Delete(TempFile);
+                Tools.Network.DownloadFile(UpdateUri, TempFile);
+                System.IO.Compression.ZipFile.ExtractToDirectory(TempFile, TempDir);
 
                 foreach (var coruptFile in coruptFiles)
                 {
-                    var sourceFile = PathCombine(Directory.GetCurrentDirectory(), coruptFile);
-                    var originFile = PathCombine(Path.Combine(Directory.GetCurrentDirectory(), "tempDir"), coruptFile);
+                    var sourceFile = PathCombine(CurrentDir, coruptFile);
+                    var originFile = PathCombine(Path.Combine(CurrentDir, TempDir), coruptFile);
                     var fileDirectory = Path.GetDirectoryName(sourceFile);
 
 
                     if (File.Exists(sourceFile)) File.Delete(sourceFile);
-
                     if (!Directory.Exists(fileDirectory)) Directory.CreateDirectory(fileDirectory);
 
                     File.Move(originFile, sourceFile);
                 }
             }
 
-            if (Directory.Exists("tempDir")) Directory.Delete("tempDir", true);
-            if (File.Exists("tempFiles")) File.Delete("tempFiles");
+            if (Directory.Exists(TempDir)) Directory.Delete(TempDir, true);
+            if (File.Exists(TempFile)) File.Delete(TempFile);
 
-            Process.Start(PathCombine(Directory.GetCurrentDirectory(), "Agent.exe"));
+            Process.Start(PathCombine(CurrentDir, StartFile));
             Application.Current.Shutdown();
 
         }
@@ -128,17 +139,16 @@ namespace Repair
         private void Md5()
         {
             List<string> fileList = new List<string>();
-            var files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.*", SearchOption.AllDirectories);
+            var files = Directory.GetFiles(CurrentDir, "*.*", SearchOption.AllDirectories);
 
             foreach (var file in files)
             {
-                if (file.Contains("Repair.exe")) continue;
+                if (Md5BlockFiles.Any(x => file.Contains(x))) continue;
                 var fileinfo = new FileInfo(file);
                 var md5 = Tools.GetMd5(file);
                 var path = file.Replace(Directory.GetCurrentDirectory(), "");
                 var compliteFile = $"{path}|{md5}|{fileinfo.Length};";
                 fileList.Add(compliteFile);
-                Console.WriteLine(compliteFile);
             }
 
             File.WriteAllLines("files.list", fileList);

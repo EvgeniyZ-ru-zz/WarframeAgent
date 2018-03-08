@@ -22,6 +22,10 @@ namespace Repair
         {
             var args = Environment.GetCommandLineArgs();
 
+//#if DEBUG
+//            args = new[] {"", "/md5"};
+//#endif
+
             if (args.Length > 1)
             {
                 await RepairProcess.Start(args[1]);
