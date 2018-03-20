@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -22,19 +23,27 @@ namespace Repair
         {
             var args = Environment.GetCommandLineArgs();
 
-//#if DEBUG
-//            args = new[] {"", "/md5"};
-//#endif
+#if DEBUG
+            args = new[] { "", "Md51", "Release"};
+#endif
+
+            RepairProcess.Mod selectMod = RepairProcess.Mod.Default;
+            RepairProcess.Revision revision = RepairProcess.Revision.Release;
 
             if (args.Length > 1)
             {
-                await RepairProcess.Start(args[1]);
+                if (!Enum.TryParse(args[1], out selectMod))
+                {
+                    selectMod = RepairProcess.Mod.Default;
+                }
+
+                if (selectMod == RepairProcess.Mod.Default)
+                {
+                    Enum.TryParse(args[2], out revision);
+                }
             }
-            else
-            {
-                await RepairProcess.Start();
-                Application.Current.Shutdown();
-            }
+
+            await RepairProcess.Start(selectMod, revision);
         }
     }
 }
