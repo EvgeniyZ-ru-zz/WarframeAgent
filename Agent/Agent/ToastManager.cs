@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Agent.ViewModel;
 using Agent.View;
+using Core.ViewModel;
 
 namespace Agent
 {
@@ -40,10 +41,19 @@ namespace Agent
             if (toastsOnHold.Contains(toast))
                 zombies.Add(toast);
             else
+                RemoveToastFromToasts(toast);
+        }
+
+        void RemoveToastFromToasts(ToastViewModel toast)
+        {
+            if (toasts.Count == 1)
             {
-                if (toasts.Count == 1)
-                    CloseToastWindow();
+                CloseToastWindow();
                 toasts = new ObservableCollection<ToastViewModel>();
+            }
+            else
+            {
+                toasts.Remove(toast);
             }
         }
 
@@ -56,12 +66,17 @@ namespace Agent
         {
             toastsOnHold.Remove(toast);
             if (zombies.Remove(toast))
-                toasts.Remove(toast);
+                RemoveToastFromToasts(toast);
         }
 
         void OpenToastWindow()
         {
-            window = new ToastWindow() { DataContext = new ReadOnlyObservableCollection<ToastViewModel>(toasts) };
+            window = new ToastWindow()
+            {
+                DataContext = new ReadOnlyObservableCollection<ToastViewModel>(toasts),
+                HoldCommand = new RelayCommand<ToastViewModel>(HoldToast),
+                UnholdCommand = new RelayCommand<ToastViewModel>(UnholdToast)
+            };
             window.Show();
         }
 

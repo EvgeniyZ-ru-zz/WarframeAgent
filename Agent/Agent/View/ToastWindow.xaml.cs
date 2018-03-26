@@ -38,11 +38,26 @@ namespace Agent.View
             BeginStoryboard(storyboard);
         }
 
+        void OnToastEnter(object sender, MouseEventArgs e)
+        {
+            var toast = ((FrameworkElement)sender).DataContext;
+            HoldCommand?.Execute(toast);
+        }
+
+        void OnToastLeave(object sender, MouseEventArgs e)
+        {
+            var toast = ((FrameworkElement)sender).DataContext;
+            UnholdCommand?.Execute(toast);
+        }
+
         public new void Close()
         {
             var storyboard = (Storyboard)Resources["Out"];
             storyboard.Completed += (o, args) => base.Close();
             BeginStoryboard(storyboard);
         }
+
+        public ICommand HoldCommand { get; set; }
+        public ICommand UnholdCommand { get; set; }
     }
 }
