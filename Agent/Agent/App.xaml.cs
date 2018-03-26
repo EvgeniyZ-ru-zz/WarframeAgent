@@ -20,6 +20,9 @@ namespace Agent
         MainViewModel mainVM;
         View.SplashScreen splashScreen;
         MainWindow mainWindow;
+        ToastManager toastManager = new ToastManager();
+
+        public ToastManager ToastManager => toastManager;
 
         /// <summary>The event mutex name.</summary>
         private const string UniqueEventName = "7330f03f-38d8-40bc-b123-fba47f61a7e1";
@@ -145,6 +148,8 @@ namespace Agent
                 mainWindow.Closed += (o, args) => CleanupExit();
                 mainWindow.Show();
                 mainVM.Run();
+
+                toastManager.AddToastWithTimeout(new ToastViewModel("Тест", "Я toast-нотификация, покамест тестовый образец"), TimeSpan.FromSeconds(5));
             }
 
             splashScreen.Close();
