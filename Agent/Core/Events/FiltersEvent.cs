@@ -95,9 +95,9 @@ namespace Core.Events
                 Tools.Logging.Send(LogLevel.Trace, $"Управление фильтрами: получил адреса свежих фильтров");
                 var uris = await Task.Run(() => // parse in the background
                 {
-                    var values = JsonConvert.DeserializeObject<NameUriPair[]>(fetchedJson);
+                    var values = JsonConvert.DeserializeObject<Dictionary<string, NameUriPair[]>>(fetchedJson);
                     var result = new Dictionary<Model.Filter.Type, Uri>();
-                    foreach (var p in values)
+                    foreach (var p in values["rus"]) //TODO: Перевод на другие языки.
                     {
                         if (!Enum.TryParse<Model.Filter.Type>(p.name, ignoreCase: true, result: out var type))
                         {
@@ -182,7 +182,7 @@ namespace Core.Events
                 }
 
                 ct.ThrowIfCancellationRequested();
-                var currentVersion = versions[type]; //TODO: Вечно -1 при обновление фильтров.
+                var currentVersion = versions[type];
                 var newVersion = await TryUpdateFilter(currentVersion, type, filterText, false, ct);
                 versions[type] = newVersion;
             }

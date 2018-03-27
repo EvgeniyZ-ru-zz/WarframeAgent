@@ -115,7 +115,7 @@ namespace Core
             /// <param name="uri">Адрес для отправки</param>
             public static Task<bool> SendPut(object data, Uri uri = null)
             {
-                return PutRequest(data, uri ?? new Uri("https://evgeniy-z.ru/api/v2/agent/filters"));
+                return PutRequest(data, uri ?? new Uri("https://evgeniy-z.ru/api/v2/Agent/PutFilter"));
             }
 
             /// <summary>
@@ -128,7 +128,7 @@ namespace Core
             public static Task<bool> SendPut(string name, string type, string version, Uri uri = null)
             {
                 var data = new { Name = name, Type = type, Version = version };
-                return PutRequest(data, uri ?? new Uri("https://evgeniy-z.ru/api/v2/agent/filters"));
+                return PutRequest(data, uri ?? new Uri("https://evgeniy-z.ru/api/v2/Agent/PutFilter"));
             }
 
             private static async Task<bool> PutRequest(object data, Uri uri)
@@ -142,7 +142,6 @@ namespace Core
                 request.Accept = "Accept=application/json";
                 request.SendChunked = false;
                 request.ContentLength = serializedObject.Length;
-                // request.Timeout doesn't work for asynchronous requests
                 try
                 {
                     var timeoutTask = Task.Delay(5000);
@@ -169,8 +168,9 @@ namespace Core
                         var statusCode = await putTask;
                         switch (statusCode)
                         {
-                        case HttpStatusCode.OK:
+                        case HttpStatusCode.Created:
                         case HttpStatusCode.Conflict:
+                        case (HttpStatusCode)422: //TODO: Проверить...
                             Logging.Send(LogLevel.Debug,
                                 $"Отправка на сервер: получено подтверждение{(statusCode == HttpStatusCode.OK ? "" : " (фильтр уже добавлен)")}");
                             return true;
