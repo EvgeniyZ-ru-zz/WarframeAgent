@@ -38,7 +38,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <cachedImage:Image ImageUrl="{Binding Image}" Grid.Column="0" Stretch="UniformToFill" Margin="0"/>
+                                        <cachedImage:Image ImageUrl="{Binding Image}" Grid.Column="0" Stretch="UniformToFill" Margin="0"/>
                                     <Grid Grid.Column="1">
                                         <Grid.RowDefinitions>
                                             <RowDefinition />

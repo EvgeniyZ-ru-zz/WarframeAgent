@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Cache;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -15,6 +17,13 @@ namespace Agent.CachedImage
         static bool isInDesignMode = DesignerProperties.GetIsInDesignMode(new DependencyObject());
         static Image()
         {
+            var dd = new Uri(@"pack://application:,,,/"
+                             + Assembly.GetExecutingAssembly().GetName().Name
+                             + ";component/"
+                             + "Icons/Freq.png", UriKind.Absolute); //pack://application:,,,/Agent;component/Resources/Images/NoImg.jpg
+
+            //Debugger.Break();
+
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Image),
                 new FrameworkPropertyMetadata(typeof(Image)));
 
@@ -45,60 +54,71 @@ namespace Agent.CachedImage
         {
             var url = e.NewValue as string;
 
-            if (string.IsNullOrEmpty(url) || isInDesignMode)
-                return;
+            if (isInDesignMode) return;
 
             var cachedImage = (Image)obj;
             var bitmapImage = new BitmapImage();
             string path = null;
 
-            switch (FileCache.AppCacheMode)
+            if (!string.IsNullOrEmpty(url))
             {
-                case FileCache.CacheMode.WinINet:
-                    bitmapImage.BeginInit();
-                    bitmapImage.CreateOptions = cachedImage.CreateOptions;
-                    bitmapImage.UriSource = new Uri(url);
-                    // Enable IE-like cache policy.
-                    bitmapImage.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.Default);
-                    bitmapImage.EndInit();
-                    cachedImage.Source = bitmapImage;
-                    break;
-
-                case FileCache.CacheMode.Dedicated:
-                    try
-                    {
-                        var (file, stream) = await FileCache.HitAsync(url);
-                        if (stream == null)
-                            return;
-
-                        path = file;
+                switch (FileCache.AppCacheMode)
+                {
+                    case FileCache.CacheMode.WinINet:
                         bitmapImage.BeginInit();
                         bitmapImage.CreateOptions = cachedImage.CreateOptions;
-                        bitmapImage.StreamSource = stream;
+                        bitmapImage.UriSource = new Uri(url);
+                        // Enable IE-like cache policy.
+                        bitmapImage.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.Default);
                         bitmapImage.EndInit();
                         cachedImage.Source = bitmapImage;
-                    }
-                    catch (Exception)
-                    {
-                        if (File.Exists(path) && path != null)
-                            File.Delete(path);
+                        break;
 
-                        bitmapImage = new BitmapImage();
+                    case FileCache.CacheMode.Dedicated:
+                        try
+                        {
+                            var (file, stream) = await FileCache.HitAsync(url);
+                            if (stream == null)
+                                return;
 
-                        var (_, stream) = await FileCache.HitAsync(url);
-                        if (stream == null)
-                            return;
+                            path = file;
+                            bitmapImage.BeginInit();
+                            bitmapImage.CreateOptions = cachedImage.CreateOptions;
+                            bitmapImage.StreamSource = stream;
+                            bitmapImage.EndInit();
+                            cachedImage.Source = bitmapImage;
+                        }
+                        catch (Exception)
+                        {
+                            if (File.Exists(path) && path != null)
+                                File.Delete(path);
 
-                        bitmapImage.BeginInit();
-                        bitmapImage.CreateOptions = cachedImage.CreateOptions;
-                        bitmapImage.StreamSource = stream;
-                        bitmapImage.EndInit();
-                        cachedImage.Source = bitmapImage;
-                    }
-                    break;
+                            bitmapImage = new BitmapImage();
 
-                default:
-                    throw new ArgumentOutOfRangeException();
+                            var (_, stream) = await FileCache.HitAsync(url);
+                            if (stream == null)
+                                return;
+
+                            bitmapImage.BeginInit();
+                            bitmapImage.CreateOptions = cachedImage.CreateOptions;
+                            bitmapImage.StreamSource = stream;
+                            bitmapImage.EndInit();
+                            cachedImage.Source = bitmapImage;
+                        }
+
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            else
+            {
+                var img = new BitmapImage(new Uri(@"pack://application:,,,/"
+                                                  + Assembly.GetExecutingAssembly().GetName().Name
+                                                  + ";component/"
+                                                  + "Resources/Images/NoImg.jpg", UriKind.Absolute));
+                cachedImage.Source = img;
             }
         }
 
